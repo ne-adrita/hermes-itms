@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "config_version": "1.0.0",
+  "experiment_id": "itms_vs_aider_vs_cline_v1",
+  "description": "Real three-way comparison of the ITMS editing agent, the real aider CLI and the real cline CLI over the same 20 HumanEval-derived repair tasks, with 5 repetitions per system-task cell (300 planned attempts). Every system receives the same task instruction, the same starting file, the same timeout policy and the same hidden official test.",
+  "task_manifest": "task_manifest.json",
+  "task_ids": [
+    "HE-EDIT-001",
+    "HE-EDIT-002",
+    "HE-EDIT-003",
+    "HE-EDIT-004",
+    "HE-EDIT-005",
+    "HE-EDIT-006",
+    "HE-EDIT-007",
+    "HE-EDIT-008",
+    "HE-EDIT-009",
+    "HE-EDIT-010",
+    "HE-EDIT-011",
+    "HE-EDIT-012",
+    "HE-EDIT-013",
+    "HE-EDIT-014",
+    "HE-EDIT-015",
+    "HE-EDIT-016",
+    "HE-EDIT-017",
+    "HE-EDIT-018",
+    "HE-EDIT-019",
+    "HE-EDIT-020"
+  ],
+  "systems": [
+    "itms",
+    "aider",
+    "cline"
+  ],
+  "repetitions": 5,
+  "provider": "openrouter",
+  "model_id": "minimax/minimax-m3.1-flash:free",
+  "temperature": 0.0,
+  "max_output_tokens": 2048,
+  "system_timeout_seconds": 300.0,
+  "evaluation_timeout_seconds": 20.0,
+  "request_timeout_seconds": 120.0,
+  "run_order_seed": 20260101,
+  "bootstrap_seed": 20260101,
+  "seed_policy": "per_system_support",
+  "seed_base": 770000,
+  "output_root": "experiments/itms_aider_cline_v1/runs",
+  "notes": [
+    "model_id is the model used for the historical 120-attempt run; it is a placeholder that the operator must confirm or change before Phase 2.",
+    "temperature is 0.0 so that the three systems are compared under the same sampling temperature where each system supports it.",
+    "seed_policy 'per_system_support': a seed is requested for every cell, but it is only applied by systems that expose a request-level seed (ITMS, aider). Cline has no seed parameter, so its cells are identified by repetition_id only. The runner records seed_supported and seed_applied per attempt.",
+    "No credential is stored in this file. Keys are read from the environment or the project's .env at run time."
+  ]
+}

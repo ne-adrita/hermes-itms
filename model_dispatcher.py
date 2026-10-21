@@ -360,6 +360,7 @@ class ModelDispatcher:
         max_output_tokens: int = 1024,
         temperature: float = 0.2,
         is_tier1: bool = True,
+        seed: Optional[int] = None,
     ) -> ModelResponse:
         """
         Performs a strictly live generation.
@@ -392,6 +393,7 @@ class ModelDispatcher:
                 max_output_tokens=max_output_tokens,
                 temperature=temperature,
                 is_tier1=is_tier1,
+                seed=seed,
             )
         finally:
             self.strict_live = previous_strict
@@ -404,7 +406,8 @@ class ModelDispatcher:
         system_instruction: Optional[str] = None,
         max_output_tokens: int = 1024,
         temperature: float = 0.2,
-        is_tier1: bool = True
+        is_tier1: bool = True,
+        seed: Optional[int] = None
     ) -> ModelResponse:
         """
         Dispatches request to configured provider or falls back to deterministic mock.
@@ -437,7 +440,7 @@ class ModelDispatcher:
                     if AppConfig.is_openrouter_url(base_url):
                         # Confirm the model can actually serve /chat/completions.
                         self._assert_openrouter_model_supported(remote_model_id, api_key)
-                    return self._call_openai_compatible(prompt, model_name, api_key, provider, system_instruction, max_output_tokens, temperature, t0, base_url=base_url, remote_model_id=remote_model_id)
+                    return self._call_openai_compatible(prompt, model_name, api_key, provider, system_instruction, max_output_tokens, temperature, t0, base_url=base_url, remote_model_id=remote_model_id, seed=seed)
                 elif provider == "anthropic":
                     return self._call_anthropic(prompt, model_name, api_key, system_instruction, max_output_tokens, temperature, t0)
             except Exception as e:
@@ -692,7 +695,8 @@ class ModelDispatcher:
         temperature: float,
         start_time: float,
         base_url: Optional[str] = None,
-        remote_model_id: Optional[str] = None
+        remote_model_id: Optional[str] = None,
+        seed: Optional[int] = None
     ) -> ModelResponse:
         """Calls an OpenAI-compatible /chat/completions endpoint (OpenAI, DeepSeek, OpenRouter)."""
         if base_url is None or remote_model_id is None:
@@ -717,6 +721,11 @@ class ModelDispatcher:
             "max_tokens": max_output_tokens,
             "temperature": temperature
         }
+
+        # Optional request-level seed.  Only sent when the caller supplies one,
+        # so the default request bytes are unchanged for existing callers.
+        if seed is not None:
+            payload["seed"] = int(seed)
 
         max_retries = self.max_retries
         retries_used = 0

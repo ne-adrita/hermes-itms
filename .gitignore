@@ -65,3 +65,6 @@ desktop.ini
 # ==============================================================================
 ~$*.docx
 Untitled document.pdf
+
+# ITMS vs Aider vs Cline experiment: live run outputs are not source.
+experiments/*/runs/
