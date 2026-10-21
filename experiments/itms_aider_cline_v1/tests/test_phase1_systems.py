@@ -317,6 +317,29 @@ def test_cline_jsonl_parser_ignores_non_json_lines():
     assert parse_error is None
 
 
+def test_repo_root_resolution_finds_the_repository_config():
+    """Regression: the adapters once looked for config.py one level too high."""
+    from experiments.itms_aider_cline_v1.systems.base import (
+        load_app_config,
+        repo_root,
+    )
+
+    root = repo_root()
+    assert os.path.isfile(os.path.join(root, "config.py"))
+    assert os.path.basename(root) == "499B"
+    module = load_app_config()
+    assert module is not None
+    assert hasattr(module.AppConfig, "resolve_api_key")
+
+
+def test_adapters_resolve_a_credential_without_printing_it(monkeypatch):
+    from experiments.itms_aider_cline_v1.systems.base import resolve_provider_key
+
+    monkeypatch.setenv("OPENROUTER_API_KEY", "resolved-not-a-real-key")
+    key = resolve_provider_key("openrouter", fallback_env="OPENROUTER_API_KEY")
+    assert key == "resolved-not-a-real-key"
+
+
 def test_itms_adapter_reports_missing_credential_as_configuration_error(
     tmp_path, monkeypatch, bundle
 ):
@@ -467,6 +490,84 @@ def test_mock_build_adapters_never_touch_the_network(config):
     for adapter in adapters.values():
         assert adapter.requires_credential is False
         assert adapter.preflight()["available"] is True
+
+
+# ---------------------------------------------------------------------------
+# budget gate
+# ---------------------------------------------------------------------------
+
+
+def _copy_config(config):
+    """Return an independent copy so a test cannot mutate the shared fixture."""
+    import dataclasses
+
+    return dataclasses.replace(config)
+
+
+def _runner(config, manifest, tmp_path, mode="mock"):
+    return ExperimentRunner(
+        config=config,
+        manifest=manifest,
+        adapters={name: MockSystemAdapter() for name in config.systems},
+        output_dir=str(tmp_path),
+        mode=mode,
+    )
+
+
+def test_budget_gate_accepts_the_pinned_free_model(config, manifest, tmp_path):
+    runner = _runner(config, manifest, tmp_path)
+    budget = runner.check_budget_preflight()
+    assert budget["model_is_free"] is True
+    assert budget["expected_max_cost_usd"] == 0.0
+    assert budget["max_spend_usd"] == config.max_spend_usd
+
+
+def test_budget_gate_refuses_a_non_free_model(config, manifest, tmp_path):
+    from experiments.itms_aider_cline_v1.runner import SpendingLimitReached
+
+    config = _copy_config(config)
+    config.model_id = "vendor/paid-model"
+    runner = _runner(config, manifest, tmp_path)
+    with pytest.raises(SpendingLimitReached):
+        runner.check_budget_preflight()
+
+
+def test_budget_gate_refuses_a_missing_limit(config, manifest, tmp_path):
+    from experiments.itms_aider_cline_v1.runner import SpendingLimitReached
+
+    config = _copy_config(config)
+    config.max_spend_usd = 0.0
+    runner = _runner(config, manifest, tmp_path)
+    with pytest.raises(SpendingLimitReached):
+        runner.check_budget_preflight()
+
+
+def test_budget_gate_refuses_an_unset_model(config, manifest, tmp_path):
+    from experiments.itms_aider_cline_v1.runner import SpendingLimitReached
+
+    config = _copy_config(config)
+    config.model_id = ""
+    runner = _runner(config, manifest, tmp_path)
+    with pytest.raises(SpendingLimitReached):
+        runner.check_budget_preflight()
+
+
+def test_spending_limit_stops_the_run_and_keeps_the_attempt(config, manifest, tmp_path):
+    from experiments.itms_aider_cline_v1.runner import SpendingLimitReached
+
+    config = _copy_config(config)
+    runner = _runner(config, manifest, tmp_path)
+    runner._charge(0.25)
+    runner._charge(0.25)
+    assert runner.cumulative_spend_usd == 0.5
+    with pytest.raises(SpendingLimitReached):
+        runner._charge(0.5)
+
+
+def test_reported_cost_is_only_charged_when_present(config, manifest, tmp_path):
+    runner = _runner(config, manifest, tmp_path)
+    runner._charge(None)
+    assert runner.cumulative_spend_usd == 0.0
 
 
 # ---------------------------------------------------------------------------

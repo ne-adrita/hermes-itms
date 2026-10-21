@@ -40,6 +40,7 @@ from .base import (
     SystemOutcome,
     TaskBundle,
     UsageSource,
+    resolve_provider_key,
     sanitised_env,
     sha256_text,
     which,
@@ -80,25 +81,10 @@ class ClineSystemAdapter(SystemAdapter):
             "openrouter": "OPENROUTER_API_KEY",
             "openai": "OPENAI_API_KEY",
             "anthropic": "ANTHROPIC_API_KEY",
-            "deepai": "DEEPSEEK_API_KEY",
             "deepseek": "DEEPSEEK_API_KEY",
             "gemini": "GEMINI_API_KEY",
         }.get(self.provider, "OPENROUTER_API_KEY")
-        value = os.environ.get(env_name)
-        if value:
-            self._api_key = value
-            return value
-        repo_config = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-            "config.py",
-        )
-        import importlib.util
-
-        spec = importlib.util.spec_from_file_location("itms_app_config", repo_config)
-        if spec and spec.loader:
-            module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(module)
-            self._api_key = module.AppConfig.resolve_api_key(self.provider)
+        self._api_key = resolve_provider_key(self.provider, fallback_env=env_name)
         return self._api_key
 
     def preflight(self) -> Dict[str, Any]:
@@ -259,14 +245,19 @@ class ClineSystemAdapter(SystemAdapter):
                     (prompt_tokens or 0) + (completion_tokens or 0)
                 )
                 outcome.usage_source = UsageSource.TOOL_REPORTED
+            outcome.cache_read_tokens = usage.get("cacheReadTokens") or None
+            outcome.cache_write_tokens = usage.get("cacheWriteTokens") or None
             total_cost = usage.get("totalCost")
             if total_cost is not None:
                 outcome.cost_usd = float(total_cost)
                 outcome.cost_source = UsageSource.TOOL_REPORTED
             model_info = run_result.get("model") or {}
+            outcome.served_model_id = model_info.get("id")
+            outcome.provider = model_info.get("provider")
             outcome.extra["cline_model"] = model_info
             outcome.extra["cline_finish_reason"] = run_result.get("finishReason")
             outcome.extra["cline_duration_ms"] = run_result.get("durationMs")
+            outcome.extra["cline_iterations"] = run_result.get("iterations")
 
         if timed_out:
             outcome.execution_completed = False

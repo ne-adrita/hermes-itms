@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0",
+  "run_id": "f17d798b21c9",
+  "mode": "live",
+  "is_measurement": true,
+  "planned_attempts": 300,
+  "recorded_attempts": 300,
+  "not_executed_cells": 0,
+  "not_executed_cell_keys": [],
+  "spending_limit": {
+    "max_spend_usd": 1.0,
+    "cumulative_reported_spend_usd": 0.0,
+    "limit_reached": false,
+    "limit_reached_reason": null,
+    "require_free_model": true
+  },
+  "elapsed_wall_clock_ms": 5825721.21,
+  "systems": {
+    "itms": {
+      "scheduled": 100,
+      "recorded": 100,
+      "execution_completed": 99,
+      "execution_failures": 1,
+      "evaluated": 97,
+      "test_passed": 97,
+      "test_failed": 0,
+      "syntax_errors": 0,
+      "patch_not_applied": 0,
+      "timeouts": 0,
+      "failure_categories": {
+        "none": 97,
+        "no_candidate": 2,
+        "timeout": 1
+      },
+      "status_counts": {
+        "repair_success": 97,
+        "invalid_candidate": 2,
+        "execution_failed": 1
+      },
+      "seed_supported": true,
+      "tokens": {
+        "attempts_with_provider_or_tool_reported_usage": 99,
+        "attempts_without_usage": 1,
+        "total_tokens": 122517
+      },
+      "cost": {
+        "attempts_with_reported_cost": 0,
+        "total_cost_usd": 0.0
+      },
+      "latency_ms": {
+        "mean": 7752.01,
+        "max": 38579.53
+      }
+    },
+    "aider": {
+      "scheduled": 100,
+      "recorded": 100,
+      "execution_completed": 100,
+      "execution_failures": 0,
+      "evaluated": 100,
+      "test_passed": 100,
+      "test_failed": 0,
+      "syntax_errors": 0,
+      "patch_not_applied": 0,
+      "timeouts": 0,
+      "failure_categories": {
+        "none": 100
+      },
+      "status_counts": {
+        "repair_success": 100
+      },
+      "seed_supported": true,
+      "tokens": {
+        "attempts_with_provider_or_tool_reported_usage": 100,
+        "attempts_without_usage": 0,
+        "total_tokens": 184044
+      },
+      "cost": {
+        "attempts_with_reported_cost": 0,
+        "total_cost_usd": 0.0
+      },
+      "latency_ms": {
+        "mean": 12424.28,
+        "max": 109555.97
+      }
+    },
+    "cline": {
+      "scheduled": 100,
+      "recorded": 100,
+      "execution_completed": 100,
+      "execution_failures": 0,
+      "evaluated": 100,
+      "test_passed": 100,
+      "test_failed": 0,
+      "syntax_errors": 0,
+      "patch_not_applied": 0,
+      "timeouts": 0,
+      "failure_categories": {
+        "none": 100
+      },
+      "status_counts": {
+        "repair_success": 100
+      },
+      "seed_supported": false,
+      "tokens": {
+        "attempts_with_provider_or_tool_reported_usage": 100,
+        "attempts_without_usage": 0,
+        "total_tokens": 5928794
+      },
+      "cost": {
+        "attempts_with_reported_cost": 100,
+        "total_cost_usd": 0.0
+      },
+      "latency_ms": {
+        "mean": 37657.89,
+        "max": 335171.94
+      }
+    }
+  },
+  "status_counts": {
+    "repair_success": 297,
+    "invalid_candidate": 2,
+    "execution_failed": 1
+  },
+  "failure_categories": {
+    "none": 297,
+    "no_candidate": 2,
+    "timeout": 1
+  }
+}

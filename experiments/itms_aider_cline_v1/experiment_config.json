@@ -48,6 +48,9 @@
     "model_id is the model used for the historical 120-attempt run; it is a placeholder that the operator must confirm or change before Phase 2.",
     "temperature is 0.0 so that the three systems are compared under the same sampling temperature where each system supports it.",
     "seed_policy 'per_system_support': a seed is requested for every cell, but it is only applied by systems that expose a request-level seed (ITMS, aider). Cline has no seed parameter, so its cells are identified by repetition_id only. The runner records seed_supported and seed_applied per attempt.",
-    "No credential is stored in this file. Keys are read from the environment or the project's .env at run time."
-  ]
+    "No credential is stored in this file. Keys are read from the environment or the project's .env at run time.",
+    "max_spend_usd is an explicit, runner-enforced maximum on cumulative REPORTED cost. The run aborts further provider calls once the cumulative reported cost reaches it. The pinned model is a zero-cost \":free\" model, so the expected cost is $0.00; require_free_model makes the runner refuse to start if model_id is ever changed to a non-free model while this cap is in force."
+  ],
+  "max_spend_usd": 1.0,
+  "require_free_model": true
 }

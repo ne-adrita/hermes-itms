@@ -35,6 +35,14 @@ from completed_benchmark_viewer import (
     load_run,
     read_graph_bytes,
 )
+from comparative_viewer import (
+    SYSTEM_LABELS,
+    SYSTEM_ORDER,
+    compute_comparative_metrics,
+    figure_paths,
+    load_comparative_run,
+    read_graph_bytes as read_comparative_graph_bytes,
+)
 
 # --- Standard Benchmark Presets ---
 SAMPLE_CONTEXT_CODE = '''class UnusedAnalyticsTracker:
@@ -497,6 +505,7 @@ def main():
     # --- Navigation Tabs ---
     (
         tab_completed,
+        tab_comparative,
         tab_runner,
         tab_telemetry,
         tab_cascade,
@@ -505,6 +514,7 @@ def main():
         tab_benchmark,
     ) = st.tabs([
         "Completed Benchmark Results",
+        "Comparative Benchmark Results",
         "Live Relay Runner (Milestones 2 & 3)",
         "Single-Query Prompt Telemetry",
         "Full Cascade Lifecycle Economics",
@@ -1040,6 +1050,247 @@ assert r.calculate_tax_allocation(0.5) == 1030.0
     # =========================================================================
     with tab_completed:
         _render_completed_benchmark_results(run=completed_run)
+
+    # =========================================================================
+    # TAB: Comparative Benchmark Results (ITMS vs Aider vs Cline, read-only)
+    # =========================================================================
+    with tab_comparative:
+        _render_comparative_benchmark_results()
+
+
+def _render_comparative_benchmark_results():
+    """
+    Render the real ITMS-vs-Aider-vs-Cline comparative benchmark.
+
+    Strictly read-only: it reads the recorded Phase 2 dataset and the
+    Phase 3 analysis artefacts. It never launches a benchmark, never
+    contacts a model provider and never writes a file.
+    """
+    run = load_comparative_run()
+    records = run.get("records") or []
+    metadata = run.get("metadata") or {}
+    analysis = run.get("analysis") or {}
+
+    st.subheader("ITMS vs Aider vs Cline — Comparative Benchmark Results")
+    st.caption(
+        "Real three-system comparison: the ITMS agent, the `aider` CLI and the "
+        "`cline` CLI over the same 20 HumanEval-derived repair tasks. "
+        "Read-only viewer — it never launches a benchmark and never contacts "
+        "a model provider."
+    )
+
+    if not records:
+        st.warning(
+            "No comparative benchmark dataset is available yet. "
+            f"{run.get('errors') or ['No live run directory was found.']}",
+            icon="⚠️",
+        )
+        return
+
+    metrics = compute_comparative_metrics(run)
+    systems = [s for s in SYSTEM_ORDER if s in metrics["systems"]]
+
+    # ---------------- dataset identity ----------------
+    st.markdown("#### Dataset used")
+    identity_rows = [
+        ("Run directory", f"`{run['run_dir']}`"),
+        ("Run id", f"`{metadata.get('run_id', 'n/a')}`"),
+        ("Model", f"`{metadata.get('requested_model_id', 'n/a')}`"),
+        ("Provider", f"`{metadata.get('declared_provider', 'n/a')}`"),
+        ("Temperature", str(metadata.get("temperature", "n/a"))),
+        ("Repetitions per cell", str(metadata.get("repetitions", "n/a"))),
+        ("Seed policy", f"`{metadata.get('seed_policy', 'n/a')}`"),
+        ("Spending limit (USD)", str(metadata.get("max_spend_usd", "n/a"))),
+        ("Analysis directory", f"`{run['analysis_dir']}`"),
+    ]
+    st.dataframe(
+        [{"Field": k, "Value": v} for k, v in identity_rows],
+        hide_index=True,
+        width="stretch",
+    )
+
+    # ---------------- integrity ----------------
+    st.markdown("#### Experiment integrity and completion status")
+    integrity_cols = st.columns(4)
+    recorded = metrics["recorded_attempts"]
+    planned = metrics.get("planned_attempts") or 0
+    integrity_cols[0].metric("Planned attempts", planned)
+    integrity_cols[1].metric("Recorded attempts", recorded)
+    integrity_cols[2].metric(
+        "Matrix complete", "yes" if recorded == planned and planned else "no"
+    )
+    integrity_cols[3].metric(
+        "Mock records", sum(1 for r in records if r.get("is_mock"))
+    )
+
+    if run.get("integrity_report_exists"):
+        st.success(
+            "Integrity report present: "
+            f"`{os.path.relpath(run['integrity_report_path'], PROJECT_ROOT)}`",
+            icon="✅",
+        )
+    else:
+        st.warning(
+            "No `BENCHMARK_INTEGRITY_REPORT.md` found in the run directory.",
+            icon="⚠️",
+        )
+
+    missing_cells = _missing_cells(metrics, metadata)
+    if missing_cells:
+        st.warning(
+            f"**{len(missing_cells)} planned cells have no recorded attempt.** "
+            "They are excluded from every numerator and are counted as "
+            "incomplete in the completion rate.",
+            icon="⚠️",
+        )
+
+    # ---------------- system metrics ----------------
+    st.markdown("#### System-level metrics")
+    table_rows = []
+    for system in systems:
+        m = metrics["systems"][system]
+        table_rows.append({
+            "System": m["label"],
+            "Planned": m["planned"],
+            "Recorded": m["recorded"],
+            "Completed": m["completed"],
+            "Evaluated": m["evaluated"],
+            "Passed": m["passed"],
+            "Completion (of planned)": _fmt_pct(m["completion_rate"]),
+            "Pass rate (of evaluated)": _fmt_pct(m["pass_rate"]),
+            "Patch applied (of recorded)": _fmt_pct(m["patch_rate"]),
+            "Seed supported": "yes" if m["seed_supported"] else "no",
+            "Seed applied": "yes" if m["seed_applied_any"] else "no",
+        })
+    st.dataframe(table_rows, hide_index=True, width="stretch")
+    st.caption(
+        "**Completion rate** denominator = all planned attempts. "
+        "**Pass rate** denominator = evaluated attempts only; unevaluated "
+        "attempts are never counted as passes and are counted as failures "
+        "in the completion rate."
+    )
+
+    # ---------------- figures ----------------
+    st.markdown("#### Figures")
+    graphs = figure_paths(run["analysis_dir"])
+    if not graphs:
+        st.info(
+            "No figures found. Run "
+            "`python -m experiments.itms_aider_cline_v1.analyze --run-dir <run>`.",
+            icon="ℹ️",
+        )
+    else:
+        for name, path in graphs:
+            data = read_comparative_graph_bytes(path)
+            if not data:
+                st.error(f"could not read figure `{name}`", icon="⚠️")
+                continue
+            st.image(data, caption=name, width="stretch")
+
+    # ---------------- per-task comparison ----------------
+    st.markdown("#### Per-task results")
+    task_matrix = analysis.get("task_matrix") or {}
+    if task_matrix:
+        rows = []
+        for task in metrics["tasks"]:
+            row = {"Task": task}
+            for system in systems:
+                cell = task_matrix.get(task, {}).get(system, {})
+                evaluated = cell.get("evaluated", 0)
+                passed = cell.get("passed", 0)
+                row[SYSTEM_LABELS.get(system, system)] = (
+                    f"{passed}/{evaluated}"
+                    + (f" ({_fmt_pct(cell.get('pass_rate'))})" if evaluated else " n/a")
+                )
+            rows.append(row)
+        st.dataframe(rows, hide_index=True, width="stretch")
+        st.caption("Cells show passed/evaluated attempts (and the pass rate).")
+    else:
+        st.info("Per-task breakdown is available in the analysis JSON only.", icon="ℹ️")
+
+    # ---------------- failure analysis ----------------
+    st.markdown("#### Failure analysis")
+    failure_rows = []
+    for system in systems:
+        m = metrics["systems"][system]
+        for category, count in sorted(m["failure_categories"].items()):
+            if category == "none":
+                continue
+            failure_rows.append({
+                "System": SYSTEM_LABELS.get(system, system),
+                "Failure category": category,
+                "Attempts": count,
+            })
+    if failure_rows:
+        st.dataframe(failure_rows, hide_index=True, width="stretch")
+    else:
+        st.success("No failures were recorded in this dataset.", icon="✅")
+
+    # ---------------- limitations ----------------
+    st.markdown("#### Limitations, telemetry provenance and scope")
+    st.markdown(
+        f"""
+- **Token provenance.** ITMS token counts are *provider-reported*; Aider and
+  Cline counts are *tool-reported* summaries. They are not pooled into a
+  single cross-system total.
+- **Unavailable telemetry.** A token or cost figure is shown only where the
+  tool actually reported one; missing values are never imputed with zero.
+  Attempts with no reported usage in this dataset: **{sum(1 for r in records if r.get('usage_source') == 'missing')}**.
+- **Seed control.** {_seed_note(metrics, systems)}
+- **Cline has no temperature control**, so its sampling is at the provider default.
+- **Latency** is whole-system wall clock (including each tool's own planning
+  and tool-call overhead), not pure model latency.
+- **Context strategy differs by design** (ITMS skeletonises, Aider builds a
+  repo map, Cline plans with its own tools), so token counts are a property of
+  the system rather than of the task.
+- **These are not HumanEval scores.** The tasks are synthetic single-mutation
+  repair tasks derived from pinned HumanEval problems.
+- **Task difficulty was assigned a priori** by a static rubric; no observed
+  model output influenced task selection.
+- The earlier **120-attempt ITMS run** (prompt/edit-format variants of one
+  model) is a different experiment and is deliberately kept separate.
+"""
+    )
+
+    if run.get("errors"):
+        st.markdown("#### Data loading notes")
+        for error in run["errors"]:
+            st.caption(f"• {error}")
+
+
+def _fmt_pct(value) -> str:
+    if value is None:
+        return "n/a"
+    return f"{100.0 * value:.1f}%"
+
+
+def _missing_cells(metrics, metadata) -> List[str]:
+    tasks = metadata.get("tasks") or []
+    systems = metadata.get("systems") or []
+    reps = int(metadata.get("repetitions") or 0)
+    present = metrics.get("present_cells") or set()
+    missing = []
+    for task in tasks:
+        for system in systems:
+            for rep in range(1, reps + 1):
+                if (task, system, rep) not in present:
+                    missing.append(f"{task}::{system}::rep{rep:02d}")
+    return missing
+
+
+def _seed_note(metrics, systems) -> str:
+    lines = []
+    for system in systems:
+        m = metrics["systems"][system]
+        if m["seed_supported"] and m["seed_applied_any"]:
+            lines.append(f"{m['label']}: a request-level seed was sent")
+        else:
+            lines.append(
+                f"{m['label']}: no request-level seed is available, so its "
+                "repetitions are identified by repetition id only"
+            )
+    return "; ".join(lines) + ". No claim of independent seed control is made " \
+        "for a system that cannot accept one."
 
 
 def _render_completed_benchmark_banner(run):

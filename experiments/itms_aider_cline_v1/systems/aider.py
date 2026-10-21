@@ -47,6 +47,7 @@ from .base import (
     SystemOutcome,
     TaskBundle,
     UsageSource,
+    resolve_provider_key,
     sanitised_env,
     sha256_text,
     which,
@@ -61,6 +62,7 @@ _TOKEN_RE = re.compile(
 _COST_RE = re.compile(
     r"Cost:\s*\$(?P<message>[\d\.]+)\s*message,\s*\$(?P<session>[\d\.]+)\s*session"
 )
+_MODEL_RE = re.compile(r"^Model:\s*(?P<model>\S+)\s+with\s+", re.MULTILINE)
 
 
 def _parse_count(text: str) -> Optional[int]:
@@ -112,22 +114,7 @@ class AiderSystemAdapter(SystemAdapter):
             "deepseek": "DEEPSEEK_API_KEY",
             "gemini": "GEMINI_API_KEY",
         }.get(self.provider, "OPENROUTER_API_KEY")
-        value = os.environ.get(env_name)
-        if value:
-            self._api_key = value
-            return value
-        # Fall back to the project's .env loader without printing the value.
-        repo_config = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-            "config.py",
-        )
-        import importlib.util
-
-        spec = importlib.util.spec_from_file_location("itms_app_config", repo_config)
-        if spec and spec.loader:
-            module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(module)
-            self._api_key = module.AppConfig.resolve_api_key(self.provider)
+        self._api_key = resolve_provider_key(self.provider, fallback_env=env_name)
         return self._api_key
 
     def preflight(self) -> Dict[str, Any]:
@@ -302,9 +289,15 @@ class AiderSystemAdapter(SystemAdapter):
             outcome.completion_tokens = tokens.get("received")
             outcome.total_tokens = (tokens.get("sent") or 0) + (tokens.get("received") or 0)
             outcome.usage_source = UsageSource.TOOL_REPORTED
+        outcome.cache_read_tokens = tokens.get("cache_hit")
+        outcome.cache_write_tokens = tokens.get("cache_write")
         if cost.get("session") is not None:
             outcome.cost_usd = cost.get("session")
             outcome.cost_source = UsageSource.TOOL_REPORTED
+        model_match = _MODEL_RE.search(stdout)
+        if model_match:
+            outcome.served_model_id = model_match.group("model")
+        outcome.provider = self.provider
         outcome.raw_telemetry = {"tokens": tokens, "cost": cost}
 
         if timed_out:

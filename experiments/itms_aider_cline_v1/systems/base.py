@@ -114,10 +114,14 @@ class SystemOutcome:
     prompt_tokens: Optional[int] = None
     completion_tokens: Optional[int] = None
     total_tokens: Optional[int] = None
+    cache_read_tokens: Optional[int] = None
+    cache_write_tokens: Optional[int] = None
     usage_source: str = UsageSource.MISSING
     cost_usd: Optional[float] = None
     cost_source: str = UsageSource.MISSING
     telemetry_source: str = "none"
+    served_model_id: Optional[str] = None
+    provider: Optional[str] = None
     raw_telemetry: Dict[str, Any] = field(default_factory=dict)
     stdout_path: Optional[str] = None
     stderr_path: Optional[str] = None
@@ -144,10 +148,14 @@ class SystemOutcome:
             "prompt_tokens": self.prompt_tokens,
             "completion_tokens": self.completion_tokens,
             "total_tokens": self.total_tokens,
+            "cache_read_tokens": self.cache_read_tokens,
+            "cache_write_tokens": self.cache_write_tokens,
             "usage_source": self.usage_source,
             "cost_usd": self.cost_usd,
             "cost_source": self.cost_source,
             "telemetry_source": self.telemetry_source,
+            "served_model_id": self.served_model_id,
+            "provider": self.provider,
             "stdout_path": self.stdout_path,
             "stderr_path": self.stderr_path,
             "extra": self.extra,
@@ -194,6 +202,56 @@ class SystemAdapter(abc.ABC):
 
 def sha256_text(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def repo_root() -> str:
+    """Absolute path of the repository root.
+
+    ``<root>/experiments/itms_aider_cline_v1/systems/<this file>`` -> ``<root>``.
+    """
+    here = os.path.dirname(os.path.abspath(__file__))
+    return os.path.dirname(os.path.dirname(os.path.dirname(here)))
+
+
+def load_app_config():
+    """Import the repository's ``config.py`` (which loads ``.env``).
+
+    Returns the module, or ``None`` when it cannot be loaded.  The module is
+    imported directly from its path so that the experiment directory does not
+    need to be on ``sys.path``.
+    """
+    import importlib.util
+
+    path = os.path.join(repo_root(), "config.py")
+    if not os.path.exists(path):
+        return None
+    spec = importlib.util.spec_from_file_location("itms_app_config", path)
+    if not spec or not spec.loader:
+        return None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def resolve_provider_key(provider: str, fallback_env: Optional[str] = None) -> Optional[str]:
+    """Resolve an API key for ``provider`` without ever printing it.
+
+    Order: an explicitly exported environment variable, then the
+    repository's ``config.py`` (which reads the project's ``.env``).
+    """
+    if fallback_env:
+        value = os.environ.get(fallback_env)
+        if value and value.strip():
+            return value.strip()
+    module = load_app_config()
+    if module is not None:
+        try:
+            value = module.AppConfig.resolve_api_key(provider)
+        except Exception:
+            value = None
+        if value and value.strip():
+            return value.strip()
+    return None
 
 
 def which(binary: str) -> Optional[str]:

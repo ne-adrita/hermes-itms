@@ -25,6 +25,7 @@ from .base import (
     SystemOutcome,
     TaskBundle,
     UsageSource,
+    resolve_provider_key,
     sha256_text,
 )
 
@@ -56,17 +57,7 @@ class ItmsSystemAdapter(SystemAdapter):
     def _resolve_api_key(self) -> Optional[str]:
         if self._api_key:
             return self._api_key
-        sys_path = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-            "config.py",
-        )
-        import importlib.util
-
-        spec = importlib.util.spec_from_file_location("itms_app_config", sys_path)
-        if spec and spec.loader:
-            module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(module)
-            self._api_key = module.AppConfig.resolve_api_key(self.provider)
+        self._api_key = resolve_provider_key(self.provider)
         return self._api_key
 
     def preflight(self) -> Dict[str, Any]:
@@ -178,17 +169,25 @@ class ItmsSystemAdapter(SystemAdapter):
 
         outcome.execution_completed = True
         outcome.latency_ms = (time.perf_counter() - started) * 1000.0
+        outcome.provider = getattr(response, "provider", None)
+        outcome.served_model_id = getattr(response, "served_model_id", None)
 
         content = getattr(response, "content", None) or ""
         outcome.raw_telemetry = {
             "finish_reason": getattr(response, "finish_reason", None),
-            "served_model_id": getattr(response, "served_model_id", None),
-            "usage": getattr(response, "usage", None),
+            "served_model_id": outcome.served_model_id,
+            "provider": outcome.provider,
+            "retry_count": getattr(response, "retry_count", None),
+            "usage_source": getattr(response, "usage_source", None),
+            "raw_tokens_in": getattr(response, "raw_tokens_in", None),
+            "cached_tokens_in": getattr(response, "cached_tokens_in", None),
+            "output_tokens": getattr(response, "output_tokens", None),
+            "reasoning_tokens": getattr(response, "reasoning_tokens", None),
         }
-        _apply_usage(outcome, getattr(response, "usage", None))
+        _apply_usage(outcome, response)
         if getattr(response, "cost_usd", None) is not None:
             outcome.cost_usd = float(response.cost_usd)
-            outcome.cost_source = UsageSource.PROVIDER_REPORTED
+            outcome.cost_source = getattr(response, "cost_source", None) or UsageSource.PROVIDER_REPORTED
 
         parsed = adapter.parse_and_apply(bench_task, rep=1, response_text=content)
         outcome.failure_reason = parsed.parse_error
@@ -218,18 +217,32 @@ def _syntax_ok(source: str) -> Optional[bool]:
     return True
 
 
-def _apply_usage(outcome: SystemOutcome, usage: Any) -> None:
-    if not isinstance(usage, dict):
-        return
-    prompt_tokens = usage.get("prompt_tokens")
-    completion_tokens = usage.get("completion_tokens")
-    total_tokens = usage.get("total_tokens")
-    if prompt_tokens is None and completion_tokens is None:
+def _apply_usage(outcome: SystemOutcome, response: Any) -> None:
+    """Copy the provider-reported usage off a ``ModelResponse``.
+
+    Only the *provider-reported* fields are used.  The dispatcher's local
+    tiktoken estimates live in separate fields and are never substituted for
+    a provider-reported number.
+    """
+    prompt_tokens = getattr(response, "provider_prompt_tokens", None)
+    completion_tokens = getattr(response, "provider_completion_tokens", None)
+    total_tokens = getattr(response, "provider_total_tokens", None)
+    if prompt_tokens is None and completion_tokens is None and total_tokens is None:
         return
     outcome.prompt_tokens = prompt_tokens
     outcome.completion_tokens = completion_tokens
-    outcome.total_tokens = total_tokens
-    outcome.usage_source = UsageSource.PROVIDER_REPORTED
+    if total_tokens is not None:
+        outcome.total_tokens = total_tokens
+    elif prompt_tokens is not None or completion_tokens is not None:
+        outcome.total_tokens = (prompt_tokens or 0) + (completion_tokens or 0)
+    outcome.cache_read_tokens = getattr(response, "cached_tokens_in", None) or None
+    usage_source = getattr(response, "usage_source", None)
+    if usage_source == "provider_reported":
+        outcome.usage_source = UsageSource.PROVIDER_REPORTED
+    elif usage_source in ("provider_partial", "local_estimate", "local_estimate_not_reported"):
+        outcome.usage_source = UsageSource.LOCAL_ESTIMATE
+    else:
+        outcome.usage_source = UsageSource.PROVIDER_REPORTED
 
 
 def _classify_exception(exc: Exception) -> str:

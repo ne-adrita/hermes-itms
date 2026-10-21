@@ -60,6 +60,19 @@ class ExperimentConfig:
     # --- output -----------------------------------------------------------
     output_root: str = "experiments/itms_aider_cline_v1/runs"
 
+    # --- spending limit (Phase 2 budget gate) ----------------------------
+    # An explicit maximum, in US dollars, that the runner enforces over the
+    # *reported* cumulative cost of the run.  When the cumulative reported
+    # cost reaches this value the runner stops issuing further provider
+    # calls and marks the remaining cells as not executed.  It is a hard
+    # stop, not an advisory.
+    max_spend_usd: float = 1.00
+    # When true the runner refuses to start unless the configured model is a
+    # zero-cost (":free") model id, which is what the pinned model is.  This
+    # prevents an accidental edit of `model_id` from turning a free run into
+    # a paid one.
+    require_free_model: bool = True
+
     # --- extra ------------------------------------------------------------
     notes: List[str] = field(default_factory=list)
 
@@ -97,6 +110,8 @@ class ExperimentConfig:
             "seed_policy": self.seed_policy,
             "seed_base": self.seed_base,
             "output_root": self.output_root,
+            "max_spend_usd": self.max_spend_usd,
+            "require_free_model": self.require_free_model,
             "notes": self.notes,
         }
 

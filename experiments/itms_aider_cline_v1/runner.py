@@ -94,6 +94,8 @@ RECORD_COLUMNS: List[str] = [
     "prompt_tokens",
     "completion_tokens",
     "total_tokens",
+    "cache_read_tokens",
+    "cache_write_tokens",
     "usage_source",
     "cost_usd",
     "cost_source",
@@ -157,6 +159,10 @@ def attempt_id_for(plan: AttemptPlan, run_id: str) -> str:
 # ---------------------------------------------------------------------------
 
 
+class SpendingLimitReached(RuntimeError):
+    """Raised when the configured maximum spend has been reached."""
+
+
 class ExperimentRunner:
     def __init__(
         self,
@@ -174,6 +180,58 @@ class ExperimentRunner:
         self.mode = mode
         self.run_id = run_id or uuid.uuid4().hex[:12]
         self._tasks = {t["task_id"]: t for t in manifest["tasks"]}
+        #: cumulative cost in USD, summed from *reported* cost only.
+        self.cumulative_spend_usd = 0.0
+        #: cells that were not executed because the spending limit was hit
+        self.not_executed_cells: List[str] = []
+        #: set when the spending limit was reached during the run
+        self.spending_limit_error: Optional[str] = None
+
+    # -- budget gate ------------------------------------------------------
+
+    def check_budget_preflight(self) -> Dict[str, Any]:
+        """Validate the spend configuration before any provider call.
+
+        Raises when the configuration would allow an unbounded or
+        unexpectedly expensive run.  This is the Phase 2 budget gate: it
+        runs *before* the first live call, and it never consults a network
+        resource.
+        """
+        cap = float(self.config.max_spend_usd)
+        if cap <= 0:
+            raise SpendingLimitReached(
+                "max_spend_usd must be a positive explicit limit; "
+                f"got {self.config.max_spend_usd!r}"
+            )
+        model_id = (self.config.model_id or "").strip()
+        if not model_id:
+            raise SpendingLimitReached("model_id is not configured")
+        if self.config.require_free_model and not model_id.endswith(":free"):
+            raise SpendingLimitReached(
+                f"require_free_model is enabled and model_id {model_id!r} is not a "
+                "':free' model id; refusing to start an unbounded-spend run"
+            )
+        return {
+            "max_spend_usd": cap,
+            "require_free_model": self.config.require_free_model,
+            "model_id": model_id,
+            "model_is_free": model_id.endswith(":free"),
+            "expected_max_cost_usd": 0.0 if model_id.endswith(":free") else cap,
+        }
+
+    def _charge(self, cost_usd: Optional[float]) -> None:
+        """Add a reported cost to the running total."""
+        if cost_usd is None:
+            return
+        try:
+            self.cumulative_spend_usd += float(cost_usd)
+        except (TypeError, ValueError):
+            return
+        if self.cumulative_spend_usd >= float(self.config.max_spend_usd):
+            raise SpendingLimitReached(
+                f"cumulative reported cost ${self.cumulative_spend_usd:.4f} reached the "
+                f"configured maximum of ${self.config.max_spend_usd:.4f}"
+            )
 
     # -- paths ------------------------------------------------------------
 
@@ -249,12 +307,29 @@ class ExperimentRunner:
         os.makedirs(self.output_dir, exist_ok=True)
         os.makedirs(self.artifacts_dir, exist_ok=True)
 
+        # The budget gate runs before the first provider call.
+        budget = self.check_budget_preflight()
+        if self.mode == "live":
+            print(
+                f"[budget] max_spend_usd={budget['max_spend_usd']} "
+                f"model={budget['model_id']} free_model={budget['model_is_free']}",
+                flush=True,
+            )
+
+        # Write the metadata up front so that an in-progress run is
+        # discoverable and its configuration is on disk even if the process
+        # is interrupted. It is rewritten with the final values at the end.
+        _write_json(self.metadata_path, self._metadata())
+
         plans = self.plan()
         records: List[Dict[str, Any]] = []
         started = time.perf_counter()
         seen_ids: set = set()
 
         for index, plan in enumerate(plans, start=1):
+            if self.spending_limit_error is not None:
+                self.not_executed_cells.append(plan.key)
+                continue
             record = self._run_one(plan, seen_ids)
             records.append(record)
             with open(self.attempts_jsonl, "a", encoding="utf-8") as fh:
@@ -320,6 +395,13 @@ class ExperimentRunner:
         )
         self._persist_artifacts(attempt_id, record, outcome, evaluation)
         shutil.rmtree(workspace, ignore_errors=True)
+        # Charge the reported cost against the explicit spending limit.  A
+        # breach stops the run *after* this attempt has been fully recorded,
+        # so no attempt is ever lost.
+        try:
+            self._charge(record.get("cost_usd"))
+        except SpendingLimitReached as exc:
+            self.spending_limit_error = str(exc)
         return record
 
     def _evaluate(self, outcome: SystemOutcome, bundle: TaskBundle):
@@ -384,9 +466,7 @@ class ExperimentRunner:
             "is_mock": bool(outcome.extra.get("is_mock")) or self.mode == "mock",
             "provider": self.config.provider,
             "requested_model_id": self.config.model_id,
-            "served_model_id": outcome.extra.get("cline_model", {}).get("id")
-            if isinstance(outcome.extra.get("cline_model"), dict)
-            else None,
+            "served_model_id": outcome.served_model_id,
             "seed_policy": self.config.seed_policy,
             "seed_requested": outcome.seed_requested,
             "seed_supported": outcome.seed_supported,
@@ -411,6 +491,8 @@ class ExperimentRunner:
             "prompt_tokens": outcome.prompt_tokens,
             "completion_tokens": outcome.completion_tokens,
             "total_tokens": outcome.total_tokens,
+            "cache_read_tokens": outcome.cache_read_tokens,
+            "cache_write_tokens": outcome.cache_write_tokens,
             "usage_source": outcome.usage_source,
             "cost_usd": outcome.cost_usd,
             "cost_source": outcome.cost_source,
@@ -468,6 +550,7 @@ class ExperimentRunner:
             "schema_version": "1.0",
             "run_id": self.run_id,
             "experiment_id": self.config.experiment_id,
+            "started_at_utc": _utc_now(),
             "mode": self.mode,
             "is_measurement": self.mode == "live",
             "declared_provider": self.config.provider,
@@ -487,6 +570,10 @@ class ExperimentRunner:
             "bootstrap_seed": self.config.bootstrap_seed,
             "seed_policy": self.config.seed_policy,
             "seed_base": self.config.seed_base,
+            "max_spend_usd": self.config.max_spend_usd,
+            "require_free_model": self.config.require_free_model,
+            "cumulative_reported_spend_usd": round(self.cumulative_spend_usd, 6),
+            "spending_limit_reached": self.spending_limit_error,
             "task_manifest_digest": self.manifest.get("task_manifest_digest"),
             "config": self.config.to_dict(),
             "system_configurations": {
@@ -554,6 +641,15 @@ class ExperimentRunner:
             "is_measurement": self.mode == "live",
             "planned_attempts": self.planned_call_count(),
             "recorded_attempts": len(records),
+            "not_executed_cells": len(self.not_executed_cells),
+            "not_executed_cell_keys": self.not_executed_cells,
+            "spending_limit": {
+                "max_spend_usd": self.config.max_spend_usd,
+                "cumulative_reported_spend_usd": round(self.cumulative_spend_usd, 6),
+                "limit_reached": self.spending_limit_error is not None,
+                "limit_reached_reason": self.spending_limit_error,
+                "require_free_model": self.config.require_free_model,
+            },
             "elapsed_wall_clock_ms": round(elapsed_ms, 2),
             "systems": by_system,
             "status_counts": _counter(r["status"] for r in records),

@@ -1,0 +1,790 @@
+{
+  "schema_version": "1.0",
+  "run_dir": "/Users/noshinebnatadrita/Documents/499B/experiments/itms_aider_cline_v1/runs/itms_aider_cline_v1_live_20261021T171639Z",
+  "run_id": "f17d798b21c9",
+  "mode": "live",
+  "is_measurement": true,
+  "provider": "openrouter",
+  "model_id": "minimax/minimax-m3.1-flash:free",
+  "temperature": 0.0,
+  "repetitions": 5,
+  "task_count": 20,
+  "tasks": [
+    "HE-EDIT-001",
+    "HE-EDIT-002",
+    "HE-EDIT-003",
+    "HE-EDIT-004",
+    "HE-EDIT-005",
+    "HE-EDIT-006",
+    "HE-EDIT-007",
+    "HE-EDIT-008",
+    "HE-EDIT-009",
+    "HE-EDIT-010",
+    "HE-EDIT-011",
+    "HE-EDIT-012",
+    "HE-EDIT-013",
+    "HE-EDIT-014",
+    "HE-EDIT-015",
+    "HE-EDIT-016",
+    "HE-EDIT-017",
+    "HE-EDIT-018",
+    "HE-EDIT-019",
+    "HE-EDIT-020"
+  ],
+  "planned_attempts": 300,
+  "recorded_attempts": 300,
+  "seed_policy": "per_system_support",
+  "max_spend_usd": 1.0,
+  "cumulative_reported_spend_usd": 0.0,
+  "elapsed_wall_clock_ms": 5825721.21,
+  "systems": {
+    "itms": {
+      "system": "itms",
+      "label": "ITMS",
+      "planned": 100,
+      "recorded": 100,
+      "not_recorded": 0,
+      "execution_completed": 99,
+      "execution_failed": 1,
+      "evaluated": 97,
+      "not_evaluated": 3,
+      "test_passed": 97,
+      "test_failed": 0,
+      "patch_applied": 97,
+      "patch_not_applied": 3,
+      "completion_rate": 0.99,
+      "completion_rate_denominator": 100,
+      "evaluator_pass_rate": 1.0,
+      "evaluator_pass_rate_denominator": 97,
+      "patch_application_rate": 0.97,
+      "patch_application_rate_denominator": 100,
+      "failure_categories": {
+        "none": 97,
+        "no_candidate": 2,
+        "timeout": 1
+      },
+      "edit_failures": 2,
+      "syntax_errors": 0,
+      "timeouts": 1,
+      "truncations": 0,
+      "quota_exceeded": 0,
+      "provider_errors": 0,
+      "usage_sources": {
+        "provider_reported": 99,
+        "missing": 1
+      },
+      "tokens": {
+        "prompt_mean": 656.7878787878788,
+        "prompt_median": 643.0,
+        "prompt_available": 99,
+        "completion_mean": 580.7575757575758,
+        "completion_median": 442.0,
+        "completion_available": 99,
+        "total_mean": 1237.5454545454545,
+        "total_median": 1102.0,
+        "total_available": 99,
+        "provenance": "provider-reported for ITMS, tool-reported for Aider and Cline; never pooled"
+      },
+      "latency_ms": {
+        "mean": 7752.0054,
+        "median": 5875.02,
+        "available": 100,
+        "provenance": "local wall-clock measurement of the whole system invocation"
+      },
+      "cost_usd": {
+        "mean": null,
+        "total": null,
+        "available": 0,
+        "provenance": "tool-reported where the tool reports a cost; otherwise unavailable"
+      },
+      "seed": {
+        "supported": [
+          true
+        ],
+        "distinct_requested": 100,
+        "distinct_applied": 100,
+        "note": "Cline exposes no request-level seed, so its repetitions are identified by repetition_id only and no seed independence is claimed."
+      }
+    },
+    "aider": {
+      "system": "aider",
+      "label": "Aider",
+      "planned": 100,
+      "recorded": 100,
+      "not_recorded": 0,
+      "execution_completed": 100,
+      "execution_failed": 0,
+      "evaluated": 100,
+      "not_evaluated": 0,
+      "test_passed": 100,
+      "test_failed": 0,
+      "patch_applied": 100,
+      "patch_not_applied": 0,
+      "completion_rate": 1.0,
+      "completion_rate_denominator": 100,
+      "evaluator_pass_rate": 1.0,
+      "evaluator_pass_rate_denominator": 100,
+      "patch_application_rate": 1.0,
+      "patch_application_rate_denominator": 100,
+      "failure_categories": {
+        "none": 100
+      },
+      "edit_failures": 0,
+      "syntax_errors": 0,
+      "timeouts": 0,
+      "truncations": 0,
+      "quota_exceeded": 0,
+      "provider_errors": 0,
+      "usage_sources": {
+        "tool_reported": 100
+      },
+      "tokens": {
+        "prompt_mean": 1057.25,
+        "prompt_median": 1100.0,
+        "prompt_available": 100,
+        "completion_mean": 783.19,
+        "completion_median": 400.5,
+        "completion_available": 100,
+        "total_mean": 1840.44,
+        "total_median": 1452.5,
+        "total_available": 100,
+        "provenance": "provider-reported for ITMS, tool-reported for Aider and Cline; never pooled"
+      },
+      "latency_ms": {
+        "mean": 12424.277900000001,
+        "median": 9648.36,
+        "available": 100,
+        "provenance": "local wall-clock measurement of the whole system invocation"
+      },
+      "cost_usd": {
+        "mean": null,
+        "total": null,
+        "available": 0,
+        "provenance": "tool-reported where the tool reports a cost; otherwise unavailable"
+      },
+      "seed": {
+        "supported": [
+          true
+        ],
+        "distinct_requested": 100,
+        "distinct_applied": 100,
+        "note": "Cline exposes no request-level seed, so its repetitions are identified by repetition_id only and no seed independence is claimed."
+      }
+    },
+    "cline": {
+      "system": "cline",
+      "label": "Cline",
+      "planned": 100,
+      "recorded": 100,
+      "not_recorded": 0,
+      "execution_completed": 100,
+      "execution_failed": 0,
+      "evaluated": 100,
+      "not_evaluated": 0,
+      "test_passed": 100,
+      "test_failed": 0,
+      "patch_applied": 100,
+      "patch_not_applied": 0,
+      "completion_rate": 1.0,
+      "completion_rate_denominator": 100,
+      "evaluator_pass_rate": 1.0,
+      "evaluator_pass_rate_denominator": 100,
+      "patch_application_rate": 1.0,
+      "patch_application_rate_denominator": 100,
+      "failure_categories": {
+        "none": 100
+      },
+      "edit_failures": 0,
+      "syntax_errors": 0,
+      "timeouts": 0,
+      "truncations": 0,
+      "quota_exceeded": 0,
+      "provider_errors": 0,
+      "usage_sources": {
+        "tool_reported": 100
+      },
+      "tokens": {
+        "prompt_mean": 57419.56,
+        "prompt_median": 49045.5,
+        "prompt_available": 100,
+        "completion_mean": 1868.38,
+        "completion_median": 1685.0,
+        "completion_available": 100,
+        "total_mean": 59287.94,
+        "total_median": 50918.0,
+        "total_available": 100,
+        "provenance": "provider-reported for ITMS, tool-reported for Aider and Cline; never pooled"
+      },
+      "latency_ms": {
+        "mean": 37657.8889,
+        "median": 28445.105,
+        "available": 100,
+        "provenance": "local wall-clock measurement of the whole system invocation"
+      },
+      "cost_usd": {
+        "mean": 0.0,
+        "total": 0.0,
+        "available": 100,
+        "provenance": "tool-reported where the tool reports a cost; otherwise unavailable"
+      },
+      "seed": {
+        "supported": [
+          false
+        ],
+        "distinct_requested": 100,
+        "distinct_applied": 0,
+        "note": "Cline exposes no request-level seed, so its repetitions are identified by repetition_id only and no seed independence is claimed."
+      }
+    }
+  },
+  "task_matrix": {
+    "HE-EDIT-001": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-002": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 4,
+        "passed": 4,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-003": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-004": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-005": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-006": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-007": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-008": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-009": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-010": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-011": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-012": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-013": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-014": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-015": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-016": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-017": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 3,
+        "passed": 3,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-018": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-019": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "HE-EDIT-020": {
+      "itms": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "aider": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      },
+      "cline": {
+        "recorded": 5,
+        "evaluated": 5,
+        "passed": 5,
+        "pass_rate": 1.0
+      }
+    }
+  },
+  "repetition_variation": {
+    "itms": {
+      "per_repetition": {
+        "3": {
+          "recorded": 20,
+          "passed": 19,
+          "evaluated": 19
+        },
+        "1": {
+          "recorded": 20,
+          "passed": 19,
+          "evaluated": 19
+        },
+        "5": {
+          "recorded": 20,
+          "passed": 19,
+          "evaluated": 19
+        },
+        "2": {
+          "recorded": 20,
+          "passed": 20,
+          "evaluated": 20
+        },
+        "4": {
+          "recorded": 20,
+          "passed": 20,
+          "evaluated": 20
+        }
+      },
+      "pass_counts": [
+        19,
+        20,
+        19,
+        20,
+        19
+      ],
+      "varies": true
+    },
+    "aider": {
+      "per_repetition": {
+        "4": {
+          "recorded": 20,
+          "passed": 20,
+          "evaluated": 20
+        },
+        "1": {
+          "recorded": 20,
+          "passed": 20,
+          "evaluated": 20
+        },
+        "3": {
+          "recorded": 20,
+          "passed": 20,
+          "evaluated": 20
+        },
+        "5": {
+          "recorded": 20,
+          "passed": 20,
+          "evaluated": 20
+        },
+        "2": {
+          "recorded": 20,
+          "passed": 20,
+          "evaluated": 20
+        }
+      },
+      "pass_counts": [
+        20,
+        20,
+        20,
+        20,
+        20
+      ],
+      "varies": false
+    },
+    "cline": {
+      "per_repetition": {
+        "5": {
+          "recorded": 20,
+          "passed": 20,
+          "evaluated": 20
+        },
+        "3": {
+          "recorded": 20,
+          "passed": 20,
+          "evaluated": 20
+        },
+        "4": {
+          "recorded": 20,
+          "passed": 20,
+          "evaluated": 20
+        },
+        "1": {
+          "recorded": 20,
+          "passed": 20,
+          "evaluated": 20
+        },
+        "2": {
+          "recorded": 20,
+          "passed": 20,
+          "evaluated": 20
+        }
+      },
+      "pass_counts": [
+        20,
+        20,
+        20,
+        20,
+        20
+      ],
+      "varies": false
+    }
+  },
+  "status_counts": {
+    "repair_success": 297,
+    "invalid_candidate": 2,
+    "execution_failed": 1
+  },
+  "failure_categories": {
+    "none": 297,
+    "no_candidate": 2,
+    "timeout": 1
+  },
+  "figures": [
+    "fig1_completion_rate_by_system.png",
+    "fig2_evaluator_pass_rate_by_system.png",
+    "fig3_patch_application_reliability.png",
+    "fig4_failure_categories_by_system.png",
+    "fig5_token_usage_by_system.png",
+    "fig6_latency_by_system.png",
+    "fig7_api_cost_by_system.png",
+    "fig8_task_by_system_heatmap.png",
+    "fig9_repetition_variation.png",
+    "fig10_per_task_comparison.png"
+  ],
+  "figure_paths": [
+    "/Users/noshinebnatadrita/Documents/499B/experiments/itms_aider_cline_v1/runs/itms_aider_cline_v1_live_20261021T171639Z/analysis/fig1_completion_rate_by_system.png",
+    "/Users/noshinebnatadrita/Documents/499B/experiments/itms_aider_cline_v1/runs/itms_aider_cline_v1_live_20261021T171639Z/analysis/fig2_evaluator_pass_rate_by_system.png",
+    "/Users/noshinebnatadrita/Documents/499B/experiments/itms_aider_cline_v1/runs/itms_aider_cline_v1_live_20261021T171639Z/analysis/fig3_patch_application_reliability.png",
+    "/Users/noshinebnatadrita/Documents/499B/experiments/itms_aider_cline_v1/runs/itms_aider_cline_v1_live_20261021T171639Z/analysis/fig4_failure_categories_by_system.png",
+    "/Users/noshinebnatadrita/Documents/499B/experiments/itms_aider_cline_v1/runs/itms_aider_cline_v1_live_20261021T171639Z/analysis/fig5_token_usage_by_system.png",
+    "/Users/noshinebnatadrita/Documents/499B/experiments/itms_aider_cline_v1/runs/itms_aider_cline_v1_live_20261021T171639Z/analysis/fig6_latency_by_system.png",
+    "/Users/noshinebnatadrita/Documents/499B/experiments/itms_aider_cline_v1/runs/itms_aider_cline_v1_live_20261021T171639Z/analysis/fig7_api_cost_by_system.png",
+    "/Users/noshinebnatadrita/Documents/499B/experiments/itms_aider_cline_v1/runs/itms_aider_cline_v1_live_20261021T171639Z/analysis/fig8_task_by_system_heatmap.png",
+    "/Users/noshinebnatadrita/Documents/499B/experiments/itms_aider_cline_v1/runs/itms_aider_cline_v1_live_20261021T171639Z/analysis/fig9_repetition_variation.png",
+    "/Users/noshinebnatadrita/Documents/499B/experiments/itms_aider_cline_v1/runs/itms_aider_cline_v1_live_20261021T171639Z/analysis/fig10_per_task_comparison.png"
+  ],
+  "analysis_dir": "/Users/noshinebnatadrita/Documents/499B/experiments/itms_aider_cline_v1/runs/itms_aider_cline_v1_live_20261021T171639Z/analysis"
+}

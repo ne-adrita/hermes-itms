@@ -66,5 +66,12 @@ desktop.ini
 ~$*.docx
 Untitled document.pdf
 
-# ITMS vs Aider vs Cline experiment: live run outputs are not source.
-experiments/*/runs/
+# ITMS vs Aider vs Cline experiment: ad-hoc run outputs are not source, but the
+# validated reported dataset IS tracked, exactly like the historical
+# `pilot_runs/` directory.
+experiments/*/runs/*
+!experiments/itms_aider_cline_v1/runs/itms_aider_cline_v1_live_*/
+# ...except the bulky raw CLI event streams, which stay on disk only.
+experiments/itms_aider_cline_v1/runs/*/artifacts/*/stdout.log
+experiments/itms_aider_cline_v1/runs/*/artifacts/*/stderr.log
+experiments/itms_aider_cline_v1/runs/*/artifacts/*/cline.stdout.jsonl

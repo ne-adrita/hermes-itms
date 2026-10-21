@@ -19,9 +19,26 @@ systems/cline.py       the real `cline` CLI, driven as a subprocess
 systems/mock.py        offline stand-ins used only by the dry run
 runner.py              the orchestrator: schedule, workspaces, evaluation, artifacts
 run_experiment.py      CLI entry point (Phase 2)
+integrity.py           independent validation of a finished run (Phase 2)
+analyze.py             metrics, 10 figures and the reports (Phase 3)
 dry_run.py             offline validation; never touches the network
 tests/                 offline test suite
 ```
+
+## Budget gate
+
+The runner refuses to start a live run unless an explicit maximum spend is
+configured:
+
+* `max_spend_usd` — the maximum cumulative **reported** cost. The run stops
+  issuing further provider calls once the cumulative reported cost reaches
+  it. A breach is recorded, not silently swallowed.
+* `require_free_model` — the runner refuses to start unless `model_id` is a
+  zero-cost (`:free`) model id, so an accidental edit to `model_id` cannot
+  turn a free run into a paid one.
+
+Both are enforced in `ExperimentRunner.check_budget_preflight()`, which runs
+before the first provider call.
 
 ## Design
 
@@ -74,15 +91,34 @@ Tests:
 .venv/bin/python -m pytest experiments/itms_aider_cline_v1/tests -q
 ```
 
-Phase 2 (live) — **not** to be run until Phase 1 blockers are cleared:
+Phase 2 (live) — the 300-cell matrix:
 
 ```bash
 .venv/bin/python -m experiments.itms_aider_cline_v1.run_experiment \
-    --mode live --yes --output-dir experiments/itms_aider_cline_v1/runs/<run-id>
+    --mode live --yes \
+    --output-dir experiments/itms_aider_cline_v1/runs/itms_aider_cline_v1_live_<UTC>
+```
+
+Phase 2 validation (independent re-derivation from the files on disk):
+
+```bash
+.venv/bin/python -m experiments.itms_aider_cline_v1.integrity \
+    --run-dir experiments/itms_aider_cline_v1/runs/itms_aider_cline_v1_live_<UTC>
+```
+
+Phase 3 analysis (metrics, 10 figures, reports):
+
+```bash
+.venv/bin/python -m experiments.itms_aider_cline_v1.analyze \
+    --run-dir experiments/itms_aider_cline_v1/runs/itms_aider_cline_v1_live_<UTC>
 ```
 
 ## Outputs
 
 A run directory contains `attempts.jsonl`, `attempts.csv`, `summary.json`,
-`run_metadata.json` and `artifacts/<attempt_id>/`. The historical 120-attempt
-dataset under `pilot_runs/` is never read, appended to, or rewritten.
+`run_metadata.json`, `BENCHMARK_INTEGRITY_REPORT.md` and
+`artifacts/<attempt_id>/`. The analysis directory (default
+`<run dir>/analysis`) contains `analysis.json`, `fig1…fig10*.png`,
+`COMPARATIVE_RESULTS_REPORT.md` and `RUN_SUMMARY.md`. The historical
+120-attempt dataset under `pilot_runs/` is never read, appended to, or
+rewritten.

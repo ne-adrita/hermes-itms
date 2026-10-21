@@ -80,7 +80,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     print(f"systems    : {config.systems}")
     print(f"tasks      : {len(config.task_ids)}")
     print(f"repetitions: {config.repetitions}")
-    print(f"planned    : {config.planned_attempt_count()} attempts")
+    print(f"planned    : {config.planned_attempts} attempts")
     print(f"model      : {config.provider}/{config.model_id}")
     print(f"output     : {output_dir}")
 
