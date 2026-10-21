@@ -1,3 +1,5 @@
+import os
+
 import streamlit as st
 from config import AppConfig
 from prompt_manager import (
@@ -23,6 +25,16 @@ from relay_orchestrator import RelayOrchestrator
 from surgical_splicer import ASTNodeLocator, ASTSurgicalSplicer, TextDiffPatcher, SurgicalTarget
 from edit_orchestrator import SurgicalEditOrchestrator
 from benchmark_harness import MacroBenchmarkSuite
+from completed_benchmark_viewer import (
+    DEFAULT_ANALYSIS_DIR,
+    DEFAULT_RUN_DIR,
+    GRAPH_FILENAMES,
+    PROJECT_ROOT,
+    compute_method_metrics,
+    compute_overall,
+    load_run,
+    read_graph_bytes,
+)
 
 # --- Standard Benchmark Presets ---
 SAMPLE_CONTEXT_CODE = '''class UnusedAnalyticsTracker:
@@ -352,6 +364,14 @@ def main():
         unsafe_allow_html=True
     )
 
+    # --- Completed Benchmark At A Glance (read-only) ---
+    # The finished 120-attempt ITMS run is summarised at the top of EVERY tab
+    # so the results are visible without navigating to another tab. This only
+    # reads the artefacts of the completed run: it never runs a benchmark and
+    # never contacts a model provider.
+    completed_run = load_run(DEFAULT_RUN_DIR, DEFAULT_ANALYSIS_DIR)
+    _render_completed_benchmark_banner(completed_run)
+
     # --- Sidebar Controls ---
     st.sidebar.markdown("### Configuration")
 
@@ -475,7 +495,16 @@ def main():
             current_error_msg = clean_diag["error_message"]
 
     # --- Navigation Tabs ---
-    tab_runner, tab_telemetry, tab_cascade, tab_models, tab_surgical, tab_benchmark = st.tabs([
+    (
+        tab_completed,
+        tab_runner,
+        tab_telemetry,
+        tab_cascade,
+        tab_models,
+        tab_surgical,
+        tab_benchmark,
+    ) = st.tabs([
+        "Completed Benchmark Results",
         "Live Relay Runner (Milestones 2 & 3)",
         "Single-Query Prompt Telemetry",
         "Full Cascade Lifecycle Economics",
@@ -1005,6 +1034,299 @@ assert r.calculate_tax_allocation(0.5) == 1030.0
                 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
                 """ + "\n".join(table_rows)
             )
+
+    # =========================================================================
+    # TAB 1: Completed Benchmark Results (read-only viewer)
+    # =========================================================================
+    with tab_completed:
+        _render_completed_benchmark_results(run=completed_run)
+
+
+def _render_completed_benchmark_banner(run):
+    """
+    Render the completed benchmark as a prominent summary at the top of the
+    page, so it is visible on every tab without any navigation.
+
+    Read-only: it only uses the already-loaded artefacts of the finished run.
+    """
+    records = run.get("records") or []
+    if not records:
+        st.warning(
+            "The completed benchmark results could not be loaded from "
+            f"`{run.get('run_dir')}`. The full report is in the "
+            "'Completed Benchmark Results' tab.",
+            icon="⚠️",
+        )
+        return
+
+    overall = compute_overall(records)
+    scheduled = overall["total_scheduled"]
+    successful = overall["successful"]
+    evaluated = overall["reached_evaluation"]
+    passed = overall["evaluator_passed"]
+
+    completion_rate = (
+        f"{100.0 * overall['completion_rate']:.1f}% ({successful}/{scheduled})"
+        if overall["completion_rate"] is not None
+        else "n/a"
+    )
+    pass_rate = (
+        f"{100.0 * overall['evaluator_pass_rate']:.1f}% ({passed}/{evaluated})"
+        if overall["evaluator_pass_rate"] is not None
+        else "n/a"
+    )
+
+    st.markdown("#### Completed 120-Attempt ITMS Benchmark (live run, read-only)")
+    kpi_columns = st.columns(6)
+    kpi_items = [
+        ("Scheduled attempts", scheduled),
+        ("Successful completions", successful),
+        ("Output failures", overall["output_failures"]),
+        ("Completion rate", completion_rate),
+        ("Evaluated attempts", evaluated),
+        ("Evaluator pass rate", pass_rate),
+    ]
+    for column, (label, value) in zip(kpi_columns, kpi_items):
+        with column:
+            st.metric(label, value)
+
+    st.caption(
+        f"**Completion rate** = successful completions / **all scheduled attempts** "
+        f"({successful}/{scheduled}). **Evaluator pass rate** = candidates that "
+        f"passed the official evaluator / attempts that **reached evaluation** "
+        f"({passed}/{evaluated}); the {overall['output_failures']} output failures "
+        f"never reached the evaluator, so they are excluded from that denominator "
+        f"and counted as failures in the completion rate. Every candidate that "
+        f"reached the evaluator passed, so these results do **not** show that ITMS "
+        f"outperforms the baselines. Full details and figures: the "
+        f"'Completed Benchmark Results' tab."
+    )
+
+
+def _render_completed_benchmark_results(
+    run=None,
+    run_dir: str = DEFAULT_RUN_DIR,
+    analysis_dir: str = DEFAULT_ANALYSIS_DIR,
+):
+    """
+    Render the already-completed benchmark run.
+
+    This is a pure viewer: it reads the artefacts of a finished run and the
+    figures of the offline analysis. It never runs a benchmark, never contacts
+    a model provider and never writes anything.
+    """
+    st.subheader("Completed Benchmark Results (read-only)")
+    st.caption(
+        f"Loads the artefacts of the completed run at "
+        f"`{os.path.relpath(run_dir, PROJECT_ROOT)}`. "
+        "This tab only reads files: it never re-runs the benchmark and never "
+        "contacts a model provider."
+    )
+
+    if run is None:
+        run = load_run(run_dir, analysis_dir)
+    records = run["records"]
+
+    if run["problems"]:
+        st.warning(
+            "Some result files could not be loaded, so the figures below may be "
+            "incomplete:",
+            icon="⚠️",
+        )
+        for problem in run["problems"]:
+            st.warning(problem, icon="⚠️")
+
+    if not records:
+        st.error(
+            "No attempt records were found, so no benchmark statistics can be "
+            f"displayed. Expected `attempts.jsonl` in `{run['run_dir']}`."
+        )
+        return
+
+    overall = compute_overall(records)
+    per_method = compute_method_metrics(records)
+
+    # -- 1. Overall experiment summary -----------------------------------
+    st.markdown("#### 1. Overall experiment summary")
+
+    kpi_columns = st.columns(6)
+    kpi_items = [
+        ("Scheduled attempts", overall["total_scheduled"]),
+        ("Successful completions", overall["successful"]),
+        ("Output failures", overall["output_failures"]),
+        (
+            "Completion rate",
+            f"{100.0 * overall['completion_rate']:.1f}%"
+            f" ({overall['successful']}/{overall['total_scheduled']})"
+            if overall["completion_rate"] is not None
+            else "n/a",
+        ),
+        ("Evaluated attempts", overall["reached_evaluation"]),
+        (
+            "Evaluator pass rate",
+            f"{100.0 * overall['evaluator_pass_rate']:.1f}%"
+            f" ({overall['evaluator_passed']}/{overall['reached_evaluation']})"
+            if overall["evaluator_pass_rate"] is not None
+            else "n/a",
+        ),
+    ]
+    for column, (label, value) in zip(kpi_columns, kpi_items):
+        with column:
+            st.metric(label, value)
+
+    st.markdown(
+        f"""
+        - **Tasks:** {overall['task_count']} synthetic HumanEval-derived repair
+          tasks, crossed with {overall['method_count']} editing methods and
+          {max(1, overall['total_scheduled'] // max(1, overall['task_count'] * overall['method_count']))}
+          repetition(s) per task/method combination.
+        - **Requested model id:** `{', '.join(overall['requested_model_ids']) or 'n/a'}`
+        - **Served model id(s) observed:** `{', '.join(overall['served_model_ids']) or 'none recorded'}`
+        - **Mock attempts:** {overall['mock_attempts']} (this run is a live measurement)
+        """
+    )
+
+    if overall["output_failures"]:
+        categories = ", ".join(
+            f"`{k}` ({v})" for k, v in sorted(overall["failure_categories"].items())
+        )
+        st.info(
+            f"**An output failure is not automatically an evaluator failure.** "
+            f"{overall['output_failures']} attempt(s) failed *before* the official "
+            f"evaluator could run, because the model's output was truncated or "
+            f"could not be parsed ({categories}). They are excluded from the "
+            f"evaluator pass rate and counted as failures in the completion rate. "
+            f"The evaluator itself rejected {overall['evaluator_failed']} of the "
+            f"{overall['reached_evaluation']} attempts that reached it."
+        )
+
+    for warning in run["warnings"]:
+        st.caption(f"ℹ️ {warning}")
+
+    # -- 2. Method comparison table ---------------------------------------
+    st.markdown("#### 2. Method comparison")
+
+    header = (
+        "| Method | Scheduled | Successful | Output failures | Completion rate "
+        "(successful/scheduled) | Reached evaluation | Evaluator pass rate "
+        "(of evaluated) | Mean execution time | Mean token usage |\n"
+        "| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |"
+    )
+    body = []
+    for method, m in per_method.items():
+        completion = (
+            f"{100.0 * m['completion_rate']:.1f}% "
+            f"({m['successful']}/{m['scheduled']})"
+            if m["completion_rate"] is not None
+            else "n/a"
+        )
+        pass_rate = (
+            f"{100.0 * m['evaluator_pass_rate']:.1f}%"
+            f" ({m['evaluator_passed']}/{m['reached_evaluation']})"
+            if m["evaluator_pass_rate"] is not None
+            else "n/a"
+        )
+        latency = (
+            f"{m['mean_latency_ms']:,.0f} ms (n={m['latency_samples']})"
+            if m["mean_latency_ms"] is not None
+            else "n/a"
+        )
+        tokens = (
+            f"{m['mean_total_tokens']:,.0f} (n={m['token_samples']})"
+            if m["mean_total_tokens"] is not None
+            else "n/a"
+        )
+        body.append(
+            f"| `{method}` | {m['scheduled']} | {m['successful']} | "
+            f"{m['output_failures']} | {completion} | {m['reached_evaluation']} | "
+            f"{pass_rate} | {latency} | {tokens} |"
+        )
+    st.markdown(header + "\n" + "\n".join(body))
+
+    st.caption(
+        "**Denominators:** *Completion rate* = successful completions divided by "
+        "**all scheduled attempts** for that method. *Evaluator pass rate* = "
+        "attempts that passed the official evaluator divided by the attempts "
+        "that **reached evaluation** for that method. Attempts that failed "
+        "before evaluation (truncated or unparsable output) count as failures in "
+        "the completion rate and are absent from the evaluator denominator. "
+        "*Mean execution time* uses every attempt with a recorded latency; "
+        "*mean token usage* uses provider-reported totals only."
+    )
+
+    # -- 3. Existing graphs ----------------------------------------------
+    st.markdown("#### 3. Figures from the offline analysis")
+
+    graph_captions = {
+        "fig1_pass_rate_by_method.png": (
+            "Official evaluator pass rate by method "
+            "(denominator: attempts that reached evaluation)"
+        ),
+        "fig1b_completion_rate_by_method.png": (
+            "Attempt completion rate by method "
+            "(denominator: all scheduled attempts)"
+        ),
+        "fig2_success_vs_failure_by_method.png": (
+            "Successful versus failed attempts by method"
+        ),
+        "fig3_mean_execution_time_by_method.png": (
+            "Mean execution time per attempt by method"
+        ),
+        "fig4_mean_token_usage_by_method.png": (
+            "Mean token usage per attempt by method (provider-reported totals)"
+        ),
+        "fig5_task_by_method_heatmap.png": (
+            "Task-by-method evaluator pass rate heatmap "
+            "(denominator: evaluated attempts per cell)"
+        ),
+    }
+    for filename in GRAPH_FILENAMES:
+        data = read_graph_bytes(run["analysis_dir"], filename)
+        if data is None:
+            st.warning(
+                f"Figure `{filename}` was not found in `{run['analysis_dir']}` "
+                "and cannot be displayed.",
+                icon="⚠️",
+            )
+            continue
+        st.image(
+            data,
+            width="stretch",
+        )
+        st.caption(graph_captions.get(filename, filename))
+
+    # -- 4. Limitations and interpretation --------------------------------
+    st.markdown("#### 4. Research limitations and interpretation")
+
+    st.warning(
+        """
+**How to read these numbers**
+
+- **Evaluator pass rate** is calculated **only from attempts that reached
+  evaluation** (the official evaluator actually ran). Attempts whose output was
+  truncated or unparsable never reached it.
+- **Completion rate** is calculated from **all scheduled attempts**, so those
+  same output failures count against it.
+- **Every candidate that reached the evaluator passed in this run.** The
+  evaluator pass rate is therefore 100% for all three methods and, on its own,
+  **does not demonstrate that ITMS is better than the baselines** — it only
+  shows that the harness works end to end on a pinned model.
+- **Six attempts had truncated or unparsable output.** They failed before
+  evaluation, so they reduce the completion rate while leaving the evaluator
+  pass rate unchanged. The visible difference between methods in this run is
+  therefore a *completion* difference (largely an output-token-budget effect),
+  not a demonstrated difference in repair quality.
+- **The task-by-method heatmap shows the pass rate among evaluated attempts.**
+  A cell can read **100%** even when one of its scheduled attempts failed
+  before evaluation; only a cell whose attempts *all* failed before evaluation
+  is marked "n/e".
+- **This is a 120-attempt pilot** over 20 synthetic HumanEval-derived repair
+  tasks with two repetitions per method/task combination, on a single run
+  order and a single seed. It must **not** be presented as conclusive evidence
+  of general superiority of any editing method.
+""",
+        icon="⚠️",
+    )
 
 
 if __name__ == "__main__":
