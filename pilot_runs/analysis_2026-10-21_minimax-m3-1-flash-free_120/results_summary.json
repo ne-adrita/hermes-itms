@@ -1,0 +1,164 @@
+{
+  "run_directory": "/Users/noshinebnatadrita/Documents/499B/pilot_runs/2026-10-21_minimax-m3-1-flash-free_120_attempts",
+  "analysis_directory": "/Users/noshinebnatadrita/Documents/499B/pilot_runs/analysis_2026-10-21_minimax-m3-1-flash-free_120",
+  "run_id": "604e37cd3dc4",
+  "created_at_utc": "2026-10-21T14:18:23Z",
+  "mode": "live",
+  "is_measurement": true,
+  "declared_provider": "openrouter",
+  "effective_provider": "openrouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "task_manifest_digest": "92077bdca33b75b3ca3c7c15a55b237b6c1f5c79d1da20ebb0f9efb4d23d08f1",
+  "seed": 20261021,
+  "planned_attempts": 120,
+  "recorded_attempts": 120,
+  "successful_attempts": 114,
+  "failed_attempts": 6,
+  "status_counts": {
+    "repair_success": 114,
+    "output_parse_error": 6
+  },
+  "failure_category_counts": {
+    "truncated_output": 6
+  },
+  "truncated_output_attempts": 6,
+  "truncation_by_method": {
+    "itms_ast_splice": 5,
+    "full_file_regeneration": 1
+  },
+  "per_method": {
+    "full_file_regeneration": {
+      "n": 40,
+      "success": 39,
+      "failed": 1,
+      "evaluated": 39,
+      "passed": 39,
+      "pass_rate": 1.0,
+      "status_counts": {
+        "repair_success": 39,
+        "output_parse_error": 1
+      },
+      "failure_category_counts": {
+        "truncated_output": 1
+      },
+      "latency_n": 40,
+      "mean_latency_ms": 5138.705134447082,
+      "token_n": 40,
+      "mean_total_tokens": 1091.8,
+      "total_tokens_sum": 43672
+    },
+    "search_replace_patch": {
+      "n": 40,
+      "success": 40,
+      "failed": 0,
+      "evaluated": 40,
+      "passed": 40,
+      "pass_rate": 1.0,
+      "status_counts": {
+        "repair_success": 40
+      },
+      "failure_category_counts": {},
+      "latency_n": 40,
+      "mean_latency_ms": 4150.127351027913,
+      "token_n": 40,
+      "mean_total_tokens": 931.125,
+      "total_tokens_sum": 37245
+    },
+    "itms_ast_splice": {
+      "n": 40,
+      "success": 35,
+      "failed": 5,
+      "evaluated": 35,
+      "passed": 35,
+      "pass_rate": 1.0,
+      "status_counts": {
+        "output_parse_error": 5,
+        "repair_success": 35
+      },
+      "failure_category_counts": {
+        "truncated_output": 5
+      },
+      "latency_n": 40,
+      "mean_latency_ms": 9911.71843650227,
+      "token_n": 40,
+      "mean_total_tokens": 1411.825,
+      "total_tokens_sum": 56473
+    }
+  },
+  "per_task_counts": {
+    "HE-EDIT-001": 6,
+    "HE-EDIT-002": 6,
+    "HE-EDIT-003": 6,
+    "HE-EDIT-004": 6,
+    "HE-EDIT-005": 6,
+    "HE-EDIT-006": 6,
+    "HE-EDIT-007": 6,
+    "HE-EDIT-008": 6,
+    "HE-EDIT-009": 6,
+    "HE-EDIT-010": 6,
+    "HE-EDIT-011": 6,
+    "HE-EDIT-012": 6,
+    "HE-EDIT-013": 6,
+    "HE-EDIT-014": 6,
+    "HE-EDIT-015": 6,
+    "HE-EDIT-016": 6,
+    "HE-EDIT-017": 6,
+    "HE-EDIT-018": 6,
+    "HE-EDIT-019": 6,
+    "HE-EDIT-020": 6
+  },
+  "model_identity": {
+    "requested_model_ids": [
+      "minimax/minimax-m3.1-flash:free"
+    ],
+    "served_model_id_counts": {
+      "minimax/minimax-m3.1-flash:free": 120
+    },
+    "single_served_model": true,
+    "served_matches_requested": true,
+    "attempts_without_served_model_id": 0
+  },
+  "integrity": {
+    "jsonl_csv_same_attempt_ids": true,
+    "jsonl_csv_same_status": true,
+    "summary_recorded_matches": true,
+    "summary_planned_matches": true,
+    "summary_artifacts_persisted_matches": true,
+    "candidate_hashes_all_match": true,
+    "candidate_hash_mismatches": [],
+    "candidate_redacted_count": 0,
+    "candidate_records_without_hash": [],
+    "artifact_status_counts": {
+      "ok": 120
+    },
+    "mock_attempts": 0,
+    "modes_seen": [
+      "live"
+    ],
+    "is_measurement": true,
+    "requested_model_ids": [
+      "minimax/minimax-m3.1-flash:free"
+    ],
+    "served_model_id_counts": {
+      "minimax/minimax-m3.1-flash:free": 120
+    },
+    "single_served_model": true,
+    "served_matches_requested": true,
+    "attempts_without_served_model_id": 0,
+    "secret_like_hits_in_artifacts": []
+  },
+  "exclusions": {
+    "latency": "attempts with latency_ms == null are excluded (never imputed)",
+    "tokens": "attempts without a provider-reported total_tokens (usage_source 'local_estimate*' or null) are excluded (never imputed)",
+    "pass_rate": "denominator is the number of attempts for which the official evaluator actually ran (evaluation_attempted == true)"
+  },
+  "figures": {
+    "fig1_pass_rate_by_method": "pilot_runs/analysis_2026-10-21_minimax-m3-1-flash-free_120/fig1_pass_rate_by_method.png",
+    "fig1b_completion_rate_by_method": "pilot_runs/analysis_2026-10-21_minimax-m3-1-flash-free_120/fig1b_completion_rate_by_method.png",
+    "fig2_success_vs_failure_by_method": "pilot_runs/analysis_2026-10-21_minimax-m3-1-flash-free_120/fig2_success_vs_failure_by_method.png",
+    "fig3_mean_execution_time_by_method": "pilot_runs/analysis_2026-10-21_minimax-m3-1-flash-free_120/fig3_mean_execution_time_by_method.png",
+    "fig4_mean_token_usage_by_method": "pilot_runs/analysis_2026-10-21_minimax-m3-1-flash-free_120/fig4_mean_token_usage_by_method.png",
+    "fig5_task_by_method_heatmap": "pilot_runs/analysis_2026-10-21_minimax-m3-1-flash-free_120/fig5_task_by_method_heatmap.png"
+  },
+  "elapsed_wall_clock_ms": 768822.085
+}

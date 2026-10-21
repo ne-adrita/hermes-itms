@@ -1,0 +1,347 @@
+{
+  "schema_version": "1.0",
+  "attempts_recorded": 3,
+  "attempts_with_local_token_estimates": 0,
+  "attempts_truncated_by_provider": 1,
+  "observed_served_model_ids": [
+    "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+    "nvidia/nemotron-3-ultra-550b-a55b:free"
+  ],
+  "methods": [
+    "full_file_regeneration",
+    "itms_ast_splice",
+    "search_replace_patch"
+  ],
+  "contains_mock_results": false,
+  "is_measurement": true,
+  "mock_warning": null,
+  "status_counts": {
+    "output_parse_error": 2,
+    "repair_success": 1
+  },
+  "failure_categories": {
+    "none": 1,
+    "output_parse_error": 1,
+    "truncated_output": 1
+  },
+  "attempts_with_provider_reported_usage": 3,
+  "attempts_with_provider_reported_cost": 0,
+  "run_id": "b6809903fcaa",
+  "mode": "live",
+  "elapsed_wall_clock_ms": 45247.232,
+  "planned_attempts": 3,
+  "recorded_attempts": 3,
+  "method_metrics": {
+    "full_file_regeneration": {
+      "method": "full_file_regeneration",
+      "denominators": {
+        "scheduled_attempts": 1,
+        "recorded_attempts": 1,
+        "attempted_attempts": 1,
+        "candidate_produced_attempts": 0,
+        "tasks": 1,
+        "reps_per_task": 1
+      },
+      "repair_success": {
+        "count": 0,
+        "rate_over_scheduled": 0.0,
+        "rate_over_attempted": 0.0
+      },
+      "task_level": {
+        "tasks_with_at_least_one_success": 0,
+        "tasks_total": 1,
+        "task_success_rate": 0.0,
+        "mean_task_pass_rate": 0.0,
+        "per_task_pass_rate": {
+          "HE-EDIT-006": 0.0
+        }
+      },
+      "syntax_valid": {
+        "count": 0,
+        "rate_over_candidates": null
+      },
+      "test_pass": {
+        "count": 0,
+        "rate_over_candidates": null
+      },
+      "malformed_output": {
+        "count": 1,
+        "rate_over_scheduled": 1.0
+      },
+      "provider_failures": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "timeouts": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "failure_categories": {
+        "output_parse_error": 1
+      },
+      "status_counts": {
+        "output_parse_error": 1
+      },
+      "latency_ms": {
+        "mean": 5904.403374996036,
+        "median": 5904.403374996036,
+        "min": 5904.403374996036,
+        "max": 5904.403374996036,
+        "measured_attempts": 1
+      },
+      "provider_latency_ms": {
+        "mean": 5903.630334069021,
+        "median": 5903.630334069021,
+        "measured_attempts": 1
+      },
+      "token_usage": {
+        "provider_reported_attempts": 1,
+        "provider_partial_attempts": 0,
+        "local_estimate_only_attempts": 0,
+        "missing_attempts": 0,
+        "prompt_tokens_total": 477,
+        "completion_tokens_total": 535,
+        "total_tokens_total": 1012,
+        "mean_total_tokens": 1012.0,
+        "note": "Totals include provider-reported values only. Local token estimates are stored per attempt in estimated_prompt_tokens / estimated_completion_tokens and are never added to a provider-reported total."
+      },
+      "cost": {
+        "provider_reported_attempts": 0,
+        "missing_attempts": 1,
+        "total_cost_usd": null,
+        "source": null
+      },
+      "mock_attempts": 0
+    },
+    "search_replace_patch": {
+      "method": "search_replace_patch",
+      "denominators": {
+        "scheduled_attempts": 1,
+        "recorded_attempts": 1,
+        "attempted_attempts": 1,
+        "candidate_produced_attempts": 0,
+        "tasks": 1,
+        "reps_per_task": 1
+      },
+      "repair_success": {
+        "count": 0,
+        "rate_over_scheduled": 0.0,
+        "rate_over_attempted": 0.0
+      },
+      "task_level": {
+        "tasks_with_at_least_one_success": 0,
+        "tasks_total": 1,
+        "task_success_rate": 0.0,
+        "mean_task_pass_rate": 0.0,
+        "per_task_pass_rate": {
+          "HE-EDIT-006": 0.0
+        }
+      },
+      "syntax_valid": {
+        "count": 0,
+        "rate_over_candidates": null
+      },
+      "test_pass": {
+        "count": 0,
+        "rate_over_candidates": null
+      },
+      "malformed_output": {
+        "count": 1,
+        "rate_over_scheduled": 1.0
+      },
+      "provider_failures": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "timeouts": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "failure_categories": {
+        "truncated_output": 1
+      },
+      "status_counts": {
+        "output_parse_error": 1
+      },
+      "latency_ms": {
+        "mean": 18420.976332970895,
+        "median": 18420.976332970895,
+        "min": 18420.976332970895,
+        "max": 18420.976332970895,
+        "measured_attempts": 1
+      },
+      "provider_latency_ms": {
+        "mean": 18420.065416023135,
+        "median": 18420.065416023135,
+        "measured_attempts": 1
+      },
+      "token_usage": {
+        "provider_reported_attempts": 1,
+        "provider_partial_attempts": 0,
+        "local_estimate_only_attempts": 0,
+        "missing_attempts": 0,
+        "prompt_tokens_total": 500,
+        "completion_tokens_total": 2048,
+        "total_tokens_total": 2548,
+        "mean_total_tokens": 2548.0,
+        "note": "Totals include provider-reported values only. Local token estimates are stored per attempt in estimated_prompt_tokens / estimated_completion_tokens and are never added to a provider-reported total."
+      },
+      "cost": {
+        "provider_reported_attempts": 0,
+        "missing_attempts": 1,
+        "total_cost_usd": null,
+        "source": null
+      },
+      "mock_attempts": 0
+    },
+    "itms_ast_splice": {
+      "method": "itms_ast_splice",
+      "denominators": {
+        "scheduled_attempts": 1,
+        "recorded_attempts": 1,
+        "attempted_attempts": 1,
+        "candidate_produced_attempts": 1,
+        "tasks": 1,
+        "reps_per_task": 1
+      },
+      "repair_success": {
+        "count": 1,
+        "rate_over_scheduled": 1.0,
+        "rate_over_attempted": 1.0
+      },
+      "task_level": {
+        "tasks_with_at_least_one_success": 1,
+        "tasks_total": 1,
+        "task_success_rate": 1.0,
+        "mean_task_pass_rate": 1.0,
+        "per_task_pass_rate": {
+          "HE-EDIT-006": 1.0
+        }
+      },
+      "syntax_valid": {
+        "count": 1,
+        "rate_over_candidates": 1.0
+      },
+      "test_pass": {
+        "count": 1,
+        "rate_over_candidates": 1.0
+      },
+      "malformed_output": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "provider_failures": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "timeouts": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "failure_categories": {
+        "none": 1
+      },
+      "status_counts": {
+        "repair_success": 1
+      },
+      "latency_ms": {
+        "mean": 20780.47191700898,
+        "median": 20780.47191700898,
+        "min": 20780.47191700898,
+        "max": 20780.47191700898,
+        "measured_attempts": 1
+      },
+      "provider_latency_ms": {
+        "mean": 20650.249000056647,
+        "median": 20650.249000056647,
+        "measured_attempts": 1
+      },
+      "token_usage": {
+        "provider_reported_attempts": 1,
+        "provider_partial_attempts": 0,
+        "local_estimate_only_attempts": 0,
+        "missing_attempts": 0,
+        "prompt_tokens_total": 499,
+        "completion_tokens_total": 818,
+        "total_tokens_total": 1317,
+        "mean_total_tokens": 1317.0,
+        "note": "Totals include provider-reported values only. Local token estimates are stored per attempt in estimated_prompt_tokens / estimated_completion_tokens and are never added to a provider-reported total."
+      },
+      "cost": {
+        "provider_reported_attempts": 0,
+        "missing_attempts": 1,
+        "total_cost_usd": null,
+        "source": null
+      },
+      "mock_attempts": 0
+    }
+  },
+  "paired_task_comparisons": [
+    {
+      "method_a": "full_file_regeneration",
+      "method_b": "search_replace_patch",
+      "unit_of_analysis": "task",
+      "paired_tasks": 1,
+      "mean_difference_a_minus_b": 0.0,
+      "bootstrap_95ci": {
+        "mean": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.0,
+        "n": 1
+      },
+      "task_wins_a": 0,
+      "task_losses_a": 0,
+      "task_ties": 1,
+      "per_task_difference": {
+        "HE-EDIT-006": 0.0
+      },
+      "caveat": "20 tasks; the bootstrap interval over tasks reflects task-level variability only. No strong statistical-significance claim is made, and this is not a HumanEval pass rate."
+    },
+    {
+      "method_a": "full_file_regeneration",
+      "method_b": "itms_ast_splice",
+      "unit_of_analysis": "task",
+      "paired_tasks": 1,
+      "mean_difference_a_minus_b": -1.0,
+      "bootstrap_95ci": {
+        "mean": -1.0,
+        "ci_low": -1.0,
+        "ci_high": -1.0,
+        "n": 1
+      },
+      "task_wins_a": 0,
+      "task_losses_a": 1,
+      "task_ties": 0,
+      "per_task_difference": {
+        "HE-EDIT-006": -1.0
+      },
+      "caveat": "20 tasks; the bootstrap interval over tasks reflects task-level variability only. No strong statistical-significance claim is made, and this is not a HumanEval pass rate."
+    },
+    {
+      "method_a": "search_replace_patch",
+      "method_b": "itms_ast_splice",
+      "unit_of_analysis": "task",
+      "paired_tasks": 1,
+      "mean_difference_a_minus_b": -1.0,
+      "bootstrap_95ci": {
+        "mean": -1.0,
+        "ci_low": -1.0,
+        "ci_high": -1.0,
+        "n": 1
+      },
+      "task_wins_a": 0,
+      "task_losses_a": 1,
+      "task_ties": 0,
+      "per_task_difference": {
+        "HE-EDIT-006": -1.0
+      },
+      "caveat": "20 tasks; the bootstrap interval over tasks reflects task-level variability only. No strong statistical-significance claim is made, and this is not a HumanEval pass rate."
+    }
+  ],
+  "artifact_files": {
+    "attempts_jsonl": "attempts.jsonl",
+    "attempts_csv": "attempts.csv",
+    "summary_json": "summary.json",
+    "run_metadata_json": "run_metadata.json"
+  }
+}

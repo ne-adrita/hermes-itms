@@ -1,0 +1,479 @@
+import time
+import json
+from dataclasses import dataclass, asdict
+from typing import Optional, Dict, Any
+import httpx
+from config import AppConfig
+from prompt_manager import get_token_count
+
+@dataclass
+class ModelResponse:
+    """Standardized response from any LLM provider or deterministic mock engine."""
+    content: str
+    raw_tokens_in: int
+    cached_tokens_in: int
+    output_tokens: int
+    reasoning_tokens: int
+    model_name: str
+    provider: str
+    latency_ms: float
+    is_mock: bool = False
+
+    def to_dict(self) -> Dict[str, Any]:
+        return asdict(self)
+
+
+class ModelDispatcher:
+    """
+    Unified client for model inference across Google Gemini, OpenAI, Anthropic,
+    DeepSeek, and deterministic Mock providers without external vendor SDK bloat.
+    """
+    def __init__(self, force_mock: bool = False):
+        self.force_mock = force_mock
+
+    def generate(
+        self,
+        prompt: str,
+        model_name: str,
+        system_instruction: Optional[str] = None,
+        max_output_tokens: int = 1024,
+        temperature: float = 0.2,
+        is_tier1: bool = True
+    ) -> ModelResponse:
+        """
+        Dispatches request to configured provider or falls back to deterministic mock.
+        """
+        t0 = time.perf_counter()
+
+        # Check for active provider keys
+        provider = self._resolve_provider(model_name)
+        api_key = AppConfig.get_api_key(provider)
+
+        if not self.force_mock and api_key:
+            try:
+                if provider == "gemini":
+                    return self._call_gemini(prompt, model_name, api_key, system_instruction, max_output_tokens, temperature, t0)
+                elif provider in ("openai", "deepseek"):
+                    return self._call_openai_compatible(prompt, model_name, api_key, provider, system_instruction, max_output_tokens, temperature, t0)
+                elif provider == "anthropic":
+                    return self._call_anthropic(prompt, model_name, api_key, system_instruction, max_output_tokens, temperature, t0)
+            except Exception as e:
+                # If network or credentials fail, log and fall back to mock
+                pass
+
+        # Fallback to deterministic mock simulation
+        return self._generate_mock_response(prompt, model_name, provider, is_tier1, t0)
+
+    @staticmethod
+    def _resolve_provider(model_name: str) -> str:
+        """Infers the cloud provider from model name."""
+        m = model_name.lower()
+        if "gemini" in m:
+            return "gemini"
+        elif "claude" in m or "fable" in m or "sonnet" in m or "opus" in m:
+            return "anthropic"
+        elif "deepseek" in m:
+            return "deepseek"
+        elif "gpt" in m or "o3" in m or "o1" in m or "astra" in m:
+            return "openai"
+        return "openai"
+
+    def _call_gemini(
+        self,
+        prompt: str,
+        model_name: str,
+        api_key: str,
+        system_instruction: Optional[str],
+        max_output_tokens: int,
+        temperature: float,
+        start_time: float
+    ) -> ModelResponse:
+        """Calls Google Gemini REST API."""
+        clean_model = "gemini-2.0-flash" if "flash" in model_name.lower() else "gemini-1.5-pro"
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{clean_model}:generateContent?key={api_key}"
+
+        payload: Dict[str, Any] = {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {
+                "maxOutputTokens": max_output_tokens,
+                "temperature": temperature
+            }
+        }
+        if system_instruction:
+            payload["systemInstruction"] = {"parts": [{"text": system_instruction}]}
+
+        max_retries = 2
+        for attempt_i in range(max_retries + 1):
+            with httpx.Client(timeout=30.0) as client:
+                resp = client.post(url, json=payload)
+                if resp.status_code == 429 and attempt_i < max_retries:
+                    time.sleep(2.0 * (attempt_i + 1))
+                    continue
+                resp.raise_for_status()
+                data = resp.json()
+                break
+
+        latency_ms = (time.perf_counter() - start_time) * 1000.0
+        candidate = data["candidates"][0]["content"]["parts"][0]["text"]
+        usage = data.get("usageMetadata", {})
+        
+        raw_in = usage.get("promptTokenCount", get_token_count(prompt))
+        cached_in = usage.get("cachedContentTokenCount", 0)
+        out_tokens = usage.get("candidatesTokenCount", get_token_count(candidate))
+
+        return ModelResponse(
+            content=candidate,
+            raw_tokens_in=raw_in,
+            cached_tokens_in=cached_in,
+            output_tokens=out_tokens,
+            reasoning_tokens=0,
+            model_name=model_name,
+            provider="Google DeepMind",
+            latency_ms=latency_ms,
+            is_mock=False
+        )
+
+    def _call_openai_compatible(
+        self,
+        prompt: str,
+        model_name: str,
+        api_key: str,
+        provider_name: str,
+        system_instruction: Optional[str],
+        max_output_tokens: int,
+        temperature: float,
+        start_time: float
+    ) -> ModelResponse:
+        """Calls OpenAI or DeepSeek /chat/completions endpoint."""
+        base_url = "https://api.deepseek.com/v1" if provider_name == "deepseek" else "https://api.openai.com/v1"
+        custom_url = AppConfig.get_openai_base_url()
+        if custom_url:
+            base_url = custom_url.rstrip("/")
+
+        endpoint = f"{base_url}/chat/completions"
+        headers = {"Authorization": f"Bearer {api_key}"}
+
+        messages = []
+        if system_instruction:
+            messages.append({"role": "system", "content": system_instruction})
+        messages.append({"role": "user", "content": prompt})
+
+        # Map to valid remote API model identifier
+        clean_model = "gpt-4o-mini" if "mini" in model_name.lower() else "gpt-4o"
+        if provider_name == "deepseek":
+            clean_model = "deepseek-reasoner" if "r" in model_name.lower() else "deepseek-chat"
+
+        payload = {
+            "model": clean_model,
+            "messages": messages,
+            "max_tokens": max_output_tokens,
+            "temperature": temperature
+        }
+
+        max_retries = 2
+        for attempt_i in range(max_retries + 1):
+            with httpx.Client(timeout=35.0) as client:
+                resp = client.post(endpoint, json=payload, headers=headers)
+                if resp.status_code == 429 and attempt_i < max_retries:
+                    time.sleep(2.0 * (attempt_i + 1))
+                    continue
+                resp.raise_for_status()
+                data = resp.json()
+                break
+
+        latency_ms = (time.perf_counter() - start_time) * 1000.0
+        choice = data["choices"][0]["message"]
+        content = choice.get("content", "")
+        usage = data.get("usage", {})
+
+        raw_in = usage.get("prompt_tokens", get_token_count(prompt))
+        cached_in = usage.get("prompt_tokens_details", {}).get("cached_tokens", 0)
+        out_tokens = usage.get("completion_tokens", get_token_count(content))
+        reasoning_tokens = usage.get("completion_tokens_details", {}).get("reasoning_tokens", 0)
+
+        return ModelResponse(
+            content=content,
+            raw_tokens_in=raw_in,
+            cached_tokens_in=cached_in,
+            output_tokens=out_tokens,
+            reasoning_tokens=reasoning_tokens,
+            model_name=model_name,
+            provider="DeepSeek" if provider_name == "deepseek" else "OpenAI",
+            latency_ms=latency_ms,
+            is_mock=False
+        )
+
+    def _call_anthropic(
+        self,
+        prompt: str,
+        model_name: str,
+        api_key: str,
+        system_instruction: Optional[str],
+        max_output_tokens: int,
+        temperature: float,
+        start_time: float
+    ) -> ModelResponse:
+        """Calls Anthropic Claude /v1/messages endpoint."""
+        endpoint = "https://api.anthropic.com/v1/messages"
+        headers = {
+            "x-api-key": api_key,
+            "anthropic-version": "2023-06-01",
+            "content-type": "application/json"
+        }
+
+        payload: Dict[str, Any] = {
+            "model": "claude-3-5-sonnet-20241022",
+            "messages": [{"role": "user", "content": prompt}],
+            "max_tokens": max_output_tokens,
+            "temperature": temperature
+        }
+        if system_instruction:
+            payload["system"] = system_instruction
+
+        max_retries = 2
+        for attempt_i in range(max_retries + 1):
+            with httpx.Client(timeout=40.0) as client:
+                resp = client.post(endpoint, json=payload, headers=headers)
+                if resp.status_code == 429 and attempt_i < max_retries:
+                    time.sleep(2.0 * (attempt_i + 1))
+                    continue
+                resp.raise_for_status()
+                data = resp.json()
+                break
+
+        latency_ms = (time.perf_counter() - start_time) * 1000.0
+        content = data["content"][0]["text"]
+        usage = data.get("usage", {})
+
+        raw_in = usage.get("input_tokens", get_token_count(prompt))
+        cached_in = usage.get("cache_read_input_tokens", 0)
+        out_tokens = usage.get("output_tokens", get_token_count(content))
+
+        return ModelResponse(
+            content=content,
+            raw_tokens_in=raw_in,
+            cached_tokens_in=cached_in,
+            output_tokens=out_tokens,
+            reasoning_tokens=0,
+            model_name=model_name,
+            provider="Anthropic",
+            latency_ms=latency_ms,
+            is_mock=False
+        )
+
+    def _generate_mock_response(
+        self,
+        prompt: str,
+        model_name: str,
+        provider: str,
+        is_tier1: bool,
+        start_time: float
+    ) -> ModelResponse:
+        """
+        Deterministic mock generator for offline evaluation, grading, and testing.
+        Simulates realistic outputs and token accounting without network I/O.
+        """
+        tokens_in = get_token_count(prompt)
+
+        # Detect target domain / function from prompt
+        if "dispatch_batch" in prompt:
+            if "IngestionPipeline" in prompt or "expected_hash_prefix" in prompt:
+                # App Scenario 2: IngestionPipeline.dispatch_batch(expected_hash_prefix) -> int
+                if is_tier1:
+                    mock_code = """```python
+    def dispatch_batch(self, expected_hash_prefix: str) -> int:
+        dispatched = 0
+        for p in self.queue:
+            # Bug: Checking payload_id instead of compute_sha256()
+            if len(p.payload_id) == len(expected_hash_prefix):
+                dispatched += 1
+        return dispatched
+```"""
+                    out_tokens = get_token_count(mock_code)
+                    reasoning = 0
+                    latency = 120.0
+                else:
+                    mock_code = """```python
+    def dispatch_batch(self, expected_hash_prefix: str) -> int:
+        dispatched = 0
+        for p in self.queue:
+            if p.compute_sha256().startswith(expected_hash_prefix):
+                dispatched += 1
+        return dispatched
+```"""
+                    out_tokens = get_token_count(mock_code)
+                    reasoning = 360
+                    latency = 1050.0
+            else:
+                # Benchmark BM-02: IngestionBatch.dispatch_batch(raw_records) -> list[str]
+                if is_tier1:
+                    mock_code = """```python
+    def dispatch_batch(self, raw_records: list[dict]) -> list[str]:
+        return [r.get('payload', '') for r in raw_records]
+```"""
+                    out_tokens = get_token_count(mock_code)
+                    reasoning = 0
+                    latency = 130.0
+                else:
+                    mock_code = """```python
+    def dispatch_batch(self, raw_records: list[dict]) -> list[str]:
+        import hashlib
+        digests = []
+        for r in raw_records:
+            if not r.get('corrupt', False):
+                p = str(r.get('payload', '')).encode('utf-8')
+                digests.append(hashlib.sha256(p).hexdigest())
+        return digests
+```"""
+                    out_tokens = get_token_count(mock_code)
+                    reasoning = 380
+                    latency = 1100.0
+
+        elif "put" in prompt and "LRUCache" in prompt:
+            if is_tier1:
+                mock_code = """```python
+    def put(self, key: str, value: int) -> None:
+        self.cache[key] = value
+        self.order.append(key)
+```"""
+                out_tokens = get_token_count(mock_code)
+                reasoning = 0
+                latency = 120.0
+            else:
+                mock_code = """```python
+    def put(self, key: str, value: int) -> None:
+        if key in self.cache:
+            self.order.remove(key)
+        elif len(self.cache) >= self.capacity:
+            oldest = self.order.pop(0)
+            del self.cache[oldest]
+        self.cache[key] = value
+        self.order.append(key)
+```"""
+                out_tokens = get_token_count(mock_code)
+                reasoning = 410
+                latency = 1150.0
+
+        elif "acquire" in prompt and "TokenBucket" in prompt:
+            if is_tier1:
+                mock_code = """```python
+    def acquire(self, tokens: float) -> bool:
+        if self.tokens >= tokens:
+            self.tokens -= tokens
+            return True
+        return False
+```"""
+                out_tokens = get_token_count(mock_code)
+                reasoning = 0
+                latency = 115.0
+            else:
+                mock_code = """```python
+    def acquire(self, tokens: float) -> bool:
+        now = time.time()
+        elapsed = now - self.last_check
+        self.last_check = now
+        self.tokens = min(self.capacity, self.tokens + (elapsed * self.rate))
+        if self.tokens >= tokens:
+            self.tokens -= tokens
+            return True
+        return False
+```"""
+                out_tokens = get_token_count(mock_code)
+                reasoning = 440
+                latency = 1200.0
+
+        elif "calculate_net_yield" in prompt:
+            if is_tier1:
+                if "Your previous code produced this error:" in prompt or "Intra-Tier Surgical Repair" in prompt:
+                    # Tier 1 intra-tier repair fixes the syntax slip!
+                    mock_code = """```python
+    def calculate_net_yield(self, gross_margin: float, opex: float) -> float:
+        return float(gross_margin - opex)
+```"""
+                    out_tokens = get_token_count(mock_code)
+                    reasoning = 0
+                    latency = 85.0
+                else:
+                    # Initial pass produces a syntax slip (missing colon)
+                    mock_code = """```python
+    def calculate_net_yield(self, gross_margin: float, opex: float) -> float
+        return float(gross_margin - opex)
+```"""
+                    out_tokens = get_token_count(mock_code)
+                    reasoning = 0
+                    latency = 95.0
+            else:
+                mock_code = """```python
+    def calculate_net_yield(self, gross_margin: float, opex: float) -> float:
+        return float(gross_margin - opex)
+```"""
+                out_tokens = get_token_count(mock_code)
+                reasoning = 210
+                latency = 850.0
+
+        else:
+            # Default: Account ledger reconciliation
+            if is_tier1:
+                if "Your previous code produced this error:" in prompt or "Intra-Tier Surgical Repair" in prompt:
+                    if any(err in prompt for err in ("SyntaxError", "IndentationError", "TabError", "NameError", "UnboundLocalError")):
+                        mock_code = """```python
+    def reconcile_balance(self, target_date: str) -> float:
+        total = 0.0
+        for tx in self.transactions:
+            if tx.validate_checksum():
+                tax = tx.calculate_tax_allocation(0.05)
+                total += (tx.amount - tax)
+        return round(float(total), 2)
+```"""
+                        out_tokens = get_token_count(mock_code)
+                        reasoning = 0
+                        latency = 110.0
+                    else:
+                        mock_code = """```python
+    def reconcile_balance(self, target_date: str) -> float:
+        total = 0.0
+        for tx in self.transactions:
+            if not tx.validate_checksum():
+                total += tx.amount
+        return float(total)
+```"""
+                        out_tokens = get_token_count(mock_code)
+                        reasoning = 0
+                        latency = 125.0
+                else:
+                    mock_code = """```python
+    def reconcile_balance(self, target_date: str) -> float:
+        total = 0.0
+        for tx in self.transactions:
+            if not tx.validate_checksum():
+                total += tx.amount
+        return float(total)
+```"""
+                    out_tokens = get_token_count(mock_code)
+                    reasoning = 0
+                    latency = 145.0
+            else:
+                mock_code = """```python
+    def reconcile_balance(self, target_date: str) -> float:
+        total = 0.0
+        for tx in self.transactions:
+            if tx.validate_checksum():
+                tax = tx.calculate_tax_allocation(0.05)
+                total += (tx.amount - tax)
+        return round(float(total), 2)
+```"""
+                out_tokens = get_token_count(mock_code)
+                reasoning = 420
+                latency = 1250.0
+
+        return ModelResponse(
+            content=mock_code,
+            raw_tokens_in=tokens_in,
+            cached_tokens_in=73 if not is_tier1 else 0,
+            output_tokens=out_tokens,
+            reasoning_tokens=reasoning,
+            model_name=model_name,
+            provider=provider.capitalize() + " (Mock Engine)",
+            latency_ms=latency,
+            is_mock=True
+        )

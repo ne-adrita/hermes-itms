@@ -1,0 +1,19 @@
+{
+  "attempt_id": "15b0de57c6f8480cb5fcf0eb053ee8e5",
+  "run_id": "604e37cd3dc4",
+  "task_id": "HE-EDIT-013",
+  "humaneval_task_id": "HumanEval/8",
+  "method": "itms_ast_splice",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "c59c8c4fe319cf71bd82bb33923d602b4ce3739a4fbc579f1dc5440405ca6513",
+  "response_bytes": 493,
+  "response_text": "```python\ndef sum_product(numbers: List[int]) -> Tuple[int, int]:\n    \"\"\" For a given list of integers, return a tuple consisting of a sum and a product of all the integers in a list.\n    Empty sum should be equal to 0 and empty product should be equal to 1.\n    >>> sum_product([])\n    (0, 1)\n    >>> sum_product([1, 2, 3, 4])\n    (10, 24)\n    \"\"\"\n    sum_value = 0\n    prod_value = 1\n    for n in numbers:\n        sum_value += n\n        prod_value *= n\n    return (sum_value, prod_value)\n```"
+}

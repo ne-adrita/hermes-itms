@@ -1,0 +1,19 @@
+{
+  "attempt_id": "2a64e0d97d7749e499446e90710ae609",
+  "run_id": "604e37cd3dc4",
+  "task_id": "HE-EDIT-009",
+  "humaneval_task_id": "HumanEval/13",
+  "method": "itms_ast_splice",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "583fe44b560627c7486b2a3c8e7e28ab41e9e4d1ecf45d921fc5190863ff7b5c",
+  "response_bytes": 283,
+  "response_text": "```python\ndef greatest_common_divisor(a: int, b: int) -> int:\n    \"\"\" Return a greatest common divisor of two integers a and b\n    >>> greatest_common_divisor(3, 5)\n    1\n    >>> greatest_common_divisor(25, 15)\n    5\n    \"\"\"\n    while b:\n        a, b = b, a % b\n    return abs(a)\n```"
+}

@@ -1,0 +1,19 @@
+{
+  "attempt_id": "601108f690c242b280cb88e92ae980e6",
+  "run_id": "604e37cd3dc4",
+  "task_id": "HE-EDIT-004",
+  "humaneval_task_id": "HumanEval/4",
+  "method": "search_replace_patch",
+  "rep": 2,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "873ad133eb58d459b61c0eeed84e7744374e007d8557bf8d2420c1ce3baca128",
+  "response_bytes": 240,
+  "response_text": "<<<<<<< SEARCH\n    mean = sum(numbers) * len(numbers)\n    return sum(abs(x - mean) for x in numbers) / len(numbers)\n=======\n    mean = sum(numbers) / len(numbers)\n    return sum(abs(x - mean) for x in numbers) / len(numbers)\n>>>>>>> REPLACE"
+}

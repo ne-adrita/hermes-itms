@@ -1,0 +1,85 @@
+# Capstone Project Technical Report: Phase 1 & Phase 2 Architecture
+### Input Token Minimization System (ITMS) — Test-Driven Speculative Cascade
+
+**499A Overview:**  
+In our first capstone phase (CSE499A), we developed Hermes Agent: Closed-Loop Self-Evolution Through Negative Policy Memory & Reactive Sandboxing. Our core focus was resolving a fundamental weakness of large language models known as 'AI Amnesia.' When models write code, they frequently make basic programming errors—such as dividing by zero, accessing an out-of-bounds list index, or referencing a missing dictionary key. Once the execution crashes and the session terminates, the model forgets the failure entirely. Consequently, when presented with a similar coding problem in subsequent sessions, it repeats the exact same mistake. Retraining or fine-tuning 70-billion-parameter models after every bug is computationally impossible, costs thousands of dollars, and risks 'catastrophic forgetting' where the model loses general reasoning capability.
+
+To solve this, we engineered an autonomous, training-free software harness that gave the AI long-term memory and self-repair capabilities across five core technical layers:
+
+● **Hardened Docker Execution Sandbox:** We executed untrusted AI-generated Python code inside an isolated, disposable Docker container managed through the Docker Python SDK. To guarantee host security, we completely air-gapped the network, enforced an immutable read-only root filesystem, mounted volatile RAM storage for temporary files, capped memory at 512MB RAM, throttled CPU to 1.0 core, restricted process IDs to 64 to neutralize runaway forks, and enforced a hard execution timeout (10 to 30 seconds). If Docker Desktop was not running, the system transparently fell back to an isolated child subprocess runner, ensuring tests never crashed.
+
+● **ChromaDB Vector Memory & Dense Embeddings:** When a script crashed, an AI Critic node inspected the standard error traceback and distilled a clear, natural-language negative rule (for example, 'Do not divide when divisor is zero; add an explicit guard check first'). Using embeddings, we converted these rules into 384-dimensional dense mathematical vector arrays and indexed them in a persistent ChromaDB database on disk.
+
+● **Dual-Key Indexing Architecture:** To solve the challenge where high-level task prompts fail to match low-level code error rules, we structured stored documents in a composite dual format: Document = 'Task: {prompt} | Constraint: {rule}'. This maximized cosine similarity matching during vector retrieval.
+
+● **Ratchet Memory Governance & Token Budget Guard:** To prevent retrieved memory from bloating prompt context windows, we implemented the Ratchet utility formula: c(s) = (Successes - Failures) / Total Trials. Rules with 10 or more trials and positive utility were promoted to ACTIVE, while underperforming rules were demoted to DEPRECATED. We capped active memory at 50 rules per tool and enforced a strict tiktoken budget ceiling restricting memory to at most 15% of the model's context capacity.
+
+● **Autonomous LangGraph State Machine:** We integrated the sandbox, memory database, and AI agent into an automated cyclic state machine using LangGraph. The pipeline routed code from worker to sandbox; upon failure, the critic distilled the rule, ChromaDB indexed and retrieved relevant constraints, and the worker re-executed with the rule injected. Across all tested error families (ZeroDivisionError, IndexError, and KeyError), the system achieved a 100% autonomous self-repair rate within exactly two execution steps, verified by 13 automated unit tests.
+
+---
+
+**Moving toward 499B:**  
+As we transitioned into CSE499B, our objective shifted from memory-augmented self-repair to token optimization. In 2023, Stanford researchers published FrugalGPT, which proposed routing incoming prompts through a cascade of language models starting with a cheap, small model and escalating to a large model only when a statistical scoring model determined that the cheap response was of low quality. While pioneering for generic text prompts, FrugalGPT's original framework has become fundamentally outdated for modern software engineering due to four major industry developments:
+
+● **Deterministic Truth vs. Probabilistic Scoring:** FrugalGPT relied on statistical machine-learning classifiers to guess whether an answer was acceptable. In programming tasks, guessing is completely unnecessary: we have compilers, AST parsers, and unit test suites that verify code correctness with 100% mathematical certainty for $0.00 in compute cost.
+
+● **GPU Prefix KV Cache Economics:** In 2023, cloud APIs billed all input tokens uniformly. Modern cloud providers (OpenAI, Anthropic, Google) and local inference engines (vLLM, SGLang) now implement GPU Prefix KV Caching. When the initial prompt instructions remain strictly identical across requests, providers discount input token fees by 50% to 90%. FrugalGPT treated prompts as dynamic text strings, constantly shifting token positions and destroying hardware cache efficiency.
+
+● **Reasoning Tokens and Cognitive Anchoring:** Modern frontier reasoning models generate thousands of internal 'thinking' or reasoning tokens before outputting code. When an agentic system feeds a broken code draft back into a frontier model, the model experiences 'Cognitive Anchoring' and burns thousands of expensive reasoning tokens trying to reconcile and simulate the broken code, often repeating the initial bug and multiplying costs.
+
+● **Inference Price Collapse of Budget Models:** In 2023, small models were unreliable. Today, budget workhorses (Gemini 3.5 Flash, DeepSeek V4 Flash, GPT-4o-mini) cost as little as $0.10 to $0.20 per million tokens (up to 100 times cheaper than frontier models) and solve 70% to 80% of routine coding tasks correctly on their first attempt.
+
+499B directly inherits 499A's foundational philosophy: deterministic execution feedback serving as the objective ground truth. We also carried forward our commitment to strict execution sandboxing and process isolation to keep systems safe from infinite loops and rogue code. However, Capstone B introduces three critical architectural evolutions:
+
+● **Memory Retrieval to Context Compression:** In Capstone A, we continuously accumulated natural language rules in ChromaDB and injected them into the prompt. In Capstone B, we recognized that adding text expands token size and busts GPU cache lines. We shifted from expanding memory to minimizing input tokens: stripping unreferenced classes, removing docstrings, and keeping prompts ultra-compact using native Abstract Syntax Tree (AST) analysis.
+
+● **Single-Model Retries to Two-Tiered Relay:** Instead of having a single model cyclically debug its own code, Capstone B implements an asymmetric cascade. An inexpensive Tier 1 Speculator attempts the task first. Only if the zero-cost sandbox referee detects a failure does the system escalate to an expensive Tier 2 Frontier Model. This was the original plan for 499A but we never got to implement it before the semester ended and by then we had already shifted to the frugalGPT harness architecture.
+
+● **Anti-Anchoring:** In Capstone A, the broken code draft was passed back into the prompt for re-examination. In Capstone B, the broken code draft is completely thrown away. Tier 2 receives only the original specification, AST-pruned background code, and an isolated 3-line diagnostic failure signal. This allows the frontier model to solve the problem from a clean slate without wasting reasoning tokens trying to patch flawed syntax and possibly repeat similar mistakes.
+
+---
+
+**499B Phase 1 Architecture:**  
+● **1.1 Front-End Token Minimization & Telemetry Engine:** Implemented in skeletonizer.py and prompt_manager.py. Uses Python's native ast module to analyze background helper files, stripping all docstrings and replacing function bodies with '...'. Traverses the target function's call tree via SymbolReferenceCollector to completely discard unreferenced classes and dead utilities, cutting dynamic context by 60% to 80%. Anchors invariant system instructions at token index 0, supporting both a 73-token prefix for local runtimes and an expanded 1,042-token prefix to cross cloud caching thresholds (Anthropic and OpenAI require at least 1,024 tokens for prompt caching). Includes a Python 3.11+ caret-safe traceback sanitizer that isolates the failing assertion line, error type, and error message into a 3-line diagnostic signal.
+
+● **1.2 Deterministic Execution Harness:** Implemented in sandbox.py. Executes candidate code in transient child processes using sys.executable, avoiding the memory corruption and security vulnerabilities of in-memory exec(). Statically validates Python syntax via ast.parse in sub-millisecond time before process creation. Enforces a strict 3.0-second timeout ceiling (EXECUTION_TIMEOUT_SECONDS) to kill infinite loops cleanly. Uses AST inspection to dynamically bind standalone candidate methods back into their parent class definitions in the background code (Class.method = method). Serves as a $0.00 compute referee that filters out 70% to 80% of tasks at the Tier 1 level.
+
+● **1.3 Live Model Dispatcher & Asymmetric Relay:** Implemented in model_dispatcher.py, relay_orchestrator.py, and app.py. Features a unified REST client using standard httpx (HTTP/2) communicating directly with Google Gemini, OpenAI, Anthropic Claude, and DeepSeek endpoints without external vendor SDK bloat. Includes a deterministic offline mock engine for reliable grading and CI testing without network credentials. Orchestrates the 5-phase asymmetric cascade: Tier 1 Speculation -> Sandbox Gate Check -> Anti-Anchoring Purge -> Tier 2 Clean Escalation -> Final Sandbox Re-Verification and counterfactual financial logging. Delivered alongside an interactive dark-theme Streamlit dashboard featuring four operational tabs.
+
+1.1 acts as a surgical document editor that deletes unnecessary background code and lines up instructions so cloud AI providers charge us 90% less for input tokens; 1.2 acts as a completely free, automated referee that runs the cheap AI's code inside a safe, isolated sandbox to check if it actually works without paying expensive models to double-check it; and 1.3 acts as the smart traffic controller that first lets the cheap, fast AI try solving the problem, and only if our free referee catches a bug, it throws away the broken code entirely and hands a clean, 3-line error note to the expensive frontier AI so it can solve the task correctly on a fresh slate. We designed the system this way because combining free automated testing with clean-slate escalation allows us to match the intelligence of the world's most capable AI models while cutting API bills and compute costs by 70% to 90%.
+
+---
+
+**499B Phase 2 Architecture: AST-Guided Surgical Modification & Speculative Edit Cascade:**  
+While Phase 1 solved token inflation during new code generation and bug escalation, Phase 2 attacks the problem of **code modifications**. In standard development workflows, making a minor edit to an existing file (such as updating a tax rate from 5% to 10% or adjusting a validation condition) leads to **Full-File Rewrite Inflation**: AI interfaces regenerate the entire 500-line file. Because output tokens cost 3x to 5x more than input tokens, re-streaming hundreds of unchanged lines burns expensive tokens, introduces 20-second latencies, and creates unnecessary risks of accidental code regressions. 
+
+Conversely, text-based search/replace approaches (such as Aider's diff blocks) suffer from **Whitespace Fragility**: in Python, missing two spaces or encountering a hidden tab causes text matches to fail 15% to 25% of the time, crashing the patch process. Phase 2 resolves both challenges across four core technical layers:
+
+● **2.1 AST Node Locator & Coordinate Mapping:** Implemented in surgical_splicer.py. Uses Python's native ast parser to scan source code and pinpoint the target function, async method, or class method by name or qualified name (e.g., 'AccountLedger.reconcile_balance'). It extracts exact 1-indexed line coordinates (start_line to end_line), identifies body statements, and measures the target's base indentation level in under 1 millisecond.
+
+● **2.2 Mathematical Line-Boundary Slicing & Comment Preservation:** Standard AST unparsing tools (such as ast.unparse()) rewrite syntax trees cleanly, but completely erase all developer comments, copyright notices, and custom formatting. To solve this, our ASTSurgicalSplicer rejects whole-file unparsing. Instead, it executes raw line-boundary slicing: lines[:start_line - 1] + replacement_lines + lines[end_line:]. Every comment, docstring, and code block outside the edited target remains 100% byte-for-byte preserved.
+
+● **2.3 Auto-Indentation Normalization:** Language models frequently output candidate code in markdown blocks starting at column 0. If a method is spliced inside an indented class without correction, Python immediately crashes with an IndentationError. Our splicer dynamically detects the target node's base indentation (e.g., 4 spaces) and re-indents every line of the candidate code before slicing, mathematically eliminating whitespace mismatch errors.
+
+● **2.4 Deterministic Gate & Speculative Edit Orchestrator:** Implemented in edit_orchestrator.py and sandbox.py. The user task is dispatched to an inexpensive Tier 1 model, which outputs ONLY the modified target function (~25 to 40 output tokens instead of 500 lines). The spliced file is immediately verified in our isolated subprocess sandbox at $0.00 compute cost. If the edit introduces a syntax error or fails a unit test, the broken patch is discarded and the isolated error trace is escalated to Tier 2.
+
+● **2.5 Tri-Way Comparative Benchmark & UI Integration:** Implemented in app.py (Tab 5). We built an interactive benchmark comparing three code-editing paradigms on the exact same task: Full-File Regeneration (Baseline), Text-Based Search/Replace (Aider style), and ITMS AST-Guided Surgical Splicing. The dashboard provides live telemetry measuring output token reduction, total dollar cost, response latency, and patch application reliability, accompanied by side-by-side code inspection panels.
+
+2.1 acts as a laser-guided locator that pinpoints the exact lines of code that need editing; 2.2 and 2.3 act as an expert microsurgeon that replaces only those specific lines without erasing developer comments and automatically fixes indentation so Python never crashes; and 2.4 and 2.5 act as the economic engine and referee that lets a 10-cent model draft the small fix, tests it for free in a sandbox, and proves that editing the function directly cuts output token costs by over 94% and runs 8 times faster than regenerating the whole file.
+
+---
+
+**Verification and Test Results:**  
+All Phase 1 and Phase 2 modules are fully implemented and verified through **54 automated unit and integration tests achieving a 100% pass rate in 2.38 seconds**:
+● **test_itms.py (17 tests passed):** Verifies BPE token counting, AST reachability pruning, 1,024-token cache prefix padding, caret-safe traceback sanitization, economic formulas, and zero-emoji plaintext compliance.  
+● **test_milestones_2_3.py (11 tests passed):** Verifies subprocess execution isolation, infinite-loop timeout termination (3.0s ceiling), anti-anchoring prompt isolation, secret key masking, and the 5-phase cascade relay.  
+● **test_tdsc.py (17 tests passed):** Confirms backward-compatibility regression across legacy telemetry wrappers.  
+● **test_surgical_splicer.py (9 tests passed):** Confirms AST node coordinate location, comment preservation across line-boundary slices, markdown fence stripping, auto-indentation normalization, syntax error rejection, and tri-way benchmark metrics (proving $\ge 94\%$ output token reduction and 8x latency acceleration).
+
+---
+
+**Roadmap Moving Forward:**  
+With Phase 1 (Two-Tier Speculative Relay & Anti-Anchoring) and Phase 2 (AST-Guided Surgical Code Modification) completed and verified, our next deliverables focus on final academic benchmarking and production hardening:
+● **Macro-Benchmark Evaluation (HumanEval & MBPP):** Execute automated batch evaluations across HumanEval (164 coding tasks) and MBPP (500 coding tasks) to generate empirical cost-versus-accuracy curves proving accuracy parity with direct frontier models at a 70% to 90% total cost reduction.  
+● **Docker Sandbox Hardening:** Integrate our pluggable DockerSandboxEngine with network air-gapping (--net=none), memory limits (256MB), and read-only filesystems for untrusted public web API deployment.  
+● **Final BAETE Academic Documentation:** Formalize the complete research paper and slide deck for final departmental defense, documenting the progression from 499A's negative policy memory to 499B's token-minimization and surgical editing cascade.

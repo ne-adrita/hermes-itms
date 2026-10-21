@@ -1,0 +1,486 @@
+{
+  "schema_version": "1.0",
+  "description": "The exact payload that may be shown to a model. It contains no gold solution and no mutation metadata.",
+  "tasks": [
+    {
+      "task_id": "HE-EDIT-001",
+      "humaneval_task_id": "HumanEval/0",
+      "target_function": "has_close_elements",
+      "problem_prompt": "from typing import List\n\n\ndef has_close_elements(numbers: List[float], threshold: float) -> bool:\n    \"\"\" Check if in given list of numbers, are any two numbers closer to each other than\n    given threshold.\n    >>> has_close_elements([1.0, 2.0, 3.0], 0.5)\n    False\n    >>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)\n    True\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `has_close_elements`, whose docstring specifies its intended behaviour. The current implementation of `has_close_elements` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "from typing import List\n\n\ndef has_close_elements(numbers: List[float], threshold: float) -> bool:\n    \"\"\" Check if in given list of numbers, are any two numbers closer to each other than\n    given threshold.\n    >>> has_close_elements([1.0, 2.0, 3.0], 0.5)\n    False\n    >>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)\n    True\n    \"\"\"\n    for idx, elem in enumerate(numbers):\n        for idx2, elem2 in enumerate(numbers):\n            if idx == idx2:\n                distance = abs(elem - elem2)\n                if distance < threshold:\n                    return True\n\n    return False\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "8053ee4e676d60dcdd2a9ff25fc7bd3656c4e790532b055244515348b55fadc6",
+        "problem_prompt_sha256": "00b2e074e127a6a9d1376278bef732933760ab706057ec755a8c2642217b557a"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-002",
+      "humaneval_task_id": "HumanEval/1",
+      "target_function": "separate_paren_groups",
+      "problem_prompt": "from typing import List\n\n\ndef separate_paren_groups(paren_string: str) -> List[str]:\n    \"\"\" Input to this function is a string containing multiple groups of nested parentheses. Your goal is to\n    separate those group into separate strings and return the list of those.\n    Separate groups are balanced (each open brace is properly closed) and not nested within each other\n    Ignore any spaces in the input string.\n    >>> separate_paren_groups('( ) (( )) (( )( ))')\n    ['()', '(())', '(()())']\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `separate_paren_groups`, whose docstring specifies its intended behaviour. The current implementation of `separate_paren_groups` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "from typing import List\n\n\ndef separate_paren_groups(paren_string: str) -> List[str]:\n    \"\"\" Input to this function is a string containing multiple groups of nested parentheses. Your goal is to\n    separate those group into separate strings and return the list of those.\n    Separate groups are balanced (each open brace is properly closed) and not nested within each other\n    Ignore any spaces in the input string.\n    >>> separate_paren_groups('( ) (( )) (( )( ))')\n    ['()', '(())', '(()())']\n    \"\"\"\n    result = []\n    current_string = []\n    current_depth = 0\n\n    for c in paren_string:\n        if c == '(':\n            current_depth += 1\n            current_string.append(c)\n        elif c == ')':\n            current_depth -= 1\n            current_string.append(c)\n\n            if current_depth == 1:\n                result.append(''.join(current_string))\n                current_string.clear()\n\n    return result\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "603d79b47b57cd99cfb3c6a8347ae15a8218fc7ab357dfc44bbeaa8a8f353f68",
+        "problem_prompt_sha256": "ba4d0641a184fb3cdd632060a25d6408a7e91fe9d79b5c341407e74b80536327"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-003",
+      "humaneval_task_id": "HumanEval/2",
+      "target_function": "truncate_number",
+      "problem_prompt": "\n\ndef truncate_number(number: float) -> float:\n    \"\"\" Given a positive floating point number, it can be decomposed into\n    and integer part (largest integer smaller than given number) and decimals\n    (leftover part always smaller than 1).\n\n    Return the decimal part of the number.\n    >>> truncate_number(3.5)\n    0.5\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `truncate_number`, whose docstring specifies its intended behaviour. The current implementation of `truncate_number` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "\n\ndef truncate_number(number: float) -> float:\n    \"\"\" Given a positive floating point number, it can be decomposed into\n    and integer part (largest integer smaller than given number) and decimals\n    (leftover part always smaller than 1).\n\n    Return the decimal part of the number.\n    >>> truncate_number(3.5)\n    0.5\n    \"\"\"\n    return number % 2.0\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "77e54721282d86c32be8e4c7461b8ef7cece69075efc1f13630e9ffe1fcb3e94",
+        "problem_prompt_sha256": "fecb9ddd4f103f1c3e9d9c7d6c3b948a4b1285b50c3498437c85a9d604d957eb"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-004",
+      "humaneval_task_id": "HumanEval/4",
+      "target_function": "mean_absolute_deviation",
+      "problem_prompt": "from typing import List\n\n\ndef mean_absolute_deviation(numbers: List[float]) -> float:\n    \"\"\" For a given list of input numbers, calculate Mean Absolute Deviation\n    around the mean of this dataset.\n    Mean Absolute Deviation is the average absolute difference between each\n    element and a centerpoint (mean in this case):\n    MAD = average | x - x_mean |\n    >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])\n    1.0\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `mean_absolute_deviation`, whose docstring specifies its intended behaviour. The current implementation of `mean_absolute_deviation` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "from typing import List\n\n\ndef mean_absolute_deviation(numbers: List[float]) -> float:\n    \"\"\" For a given list of input numbers, calculate Mean Absolute Deviation\n    around the mean of this dataset.\n    Mean Absolute Deviation is the average absolute difference between each\n    element and a centerpoint (mean in this case):\n    MAD = average | x - x_mean |\n    >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])\n    1.0\n    \"\"\"\n    mean = sum(numbers) * len(numbers)\n    return sum(abs(x - mean) for x in numbers) / len(numbers)\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "073a6ecd2e93a58403e544ee95044d302551241286e92ba46f7e5f7b688ff1e1",
+        "problem_prompt_sha256": "2717edd5d203ea22a6eebf62263effd9b792e1a2ef93e017868cedaac7b5ef10"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-005",
+      "humaneval_task_id": "HumanEval/36",
+      "target_function": "fizz_buzz",
+      "problem_prompt": "\n\ndef fizz_buzz(n: int):\n    \"\"\"Return the number of times the digit 7 appears in integers less than n which are divisible by 11 or 13.\n    >>> fizz_buzz(50)\n    0\n    >>> fizz_buzz(78)\n    2\n    >>> fizz_buzz(79)\n    3\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `fizz_buzz`, whose docstring specifies its intended behaviour. The current implementation of `fizz_buzz` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "\n\ndef fizz_buzz(n: int):\n    \"\"\"Return the number of times the digit 7 appears in integers less than n which are divisible by 11 or 13.\n    >>> fizz_buzz(50)\n    0\n    >>> fizz_buzz(78)\n    2\n    >>> fizz_buzz(79)\n    3\n    \"\"\"\n    ns = []\n    for i in range(n):\n        if i % 11 == 0 and i % 13 == 0:\n            ns.append(i)\n    s = ''.join(list(map(str, ns)))\n    ans = 0\n    for c in s:\n        ans += (c == '7')\n    return ans\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "f36d23cca6acd67c769f659d37fdde9232eb4bc6457bf07ee2b33e4555f54350",
+        "problem_prompt_sha256": "9ca3d814d8f4c88fc35c6286cf046f39b0903222b094a800926eead370bcf4bb"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-006",
+      "humaneval_task_id": "HumanEval/3",
+      "target_function": "below_zero",
+      "problem_prompt": "from typing import List\n\n\ndef below_zero(operations: List[int]) -> bool:\n    \"\"\" You're given a list of deposit and withdrawal operations on a bank account that starts with\n    zero balance. Your task is to detect if at any point the balance of account fallls below zero, and\n    at that point function should return True. Otherwise it should return False.\n    >>> below_zero([1, 2, 3])\n    False\n    >>> below_zero([1, 2, -4, 5])\n    True\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `below_zero`, whose docstring specifies its intended behaviour. The current implementation of `below_zero` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "from typing import List\n\n\ndef below_zero(operations: List[int]) -> bool:\n    \"\"\" You're given a list of deposit and withdrawal operations on a bank account that starts with\n    zero balance. Your task is to detect if at any point the balance of account fallls below zero, and\n    at that point function should return True. Otherwise it should return False.\n    >>> below_zero([1, 2, 3])\n    False\n    >>> below_zero([1, 2, -4, 5])\n    True\n    \"\"\"\n    balance = 0\n\n    for op in operations:\n        balance += op\n        if balance <= 0:\n            return True\n\n    return False\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "e1718ac82eae5eca6da9d57e6032c5c301d02eea2065c2b64a32762a40c55e77",
+        "problem_prompt_sha256": "430706f794ffabb60ec5818ca7c9fdbd281b97ef9d3ac6d6ba140a7a2498f5a5"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-007",
+      "humaneval_task_id": "HumanEval/14",
+      "target_function": "all_prefixes",
+      "problem_prompt": "from typing import List\n\n\ndef all_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> all_prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `all_prefixes`, whose docstring specifies its intended behaviour. The current implementation of `all_prefixes` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "from typing import List\n\n\ndef all_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> all_prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    result = []\n\n    for i in range(len(string)):\n        result.append(string[:i+2])\n    return result\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "be61612b9dfe082e10b945e8312ee6597276e7ce965eaa2232002a233e98e502",
+        "problem_prompt_sha256": "f4eca2c1c9ceb5ca5b0b0885dfd75fb4f768967fd2e53640176e413a499cc165"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-008",
+      "humaneval_task_id": "HumanEval/5",
+      "target_function": "intersperse",
+      "problem_prompt": "from typing import List\n\n\ndef intersperse(numbers: List[int], delimeter: int) -> List[int]:\n    \"\"\" Insert a number 'delimeter' between every two consecutive elements of input list `numbers'\n    >>> intersperse([], 4)\n    []\n    >>> intersperse([1, 2, 3], 4)\n    [1, 4, 2, 4, 3]\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `intersperse`, whose docstring specifies its intended behaviour. The current implementation of `intersperse` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "from typing import List\n\n\ndef intersperse(numbers: List[int], delimeter: int) -> List[int]:\n    \"\"\" Insert a number 'delimeter' between every two consecutive elements of input list `numbers'\n    >>> intersperse([], 4)\n    []\n    >>> intersperse([1, 2, 3], 4)\n    [1, 4, 2, 4, 3]\n    \"\"\"\n    if not numbers:\n        return []\n\n    result = []\n\n    for n in numbers[:-2]:\n        result.append(n)\n        result.append(delimeter)\n\n    result.append(numbers[-1])\n\n    return result\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "07725c3a7afaafc726d46cfbf36570228ec2eb5587834c7bb28d652fae9bf952",
+        "problem_prompt_sha256": "388474ac71e5b893802f5971102df2e4ea82ddf2f916a4a55361c19370f54012"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-009",
+      "humaneval_task_id": "HumanEval/13",
+      "target_function": "greatest_common_divisor",
+      "problem_prompt": "\n\ndef greatest_common_divisor(a: int, b: int) -> int:\n    \"\"\" Return a greatest common divisor of two integers a and b\n    >>> greatest_common_divisor(3, 5)\n    1\n    >>> greatest_common_divisor(25, 15)\n    5\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `greatest_common_divisor`, whose docstring specifies its intended behaviour. The current implementation of `greatest_common_divisor` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "\n\ndef greatest_common_divisor(a: int, b: int) -> int:\n    \"\"\" Return a greatest common divisor of two integers a and b\n    >>> greatest_common_divisor(3, 5)\n    1\n    >>> greatest_common_divisor(25, 15)\n    5\n    \"\"\"\n    while b:\n        a, b = b, a // b\n    return a\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "75854c65c6741fb9f788ebb7c9f58bf25f694aac72d03229b8d168aa5dd5496e",
+        "problem_prompt_sha256": "a7946546bc3a483bb5f2249ced878d510d6765d3c987a3e56dd878fe5bb60c19"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-010",
+      "humaneval_task_id": "HumanEval/57",
+      "target_function": "monotonic",
+      "problem_prompt": "\n\ndef monotonic(l: list):\n    \"\"\"Return True is list elements are monotonically increasing or decreasing.\n    >>> monotonic([1, 2, 4, 20])\n    True\n    >>> monotonic([1, 20, 4, 10])\n    False\n    >>> monotonic([4, 1, 0, -10])\n    True\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `monotonic`, whose docstring specifies its intended behaviour. The current implementation of `monotonic` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "\n\ndef monotonic(l: list):\n    \"\"\"Return True is list elements are monotonically increasing or decreasing.\n    >>> monotonic([1, 2, 4, 20])\n    True\n    >>> monotonic([1, 20, 4, 10])\n    False\n    >>> monotonic([4, 1, 0, -10])\n    True\n    \"\"\"\n    if l == sorted(l) and l == sorted(l, reverse=True):\n        return True\n    return False\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "7bfd623bb193e6f365ce2baec2e14f257a8857c11eee70d7b2b80237a5625532",
+        "problem_prompt_sha256": "5656ff21e3b01209978415c290235784e32350405706cebc0045defa6271dd99"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-011",
+      "humaneval_task_id": "HumanEval/7",
+      "target_function": "filter_by_substring",
+      "problem_prompt": "from typing import List\n\n\ndef filter_by_substring(strings: List[str], substring: str) -> List[str]:\n    \"\"\" Filter an input list of strings only for ones that contain given substring\n    >>> filter_by_substring([], 'a')\n    []\n    >>> filter_by_substring(['abc', 'bacd', 'cde', 'array'], 'a')\n    ['abc', 'bacd', 'array']\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `filter_by_substring`, whose docstring specifies its intended behaviour. The current implementation of `filter_by_substring` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "from typing import List\n\n\ndef filter_by_substring(strings: List[str], substring: str) -> List[str]:\n    \"\"\" Filter an input list of strings only for ones that contain given substring\n    >>> filter_by_substring([], 'a')\n    []\n    >>> filter_by_substring(['abc', 'bacd', 'cde', 'array'], 'a')\n    ['abc', 'bacd', 'array']\n    \"\"\"\n    return [x for x in strings if substring not in x]\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "0b5e6277ec9495387cb6278347ad5f196eca723521e27d6c2e1d3c8c29178d03",
+        "problem_prompt_sha256": "5eecb2c6bb2b4fcd70989d66291a7c4c02d3afbf31591ad684e926a1e60ee969"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-012",
+      "humaneval_task_id": "HumanEval/15",
+      "target_function": "string_sequence",
+      "problem_prompt": "\n\ndef string_sequence(n: int) -> str:\n    \"\"\" Return a string containing space-delimited numbers starting from 0 upto n inclusive.\n    >>> string_sequence(0)\n    '0'\n    >>> string_sequence(5)\n    '0 1 2 3 4 5'\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `string_sequence`, whose docstring specifies its intended behaviour. The current implementation of `string_sequence` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "\n\ndef string_sequence(n: int) -> str:\n    \"\"\" Return a string containing space-delimited numbers starting from 0 upto n inclusive.\n    >>> string_sequence(0)\n    '0'\n    >>> string_sequence(5)\n    '0 1 2 3 4 5'\n    \"\"\"\n    return ' '.join([str(x) for x in range(n + 2)])\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "17da6e3cf7af6469de69a6c4e229f4231eda8ea498aa1192f82fb09686c2c660",
+        "problem_prompt_sha256": "1eb46648867a6e499ee7e4fa6500b594937f325209204606d7391c8cad9df9c4"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-013",
+      "humaneval_task_id": "HumanEval/8",
+      "target_function": "sum_product",
+      "problem_prompt": "from typing import List, Tuple\n\n\ndef sum_product(numbers: List[int]) -> Tuple[int, int]:\n    \"\"\" For a given list of integers, return a tuple consisting of a sum and a product of all the integers in a list.\n    Empty sum should be equal to 0 and empty product should be equal to 1.\n    >>> sum_product([])\n    (0, 1)\n    >>> sum_product([1, 2, 3, 4])\n    (10, 24)\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `sum_product`, whose docstring specifies its intended behaviour. The current implementation of `sum_product` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "from typing import List, Tuple\n\n\ndef sum_product(numbers: List[int]) -> Tuple[int, int]:\n    \"\"\" For a given list of integers, return a tuple consisting of a sum and a product of all the integers in a list.\n    Empty sum should be equal to 0 and empty product should be equal to 1.\n    >>> sum_product([])\n    (0, 1)\n    >>> sum_product([1, 2, 3, 4])\n    (10, 24)\n    \"\"\"\n    sum_value = 1\n    prod_value = 1\n\n    for n in numbers:\n        sum_value += n\n        prod_value *= n\n    return sum_value, prod_value\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "b61d41400c193b11ca036b682c7ebe833f51058c4704d7f63f2184051de1281c",
+        "problem_prompt_sha256": "84dc98e731928675a91c68cbff1f89d0677596f849fa0e6b34fa9b40335fce03"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-014",
+      "humaneval_task_id": "HumanEval/18",
+      "target_function": "how_many_times",
+      "problem_prompt": "\n\ndef how_many_times(string: str, substring: str) -> int:\n    \"\"\" Find how many times a given substring can be found in the original string. Count overlaping cases.\n    >>> how_many_times('', 'a')\n    0\n    >>> how_many_times('aaa', 'a')\n    3\n    >>> how_many_times('aaaa', 'aa')\n    3\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `how_many_times`, whose docstring specifies its intended behaviour. The current implementation of `how_many_times` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "\n\ndef how_many_times(string: str, substring: str) -> int:\n    \"\"\" Find how many times a given substring can be found in the original string. Count overlaping cases.\n    >>> how_many_times('', 'a')\n    0\n    >>> how_many_times('aaa', 'a')\n    3\n    >>> how_many_times('aaaa', 'aa')\n    3\n    \"\"\"\n    times = 0\n\n    for i in range(len(string) - len(substring) - 1):\n        if string[i:i+len(substring)] == substring:\n            times += 1\n\n    return times\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "90d11b7178e3ea078c9e22de6290fd482dd91ea353f407ecc95575b966c823f9",
+        "problem_prompt_sha256": "6fc9c00aa6b110ecf79f34e36f14b6b4c9a27128463ef6733b948e32a35c2bfc"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-015",
+      "humaneval_task_id": "HumanEval/64",
+      "target_function": "vowels_count",
+      "problem_prompt": "\nFIX = \"\"\"\nAdd more test cases.\n\"\"\"\n\ndef vowels_count(s):\n    \"\"\"Write a function vowels_count which takes a string representing\n    a word as input and returns the number of vowels in the string.\n    Vowels in this case are 'a', 'e', 'i', 'o', 'u'. Here, 'y' is also a\n    vowel, but only when it is at the end of the given word.\n\n    Example:\n    >>> vowels_count(\"abcde\")\n    2\n    >>> vowels_count(\"ACEDY\")\n    3\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `vowels_count`, whose docstring specifies its intended behaviour. The current implementation of `vowels_count` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "\nFIX = \"\"\"\nAdd more test cases.\n\"\"\"\n\ndef vowels_count(s):\n    \"\"\"Write a function vowels_count which takes a string representing\n    a word as input and returns the number of vowels in the string.\n    Vowels in this case are 'a', 'e', 'i', 'o', 'u'. Here, 'y' is also a\n    vowel, but only when it is at the end of the given word.\n\n    Example:\n    >>> vowels_count(\"abcde\")\n    2\n    >>> vowels_count(\"ACEDY\")\n    3\n    \"\"\"\n    vowels = \"aeiouAEIOU\"\n    n_vowels = sum(c in vowels for c in s)\n    if s[-1] == 'y' and s[-1] == 'Y':\n        n_vowels += 1\n    return n_vowels\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "f322cd2d0a44ecd23b1122fe65ee0b614fb80407864ca1369a69de1c0bc2e8d6",
+        "problem_prompt_sha256": "bc81b28f391ede1728b9b45d174a5a8953119ebc8f98908735202a05f839c5d8"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-016",
+      "humaneval_task_id": "HumanEval/9",
+      "target_function": "rolling_max",
+      "problem_prompt": "from typing import List, Tuple\n\n\ndef rolling_max(numbers: List[int]) -> List[int]:\n    \"\"\" From a given list of integers, generate a list of rolling maximum element found until given moment\n    in the sequence.\n    >>> rolling_max([1, 2, 3, 2, 3, 4, 2])\n    [1, 2, 3, 3, 3, 4, 4]\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `rolling_max`, whose docstring specifies its intended behaviour. The current implementation of `rolling_max` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "from typing import List, Tuple\n\n\ndef rolling_max(numbers: List[int]) -> List[int]:\n    \"\"\" From a given list of integers, generate a list of rolling maximum element found until given moment\n    in the sequence.\n    >>> rolling_max([1, 2, 3, 2, 3, 4, 2])\n    [1, 2, 3, 3, 3, 4, 4]\n    \"\"\"\n    running_max = None\n    result = []\n\n    for n in numbers:\n        if running_max is not None:\n            running_max = n\n        else:\n            running_max = max(running_max, n)\n\n        result.append(running_max)\n\n    return result\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "8a1f5329419cd97ca7d64b4e666749a9e96000fe4ac3ec35653dcd6f7275ef2e",
+        "problem_prompt_sha256": "583b281fbe1bf261fbade6e1a03119de96084ac87b508387f0d23c3b0cfdbbdb"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-017",
+      "humaneval_task_id": "HumanEval/24",
+      "target_function": "largest_divisor",
+      "problem_prompt": "\n\ndef largest_divisor(n: int) -> int:\n    \"\"\" For a given number n, find the largest number that divides n evenly, smaller than n\n    >>> largest_divisor(15)\n    5\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `largest_divisor`, whose docstring specifies its intended behaviour. The current implementation of `largest_divisor` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "\n\ndef largest_divisor(n: int) -> int:\n    \"\"\" For a given number n, find the largest number that divides n evenly, smaller than n\n    >>> largest_divisor(15)\n    5\n    \"\"\"\n    for i in reversed(range(n)):\n        if n % i == 1:\n            return i\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "8c664b47c804a2492d29cc68c826acacb31f85adab76998fb6208e0a11e85c26",
+        "problem_prompt_sha256": "3bc8bf3f66a3b5e171a358bbd5f33fba1a5d16ea65459198757dcb662dbaaac2"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-018",
+      "humaneval_task_id": "HumanEval/17",
+      "target_function": "parse_music",
+      "problem_prompt": "from typing import List\n\n\ndef parse_music(music_string: str) -> List[int]:\n    \"\"\" Input to this function is a string representing musical notes in a special ASCII format.\n    Your task is to parse this string and return list of integers corresponding to how many beats does each\n    not last.\n\n    Here is a legend:\n    'o' - whole note, lasts four beats\n    'o|' - half note, lasts two beats\n    '.|' - quater note, lasts one beat\n\n    >>> parse_music('o o| .| o| o| .| .| .| .| o o')\n    [4, 2, 1, 2, 2, 1, 1, 1, 1, 4, 4]\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `parse_music`, whose docstring specifies its intended behaviour. The current implementation of `parse_music` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "from typing import List\n\n\ndef parse_music(music_string: str) -> List[int]:\n    \"\"\" Input to this function is a string representing musical notes in a special ASCII format.\n    Your task is to parse this string and return list of integers corresponding to how many beats does each\n    not last.\n\n    Here is a legend:\n    'o' - whole note, lasts four beats\n    'o|' - half note, lasts two beats\n    '.|' - quater note, lasts one beat\n\n    >>> parse_music('o o| .| o| o| .| .| .| .| o o')\n    [4, 2, 1, 2, 2, 1, 1, 1, 1, 4, 4]\n    \"\"\"\n    note_map = {'o': 5, 'o|': 2, '.|': 1}\n    return [note_map[x] for x in music_string.split(' ') if x]\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "37cfc3d54cfafe4dd5839b90815bed01034071b9e4d9a68094e94fdb2efd1cc4",
+        "problem_prompt_sha256": "713553ae9220b08678d575238a702f883cc1d37b1986a6bfa010f8d641601d36"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-019",
+      "humaneval_task_id": "HumanEval/20",
+      "target_function": "find_closest_elements",
+      "problem_prompt": "from typing import List, Tuple\n\n\ndef find_closest_elements(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n",
+      "repair_instruction": "The Python module below contains the function `find_closest_elements`, whose docstring specifies its intended behaviour. The current implementation of `find_closest_elements` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "from typing import List, Tuple\n\n\ndef find_closest_elements(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n    closest_pair = None\n    distance = None\n\n    for idx, elem in enumerate(numbers):\n        for idx2, elem2 in enumerate(numbers):\n            if idx != idx2:\n                if distance is None:\n                    distance = abs(elem - elem2)\n                    closest_pair = tuple(sorted([elem, elem2]))\n                else:\n                    new_distance = abs(elem + elem2)\n                    if new_distance < distance:\n                        distance = new_distance\n                        closest_pair = tuple(sorted([elem, elem2]))\n\n    return closest_pair\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "29f55e40bc2ca2e706a25e5e5ae4a9078be9c54255f9678ad3ccab3523c42a7a",
+        "problem_prompt_sha256": "881d52f394307cce02e432bc6342c93bfe0f6652b203f0bf1a0fc365ed87c594"
+      }
+    },
+    {
+      "task_id": "HE-EDIT-020",
+      "humaneval_task_id": "HumanEval/71",
+      "target_function": "triangle_area",
+      "problem_prompt": "\ndef triangle_area(a, b, c):\n    '''\n    Given the lengths of the three sides of a triangle. Return the area of\n    the triangle rounded to 2 decimal points if the three sides form a valid triangle. \n    Otherwise return -1\n    Three sides make a valid triangle when the sum of any two sides is greater \n    than the third side.\n    Example:\n    triangle_area(3, 4, 5) == 6.00\n    triangle_area(1, 2, 10) == -1\n    '''\n",
+      "repair_instruction": "The Python module below contains the function `triangle_area`, whose docstring specifies its intended behaviour. The current implementation of `triangle_area` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.\nConstraints:\n- Keep the function name and its signature unchanged.\n- Do not modify the docstring.\n- Do not change the behaviour of any other part of the module.\n- Return only the repaired function (or the repaired module).",
+      "mutated_source": "\ndef triangle_area(a, b, c):\n    '''\n    Given the lengths of the three sides of a triangle. Return the area of\n    the triangle rounded to 2 decimal points if the three sides form a valid triangle. \n    Otherwise return -1\n    Three sides make a valid triangle when the sum of any two sides is greater \n    than the third side.\n    Example:\n    triangle_area(3, 4, 5) == 6.00\n    triangle_area(1, 2, 10) == -1\n    '''\n    if a + b <= c and a + c <= b or b + c <= a:\n        return -1 \n    s = (a + b + c)/2    \n    area = (s * (s - a) * (s - b) * (s - c)) ** 0.5\n    area = round(area, 2)\n    return area\n",
+      "source": {
+        "repository": "https://github.com/openai/human-eval",
+        "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+        "revision_type": "git_commit_sha",
+        "dataset_path": "data/HumanEval.jsonl.gz",
+        "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+        "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+        "license": "MIT",
+        "license_file": "LICENSE",
+        "license_file_sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "repo_head_observed": "b9453e8f1865df0a0057a1383767caa400acfbcf"
+      },
+      "checksums": {
+        "mutated_source_sha256": "c21ff277b94f5647b4b032517f95c2f08ae1c522170fbaa6491b0c95950c31ea",
+        "problem_prompt_sha256": "08897376ea63666a837e51f16608bd0abb6d1633e025ccacde662a7844e19626"
+      }
+    }
+  ]
+}

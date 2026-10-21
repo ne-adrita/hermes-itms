@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "run_id": "b6809903fcaa",
+  "created_at_utc": "2026-10-21T06:29:34Z",
+  "mode": "live",
+  "declared_provider": "openrouter",
+  "effective_provider": "openrouter",
+  "is_measurement": true,
+  "requested_model_id": "openrouter/free",
+  "served_model_id": null,
+  "temperature": 0.2,
+  "max_output_tokens": 2048,
+  "request_timeout_seconds": 60.0,
+  "max_retries": 2,
+  "retry_policy": "bounded; transient HTTP 429 only; HTTP 402 and daily/per-minute quota caps are never retried",
+  "evaluation_timeout_seconds": 10.0,
+  "reps": 1,
+  "tasks": [
+    "HE-EDIT-006"
+  ],
+  "task_count": 1,
+  "methods": [
+    "full_file_regeneration",
+    "search_replace_patch",
+    "itms_ast_splice"
+  ],
+  "run_order_seed": null,
+  "bootstrap_seed": 20260101,
+  "planned_attempts": 3,
+  "task_manifest_digest": "92077bdca33b75b3ca3c7c15a55b237b6c1f5c79d1da20ebb0f9efb4d23d08f1",
+  "python_version": "3.14.4 (main, Apr  7 2026, 13:13:20) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "software_versions": {
+    "python": "3.14.4",
+    "httpx": "0.28.1",
+    "pytest": "9.1.1",
+    "tiktoken": "0.14.0",
+    "dotenv": "unknown"
+  },
+  "artifact_files": {
+    "attempts_jsonl": "attempts.jsonl",
+    "attempts_csv": "attempts.csv",
+    "summary_json": "summary.json",
+    "run_metadata_json": "run_metadata.json"
+  },
+  "notes": [
+    "This benchmark evaluates three editing strategies of this project on synthetic HumanEval-derived repair tasks. It is not the HumanEval benchmark and produces no HumanEval pass rate.",
+    "Mock-mode runs are pipeline tests only and are not measurements.",
+    "The evaluation sandbox is best-effort isolation, not a security boundary: filesystem and subprocess containment are absent and the socket guard can be bypassed by a child process."
+  ]
+}

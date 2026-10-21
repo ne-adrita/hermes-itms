@@ -1,0 +1,19 @@
+{
+  "attempt_id": "033cf1e6641a4318b24e09a4ea7c754a",
+  "run_id": "604e37cd3dc4",
+  "task_id": "HE-EDIT-007",
+  "humaneval_task_id": "HumanEval/14",
+  "method": "itms_ast_splice",
+  "rep": 2,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "a77437b2afee4b377fd00c9dcc2652fa446484bfbfe162aad2a90d7c63b66619",
+  "response_bytes": 302,
+  "response_text": "```python\ndef all_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> all_prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    result = []\n    for i in range(len(string)):\n        result.append(string[:i + 1])\n    return result\n```"
+}

@@ -1,0 +1,470 @@
+{
+  "schema_version": "1.0",
+  "attempts_recorded": 120,
+  "attempts_with_local_token_estimates": 0,
+  "attempts_truncated_by_provider": 6,
+  "observed_served_model_ids": [
+    "minimax/minimax-m3.1-flash:free"
+  ],
+  "methods": [
+    "full_file_regeneration",
+    "itms_ast_splice",
+    "search_replace_patch"
+  ],
+  "contains_mock_results": false,
+  "is_measurement": true,
+  "mock_warning": null,
+  "status_counts": {
+    "output_parse_error": 6,
+    "repair_success": 114
+  },
+  "failure_categories": {
+    "none": 114,
+    "truncated_output": 6
+  },
+  "attempts_with_provider_reported_usage": 120,
+  "attempts_with_provider_reported_cost": 0,
+  "run_id": "604e37cd3dc4",
+  "mode": "live",
+  "elapsed_wall_clock_ms": 768822.085,
+  "planned_attempts": 120,
+  "recorded_attempts": 120,
+  "method_metrics": {
+    "full_file_regeneration": {
+      "method": "full_file_regeneration",
+      "denominators": {
+        "scheduled_attempts": 40,
+        "recorded_attempts": 40,
+        "attempted_attempts": 40,
+        "candidate_produced_attempts": 39,
+        "tasks": 20,
+        "reps_per_task": 2
+      },
+      "repair_success": {
+        "count": 39,
+        "rate_over_scheduled": 0.975,
+        "rate_over_attempted": 0.975,
+        "note": "A repair counts as successful only for a completed repair attempt; attempts demoted for an artefact-persistence failure are never counted as successes."
+      },
+      "task_level": {
+        "tasks_with_at_least_one_success": 20,
+        "tasks_total": 20,
+        "task_success_rate": 1.0,
+        "mean_task_pass_rate": 0.975,
+        "per_task_pass_rate": {
+          "HE-EDIT-007": 1.0,
+          "HE-EDIT-002": 1.0,
+          "HE-EDIT-013": 1.0,
+          "HE-EDIT-019": 1.0,
+          "HE-EDIT-005": 1.0,
+          "HE-EDIT-009": 1.0,
+          "HE-EDIT-004": 1.0,
+          "HE-EDIT-017": 0.5,
+          "HE-EDIT-011": 1.0,
+          "HE-EDIT-020": 1.0,
+          "HE-EDIT-012": 1.0,
+          "HE-EDIT-015": 1.0,
+          "HE-EDIT-003": 1.0,
+          "HE-EDIT-016": 1.0,
+          "HE-EDIT-001": 1.0,
+          "HE-EDIT-018": 1.0,
+          "HE-EDIT-010": 1.0,
+          "HE-EDIT-014": 1.0,
+          "HE-EDIT-008": 1.0,
+          "HE-EDIT-006": 1.0
+        }
+      },
+      "syntax_valid": {
+        "count": 39,
+        "rate_over_candidates": 1.0
+      },
+      "test_pass": {
+        "count": 39,
+        "rate_over_candidates": 1.0
+      },
+      "malformed_output": {
+        "count": 1,
+        "rate_over_scheduled": 0.025
+      },
+      "provider_failures": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "timeouts": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "failure_categories": {
+        "none": 39,
+        "truncated_output": 1
+      },
+      "status_counts": {
+        "output_parse_error": 1,
+        "repair_success": 39
+      },
+      "latency_ms": {
+        "mean": 5138.705134447082,
+        "median": 3746.5881249518134,
+        "min": 1782.003958011046,
+        "max": 18819.041667040437,
+        "measured_attempts": 40
+      },
+      "provider_latency_ms": {
+        "mean": 5016.978110492346,
+        "median": 3604.008292022627,
+        "measured_attempts": 40
+      },
+      "token_usage": {
+        "provider_reported_attempts": 40,
+        "provider_partial_attempts": 0,
+        "local_estimate_only_attempts": 0,
+        "missing_attempts": 0,
+        "prompt_tokens_total": 25414,
+        "completion_tokens_total": 18258,
+        "total_tokens_total": 43672,
+        "mean_total_tokens": 1091.8,
+        "note": "Totals include provider-reported values only. Local token estimates are stored per attempt in estimated_prompt_tokens / estimated_completion_tokens and are never added to a provider-reported total."
+      },
+      "cost": {
+        "provider_reported_attempts": 0,
+        "missing_attempts": 40,
+        "total_cost_usd": null,
+        "source": null
+      },
+      "mock_attempts": 0
+    },
+    "search_replace_patch": {
+      "method": "search_replace_patch",
+      "denominators": {
+        "scheduled_attempts": 40,
+        "recorded_attempts": 40,
+        "attempted_attempts": 40,
+        "candidate_produced_attempts": 40,
+        "tasks": 20,
+        "reps_per_task": 2
+      },
+      "repair_success": {
+        "count": 40,
+        "rate_over_scheduled": 1.0,
+        "rate_over_attempted": 1.0,
+        "note": "A repair counts as successful only for a completed repair attempt; attempts demoted for an artefact-persistence failure are never counted as successes."
+      },
+      "task_level": {
+        "tasks_with_at_least_one_success": 20,
+        "tasks_total": 20,
+        "task_success_rate": 1.0,
+        "mean_task_pass_rate": 1.0,
+        "per_task_pass_rate": {
+          "HE-EDIT-012": 1.0,
+          "HE-EDIT-020": 1.0,
+          "HE-EDIT-009": 1.0,
+          "HE-EDIT-010": 1.0,
+          "HE-EDIT-004": 1.0,
+          "HE-EDIT-011": 1.0,
+          "HE-EDIT-013": 1.0,
+          "HE-EDIT-018": 1.0,
+          "HE-EDIT-015": 1.0,
+          "HE-EDIT-006": 1.0,
+          "HE-EDIT-002": 1.0,
+          "HE-EDIT-019": 1.0,
+          "HE-EDIT-005": 1.0,
+          "HE-EDIT-014": 1.0,
+          "HE-EDIT-016": 1.0,
+          "HE-EDIT-003": 1.0,
+          "HE-EDIT-007": 1.0,
+          "HE-EDIT-008": 1.0,
+          "HE-EDIT-001": 1.0,
+          "HE-EDIT-017": 1.0
+        }
+      },
+      "syntax_valid": {
+        "count": 40,
+        "rate_over_candidates": 1.0
+      },
+      "test_pass": {
+        "count": 40,
+        "rate_over_candidates": 1.0
+      },
+      "malformed_output": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "provider_failures": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "timeouts": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "failure_categories": {
+        "none": 40
+      },
+      "status_counts": {
+        "repair_success": 40
+      },
+      "latency_ms": {
+        "mean": 4150.127351027913,
+        "median": 3109.3880419502966,
+        "min": 1565.5469169141725,
+        "max": 12553.655082941987,
+        "measured_attempts": 40
+      },
+      "provider_latency_ms": {
+        "mean": 4023.823804053245,
+        "median": 2945.536000013817,
+        "measured_attempts": 40
+      },
+      "token_usage": {
+        "provider_reported_attempts": 40,
+        "provider_partial_attempts": 0,
+        "local_estimate_only_attempts": 0,
+        "missing_attempts": 0,
+        "prompt_tokens_total": 26174,
+        "completion_tokens_total": 11071,
+        "total_tokens_total": 37245,
+        "mean_total_tokens": 931.125,
+        "note": "Totals include provider-reported values only. Local token estimates are stored per attempt in estimated_prompt_tokens / estimated_completion_tokens and are never added to a provider-reported total."
+      },
+      "cost": {
+        "provider_reported_attempts": 0,
+        "missing_attempts": 40,
+        "total_cost_usd": null,
+        "source": null
+      },
+      "mock_attempts": 0
+    },
+    "itms_ast_splice": {
+      "method": "itms_ast_splice",
+      "denominators": {
+        "scheduled_attempts": 40,
+        "recorded_attempts": 40,
+        "attempted_attempts": 40,
+        "candidate_produced_attempts": 35,
+        "tasks": 20,
+        "reps_per_task": 2
+      },
+      "repair_success": {
+        "count": 35,
+        "rate_over_scheduled": 0.875,
+        "rate_over_attempted": 0.875,
+        "note": "A repair counts as successful only for a completed repair attempt; attempts demoted for an artefact-persistence failure are never counted as successes."
+      },
+      "task_level": {
+        "tasks_with_at_least_one_success": 19,
+        "tasks_total": 20,
+        "task_success_rate": 0.95,
+        "mean_task_pass_rate": 0.875,
+        "per_task_pass_rate": {
+          "HE-EDIT-002": 0.5,
+          "HE-EDIT-014": 1.0,
+          "HE-EDIT-018": 1.0,
+          "HE-EDIT-003": 1.0,
+          "HE-EDIT-015": 1.0,
+          "HE-EDIT-019": 1.0,
+          "HE-EDIT-009": 0.5,
+          "HE-EDIT-017": 0.5,
+          "HE-EDIT-013": 1.0,
+          "HE-EDIT-008": 1.0,
+          "HE-EDIT-016": 1.0,
+          "HE-EDIT-007": 1.0,
+          "HE-EDIT-010": 1.0,
+          "HE-EDIT-006": 1.0,
+          "HE-EDIT-001": 1.0,
+          "HE-EDIT-020": 1.0,
+          "HE-EDIT-012": 1.0,
+          "HE-EDIT-011": 1.0,
+          "HE-EDIT-004": 1.0,
+          "HE-EDIT-005": 0.0
+        }
+      },
+      "syntax_valid": {
+        "count": 35,
+        "rate_over_candidates": 1.0
+      },
+      "test_pass": {
+        "count": 35,
+        "rate_over_candidates": 1.0
+      },
+      "malformed_output": {
+        "count": 5,
+        "rate_over_scheduled": 0.125
+      },
+      "provider_failures": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "timeouts": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "failure_categories": {
+        "none": 35,
+        "truncated_output": 5
+      },
+      "status_counts": {
+        "output_parse_error": 5,
+        "repair_success": 35
+      },
+      "latency_ms": {
+        "mean": 9911.71843650227,
+        "median": 6596.303250000346,
+        "min": 2059.6548329340294,
+        "max": 60168.18516596686,
+        "measured_attempts": 40
+      },
+      "provider_latency_ms": {
+        "mean": 9734.96643845574,
+        "median": 6453.161938057747,
+        "measured_attempts": 40
+      },
+      "token_usage": {
+        "provider_reported_attempts": 40,
+        "provider_partial_attempts": 0,
+        "local_estimate_only_attempts": 0,
+        "missing_attempts": 0,
+        "prompt_tokens_total": 26302,
+        "completion_tokens_total": 30171,
+        "total_tokens_total": 56473,
+        "mean_total_tokens": 1411.825,
+        "note": "Totals include provider-reported values only. Local token estimates are stored per attempt in estimated_prompt_tokens / estimated_completion_tokens and are never added to a provider-reported total."
+      },
+      "cost": {
+        "provider_reported_attempts": 0,
+        "missing_attempts": 40,
+        "total_cost_usd": null,
+        "source": null
+      },
+      "mock_attempts": 0
+    }
+  },
+  "paired_task_comparisons": [
+    {
+      "method_a": "full_file_regeneration",
+      "method_b": "search_replace_patch",
+      "unit_of_analysis": "task",
+      "paired_tasks": 20,
+      "mean_difference_a_minus_b": -0.025,
+      "bootstrap_95ci": {
+        "mean": -0.025,
+        "ci_low": -0.075,
+        "ci_high": 0.0,
+        "n": 20
+      },
+      "task_wins_a": 0,
+      "task_losses_a": 1,
+      "task_ties": 19,
+      "per_task_difference": {
+        "HE-EDIT-001": 0.0,
+        "HE-EDIT-002": 0.0,
+        "HE-EDIT-003": 0.0,
+        "HE-EDIT-004": 0.0,
+        "HE-EDIT-005": 0.0,
+        "HE-EDIT-006": 0.0,
+        "HE-EDIT-007": 0.0,
+        "HE-EDIT-008": 0.0,
+        "HE-EDIT-009": 0.0,
+        "HE-EDIT-010": 0.0,
+        "HE-EDIT-011": 0.0,
+        "HE-EDIT-012": 0.0,
+        "HE-EDIT-013": 0.0,
+        "HE-EDIT-014": 0.0,
+        "HE-EDIT-015": 0.0,
+        "HE-EDIT-016": 0.0,
+        "HE-EDIT-017": -0.5,
+        "HE-EDIT-018": 0.0,
+        "HE-EDIT-019": 0.0,
+        "HE-EDIT-020": 0.0
+      },
+      "caveat": "20 tasks; the bootstrap interval over tasks reflects task-level variability only. No strong statistical-significance claim is made, and this is not a HumanEval pass rate."
+    },
+    {
+      "method_a": "full_file_regeneration",
+      "method_b": "itms_ast_splice",
+      "unit_of_analysis": "task",
+      "paired_tasks": 20,
+      "mean_difference_a_minus_b": 0.1,
+      "bootstrap_95ci": {
+        "mean": 0.1,
+        "ci_low": 0.0,
+        "ci_high": 0.225,
+        "n": 20
+      },
+      "task_wins_a": 3,
+      "task_losses_a": 0,
+      "task_ties": 17,
+      "per_task_difference": {
+        "HE-EDIT-001": 0.0,
+        "HE-EDIT-002": 0.5,
+        "HE-EDIT-003": 0.0,
+        "HE-EDIT-004": 0.0,
+        "HE-EDIT-005": 1.0,
+        "HE-EDIT-006": 0.0,
+        "HE-EDIT-007": 0.0,
+        "HE-EDIT-008": 0.0,
+        "HE-EDIT-009": 0.5,
+        "HE-EDIT-010": 0.0,
+        "HE-EDIT-011": 0.0,
+        "HE-EDIT-012": 0.0,
+        "HE-EDIT-013": 0.0,
+        "HE-EDIT-014": 0.0,
+        "HE-EDIT-015": 0.0,
+        "HE-EDIT-016": 0.0,
+        "HE-EDIT-017": 0.0,
+        "HE-EDIT-018": 0.0,
+        "HE-EDIT-019": 0.0,
+        "HE-EDIT-020": 0.0
+      },
+      "caveat": "20 tasks; the bootstrap interval over tasks reflects task-level variability only. No strong statistical-significance claim is made, and this is not a HumanEval pass rate."
+    },
+    {
+      "method_a": "search_replace_patch",
+      "method_b": "itms_ast_splice",
+      "unit_of_analysis": "task",
+      "paired_tasks": 20,
+      "mean_difference_a_minus_b": 0.125,
+      "bootstrap_95ci": {
+        "mean": 0.125,
+        "ci_low": 0.025,
+        "ci_high": 0.25,
+        "n": 20
+      },
+      "task_wins_a": 4,
+      "task_losses_a": 0,
+      "task_ties": 16,
+      "per_task_difference": {
+        "HE-EDIT-001": 0.0,
+        "HE-EDIT-002": 0.5,
+        "HE-EDIT-003": 0.0,
+        "HE-EDIT-004": 0.0,
+        "HE-EDIT-005": 1.0,
+        "HE-EDIT-006": 0.0,
+        "HE-EDIT-007": 0.0,
+        "HE-EDIT-008": 0.0,
+        "HE-EDIT-009": 0.5,
+        "HE-EDIT-010": 0.0,
+        "HE-EDIT-011": 0.0,
+        "HE-EDIT-012": 0.0,
+        "HE-EDIT-013": 0.0,
+        "HE-EDIT-014": 0.0,
+        "HE-EDIT-015": 0.0,
+        "HE-EDIT-016": 0.0,
+        "HE-EDIT-017": 0.5,
+        "HE-EDIT-018": 0.0,
+        "HE-EDIT-019": 0.0,
+        "HE-EDIT-020": 0.0
+      },
+      "caveat": "20 tasks; the bootstrap interval over tasks reflects task-level variability only. No strong statistical-significance claim is made, and this is not a HumanEval pass rate."
+    }
+  ],
+  "artifact_files": {
+    "attempts_jsonl": "attempts.jsonl",
+    "attempts_csv": "attempts.csv",
+    "summary_json": "summary.json",
+    "run_metadata_json": "run_metadata.json"
+  },
+  "artifacts_dir": "artifacts",
+  "artifacts_persisted": 120,
+  "artifacts_failed": 0,
+  "candidates_persisted": 114
+}

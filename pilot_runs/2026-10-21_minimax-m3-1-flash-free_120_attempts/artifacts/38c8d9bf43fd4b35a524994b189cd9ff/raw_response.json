@@ -1,0 +1,19 @@
+{
+  "attempt_id": "38c8d9bf43fd4b35a524994b189cd9ff",
+  "run_id": "604e37cd3dc4",
+  "task_id": "HE-EDIT-020",
+  "humaneval_task_id": "HumanEval/71",
+  "method": "search_replace_patch",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "534c71ceee88ee768ca6c1629db2538aada7b4d12334f28f2e9f799a3583ef87",
+  "response_bytes": 133,
+  "response_text": "<<<<<<< SEARCH\n    if a + b <= c and a + c <= b or b + c <= a:\n=======\n    if a + b <= c or a + c <= b or b + c <= a:\n>>>>>>> REPLACE"
+}

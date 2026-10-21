@@ -1,0 +1,4549 @@
+{
+  "schema_version": "1.0",
+  "generated_by": "benchmarks/phase0/build_tasks.py",
+  "dataset_revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+  "problems_inspected": 164,
+  "eligible": 149,
+  "gold_passed": 164,
+  "with_viable_mutations": 136,
+  "accepted": 20,
+  "rejected": 28,
+  "not_selected": 116,
+  "rejected_candidates": [
+    {
+      "humaneval_task_id": "HumanEval/6",
+      "reason": "calls_function_defined_in_same_file: ['parse_paren_group']",
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['parse_paren_group']"
+      ],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 107.245
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/10",
+      "reason": "calls_function_defined_in_same_file: ['is_palindrome']; references_name_defined_in_same_file: ['is_palindrome']",
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['is_palindrome']",
+        "references_name_defined_in_same_file: ['is_palindrome']"
+      ],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 91.697
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/11",
+      "reason": "calls_function_defined_in_same_file: ['xor']",
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['xor']"
+      ],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 76.277
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/16",
+      "reason": "no_mutation_in_catalogue_made_the_official_test_fail",
+      "eligibility_reasons": [],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 77.267
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/22",
+      "reason": "no_mutation_in_catalogue_made_the_official_test_fail",
+      "eligibility_reasons": [],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 94.763
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/23",
+      "reason": "no_mutation_in_catalogue_made_the_official_test_fail",
+      "eligibility_reasons": [],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 90.281
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/27",
+      "reason": "no_mutation_in_catalogue_made_the_official_test_fail",
+      "eligibility_reasons": [],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 88.904
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/28",
+      "reason": "no_mutation_in_catalogue_made_the_official_test_fail",
+      "eligibility_reasons": [],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 97.474
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/29",
+      "reason": "no_mutation_in_catalogue_made_the_official_test_fail",
+      "eligibility_reasons": [],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 129.392
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/32",
+      "reason": "calls_function_defined_in_same_file: ['poly']; references_name_defined_in_same_file: ['poly']",
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['poly']",
+        "references_name_defined_in_same_file: ['poly']"
+      ],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 136.0
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/34",
+      "reason": "no_mutation_in_catalogue_made_the_official_test_fail",
+      "eligibility_reasons": [],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 117.969
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/35",
+      "reason": "no_mutation_in_catalogue_made_the_official_test_fail",
+      "eligibility_reasons": [],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 131.499
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/38",
+      "reason": "calls_function_defined_in_same_file: ['encode_cyclic']; references_name_defined_in_same_file: ['encode_cyclic']",
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['encode_cyclic']",
+        "references_name_defined_in_same_file: ['encode_cyclic']"
+      ],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 109.121
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/39",
+      "reason": "calls_function_defined_in_same_file: ['is_prime']",
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['is_prime']"
+      ],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 105.566
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/55",
+      "reason": "calls_function_defined_in_same_file: ['fib']",
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['fib']"
+      ],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 88.562
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/59",
+      "reason": "calls_function_defined_in_same_file: ['is_prime']",
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['is_prime']"
+      ],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 102.919
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/63",
+      "reason": "calls_function_defined_in_same_file: ['fibfib']",
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['fibfib']"
+      ],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 78.095
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/75",
+      "reason": "calls_function_defined_in_same_file: ['is_prime']",
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['is_prime']"
+      ],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 269.713
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/86",
+      "reason": "no_mutation_in_catalogue_made_the_official_test_fail",
+      "eligibility_reasons": [],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 98.51
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/92",
+      "reason": "no_mutation_in_catalogue_made_the_official_test_fail",
+      "eligibility_reasons": [],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 94.596
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/94",
+      "reason": "calls_function_defined_in_same_file: ['isPrime']",
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['isPrime']"
+      ],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 72.237
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/107",
+      "reason": "calls_function_defined_in_same_file: ['is_palindrome']",
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['is_palindrome']"
+      ],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 86.088
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/108",
+      "reason": "calls_function_defined_in_same_file: ['digits_sum']",
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['digits_sum']"
+      ],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 86.539
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/116",
+      "reason": "no_mutation_in_catalogue_made_the_official_test_fail",
+      "eligibility_reasons": [],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 88.931
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/119",
+      "reason": "calls_function_defined_in_same_file: ['check']",
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['check']"
+      ],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 82.034
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/127",
+      "reason": "calls_function_defined_in_same_file: ['is_prime']",
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['is_prime']"
+      ],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 86.815
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/137",
+      "reason": "no_mutation_in_catalogue_made_the_official_test_fail",
+      "eligibility_reasons": [],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 71.921
+      }
+    },
+    {
+      "humaneval_task_id": "HumanEval/162",
+      "reason": "no_mutation_in_catalogue_made_the_official_test_fail",
+      "eligibility_reasons": [],
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 86.107
+      }
+    }
+  ],
+  "not_selected_candidates": [
+    {
+      "humaneval_task_id": "HumanEval/12",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 1
+    },
+    {
+      "humaneval_task_id": "HumanEval/19",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/21",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/25",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 7
+    },
+    {
+      "humaneval_task_id": "HumanEval/26",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/30",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/31",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 7
+    },
+    {
+      "humaneval_task_id": "HumanEval/33",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 4
+    },
+    {
+      "humaneval_task_id": "HumanEval/37",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 7
+    },
+    {
+      "humaneval_task_id": "HumanEval/40",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 6
+    },
+    {
+      "humaneval_task_id": "HumanEval/41",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 2
+    },
+    {
+      "humaneval_task_id": "HumanEval/42",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/43",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 5
+    },
+    {
+      "humaneval_task_id": "HumanEval/44",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 4
+    },
+    {
+      "humaneval_task_id": "HumanEval/45",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/46",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 8
+    },
+    {
+      "humaneval_task_id": "HumanEval/47",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 9
+    },
+    {
+      "humaneval_task_id": "HumanEval/48",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 5
+    },
+    {
+      "humaneval_task_id": "HumanEval/49",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 4
+    },
+    {
+      "humaneval_task_id": "HumanEval/50",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 6
+    },
+    {
+      "humaneval_task_id": "HumanEval/51",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 1
+    },
+    {
+      "humaneval_task_id": "HumanEval/52",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 1
+    },
+    {
+      "humaneval_task_id": "HumanEval/53",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 1
+    },
+    {
+      "humaneval_task_id": "HumanEval/54",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 1
+    },
+    {
+      "humaneval_task_id": "HumanEval/56",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 8
+    },
+    {
+      "humaneval_task_id": "HumanEval/58",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 1
+    },
+    {
+      "humaneval_task_id": "HumanEval/60",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/61",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 8
+    },
+    {
+      "humaneval_task_id": "HumanEval/62",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/65",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 5
+    },
+    {
+      "humaneval_task_id": "HumanEval/66",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/67",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 1
+    },
+    {
+      "humaneval_task_id": "HumanEval/68",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 7
+    },
+    {
+      "humaneval_task_id": "HumanEval/69",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 6
+    },
+    {
+      "humaneval_task_id": "HumanEval/70",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 1
+    },
+    {
+      "humaneval_task_id": "HumanEval/72",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/73",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 8
+    },
+    {
+      "humaneval_task_id": "HumanEval/74",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 2
+    },
+    {
+      "humaneval_task_id": "HumanEval/76",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 8
+    },
+    {
+      "humaneval_task_id": "HumanEval/77",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 7
+    },
+    {
+      "humaneval_task_id": "HumanEval/78",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 5
+    },
+    {
+      "humaneval_task_id": "HumanEval/79",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 4
+    },
+    {
+      "humaneval_task_id": "HumanEval/80",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 11
+    },
+    {
+      "humaneval_task_id": "HumanEval/81",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 4
+    },
+    {
+      "humaneval_task_id": "HumanEval/82",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 11
+    },
+    {
+      "humaneval_task_id": "HumanEval/83",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 9
+    },
+    {
+      "humaneval_task_id": "HumanEval/84",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 2
+    },
+    {
+      "humaneval_task_id": "HumanEval/85",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 8
+    },
+    {
+      "humaneval_task_id": "HumanEval/87",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 5
+    },
+    {
+      "humaneval_task_id": "HumanEval/88",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 9
+    },
+    {
+      "humaneval_task_id": "HumanEval/89",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 7
+    },
+    {
+      "humaneval_task_id": "HumanEval/90",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 5
+    },
+    {
+      "humaneval_task_id": "HumanEval/91",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 5
+    },
+    {
+      "humaneval_task_id": "HumanEval/93",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 4
+    },
+    {
+      "humaneval_task_id": "HumanEval/95",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 6
+    },
+    {
+      "humaneval_task_id": "HumanEval/96",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 8
+    },
+    {
+      "humaneval_task_id": "HumanEval/97",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 5
+    },
+    {
+      "humaneval_task_id": "HumanEval/98",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 6
+    },
+    {
+      "humaneval_task_id": "HumanEval/99",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/100",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/101",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 1
+    },
+    {
+      "humaneval_task_id": "HumanEval/102",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 10
+    },
+    {
+      "humaneval_task_id": "HumanEval/103",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 9
+    },
+    {
+      "humaneval_task_id": "HumanEval/104",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 5
+    },
+    {
+      "humaneval_task_id": "HumanEval/105",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/106",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 10
+    },
+    {
+      "humaneval_task_id": "HumanEval/109",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 7
+    },
+    {
+      "humaneval_task_id": "HumanEval/110",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 10
+    },
+    {
+      "humaneval_task_id": "HumanEval/111",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 5
+    },
+    {
+      "humaneval_task_id": "HumanEval/112",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/113",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 7
+    },
+    {
+      "humaneval_task_id": "HumanEval/114",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 4
+    },
+    {
+      "humaneval_task_id": "HumanEval/115",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 1
+    },
+    {
+      "humaneval_task_id": "HumanEval/117",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 6
+    },
+    {
+      "humaneval_task_id": "HumanEval/118",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 13
+    },
+    {
+      "humaneval_task_id": "HumanEval/120",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/121",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 10
+    },
+    {
+      "humaneval_task_id": "HumanEval/122",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/123",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 8
+    },
+    {
+      "humaneval_task_id": "HumanEval/124",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 6
+    },
+    {
+      "humaneval_task_id": "HumanEval/125",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/126",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 5
+    },
+    {
+      "humaneval_task_id": "HumanEval/128",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 7
+    },
+    {
+      "humaneval_task_id": "HumanEval/129",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 8
+    },
+    {
+      "humaneval_task_id": "HumanEval/130",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 11
+    },
+    {
+      "humaneval_task_id": "HumanEval/131",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 9
+    },
+    {
+      "humaneval_task_id": "HumanEval/132",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 5
+    },
+    {
+      "humaneval_task_id": "HumanEval/133",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/134",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 5
+    },
+    {
+      "humaneval_task_id": "HumanEval/135",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 5
+    },
+    {
+      "humaneval_task_id": "HumanEval/136",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 6
+    },
+    {
+      "humaneval_task_id": "HumanEval/138",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 9
+    },
+    {
+      "humaneval_task_id": "HumanEval/139",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 4
+    },
+    {
+      "humaneval_task_id": "HumanEval/140",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 11
+    },
+    {
+      "humaneval_task_id": "HumanEval/141",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 9
+    },
+    {
+      "humaneval_task_id": "HumanEval/142",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 13
+    },
+    {
+      "humaneval_task_id": "HumanEval/143",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 10
+    },
+    {
+      "humaneval_task_id": "HumanEval/144",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 4
+    },
+    {
+      "humaneval_task_id": "HumanEval/145",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 5
+    },
+    {
+      "humaneval_task_id": "HumanEval/146",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 6
+    },
+    {
+      "humaneval_task_id": "HumanEval/147",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 2
+    },
+    {
+      "humaneval_task_id": "HumanEval/148",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 10
+    },
+    {
+      "humaneval_task_id": "HumanEval/149",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 5
+    },
+    {
+      "humaneval_task_id": "HumanEval/150",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 7
+    },
+    {
+      "humaneval_task_id": "HumanEval/151",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 10
+    },
+    {
+      "humaneval_task_id": "HumanEval/152",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 1
+    },
+    {
+      "humaneval_task_id": "HumanEval/153",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 12
+    },
+    {
+      "humaneval_task_id": "HumanEval/154",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 3
+    },
+    {
+      "humaneval_task_id": "HumanEval/155",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 6
+    },
+    {
+      "humaneval_task_id": "HumanEval/156",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 4
+    },
+    {
+      "humaneval_task_id": "HumanEval/157",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 7
+    },
+    {
+      "humaneval_task_id": "HumanEval/158",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 2
+    },
+    {
+      "humaneval_task_id": "HumanEval/159",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 4
+    },
+    {
+      "humaneval_task_id": "HumanEval/160",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 5
+    },
+    {
+      "humaneval_task_id": "HumanEval/161",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 4
+    },
+    {
+      "humaneval_task_id": "HumanEval/163",
+      "reason": "not_selected_by_rule_diversity_round_robin",
+      "viable_mutations_found": 5
+    }
+  ],
+  "per_problem": [
+    {
+      "humaneval_task_id": "HumanEval/0",
+      "entry_point": "has_close_elements",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 112.985
+      },
+      "viable_mutations_found": 2,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/1",
+      "entry_point": "separate_paren_groups",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 91.413
+      },
+      "viable_mutations_found": 7,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/2",
+      "entry_point": "truncate_number",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 103.83
+      },
+      "viable_mutations_found": 2,
+      "mutation_candidates_evaluated": {
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/3",
+      "entry_point": "below_zero",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 83.987
+      },
+      "viable_mutations_found": 4,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/4",
+      "entry_point": "mean_absolute_deviation",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 84.947
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/5",
+      "entry_point": "intersperse",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 110.827
+      },
+      "viable_mutations_found": 2,
+      "mutation_candidates_evaluated": {
+        "incorrect_constant": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/6",
+      "entry_point": "parse_nested_parens",
+      "eligible": false,
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['parse_paren_group']"
+      ],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 107.245
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/7",
+      "entry_point": "filter_by_substring",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 100.077
+      },
+      "viable_mutations_found": 1,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/8",
+      "entry_point": "sum_product",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 79.433
+      },
+      "viable_mutations_found": 2,
+      "mutation_candidates_evaluated": {
+        "incorrect_constant": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/9",
+      "entry_point": "rolling_max",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 90.205
+      },
+      "viable_mutations_found": 1,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/10",
+      "entry_point": "make_palindrome",
+      "eligible": false,
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['is_palindrome']",
+        "references_name_defined_in_same_file: ['is_palindrome']"
+      ],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 91.697
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/11",
+      "entry_point": "string_xor",
+      "eligible": false,
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['xor']"
+      ],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 76.277
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/12",
+      "entry_point": "longest",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 90.343
+      },
+      "viable_mutations_found": 1,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/13",
+      "entry_point": "greatest_common_divisor",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 79.861
+      },
+      "viable_mutations_found": 1,
+      "mutation_candidates_evaluated": {
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/14",
+      "entry_point": "all_prefixes",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 88.837
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/15",
+      "entry_point": "string_sequence",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 92.64
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/16",
+      "entry_point": "count_distinct_characters",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 77.267
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/17",
+      "entry_point": "parse_music",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 73.618
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "incorrect_constant": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/18",
+      "entry_point": "how_many_times",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 78.119
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/19",
+      "entry_point": "sort_numbers",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 108.441
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "incorrect_constant": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/20",
+      "entry_point": "find_closest_elements",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 100.943
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "arithmetic_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/21",
+      "entry_point": "rescale_to_unit",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 85.376
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/22",
+      "entry_point": "filter_integers",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 94.763
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/23",
+      "entry_point": "strlen",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 90.281
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/24",
+      "entry_point": "largest_divisor",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 87.621
+      },
+      "viable_mutations_found": 4,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/25",
+      "entry_point": "factorize",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 103.048
+      },
+      "viable_mutations_found": 7,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/26",
+      "entry_point": "remove_duplicates",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 99.913
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/27",
+      "entry_point": "flip_case",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 88.904
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/28",
+      "entry_point": "concatenate",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 97.474
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/29",
+      "entry_point": "filter_by_prefix",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 129.392
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/30",
+      "entry_point": "get_positive",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 79.311
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/31",
+      "entry_point": "is_prime",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 87.605
+      },
+      "viable_mutations_found": 7,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/32",
+      "entry_point": "find_zero",
+      "eligible": false,
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['poly']",
+        "references_name_defined_in_same_file: ['poly']"
+      ],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 136.0
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/33",
+      "entry_point": "sort_third",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 137.127
+      },
+      "viable_mutations_found": 4,
+      "mutation_candidates_evaluated": {
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/34",
+      "entry_point": "unique",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 117.969
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/35",
+      "entry_point": "max_element",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 131.499
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/36",
+      "entry_point": "fizz_buzz",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 138.593
+      },
+      "viable_mutations_found": 11,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 2,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/37",
+      "entry_point": "sort_even",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 105.964
+      },
+      "viable_mutations_found": 7,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/38",
+      "entry_point": "decode_cyclic",
+      "eligible": false,
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['encode_cyclic']",
+        "references_name_defined_in_same_file: ['encode_cyclic']"
+      ],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 109.121
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/39",
+      "entry_point": "prime_fib",
+      "eligible": false,
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['is_prime']"
+      ],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 105.566
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/40",
+      "entry_point": "triples_sum_to_zero",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 95.682
+      },
+      "viable_mutations_found": 6,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/41",
+      "entry_point": "car_race_collision",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 82.895
+      },
+      "viable_mutations_found": 2,
+      "mutation_candidates_evaluated": {
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/42",
+      "entry_point": "incr_list",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 94.169
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/43",
+      "entry_point": "pairs_sum_to_zero",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 110.588
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 2,
+        "arithmetic_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/44",
+      "entry_point": "change_base",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 85.868
+      },
+      "viable_mutations_found": 4,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/45",
+      "entry_point": "triangle_area",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 90.089
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/46",
+      "entry_point": "fib4",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 96.433
+      },
+      "viable_mutations_found": 8,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/47",
+      "entry_point": "median",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 88.693
+      },
+      "viable_mutations_found": 9,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/48",
+      "entry_point": "is_palindrome",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 90.763
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/49",
+      "entry_point": "modp",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 97.994
+      },
+      "viable_mutations_found": 4,
+      "mutation_candidates_evaluated": {
+        "incorrect_constant": 2,
+        "arithmetic_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/50",
+      "entry_point": "decode_shift",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 94.849
+      },
+      "viable_mutations_found": 6,
+      "mutation_candidates_evaluated": {
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 2,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/51",
+      "entry_point": "remove_vowels",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 84.014
+      },
+      "viable_mutations_found": 1,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/52",
+      "entry_point": "below_threshold",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 105.788
+      },
+      "viable_mutations_found": 1,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/53",
+      "entry_point": "add",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 89.3
+      },
+      "viable_mutations_found": 1,
+      "mutation_candidates_evaluated": {
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/54",
+      "entry_point": "same_chars",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 80.408
+      },
+      "viable_mutations_found": 1,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/55",
+      "entry_point": "fib",
+      "eligible": false,
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['fib']"
+      ],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 88.562
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/56",
+      "entry_point": "correct_bracketing",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 88.818
+      },
+      "viable_mutations_found": 8,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/57",
+      "entry_point": "monotonic",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 85.146
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/58",
+      "entry_point": "common",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 101.962
+      },
+      "viable_mutations_found": 1,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/59",
+      "entry_point": "largest_prime_factor",
+      "eligible": false,
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['is_prime']"
+      ],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 102.919
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/60",
+      "entry_point": "sum_to_n",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 82.124
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/61",
+      "entry_point": "correct_bracketing",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 97.465
+      },
+      "viable_mutations_found": 8,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/62",
+      "entry_point": "derivative",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 88.725
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/63",
+      "entry_point": "fibfib",
+      "eligible": false,
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['fibfib']"
+      ],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 78.095
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/64",
+      "entry_point": "vowels_count",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 93.342
+      },
+      "viable_mutations_found": 7,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "incorrect_constant": 3,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/65",
+      "entry_point": "circular_shift",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 84.987
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/66",
+      "entry_point": "digitSum",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 84.753
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "incorrect_constant": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/67",
+      "entry_point": "fruit_distribution",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 92.17
+      },
+      "viable_mutations_found": 1,
+      "mutation_candidates_evaluated": {
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/68",
+      "entry_point": "pluck",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 89.532
+      },
+      "viable_mutations_found": 7,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/69",
+      "entry_point": "search",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 84.163
+      },
+      "viable_mutations_found": 6,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/70",
+      "entry_point": "strange_sort_list",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 89.446
+      },
+      "viable_mutations_found": 1,
+      "mutation_candidates_evaluated": {
+        "incorrect_constant": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/71",
+      "entry_point": "triangle_area",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 82.404
+      },
+      "viable_mutations_found": 8,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/72",
+      "entry_point": "will_it_fly",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 89.614
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/73",
+      "entry_point": "smallest_change",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 83.631
+      },
+      "viable_mutations_found": 8,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/74",
+      "entry_point": "total_match",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 90.141
+      },
+      "viable_mutations_found": 2,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "incorrect_constant": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/75",
+      "entry_point": "is_multiply_prime",
+      "eligible": false,
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['is_prime']"
+      ],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 269.713
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/76",
+      "entry_point": "is_simple_power",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 86.1
+      },
+      "viable_mutations_found": 8,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/77",
+      "entry_point": "iscube",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 71.383
+      },
+      "viable_mutations_found": 7,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/78",
+      "entry_point": "hex_key",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 105.664
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/79",
+      "entry_point": "decimal_to_binary",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 86.07
+      },
+      "viable_mutations_found": 4,
+      "mutation_candidates_evaluated": {
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/80",
+      "entry_point": "is_happy",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 85.326
+      },
+      "viable_mutations_found": 11,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/81",
+      "entry_point": "numerical_letter_grade",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 91.131
+      },
+      "viable_mutations_found": 4,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "incorrect_constant": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/82",
+      "entry_point": "prime_length",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 79.934
+      },
+      "viable_mutations_found": 11,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 1,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/83",
+      "entry_point": "starts_one_ends",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 103.791
+      },
+      "viable_mutations_found": 9,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/84",
+      "entry_point": "solve",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 86.204
+      },
+      "viable_mutations_found": 2,
+      "mutation_candidates_evaluated": {
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/85",
+      "entry_point": "add",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 119.587
+      },
+      "viable_mutations_found": 8,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/86",
+      "entry_point": "anti_shuffle",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 98.51
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/87",
+      "entry_point": "get_row",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 104.446
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/88",
+      "entry_point": "sort_array",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 98.94
+      },
+      "viable_mutations_found": 9,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/89",
+      "entry_point": "encrypt",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 101.862
+      },
+      "viable_mutations_found": 7,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/90",
+      "entry_point": "next_smallest",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 78.915
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/91",
+      "entry_point": "is_bored",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 93.55
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/92",
+      "entry_point": "any_int",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 94.596
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "arithmetic_operator_swap": 3,
+        "boolean_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/93",
+      "entry_point": "encode",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 114.167
+      },
+      "viable_mutations_found": 4,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/94",
+      "entry_point": "skjkasdkd",
+      "eligible": false,
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['isPrime']"
+      ],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 72.237
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/95",
+      "entry_point": "check_dict_case",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 89.248
+      },
+      "viable_mutations_found": 6,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1,
+        "boolean_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/96",
+      "entry_point": "count_up_to",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 82.804
+      },
+      "viable_mutations_found": 8,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/97",
+      "entry_point": "multiply",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 84.076
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "incorrect_constant": 2,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/98",
+      "entry_point": "count_upper",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 77.314
+      },
+      "viable_mutations_found": 6,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/99",
+      "entry_point": "closest_integer",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 79.712
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/100",
+      "entry_point": "make_a_pile",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 96.379
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/101",
+      "entry_point": "words_string",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 92.092
+      },
+      "viable_mutations_found": 1,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/102",
+      "entry_point": "choose_num",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 102.641
+      },
+      "viable_mutations_found": 10,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/103",
+      "entry_point": "rounded_avg",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 76.473
+      },
+      "viable_mutations_found": 9,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/104",
+      "entry_point": "unique_digits",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 100.254
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 2,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/105",
+      "entry_point": "by_length",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 100.342
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "incorrect_constant": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/106",
+      "entry_point": "f",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 87.453
+      },
+      "viable_mutations_found": 10,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/107",
+      "entry_point": "even_odd_palindrome",
+      "eligible": false,
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['is_palindrome']"
+      ],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 86.088
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/108",
+      "entry_point": "count_nums",
+      "eligible": false,
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['digits_sum']"
+      ],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 86.539
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/109",
+      "entry_point": "move_one_ball",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 96.471
+      },
+      "viable_mutations_found": 7,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 2,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/110",
+      "entry_point": "exchange",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 101.466
+      },
+      "viable_mutations_found": 10,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/111",
+      "entry_point": "histogram",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 91.768
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 2,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/112",
+      "entry_point": "reverse_delete",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 73.552
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "incorrect_constant": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/113",
+      "entry_point": "odd_count",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 117.956
+      },
+      "viable_mutations_found": 7,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 2,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/114",
+      "entry_point": "minSubArraySum",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 94.336
+      },
+      "viable_mutations_found": 4,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/115",
+      "entry_point": "max_fill",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 82.866
+      },
+      "viable_mutations_found": 1,
+      "mutation_candidates_evaluated": {
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/116",
+      "entry_point": "sort_array",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 88.931
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/117",
+      "entry_point": "select_words",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 78.747
+      },
+      "viable_mutations_found": 6,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/118",
+      "entry_point": "get_closest_vowel",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 77.582
+      },
+      "viable_mutations_found": 13,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/119",
+      "entry_point": "match_parens",
+      "eligible": false,
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['check']"
+      ],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 82.034
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/120",
+      "entry_point": "maximum",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 84.527
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/121",
+      "entry_point": "solution",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 100.329
+      },
+      "viable_mutations_found": 10,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 2,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/122",
+      "entry_point": "add_elements",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 86.494
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/123",
+      "entry_point": "get_odd_collatz",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 99.492
+      },
+      "viable_mutations_found": 8,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/124",
+      "entry_point": "valid_date",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 83.031
+      },
+      "viable_mutations_found": 6,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "boolean_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/125",
+      "entry_point": "split_words",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 93.804
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 2,
+        "arithmetic_operator_swap": 1,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/126",
+      "entry_point": "is_sorted",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 98.184
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/127",
+      "entry_point": "intersection",
+      "eligible": false,
+      "eligibility_reasons": [
+        "calls_function_defined_in_same_file: ['is_prime']"
+      ],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 86.815
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/128",
+      "entry_point": "prod_signs",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 74.708
+      },
+      "viable_mutations_found": 7,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/129",
+      "entry_point": "minPath",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 93.147
+      },
+      "viable_mutations_found": 8,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/130",
+      "entry_point": "tri",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 94.651
+      },
+      "viable_mutations_found": 11,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/131",
+      "entry_point": "digits",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 89.083
+      },
+      "viable_mutations_found": 9,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/132",
+      "entry_point": "is_nested",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 103.732
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 3,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/133",
+      "entry_point": "sum_squares",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 111.275
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "incorrect_constant": 2,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/134",
+      "entry_point": "check_if_last_char_is_a_letter",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 130.682
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/135",
+      "entry_point": "can_arrange",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 86.22
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/136",
+      "entry_point": "largest_smallest_integers",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 82.444
+      },
+      "viable_mutations_found": 6,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/137",
+      "entry_point": "compare_one",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 71.921
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/138",
+      "entry_point": "is_equal_to_sum_even",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 83.972
+      },
+      "viable_mutations_found": 9,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 1,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/139",
+      "entry_point": "special_factorial",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 95.885
+      },
+      "viable_mutations_found": 4,
+      "mutation_candidates_evaluated": {
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/140",
+      "entry_point": "fix_spaces",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 79.522
+      },
+      "viable_mutations_found": 11,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/141",
+      "entry_point": "file_name_check",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 91.46
+      },
+      "viable_mutations_found": 9,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/142",
+      "entry_point": "sum_squares",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 108.17
+      },
+      "viable_mutations_found": 13,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/143",
+      "entry_point": "words_in_sentence",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 101.229
+      },
+      "viable_mutations_found": 10,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 1,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/144",
+      "entry_point": "simplify",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 105.869
+      },
+      "viable_mutations_found": 4,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/145",
+      "entry_point": "order_by_points",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 80.385
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 2
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/146",
+      "entry_point": "specialFilter",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 79.313
+      },
+      "viable_mutations_found": 6,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/147",
+      "entry_point": "get_max_triples",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 114.36
+      },
+      "viable_mutations_found": 2,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/148",
+      "entry_point": "bf",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 89.991
+      },
+      "viable_mutations_found": 10,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 2,
+        "arithmetic_operator_swap": 2,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/149",
+      "entry_point": "sorted_list_sum",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 82.069
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 2,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/150",
+      "entry_point": "x_or_y",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 86.922
+      },
+      "viable_mutations_found": 7,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/151",
+      "entry_point": "double_the_difference",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 95.823
+      },
+      "viable_mutations_found": 10,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 2,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/152",
+      "entry_point": "compare",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 95.666
+      },
+      "viable_mutations_found": 1,
+      "mutation_candidates_evaluated": {
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/153",
+      "entry_point": "Strongest_Extension",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 102.318
+      },
+      "viable_mutations_found": 12,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3,
+        "boolean_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/154",
+      "entry_point": "cycpattern_check",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 81.027
+      },
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 2,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/155",
+      "entry_point": "even_odd_count",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 118.84
+      },
+      "viable_mutations_found": 6,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/156",
+      "entry_point": "int_to_mini_roman",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 102.975
+      },
+      "viable_mutations_found": 4,
+      "mutation_candidates_evaluated": {
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/157",
+      "entry_point": "right_angle_triangle",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 101.703
+      },
+      "viable_mutations_found": 7,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "arithmetic_operator_swap": 3,
+        "boolean_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/158",
+      "entry_point": "find_max",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 88.206
+      },
+      "viable_mutations_found": 2,
+      "mutation_candidates_evaluated": {
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/159",
+      "entry_point": "eat",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 82.164
+      },
+      "viable_mutations_found": 4,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/160",
+      "entry_point": "do_algebra",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 88.82
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 2,
+        "arithmetic_operator_swap": 1
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/161",
+      "entry_point": "solve",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 85.711
+      },
+      "viable_mutations_found": 4,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 3
+      },
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/162",
+      "entry_point": "string_to_md5",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 86.107
+      },
+      "viable_mutations_found": 0,
+      "mutation_candidates_evaluated": {},
+      "rejection_reason": null
+    },
+    {
+      "humaneval_task_id": "HumanEval/163",
+      "entry_point": "generate_integers",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_test": true,
+      "gold_outcome": {
+        "passed": true,
+        "exit_code": 0,
+        "timed_out": false,
+        "error_type": null,
+        "error_message": null,
+        "duration_ms": 59.658
+      },
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 2
+      },
+      "rejection_reason": null
+    }
+  ]
+}

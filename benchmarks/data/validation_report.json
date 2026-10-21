@@ -1,0 +1,3513 @@
+{
+  "schema_version": "1.0",
+  "tasks_total": 20,
+  "tasks_passed": 20,
+  "tasks_failed": 0,
+  "failed_check_counts": {},
+  "mutation_rule_usage": {
+    "comparison_operator_swap": 4,
+    "off_by_one_boundary": 4,
+    "incorrect_constant": 4,
+    "arithmetic_operator_swap": 4,
+    "boolean_operator_swap": 4
+  },
+  "catalogue_rules": [
+    "comparison_operator_swap",
+    "off_by_one_boundary",
+    "incorrect_constant",
+    "arithmetic_operator_swap",
+    "boolean_operator_swap"
+  ],
+  "source": {
+    "repository": "https://github.com/openai/human-eval",
+    "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+    "dataset_path": "data/HumanEval.jsonl.gz",
+    "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+    "dataset_raw_sha256": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+    "license": "MIT"
+  },
+  "manifest": {
+    "schema_version": "1.0",
+    "manifest_version": "1.0.0",
+    "generated_at_utc": "2026-10-20T12:22:19Z",
+    "generator": "benchmarks/phase0/build_tasks.py",
+    "python_version": "3.14.4",
+    "source": {
+      "repository": "https://github.com/openai/human-eval",
+      "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+      "dataset_path": "data/HumanEval.jsonl.gz",
+      "dataset_gz_sha256": "b796127e635a67f93fb35c04f4cb03cf06f38c8072ee7cee8833d7bee06979ef",
+      "license": "MIT"
+    },
+    "counts": {
+      "tasks": 20,
+      "mutation_rules": 5
+    },
+    "files": {
+      "benchmarks/data/humaneval_edit_tasks.json": {
+        "sha256": "70f6e2e8d426eb2fb3f3c37d3674d66e59648dd4abec4d640cbe5e95b8351cc6",
+        "bytes": 102814
+      },
+      "benchmarks/data/gold_solutions.json": {
+        "sha256": "7f7bc35adb4e12839d4ced660f579de255a0404a40145b8618fac9e9bdc255f5",
+        "bytes": 11157
+      },
+      "benchmarks/data/model_facing_tasks.json": {
+        "sha256": "a6902353d720bf226a43e6badccf25a4703cf7f471aecd6fb1163d87f83ff70b",
+        "bytes": 50355
+      },
+      "benchmarks/data/mutation_catalogue.json": {
+        "sha256": "5f3413390ec75138544e95250eb66b0dbc71b3c2fd7913e7680b4c643855e40d",
+        "bytes": 2014
+      },
+      "benchmarks/data/build_log.json": {
+        "sha256": "fa42c8948e13c0a5a8422858c45907806d7d6756aafa59c80f1d1922f8ba6cc4",
+        "bytes": 128762
+      },
+      "benchmarks/data/source/humaneval_subset.jsonl": {
+        "sha256": "c1a6c29173f8050f9124324fc1dfa5fd503869324a271a9bfe2aff21158c7bb9",
+        "bytes": 19927
+      },
+      "benchmarks/data/source/PROVENANCE.json": {
+        "sha256": "5b35388b2dcedcc462526b3e23a6c7bed072434b07e27c46ffa8b9dccd5e7fe1",
+        "bytes": 1631
+      },
+      "benchmarks/data/source/humaneval_LICENSE.txt": {
+        "sha256": "bcba3de214851cce46ed5af42d6698044616eeace887c3231bc7a20474ab639e",
+        "bytes": 1083
+      }
+    },
+    "task_files": {
+      "HE-EDIT-001": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-001/prompt.txt",
+          "sha256": "00b2e074e127a6a9d1376278bef732933760ab706057ec755a8c2642217b557a"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-001/official_test.py",
+          "sha256": "791458a53402434f50698418c76887cf4085c7d1a2453b4da493237c50ef96c5"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-001/original_source.py",
+          "sha256": "40560c20a6f56877abd19fa87e39aa5d43f3bff6b7417c68e11fc772c096a6c9"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-001/mutated_source.py",
+          "sha256": "8053ee4e676d60dcdd2a9ff25fc7bd3656c4e790532b055244515348b55fadc6"
+        }
+      },
+      "HE-EDIT-002": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-002/prompt.txt",
+          "sha256": "ba4d0641a184fb3cdd632060a25d6408a7e91fe9d79b5c341407e74b80536327"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-002/official_test.py",
+          "sha256": "eec0f175849e317e04b8e983c48cc25e50da543975e7163939da0fd6b6c14f9c"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-002/original_source.py",
+          "sha256": "464c1465d5dbdf81777dab90f452cf22371867ee1349fed5d983ef0492c1f621"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-002/mutated_source.py",
+          "sha256": "603d79b47b57cd99cfb3c6a8347ae15a8218fc7ab357dfc44bbeaa8a8f353f68"
+        }
+      },
+      "HE-EDIT-003": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-003/prompt.txt",
+          "sha256": "fecb9ddd4f103f1c3e9d9c7d6c3b948a4b1285b50c3498437c85a9d604d957eb"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-003/official_test.py",
+          "sha256": "6a39b8fb5ea92472f27a2b8b305abe517547f20a3cd824f4de73fb7e0f4b7934"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-003/original_source.py",
+          "sha256": "c8a85aa4b830d2fd587c6d26141536227265742c90f322fb40363f7a4fb9fab6"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-003/mutated_source.py",
+          "sha256": "77e54721282d86c32be8e4c7461b8ef7cece69075efc1f13630e9ffe1fcb3e94"
+        }
+      },
+      "HE-EDIT-004": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-004/prompt.txt",
+          "sha256": "2717edd5d203ea22a6eebf62263effd9b792e1a2ef93e017868cedaac7b5ef10"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-004/official_test.py",
+          "sha256": "5b28de46dfd046bbb72c49a4cfcafbac0eeed6ab45312f5d573e2cd34aa22f1b"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-004/original_source.py",
+          "sha256": "0c623b01f0e11938b37599e3a5a9e13d38d5e192a9e6a59ebd4fe6bc3c253946"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-004/mutated_source.py",
+          "sha256": "073a6ecd2e93a58403e544ee95044d302551241286e92ba46f7e5f7b688ff1e1"
+        }
+      },
+      "HE-EDIT-005": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-005/prompt.txt",
+          "sha256": "9ca3d814d8f4c88fc35c6286cf046f39b0903222b094a800926eead370bcf4bb"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-005/official_test.py",
+          "sha256": "33902aa28a76a3d18738481f56efa1dbf4a361328768356c6de78461113bfeee"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-005/original_source.py",
+          "sha256": "746507c9af7b2032ff0307d55be461982157ff5e5d472a2655f74a27be2df1c9"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-005/mutated_source.py",
+          "sha256": "f36d23cca6acd67c769f659d37fdde9232eb4bc6457bf07ee2b33e4555f54350"
+        }
+      },
+      "HE-EDIT-006": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-006/prompt.txt",
+          "sha256": "430706f794ffabb60ec5818ca7c9fdbd281b97ef9d3ac6d6ba140a7a2498f5a5"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-006/official_test.py",
+          "sha256": "40b6760bdaa3d5c213303b7021e563f8561c1466d46bfbdf25eee5591a7b9aa8"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-006/original_source.py",
+          "sha256": "1a710a84f86e12ee74b7279afbf9fd53480c1753e133161783c0b84b4999346a"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-006/mutated_source.py",
+          "sha256": "e1718ac82eae5eca6da9d57e6032c5c301d02eea2065c2b64a32762a40c55e77"
+        }
+      },
+      "HE-EDIT-007": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-007/prompt.txt",
+          "sha256": "f4eca2c1c9ceb5ca5b0b0885dfd75fb4f768967fd2e53640176e413a499cc165"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-007/official_test.py",
+          "sha256": "79f83d056e0f6b818bc8103ce4ed597a769d98ada76ee9ddccf856d29a262b8e"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-007/original_source.py",
+          "sha256": "e8cd7aa1d5ff0f57886eaadfc33f200e424171a9135ba39f7a23436921c2014b"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-007/mutated_source.py",
+          "sha256": "be61612b9dfe082e10b945e8312ee6597276e7ce965eaa2232002a233e98e502"
+        }
+      },
+      "HE-EDIT-008": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-008/prompt.txt",
+          "sha256": "388474ac71e5b893802f5971102df2e4ea82ddf2f916a4a55361c19370f54012"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-008/official_test.py",
+          "sha256": "09f028312e9703cb8fe5f9a5027ab5ec540e79dd5525a318fa209bff1fcd15cb"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-008/original_source.py",
+          "sha256": "e29d7eff9cf73491f718294c6990a771fa0c8093d19845e682c5e7924c2a6811"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-008/mutated_source.py",
+          "sha256": "07725c3a7afaafc726d46cfbf36570228ec2eb5587834c7bb28d652fae9bf952"
+        }
+      },
+      "HE-EDIT-009": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-009/prompt.txt",
+          "sha256": "a7946546bc3a483bb5f2249ced878d510d6765d3c987a3e56dd878fe5bb60c19"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-009/official_test.py",
+          "sha256": "425a08ae556a0aa5d0947c14a74c35386c1b6eb46dc2527e8dc090d940d0fc07"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-009/original_source.py",
+          "sha256": "acc3b98a289aff9cc3fa28e707155d5ce11e9ccc2523eb12c22c804bb8f5cb1f"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-009/mutated_source.py",
+          "sha256": "75854c65c6741fb9f788ebb7c9f58bf25f694aac72d03229b8d168aa5dd5496e"
+        }
+      },
+      "HE-EDIT-010": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-010/prompt.txt",
+          "sha256": "5656ff21e3b01209978415c290235784e32350405706cebc0045defa6271dd99"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-010/official_test.py",
+          "sha256": "bf657f12f0c19f1746226e36d3fbdb7bc937b36eca525f2d4bdfb4b12e5333a5"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-010/original_source.py",
+          "sha256": "172c837191f07de25ea3aaef5720d37bc6a233aebfa88c6d2c4fc8ff9ee61c8a"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-010/mutated_source.py",
+          "sha256": "7bfd623bb193e6f365ce2baec2e14f257a8857c11eee70d7b2b80237a5625532"
+        }
+      },
+      "HE-EDIT-011": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-011/prompt.txt",
+          "sha256": "5eecb2c6bb2b4fcd70989d66291a7c4c02d3afbf31591ad684e926a1e60ee969"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-011/official_test.py",
+          "sha256": "151e83d8e61801a06d5b4c6813497111954a8e53235d8c484027bfefd057f751"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-011/original_source.py",
+          "sha256": "5d6aa131b9692989db050cecd2d4958f5a7b1427749e1e07cf6406fa0f6a9e02"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-011/mutated_source.py",
+          "sha256": "0b5e6277ec9495387cb6278347ad5f196eca723521e27d6c2e1d3c8c29178d03"
+        }
+      },
+      "HE-EDIT-012": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-012/prompt.txt",
+          "sha256": "1eb46648867a6e499ee7e4fa6500b594937f325209204606d7391c8cad9df9c4"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-012/official_test.py",
+          "sha256": "f33fe7ee4ed9965a69a1e266735813dec79485fe1d9dda05d0a88e8450ea465f"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-012/original_source.py",
+          "sha256": "f161678bdb15abc033c648725ba309b043f670f59bcf5b5f46671ce0d0d625f1"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-012/mutated_source.py",
+          "sha256": "17da6e3cf7af6469de69a6c4e229f4231eda8ea498aa1192f82fb09686c2c660"
+        }
+      },
+      "HE-EDIT-013": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-013/prompt.txt",
+          "sha256": "84dc98e731928675a91c68cbff1f89d0677596f849fa0e6b34fa9b40335fce03"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-013/official_test.py",
+          "sha256": "0910e972b4099735ae4c3035ac238672cc262ac579410a6e7aa8a79382c56e1b"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-013/original_source.py",
+          "sha256": "f81f225ca186c969c4a4759fbb9068160082e0ab033456fcf524227202fea3f1"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-013/mutated_source.py",
+          "sha256": "b61d41400c193b11ca036b682c7ebe833f51058c4704d7f63f2184051de1281c"
+        }
+      },
+      "HE-EDIT-014": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-014/prompt.txt",
+          "sha256": "6fc9c00aa6b110ecf79f34e36f14b6b4c9a27128463ef6733b948e32a35c2bfc"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-014/official_test.py",
+          "sha256": "43ff59d91c8e0c74b916dfe25a3eb0a988ebaf48444df2dcff806151f73f508e"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-014/original_source.py",
+          "sha256": "6bbf98aacc9fc764b75ea37319fc68fef68453dfd5e67703b6894379a97e039c"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-014/mutated_source.py",
+          "sha256": "90d11b7178e3ea078c9e22de6290fd482dd91ea353f407ecc95575b966c823f9"
+        }
+      },
+      "HE-EDIT-015": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-015/prompt.txt",
+          "sha256": "bc81b28f391ede1728b9b45d174a5a8953119ebc8f98908735202a05f839c5d8"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-015/official_test.py",
+          "sha256": "83722a57d8fca93dceb41ac2f4b1711c0edbd98aa0d12a691e2a5f5bcc97c3dd"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-015/original_source.py",
+          "sha256": "b57f26df9f89ecbc78b70861bcdbd4f80a8bbeb48d0b105149796f70c3a987e2"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-015/mutated_source.py",
+          "sha256": "f322cd2d0a44ecd23b1122fe65ee0b614fb80407864ca1369a69de1c0bc2e8d6"
+        }
+      },
+      "HE-EDIT-016": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-016/prompt.txt",
+          "sha256": "583b281fbe1bf261fbade6e1a03119de96084ac87b508387f0d23c3b0cfdbbdb"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-016/official_test.py",
+          "sha256": "ea4c0c4da11c45408e42bac13c6983f287ab9e228ee7c4cfb82133355791b610"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-016/original_source.py",
+          "sha256": "32af61f17fb376cc1dd042dba50d561411a01ceb3047e358245b577c03971690"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-016/mutated_source.py",
+          "sha256": "8a1f5329419cd97ca7d64b4e666749a9e96000fe4ac3ec35653dcd6f7275ef2e"
+        }
+      },
+      "HE-EDIT-017": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-017/prompt.txt",
+          "sha256": "3bc8bf3f66a3b5e171a358bbd5f33fba1a5d16ea65459198757dcb662dbaaac2"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-017/official_test.py",
+          "sha256": "8f15f3fc77d5fe9d4031725ca0604b4f7af55f1db3f563b7cb3b3ff0863ac667"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-017/original_source.py",
+          "sha256": "edc35161ab72014ac56b571a50dd472ffac9413b62e60a1753a155fe0492e16a"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-017/mutated_source.py",
+          "sha256": "8c664b47c804a2492d29cc68c826acacb31f85adab76998fb6208e0a11e85c26"
+        }
+      },
+      "HE-EDIT-018": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-018/prompt.txt",
+          "sha256": "713553ae9220b08678d575238a702f883cc1d37b1986a6bfa010f8d641601d36"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-018/official_test.py",
+          "sha256": "6576ad3386416662c75a27317f741a8053aadc096fcb3bb91acb1dc527b52a29"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-018/original_source.py",
+          "sha256": "c86bd8e4e832b444d607cfb09f9e20a8b92b9af77fcf8092555972fc2f9441ac"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-018/mutated_source.py",
+          "sha256": "37cfc3d54cfafe4dd5839b90815bed01034071b9e4d9a68094e94fdb2efd1cc4"
+        }
+      },
+      "HE-EDIT-019": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-019/prompt.txt",
+          "sha256": "881d52f394307cce02e432bc6342c93bfe0f6652b203f0bf1a0fc365ed87c594"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-019/official_test.py",
+          "sha256": "2d387b4e1c81940094f73e34fe6ac40f3181a546c3b48adfef58b4ed4eb23968"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-019/original_source.py",
+          "sha256": "c71bef97bdbf6601f7f70f815cead4e2725ffa6d6d85bf1a86e8d37d7d8e99fd"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-019/mutated_source.py",
+          "sha256": "29f55e40bc2ca2e706a25e5e5ae4a9078be9c54255f9678ad3ccab3523c42a7a"
+        }
+      },
+      "HE-EDIT-020": {
+        "prompt": {
+          "path": "benchmarks/data/tasks/HE-EDIT-020/prompt.txt",
+          "sha256": "08897376ea63666a837e51f16608bd0abb6d1633e025ccacde662a7844e19626"
+        },
+        "official_test": {
+          "path": "benchmarks/data/tasks/HE-EDIT-020/official_test.py",
+          "sha256": "05b33c941e48da9d270340ea9eb7ab06b8a653dbce5cc8964afb8548a9975239"
+        },
+        "original_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-020/original_source.py",
+          "sha256": "0c33d330e24e9199e4651fff4adf5fed8dd328de1d25e06086f613c1307a77d8"
+        },
+        "mutated_source": {
+          "path": "benchmarks/data/tasks/HE-EDIT-020/mutated_source.py",
+          "sha256": "c21ff277b94f5647b4b032517f95c2f08ae1c522170fbaa6491b0c95950c31ea"
+        }
+      }
+    },
+    "task_checksums": {
+      "HE-EDIT-001": {
+        "problem_prompt_sha256": "00b2e074e127a6a9d1376278bef732933760ab706057ec755a8c2642217b557a",
+        "official_test_sha256": "791458a53402434f50698418c76887cf4085c7d1a2453b4da493237c50ef96c5",
+        "original_source_sha256": "40560c20a6f56877abd19fa87e39aa5d43f3bff6b7417c68e11fc772c096a6c9",
+        "mutated_source_sha256": "8053ee4e676d60dcdd2a9ff25fc7bd3656c4e790532b055244515348b55fadc6"
+      },
+      "HE-EDIT-002": {
+        "problem_prompt_sha256": "ba4d0641a184fb3cdd632060a25d6408a7e91fe9d79b5c341407e74b80536327",
+        "official_test_sha256": "eec0f175849e317e04b8e983c48cc25e50da543975e7163939da0fd6b6c14f9c",
+        "original_source_sha256": "464c1465d5dbdf81777dab90f452cf22371867ee1349fed5d983ef0492c1f621",
+        "mutated_source_sha256": "603d79b47b57cd99cfb3c6a8347ae15a8218fc7ab357dfc44bbeaa8a8f353f68"
+      },
+      "HE-EDIT-003": {
+        "problem_prompt_sha256": "fecb9ddd4f103f1c3e9d9c7d6c3b948a4b1285b50c3498437c85a9d604d957eb",
+        "official_test_sha256": "6a39b8fb5ea92472f27a2b8b305abe517547f20a3cd824f4de73fb7e0f4b7934",
+        "original_source_sha256": "c8a85aa4b830d2fd587c6d26141536227265742c90f322fb40363f7a4fb9fab6",
+        "mutated_source_sha256": "77e54721282d86c32be8e4c7461b8ef7cece69075efc1f13630e9ffe1fcb3e94"
+      },
+      "HE-EDIT-004": {
+        "problem_prompt_sha256": "2717edd5d203ea22a6eebf62263effd9b792e1a2ef93e017868cedaac7b5ef10",
+        "official_test_sha256": "5b28de46dfd046bbb72c49a4cfcafbac0eeed6ab45312f5d573e2cd34aa22f1b",
+        "original_source_sha256": "0c623b01f0e11938b37599e3a5a9e13d38d5e192a9e6a59ebd4fe6bc3c253946",
+        "mutated_source_sha256": "073a6ecd2e93a58403e544ee95044d302551241286e92ba46f7e5f7b688ff1e1"
+      },
+      "HE-EDIT-005": {
+        "problem_prompt_sha256": "9ca3d814d8f4c88fc35c6286cf046f39b0903222b094a800926eead370bcf4bb",
+        "official_test_sha256": "33902aa28a76a3d18738481f56efa1dbf4a361328768356c6de78461113bfeee",
+        "original_source_sha256": "746507c9af7b2032ff0307d55be461982157ff5e5d472a2655f74a27be2df1c9",
+        "mutated_source_sha256": "f36d23cca6acd67c769f659d37fdde9232eb4bc6457bf07ee2b33e4555f54350"
+      },
+      "HE-EDIT-006": {
+        "problem_prompt_sha256": "430706f794ffabb60ec5818ca7c9fdbd281b97ef9d3ac6d6ba140a7a2498f5a5",
+        "official_test_sha256": "40b6760bdaa3d5c213303b7021e563f8561c1466d46bfbdf25eee5591a7b9aa8",
+        "original_source_sha256": "1a710a84f86e12ee74b7279afbf9fd53480c1753e133161783c0b84b4999346a",
+        "mutated_source_sha256": "e1718ac82eae5eca6da9d57e6032c5c301d02eea2065c2b64a32762a40c55e77"
+      },
+      "HE-EDIT-007": {
+        "problem_prompt_sha256": "f4eca2c1c9ceb5ca5b0b0885dfd75fb4f768967fd2e53640176e413a499cc165",
+        "official_test_sha256": "79f83d056e0f6b818bc8103ce4ed597a769d98ada76ee9ddccf856d29a262b8e",
+        "original_source_sha256": "e8cd7aa1d5ff0f57886eaadfc33f200e424171a9135ba39f7a23436921c2014b",
+        "mutated_source_sha256": "be61612b9dfe082e10b945e8312ee6597276e7ce965eaa2232002a233e98e502"
+      },
+      "HE-EDIT-008": {
+        "problem_prompt_sha256": "388474ac71e5b893802f5971102df2e4ea82ddf2f916a4a55361c19370f54012",
+        "official_test_sha256": "09f028312e9703cb8fe5f9a5027ab5ec540e79dd5525a318fa209bff1fcd15cb",
+        "original_source_sha256": "e29d7eff9cf73491f718294c6990a771fa0c8093d19845e682c5e7924c2a6811",
+        "mutated_source_sha256": "07725c3a7afaafc726d46cfbf36570228ec2eb5587834c7bb28d652fae9bf952"
+      },
+      "HE-EDIT-009": {
+        "problem_prompt_sha256": "a7946546bc3a483bb5f2249ced878d510d6765d3c987a3e56dd878fe5bb60c19",
+        "official_test_sha256": "425a08ae556a0aa5d0947c14a74c35386c1b6eb46dc2527e8dc090d940d0fc07",
+        "original_source_sha256": "acc3b98a289aff9cc3fa28e707155d5ce11e9ccc2523eb12c22c804bb8f5cb1f",
+        "mutated_source_sha256": "75854c65c6741fb9f788ebb7c9f58bf25f694aac72d03229b8d168aa5dd5496e"
+      },
+      "HE-EDIT-010": {
+        "problem_prompt_sha256": "5656ff21e3b01209978415c290235784e32350405706cebc0045defa6271dd99",
+        "official_test_sha256": "bf657f12f0c19f1746226e36d3fbdb7bc937b36eca525f2d4bdfb4b12e5333a5",
+        "original_source_sha256": "172c837191f07de25ea3aaef5720d37bc6a233aebfa88c6d2c4fc8ff9ee61c8a",
+        "mutated_source_sha256": "7bfd623bb193e6f365ce2baec2e14f257a8857c11eee70d7b2b80237a5625532"
+      },
+      "HE-EDIT-011": {
+        "problem_prompt_sha256": "5eecb2c6bb2b4fcd70989d66291a7c4c02d3afbf31591ad684e926a1e60ee969",
+        "official_test_sha256": "151e83d8e61801a06d5b4c6813497111954a8e53235d8c484027bfefd057f751",
+        "original_source_sha256": "5d6aa131b9692989db050cecd2d4958f5a7b1427749e1e07cf6406fa0f6a9e02",
+        "mutated_source_sha256": "0b5e6277ec9495387cb6278347ad5f196eca723521e27d6c2e1d3c8c29178d03"
+      },
+      "HE-EDIT-012": {
+        "problem_prompt_sha256": "1eb46648867a6e499ee7e4fa6500b594937f325209204606d7391c8cad9df9c4",
+        "official_test_sha256": "f33fe7ee4ed9965a69a1e266735813dec79485fe1d9dda05d0a88e8450ea465f",
+        "original_source_sha256": "f161678bdb15abc033c648725ba309b043f670f59bcf5b5f46671ce0d0d625f1",
+        "mutated_source_sha256": "17da6e3cf7af6469de69a6c4e229f4231eda8ea498aa1192f82fb09686c2c660"
+      },
+      "HE-EDIT-013": {
+        "problem_prompt_sha256": "84dc98e731928675a91c68cbff1f89d0677596f849fa0e6b34fa9b40335fce03",
+        "official_test_sha256": "0910e972b4099735ae4c3035ac238672cc262ac579410a6e7aa8a79382c56e1b",
+        "original_source_sha256": "f81f225ca186c969c4a4759fbb9068160082e0ab033456fcf524227202fea3f1",
+        "mutated_source_sha256": "b61d41400c193b11ca036b682c7ebe833f51058c4704d7f63f2184051de1281c"
+      },
+      "HE-EDIT-014": {
+        "problem_prompt_sha256": "6fc9c00aa6b110ecf79f34e36f14b6b4c9a27128463ef6733b948e32a35c2bfc",
+        "official_test_sha256": "43ff59d91c8e0c74b916dfe25a3eb0a988ebaf48444df2dcff806151f73f508e",
+        "original_source_sha256": "6bbf98aacc9fc764b75ea37319fc68fef68453dfd5e67703b6894379a97e039c",
+        "mutated_source_sha256": "90d11b7178e3ea078c9e22de6290fd482dd91ea353f407ecc95575b966c823f9"
+      },
+      "HE-EDIT-015": {
+        "problem_prompt_sha256": "bc81b28f391ede1728b9b45d174a5a8953119ebc8f98908735202a05f839c5d8",
+        "official_test_sha256": "83722a57d8fca93dceb41ac2f4b1711c0edbd98aa0d12a691e2a5f5bcc97c3dd",
+        "original_source_sha256": "b57f26df9f89ecbc78b70861bcdbd4f80a8bbeb48d0b105149796f70c3a987e2",
+        "mutated_source_sha256": "f322cd2d0a44ecd23b1122fe65ee0b614fb80407864ca1369a69de1c0bc2e8d6"
+      },
+      "HE-EDIT-016": {
+        "problem_prompt_sha256": "583b281fbe1bf261fbade6e1a03119de96084ac87b508387f0d23c3b0cfdbbdb",
+        "official_test_sha256": "ea4c0c4da11c45408e42bac13c6983f287ab9e228ee7c4cfb82133355791b610",
+        "original_source_sha256": "32af61f17fb376cc1dd042dba50d561411a01ceb3047e358245b577c03971690",
+        "mutated_source_sha256": "8a1f5329419cd97ca7d64b4e666749a9e96000fe4ac3ec35653dcd6f7275ef2e"
+      },
+      "HE-EDIT-017": {
+        "problem_prompt_sha256": "3bc8bf3f66a3b5e171a358bbd5f33fba1a5d16ea65459198757dcb662dbaaac2",
+        "official_test_sha256": "8f15f3fc77d5fe9d4031725ca0604b4f7af55f1db3f563b7cb3b3ff0863ac667",
+        "original_source_sha256": "edc35161ab72014ac56b571a50dd472ffac9413b62e60a1753a155fe0492e16a",
+        "mutated_source_sha256": "8c664b47c804a2492d29cc68c826acacb31f85adab76998fb6208e0a11e85c26"
+      },
+      "HE-EDIT-018": {
+        "problem_prompt_sha256": "713553ae9220b08678d575238a702f883cc1d37b1986a6bfa010f8d641601d36",
+        "official_test_sha256": "6576ad3386416662c75a27317f741a8053aadc096fcb3bb91acb1dc527b52a29",
+        "original_source_sha256": "c86bd8e4e832b444d607cfb09f9e20a8b92b9af77fcf8092555972fc2f9441ac",
+        "mutated_source_sha256": "37cfc3d54cfafe4dd5839b90815bed01034071b9e4d9a68094e94fdb2efd1cc4"
+      },
+      "HE-EDIT-019": {
+        "problem_prompt_sha256": "881d52f394307cce02e432bc6342c93bfe0f6652b203f0bf1a0fc365ed87c594",
+        "official_test_sha256": "2d387b4e1c81940094f73e34fe6ac40f3181a546c3b48adfef58b4ed4eb23968",
+        "original_source_sha256": "c71bef97bdbf6601f7f70f815cead4e2725ffa6d6d85bf1a86e8d37d7d8e99fd",
+        "mutated_source_sha256": "29f55e40bc2ca2e706a25e5e5ae4a9078be9c54255f9678ad3ccab3523c42a7a"
+      },
+      "HE-EDIT-020": {
+        "problem_prompt_sha256": "08897376ea63666a837e51f16608bd0abb6d1633e025ccacde662a7844e19626",
+        "official_test_sha256": "05b33c941e48da9d270340ea9eb7ab06b8a653dbce5cc8964afb8548a9975239",
+        "original_source_sha256": "0c33d330e24e9199e4651fff4adf5fed8dd328de1d25e06086f613c1307a77d8",
+        "mutated_source_sha256": "c21ff277b94f5647b4b032517f95c2f08ae1c522170fbaa6491b0c95950c31ea"
+      }
+    },
+    "verify_command": "python benchmarks/phase0/validate_tasks.py --verify-manifest --json benchmarks/data/validation_report.json"
+  },
+  "build_log_counts": {
+    "problems_inspected": 164,
+    "eligible": 149,
+    "with_viable_mutations": 136,
+    "rejected": 28,
+    "not_selected": 116
+  },
+  "results": [
+    {
+      "task_id": "HE-EDIT-001",
+      "humaneval_task_id": "HumanEval/0",
+      "target_function": "has_close_elements",
+      "mutation": {
+        "rule": "comparison_operator_swap",
+        "parameters": {
+          "from_op": "!=",
+          "to_op": "==",
+          "occurrence": 0,
+          "op_index": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "comparison_operator_swap",
+            "parameters": {
+              "from_op": "!=",
+              "to_op": "==",
+              "occurrence": 0,
+              "op_index": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "cc2d7f4d8ffad435fe02bf28f0280cf705bfbded5e8759cf90a02d4b99e571c9"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 91.36
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 103.01
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "has_close_elements",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "has_close_elements"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 84.099
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 86.115
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-002",
+      "humaneval_task_id": "HumanEval/1",
+      "target_function": "separate_paren_groups",
+      "mutation": {
+        "rule": "off_by_one_boundary",
+        "parameters": {
+          "delta": 1,
+          "occurrence": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "off_by_one_boundary",
+            "parameters": {
+              "delta": 1,
+              "occurrence": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "822ce40bc04d510aeb17a3bf001f7f64203857270e9fdbc8d91460c641eb2503"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 87.645
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 102.439
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "separate_paren_groups",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "separate_paren_groups"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 83.556
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 85.629
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-003",
+      "humaneval_task_id": "HumanEval/2",
+      "target_function": "truncate_number",
+      "mutation": {
+        "rule": "incorrect_constant",
+        "parameters": {
+          "new_value": 2.0,
+          "occurrence": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "incorrect_constant",
+            "parameters": {
+              "new_value": 2.0,
+              "occurrence": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "f0e9a5a2cdb11948ebffe760036e844f8827bdf0872672cec6510405f04ae945"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 83.243
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 96.0
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "truncate_number",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "truncate_number"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 85.846
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 83.166
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-004",
+      "humaneval_task_id": "HumanEval/4",
+      "target_function": "mean_absolute_deviation",
+      "mutation": {
+        "rule": "arithmetic_operator_swap",
+        "parameters": {
+          "from_op": "/",
+          "to_op": "*",
+          "occurrence": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "arithmetic_operator_swap",
+            "parameters": {
+              "from_op": "/",
+              "to_op": "*",
+              "occurrence": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "7ddc0d27dedab20974bac2042a94de193d6abc49bf3eca816ea8803987482c76"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 83.651
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 101.868
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "mean_absolute_deviation",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "mean_absolute_deviation"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 85.278
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 85.664
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-005",
+      "humaneval_task_id": "HumanEval/36",
+      "target_function": "fizz_buzz",
+      "mutation": {
+        "rule": "boolean_operator_swap",
+        "parameters": {
+          "from_op": "or",
+          "to_op": "and",
+          "occurrence": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "boolean_operator_swap",
+            "parameters": {
+              "from_op": "or",
+              "to_op": "and",
+              "occurrence": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "427a850348e8c67dd915e4afeb4aadff6847dc03b5ce42529ecf61fffe2e3528"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 98.059
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 98.339
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "fizz_buzz",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "fizz_buzz"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 99.092
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 98.772
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-006",
+      "humaneval_task_id": "HumanEval/3",
+      "target_function": "below_zero",
+      "mutation": {
+        "rule": "comparison_operator_swap",
+        "parameters": {
+          "from_op": "<",
+          "to_op": "<=",
+          "occurrence": 0,
+          "op_index": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "comparison_operator_swap",
+            "parameters": {
+              "from_op": "<",
+              "to_op": "<=",
+              "occurrence": 0,
+              "op_index": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "8140b9ffa695ada6885aebc096aa4289c63ad713a314bcf7d2597047ff630ce5"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 117.697
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 99.172
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "below_zero",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "below_zero"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 84.983
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 85.743
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-007",
+      "humaneval_task_id": "HumanEval/14",
+      "target_function": "all_prefixes",
+      "mutation": {
+        "rule": "off_by_one_boundary",
+        "parameters": {
+          "delta": 1,
+          "occurrence": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "off_by_one_boundary",
+            "parameters": {
+              "delta": 1,
+              "occurrence": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "39898561bb13391af2f4bd7889f2e36bf54f2444f7bde01fcd6580351266798e"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 88.56
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 113.659
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "all_prefixes",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "all_prefixes"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 108.425
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 90.351
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-008",
+      "humaneval_task_id": "HumanEval/5",
+      "target_function": "intersperse",
+      "mutation": {
+        "rule": "incorrect_constant",
+        "parameters": {
+          "new_value": 2,
+          "occurrence": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "incorrect_constant",
+            "parameters": {
+              "new_value": 2,
+              "occurrence": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "a2f4a5b39a6b6c02e7a9569cbe0e405ee7838036e67f99eafabf7302c09cbcc7"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 101.081
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 262.13
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "intersperse",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "intersperse"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 97.792
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 98.636
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-009",
+      "humaneval_task_id": "HumanEval/13",
+      "target_function": "greatest_common_divisor",
+      "mutation": {
+        "rule": "arithmetic_operator_swap",
+        "parameters": {
+          "from_op": "%",
+          "to_op": "//",
+          "occurrence": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "arithmetic_operator_swap",
+            "parameters": {
+              "from_op": "%",
+              "to_op": "//",
+              "occurrence": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "f117b8d239dc29ebd9901ded7bb2ae63d9d02f064cd4d89a0f4ae47978d45e52"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 90.923
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 100.641
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "greatest_common_divisor",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "greatest_common_divisor"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 86.492
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 86.978
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-010",
+      "humaneval_task_id": "HumanEval/57",
+      "target_function": "monotonic",
+      "mutation": {
+        "rule": "boolean_operator_swap",
+        "parameters": {
+          "from_op": "or",
+          "to_op": "and",
+          "occurrence": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "boolean_operator_swap",
+            "parameters": {
+              "from_op": "or",
+              "to_op": "and",
+              "occurrence": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "fc1ca1165bf54823347b5e4306bf1c5e953563544adf9ffea9d22a230419f82d"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 84.198
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 97.252
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "monotonic",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "monotonic"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 85.696
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 82.734
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-011",
+      "humaneval_task_id": "HumanEval/7",
+      "target_function": "filter_by_substring",
+      "mutation": {
+        "rule": "comparison_operator_swap",
+        "parameters": {
+          "from_op": "in",
+          "to_op": "not in",
+          "occurrence": 0,
+          "op_index": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "comparison_operator_swap",
+            "parameters": {
+              "from_op": "in",
+              "to_op": "not in",
+              "occurrence": 0,
+              "op_index": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "90ddbc30f87d986a0299523014bac19da13eabc223b341f6748c157fafe4fdda"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 86.724
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 100.95
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "filter_by_substring",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "filter_by_substring"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 87.385
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 93.523
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-012",
+      "humaneval_task_id": "HumanEval/15",
+      "target_function": "string_sequence",
+      "mutation": {
+        "rule": "off_by_one_boundary",
+        "parameters": {
+          "delta": 1,
+          "occurrence": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "off_by_one_boundary",
+            "parameters": {
+              "delta": 1,
+              "occurrence": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "3ae63f4a00e7123dc17d1f3d42dfefa0ac2994e511b098016c9f80dd957b5e29"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 83.258
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 99.481
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "string_sequence",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "string_sequence"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 83.328
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 84.407
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-013",
+      "humaneval_task_id": "HumanEval/8",
+      "target_function": "sum_product",
+      "mutation": {
+        "rule": "incorrect_constant",
+        "parameters": {
+          "new_value": 1,
+          "occurrence": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "incorrect_constant",
+            "parameters": {
+              "new_value": 1,
+              "occurrence": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "f2e79169adc270b4c233b1ba4dc30900ebec7fc52e035b42aafd7c92f12964cb"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 89.142
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 146.372
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "sum_product",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "sum_product"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 88.132
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 86.496
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-014",
+      "humaneval_task_id": "HumanEval/18",
+      "target_function": "how_many_times",
+      "mutation": {
+        "rule": "arithmetic_operator_swap",
+        "parameters": {
+          "from_op": "+",
+          "to_op": "-",
+          "occurrence": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "arithmetic_operator_swap",
+            "parameters": {
+              "from_op": "+",
+              "to_op": "-",
+              "occurrence": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "01e83b414e2c6e9f59ee6b8f22eb6a44d25886f2af481c334d0a87daf794e497"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 81.901
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 100.199
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "how_many_times",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "how_many_times"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 81.049
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 82.711
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-015",
+      "humaneval_task_id": "HumanEval/64",
+      "target_function": "vowels_count",
+      "mutation": {
+        "rule": "boolean_operator_swap",
+        "parameters": {
+          "from_op": "or",
+          "to_op": "and",
+          "occurrence": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "boolean_operator_swap",
+            "parameters": {
+              "from_op": "or",
+              "to_op": "and",
+              "occurrence": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "a4bdd0c914a7ed2a4b9d7c1844d97be62850972ef69790085d3cdebc6f86504c"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 81.958
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError: Test 3",
+            "duration_ms": 96.912
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "vowels_count",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "vowels_count"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 81.723
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 83.1
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-016",
+      "humaneval_task_id": "HumanEval/9",
+      "target_function": "rolling_max",
+      "mutation": {
+        "rule": "comparison_operator_swap",
+        "parameters": {
+          "from_op": "is",
+          "to_op": "is not",
+          "occurrence": 0,
+          "op_index": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "comparison_operator_swap",
+            "parameters": {
+              "from_op": "is",
+              "to_op": "is not",
+              "occurrence": 0,
+              "op_index": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "bc88184baaa2dc28200c40fa2d07bf61fabeb1c0da1ccad1e77e2da3136dae5d"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 85.845
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "ExecutionError",
+            "error_message": "TypeError: '>' not supported between instances of 'int' and 'NoneType'",
+            "duration_ms": 98.409
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "rolling_max",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "rolling_max"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 84.915
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 85.01
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-017",
+      "humaneval_task_id": "HumanEval/24",
+      "target_function": "largest_divisor",
+      "mutation": {
+        "rule": "off_by_one_boundary",
+        "parameters": {
+          "delta": 1,
+          "occurrence": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "off_by_one_boundary",
+            "parameters": {
+              "delta": 1,
+              "occurrence": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "3454ca7d42569b8b952ee932556c77eed2e333c4eee183375fbdf2359e51e88e"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 87.694
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 97.406
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "largest_divisor",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "largest_divisor"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 83.021
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 91.025
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-018",
+      "humaneval_task_id": "HumanEval/17",
+      "target_function": "parse_music",
+      "mutation": {
+        "rule": "incorrect_constant",
+        "parameters": {
+          "new_value": 5,
+          "occurrence": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "incorrect_constant",
+            "parameters": {
+              "new_value": 5,
+              "occurrence": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "97606873dffeb6cf0965e75c1090e0dfcaf7b724a4f159fa876dcb5c452076da"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 90.065
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 98.97
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "parse_music",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "parse_music"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 84.291
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 86.143
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-019",
+      "humaneval_task_id": "HumanEval/20",
+      "target_function": "find_closest_elements",
+      "mutation": {
+        "rule": "arithmetic_operator_swap",
+        "parameters": {
+          "from_op": "-",
+          "to_op": "+",
+          "occurrence": 1
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "arithmetic_operator_swap",
+            "parameters": {
+              "from_op": "-",
+              "to_op": "+",
+              "occurrence": 1
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "c79c27e2540379e4a8e1986ec4d1f434707aa3d5ef4ac7fa9fb16897f83bea54"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 84.776
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 99.428
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "find_closest_elements",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "find_closest_elements"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 85.364
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 86.374
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    },
+    {
+      "task_id": "HE-EDIT-020",
+      "humaneval_task_id": "HumanEval/71",
+      "target_function": "triangle_area",
+      "mutation": {
+        "rule": "boolean_operator_swap",
+        "parameters": {
+          "from_op": "or",
+          "to_op": "and",
+          "occurrence": 0
+        }
+      },
+      "passed": true,
+      "checks": {
+        "source_matches_pinned_dataset": {
+          "passed": true,
+          "detail": {
+            "prompt_identical": true,
+            "official_test_identical": true,
+            "checksums_consistent": true,
+            "revision": "463c980b59e818ace59f6f9803cd92c749ceae61",
+            "repository": "https://github.com/openai/human-eval",
+            "license": "MIT"
+          }
+        },
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "boolean_operator_swap",
+            "parameters": {
+              "from_op": "or",
+              "to_op": "and",
+              "occurrence": 0
+            }
+          }
+        },
+        "docstring_and_prompt_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "prompt_prefix_present_in_mutated_file": true,
+            "docstring_sha256": "a6beb098950ec31dad39b7aa9f848b3a182e91622b5f1f7d1bdca72d94881e67"
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "gold_solution_passes_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 81.06
+          }
+        },
+        "mutated_solution_fails_official_test": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "ExecutionError",
+            "error_message": "TypeError: type complex doesn't define __round__ method",
+            "duration_ms": 96.237
+          }
+        },
+        "reference_solution_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_gold_lines": true,
+            "instruction_does_not_contain_gold_lines": true,
+            "mutated_file_does_not_contain_full_gold_source": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "triangle_area",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "triangle_area"
+              ],
+              "has_other_module_level_functions": []
+            },
+            "note": "Checks module-level AST facts only. Runtime behaviour that depends on process state, filesystem or network is not analysed; the official tests are executed in a sandbox with sockets blocked to cover the practical part of that risk."
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official test"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 82.618
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 114.507
+            }
+          }
+        },
+        "model_facing_payload_excludes_gold_and_mutation_metadata": {
+          "passed": true,
+          "detail": {
+            "task_present_in_model_facing_payload": true
+          }
+        }
+      }
+    }
+  ],
+  "manifest_verification": {
+    "manifest_present": true,
+    "files_checked": 88,
+    "mismatches": [],
+    "passed": true
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "attempt_id": "0162a67f490348db8812d93c885339d8",
+  "run_id": "604e37cd3dc4",
+  "task_id": "HE-EDIT-010",
+  "humaneval_task_id": "HumanEval/57",
+  "method": "full_file_regeneration",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "5f7b85f1289cfb27a052f56c54d267595c11adbac8f4aede23a0054a84be5f5d",
+  "response_bytes": 312,
+  "response_text": "```python\ndef monotonic(l: list):\n    \"\"\"Return True is list elements are monotonically increasing or decreasing.\n    >>> monotonic([1, 2, 4, 20])\n    True\n    >>> monotonic([1, 20, 4, 10])\n    False\n    >>> monotonic([4, 1, 0, -10])\n    True\n    \"\"\"\n    return l == sorted(l) or l == sorted(l, reverse=True)\n```"
+}

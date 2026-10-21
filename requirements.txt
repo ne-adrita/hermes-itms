@@ -1,0 +1,14 @@
+# Core Web Dashboard
+streamlit>=1.40.0
+
+# Zero-Bloat REST API Client for LLM Providers
+httpx>=0.28.0
+
+# Deterministic BPE Tokenizer
+tiktoken>=0.8.0
+
+# Secure Environment Configuration
+python-dotenv>=1.0.0
+
+# Unit and Integration Testing
+pytest>=8.0.0

@@ -1,0 +1,19 @@
+{
+  "attempt_id": "76f0e5a9677145d9ae236997aeee9a35",
+  "run_id": "604e37cd3dc4",
+  "task_id": "HE-EDIT-001",
+  "humaneval_task_id": "HumanEval/0",
+  "method": "itms_ast_splice",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "c3ac150162d0a37425f935731a208f872e25c09660442c16ca7ec524c20091f7",
+  "response_bytes": 525,
+  "response_text": "```python\ndef has_close_elements(numbers: List[float], threshold: float) -> bool:\n    \"\"\" Check if in given list of numbers, are any two numbers closer to each other than\n    given threshold.\n    >>> has_close_elements([1.0, 2.0, 3.0], 0.5)\n    False\n    >>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)\n    True\n    \"\"\"\n    for idx, elem in enumerate(numbers):\n        for idx2 in range(idx + 1, len(numbers)):\n            if abs(elem - numbers[idx2]) < threshold:\n                return True\n    return False\n```"
+}
