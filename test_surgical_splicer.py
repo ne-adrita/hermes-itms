@@ -1,4 +1,5 @@
 import unittest
+import ast
 import os
 from surgical_splicer import ASTNodeLocator, ASTSurgicalSplicer, TextDiffPatcher, SurgicalTarget
 from edit_orchestrator import SurgicalEditOrchestrator
@@ -99,6 +100,171 @@ class TestASTSurgicalSplicer(unittest.TestCase):
         self.assertEqual(spliced, SAMPLE_MODULE_CODE)
 
 
+class TestSurgicalSplicerRegression(unittest.TestCase):
+    """Focused regression tests for the surgical splicer."""
+
+    NESTED_SOURCE = (
+        "# Copyright 2026 NSU ECE Capstone\n"
+        "# Author: ITMS Engineering Team\n"
+        "\n"
+        "import math\n"
+        "\n"
+        "CONSTANT = 42\n"
+        "\n"
+        "def unrelated_helper(x):\n"
+        "    return x + 1\n"
+        "\n"
+        "class Outer:\n"
+        "    class Inner:\n"
+        "        def method(self, x):\n"
+        "            # original body comment\n"
+        "            def helper(v):\n"
+        "                return v * 2\n"
+        "            return helper(x) + 1\n"
+        "\n"
+        "    def sibling(self):\n"
+        "        return 'sibling'\n"
+        "\n"
+        "class Other:\n"
+        "    def method(self, x):\n"
+        "        return 'other'\n"
+    )
+
+    def test_nested_function_stays_inside_the_target_body(self):
+        target = ASTNodeLocator.locate_target(self.NESTED_SOURCE, "Outer.Inner.method")
+        self.assertIsNotNone(target)
+        ok, spliced, err = ASTSurgicalSplicer.splice(
+            self.NESTED_SOURCE,
+            target,
+            "def helper(v):\n    return v * 3\nreturn helper(x) + 5\n",
+        )
+        self.assertTrue(ok, err)
+        tree = ast.parse(spliced)
+        module_level = [n.name for n in tree.body if isinstance(n, ast.FunctionDef)]
+        self.assertNotIn("helper", module_level)
+        method = tree.body[3].body[0].body[0]   # Outer.Inner.method
+        self.assertEqual(method.name, "method")
+        self.assertTrue(
+            any(isinstance(n, ast.FunctionDef) and n.name == "helper" for n in method.body)
+        )
+
+    def test_body_only_replacement_keeps_the_header(self):
+        target = ASTNodeLocator.locate_target(self.NESTED_SOURCE, "Outer.Inner.method")
+        ok, spliced, err = ASTSurgicalSplicer.splice(
+            self.NESTED_SOURCE, target, "return helper(x) + 7\n"
+        )
+        self.assertTrue(ok, err)
+        self.assertIn("def method(self, x):", spliced)
+        self.assertIn("return helper(x) + 7", spliced)
+        self.assertNotIn("return helper(x) + 1", spliced)
+
+    def test_full_node_replacement_replaces_only_the_target(self):
+        target = ASTNodeLocator.locate_target(self.NESTED_SOURCE, "Outer.Inner.method")
+        ok, spliced, err = ASTSurgicalSplicer.splice(
+            self.NESTED_SOURCE,
+            target,
+            "def method(self, x):\n    return x * 9\n",
+        )
+        self.assertTrue(ok, err)
+        self.assertIn("return x * 9", spliced)
+        self.assertIn("def sibling(self):", spliced)
+        self.assertIn("def unrelated_helper(x):", spliced)
+
+    def test_unrelated_source_is_preserved_byte_for_byte(self):
+        target = ASTNodeLocator.locate_target(self.NESTED_SOURCE, "Outer.Inner.method")
+        ok, spliced, err = ASTSurgicalSplicer.splice(
+            self.NESTED_SOURCE,
+            target,
+            "def method(self, x):\n    return x * 9\n",
+        )
+        self.assertTrue(ok, err)
+        for preserved in (
+            "# Copyright 2026 NSU ECE Capstone",
+            "# Author: ITMS Engineering Team",
+            "import math",
+            "CONSTANT = 42",
+            "def unrelated_helper(x):",
+            "    def sibling(self):",
+            "class Other:",
+        ):
+            self.assertIn(preserved, spliced)
+        # Only the target's own line range changed (5 lines -> 2 lines).
+        self.assertEqual(
+            len(spliced.splitlines()),
+            len(self.NESTED_SOURCE.splitlines()) - 5 + 2,
+        )
+
+    def test_class_method_replacement_keeps_the_class(self):
+        target = ASTNodeLocator.locate_target(self.NESTED_SOURCE, "Other.method")
+        self.assertIsNotNone(target)
+        self.assertEqual(target.parent_class, "Other")
+        ok, spliced, err = ASTSurgicalSplicer.splice(
+            self.NESTED_SOURCE, target, "def method(self, x):\n    return 'patched'\n"
+        )
+        self.assertTrue(ok, err)
+        self.assertIn("class Other:", spliced)
+        self.assertIn("return 'patched'", spliced)
+        self.assertIn("def sibling(self):", spliced)
+
+    def test_syntax_error_in_replacement_is_rejected(self):
+        target = ASTNodeLocator.locate_target(self.NESTED_SOURCE, "Outer.Inner.method")
+        ok, spliced, err = ASTSurgicalSplicer.splice(
+            self.NESTED_SOURCE, target, "def method(self, x)\n    return x\n"
+        )
+        self.assertFalse(ok)
+        self.assertIsNotNone(err)
+        self.assertEqual(spliced, self.NESTED_SOURCE)
+
+    def test_empty_replacement_is_rejected(self):
+        target = ASTNodeLocator.locate_target(self.NESTED_SOURCE, "Outer.Inner.method")
+        ok, spliced, err = ASTSurgicalSplicer.splice(
+            self.NESTED_SOURCE, target, "   \n```\n```\n"
+        )
+        self.assertFalse(ok)
+        self.assertIsNotNone(err)
+        self.assertEqual(spliced, self.NESTED_SOURCE)
+
+    def test_ambiguous_target_is_rejected(self):
+        # 'method' exists in both Outer.Inner and Other.
+        self.assertIsNone(ASTNodeLocator.locate_target(self.NESTED_SOURCE, "method"))
+        target, error = ASTNodeLocator.locate_target_ex(self.NESTED_SOURCE, "method")
+        self.assertIsNone(target)
+        self.assertIn("ambiguous", error.lower())
+
+    def test_missing_target_is_rejected(self):
+        self.assertIsNone(ASTNodeLocator.locate_target(self.NESTED_SOURCE, "nope"))
+        target, error = ASTNodeLocator.locate_target_ex(self.NESTED_SOURCE, "nope")
+        self.assertIsNone(target)
+        self.assertIn("not found", error.lower())
+
+    def test_stale_target_is_rejected(self):
+        target = ASTNodeLocator.locate_target(self.NESTED_SOURCE, "Outer.Inner.method")
+        stale = SurgicalTarget(
+            name=target.name,
+            qualified_name=target.qualified_name,
+            node_type=target.node_type,
+            start_line=target.start_line + 5,
+            end_line=target.end_line + 5,
+            body_start_line=target.body_start_line + 5,
+            base_indentation=target.base_indentation,
+            original_text=target.original_text,
+            parent_class=target.parent_class,
+        )
+        ok, spliced, err = ASTSurgicalSplicer.splice(
+            self.NESTED_SOURCE, stale, "def method(self, x):\n    return 1\n"
+        )
+        self.assertFalse(ok)
+        self.assertIsNotNone(err)
+        self.assertEqual(spliced, self.NESTED_SOURCE)
+
+    def test_source_with_syntax_error_is_handled_safely(self):
+        broken = "def method(self, x)\n    return x\n"
+        self.assertIsNone(ASTNodeLocator.locate_target(broken, "method"))
+        target, error = ASTNodeLocator.locate_target_ex(broken, "method")
+        self.assertIsNone(target)
+        self.assertIn("not valid python", error.lower())
+
+
 class TestTextDiffPatcher(unittest.TestCase):
     def test_exact_search_replace_success(self):
         search_block = "        total = self.balance\n        return total"
@@ -128,14 +294,14 @@ class TestTextDiffPatcher(unittest.TestCase):
 class TestSurgicalEditOrchestrator(unittest.TestCase):
     def test_tri_way_benchmark_metrics(self):
         orchestrator = SurgicalEditOrchestrator()
-        
+
         full_code = SAMPLE_MODULE_CODE.replace(
             "total = self.balance\n        return total",
             "discount = self.balance * 0.10\n        return float(self.balance - discount)"
         )
         search_b = "        total = self.balance\n        return total"
         replace_b = "        discount = self.balance * 0.10\n        return float(self.balance - discount)"
-        
+
         report = orchestrator.run_benchmark(
             original_source=SAMPLE_MODULE_CODE,
             target_name="AccountLedger.reconcile_balance",
@@ -148,14 +314,104 @@ class TestSurgicalEditOrchestrator(unittest.TestCase):
             simulate_diff_whitespace_error=True
         )
 
-        # Verify output token reduction
+        # Token / cost deltas are derived from *local estimates*, and remain
+        # informative because both strategies are costed with the same
+        # estimator and the same pricing profile.
         self.assertGreater(report.output_tokens_saved_vs_full_pct, 60.0)
-        # Verify cost savings
         self.assertGreater(report.cost_saved_vs_full_pct, 70.0)
-        # Verify ITMS succeeded while whitespace-drifted search/replace failed
+
+        # ITMS succeeded while whitespace-drifted search/replace failed.
         self.assertTrue(report.patch_reliability_itms)
         self.assertFalse(report.patch_reliability_diff)
-        self.assertGreater(report.latency_speedup_factor, 2.0)
+        self.assertEqual(report.itms_surgical_result.status, "passed")
+        self.assertEqual(report.search_replace_result.status, "invalid_edit")
+
+        # Honest provenance: this run made no provider request.
+        self.assertFalse(report.is_measurement)
+        self.assertEqual(report.measurement_mode, "simulated_local_processing")
+        self.assertEqual(report.token_source, "local_estimate")
+        for result in (
+            report.full_file_result,
+            report.search_replace_result,
+            report.itms_surgical_result,
+        ):
+            self.assertEqual(result.token_source, "local_estimate")
+            self.assertEqual(result.cost_source, "estimated_from_local_token_estimate")
+            self.assertIn("no provider request", result.latency_source)
+            self.assertGreaterEqual(result.latency_ms, 0.0)
+            self.assertEqual(result.attempts, 1)
+            self.assertIsNone(result.cached_input_tokens)
+
+        # No latency "speedup" may be claimed from local processing times.
+        self.assertIsNone(report.latency_speedup_factor)
+
+    def test_unevaluated_strategies_are_not_reported_as_success(self):
+        """Without an evaluator a strategy must be 'unevaluated', not 'passed'."""
+        orchestrator = SurgicalEditOrchestrator()
+        report = orchestrator.run_benchmark(
+            original_source=SAMPLE_MODULE_CODE,
+            target_name="AccountLedger.reconcile_balance",
+            edit_instruction="Apply 10% discount in reconcile_balance",
+            replacement_node_code=REPLACEMENT_FUNCTION,
+            simulated_full_file_code=SAMPLE_MODULE_CODE,
+            simulated_search_block="        total = self.balance\n        return total",
+            simulated_replace_block="        return 0.0",
+            test_suite_code="",   # no evaluator available
+        )
+        for result in (
+            report.full_file_result,
+            report.search_replace_result,
+            report.itms_surgical_result,
+        ):
+            self.assertEqual(result.status, "unevaluated")
+            self.assertFalse(result.success)
+            self.assertEqual(result.unevaluated_attempts, 1)
+            self.assertEqual(result.passed_attempts, 0)
+        self.assertFalse(report.patch_reliability_itms)
+        self.assertFalse(report.patch_reliability_diff)
+
+    def test_failing_evaluation_is_recorded_as_failure(self):
+        """A candidate that does not satisfy the evaluator is a failure."""
+        orchestrator = SurgicalEditOrchestrator()
+        report = orchestrator.run_benchmark(
+            original_source=SAMPLE_MODULE_CODE,
+            target_name="AccountLedger.reconcile_balance",
+            edit_instruction="Apply 10% discount in reconcile_balance",
+            replacement_node_code=REPLACEMENT_FUNCTION,
+            simulated_full_file_code=SAMPLE_MODULE_CODE,
+            simulated_search_block="        total = self.balance\n        return total",
+            simulated_replace_block="        return 0.0",
+            test_suite_code="ledger = AccountLedger('acc1'); assert ledger.reconcile_balance('2026') == 900.0",
+        )
+        # The unmodified full file does not satisfy the evaluator ...
+        self.assertEqual(report.full_file_result.status, "failed")
+        self.assertFalse(report.full_file_result.success)
+        self.assertEqual(report.full_file_result.failed_attempts, 1)
+        self.assertEqual(report.full_file_result.passed_attempts, 0)
+        # ... while the correctly spliced ITMS candidate does.
+        self.assertEqual(report.itms_surgical_result.status, "passed")
+        self.assertTrue(report.itms_surgical_result.success)
+
+    def test_wrong_replacement_is_not_reported_as_success(self):
+        """A syntactically valid but semantically wrong edit is a failure."""
+        orchestrator = SurgicalEditOrchestrator()
+        wrong_replacement = (
+            "def reconcile_balance(self, target_date: str) -> float:\n"
+            "    return float(self.balance)\n"
+        )
+        report = orchestrator.run_benchmark(
+            original_source=SAMPLE_MODULE_CODE,
+            target_name="AccountLedger.reconcile_balance",
+            edit_instruction="Apply 10% discount in reconcile_balance",
+            replacement_node_code=wrong_replacement,
+            simulated_full_file_code=SAMPLE_MODULE_CODE,
+            simulated_search_block="        total = self.balance\n        return total",
+            simulated_replace_block="        return 0.0",
+            test_suite_code="ledger = AccountLedger('acc1'); assert ledger.reconcile_balance('2026') == 900.0",
+        )
+        self.assertEqual(report.itms_surgical_result.status, "failed")
+        self.assertFalse(report.itms_surgical_result.success)
+        self.assertFalse(report.patch_reliability_itms)
 
 
 class TestSystemResilienceAndSecurity(unittest.TestCase):

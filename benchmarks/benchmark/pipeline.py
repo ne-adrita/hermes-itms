@@ -59,6 +59,9 @@ class AttemptOutcome:
     candidate_source: Optional[str] = None
     evaluation: Optional[Dict[str, Any]] = None
     provider_error: Optional[Dict[str, Any]] = None
+    #: The exact prompt that was sent to the provider.  It is persisted next to
+    #: the response so the "identical instruction" claim is auditable.
+    prompt: Optional[str] = None
 
 
 def _sha256_text(text: str) -> str:
@@ -69,6 +72,24 @@ def _sha256_text(text: str) -> str:
 
 def _utc_now() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def _estimate_prompt_tokens(prompt: Optional[str]) -> Optional[int]:
+    """
+    Local token estimate of a prompt.
+
+    This is an **estimate** and is stored in its own field; it is never mixed
+    into a provider-reported token count.  Returns None when the local
+    tokenizer is unavailable, so an unmeasured value is never written as 0.
+    """
+    if not prompt:
+        return None
+    try:
+        from prompt_manager import get_token_count
+
+        return int(get_token_count(prompt))
+    except Exception:
+        return None
 
 
 class AttemptPipeline:
@@ -91,7 +112,7 @@ class AttemptPipeline:
         self.system_instruction = system_instruction
 
     # -- main entry point ------------------------------------------------
-    def run(self, task, rep: int) -> AttemptOutcome:
+    def run(self, task, rep: int, seed: Optional[int] = None) -> AttemptOutcome:
         attempt_id = uuid.uuid4().hex
         record = AttemptRecord(
             attempt_id=attempt_id,
@@ -105,15 +126,18 @@ class AttemptPipeline:
             provider=self.provider.name,
             requested_model_id=getattr(self.provider, "model_id", None),
             is_mock=False,
+            seed_requested=seed,
+            max_output_tokens=getattr(self.provider, "max_output_tokens", None),
         )
 
         started = time.perf_counter()
         workspace = tempfile.mkdtemp(prefix="itms_bench_")
         try:
             prompt = self.adapter.build_prompt(task)
+            record.prompt_token_estimate = _estimate_prompt_tokens(prompt)
 
             try:
-                provider_result = self.provider.complete(prompt, self.system_instruction)
+                provider_result, seed_supported = self._call_provider(prompt, seed)
             except ProviderError as exc:
                 record.status = AttemptStatus.PROVIDER_ERROR
                 record.failure_category = self._provider_category(exc.category)
@@ -130,6 +154,7 @@ class AttemptPipeline:
                         "retry_count": record.retry_count,
                         "message": record.error_message,
                     },
+                    prompt=prompt,
                 )
 
             record.is_mock = bool(provider_result.is_mock)
@@ -148,6 +173,10 @@ class AttemptPipeline:
             record.estimated_prompt_tokens = provider_result.estimated_prompt_tokens
             record.estimated_completion_tokens = provider_result.estimated_completion_tokens
             record.raw_usage = dict(provider_result.raw_usage or {})
+            # -- reproducibility metadata ---------------------------------
+            record.seed_supported = provider_result.seed_supported
+            record.seed_applied = provider_result.seed_applied
+            record.seed_honour_verified = provider_result.seed_honour_verified
 
             raw_response = provider_result.content
             adapter_result = self.adapter.parse_and_apply(task, rep, provider_result.content)
@@ -177,6 +206,7 @@ class AttemptPipeline:
                     record=record,
                     adapter_result=adapter_result,
                     raw_response=raw_response,
+                    prompt=prompt,
                 )
 
             candidate_path = os.path.join(workspace, "candidate.py")
@@ -197,6 +227,7 @@ class AttemptPipeline:
                     raw_response=raw_response,
                     candidate_source=adapter_result.candidate_source,
                     evaluation={"attempted": False, "reason": "candidate did not parse"},
+                    prompt=prompt,
                 )
 
             test_result = self._run_official_test(task, adapter_result.candidate_source)
@@ -230,6 +261,7 @@ class AttemptPipeline:
                     "candidate_sha256": _sha256_text(adapter_result.candidate_source),
                     "stderr_tail": redact_secrets(test_result.get("stderr_tail")),
                 },
+                prompt=prompt,
             )
 
         except Exception as exc:  # pragma: no cover - defensive
@@ -242,6 +274,50 @@ class AttemptPipeline:
             shutil.rmtree(workspace, ignore_errors=True)
 
     # -- helpers ---------------------------------------------------------
+    @staticmethod
+    def _provider_accepts_seed(provider) -> bool:
+        """
+        Whether the provider's ``complete`` can carry a request-level seed.
+
+        The benchmark provider interface grew a ``seed`` parameter; a
+        third-party implementation that predates it must keep working.  The
+        capability is therefore *detected*, and an attempt that could not
+        carry a seed is recorded as such instead of silently pretending.
+        """
+        import inspect
+
+        try:
+            parameters = inspect.signature(provider.complete).parameters
+        except (TypeError, ValueError):
+            return False
+        if "seed" in parameters:
+            return True
+        return any(
+            parameter.kind is inspect.Parameter.VAR_KEYWORD
+            for parameter in parameters.values()
+        )
+
+    def _call_provider(self, prompt: str, seed: Optional[int]):
+        """
+        Calls the provider, passing the seed only when it can carry it.
+
+        Returns ``(result, seed_supported)``.
+        """
+        seed_supported = self._provider_accepts_seed(self.provider)
+        if seed_supported and seed is not None:
+            result = self.provider.complete(
+                prompt, self.system_instruction, seed=seed
+            )
+        else:
+            result = self.provider.complete(prompt, self.system_instruction)
+        if getattr(result, "seed_applied", None) is None:
+            # The provider did not state whether a seed was applied; the
+            # honest value is "not applied".
+            result.seed_requested = seed
+            result.seed_supported = False
+            result.seed_applied = False
+        return result, seed_supported
+
     @staticmethod
     def _provider_category(category: str) -> str:
         mapping = {

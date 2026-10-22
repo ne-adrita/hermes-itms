@@ -56,7 +56,9 @@ if _ROOT not in sys.path:
     sys.path.insert(0, _ROOT)
 
 from benchmarks.benchmark.adapters import METHODS  # noqa: E402
+from benchmarks.benchmark.budget import BudgetError, BudgetGate  # noqa: E402
 from benchmarks.benchmark.experiment import ExperimentError, ExperimentRunner, build_schedule  # noqa: E402
+from benchmarks.benchmark.output_budget import resolve_output_token_limit  # noqa: E402
 from benchmarks.benchmark.provider import (  # noqa: E402
     LiveProvider,
     MockProvider,
@@ -99,7 +101,59 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--seed", type=int, default=None, help="seed for the deterministic run order.")
     parser.add_argument("--temperature", type=float, default=0.2, help="sampling temperature (default: 0.2).")
     parser.add_argument(
-        "--max-output-tokens", type=int, default=2048, help="maximum output tokens (default: 2048)."
+        "--max-output-tokens",
+        type=int,
+        default=0,
+        help=(
+            "maximum output tokens per attempt. 0 (default) derives the limit "
+            "from the task set so that the largest file the baseline strategy "
+            "must re-emit always fits; the same limit is used by all three "
+            "strategies and is recorded per attempt."
+        ),
+    )
+    parser.add_argument(
+        "--max-attempts",
+        type=int,
+        default=None,
+        help=(
+            "hard cap on provider requests. MANDATORY in live mode: a run "
+            "without a request cap is unbounded. Defaults to the planned "
+            "attempt count in mock mode."
+        ),
+    )
+    parser.add_argument(
+        "--max-spend-usd",
+        type=float,
+        default=None,
+        help=(
+            "optional cap on the cumulative cost the provider REPORTED. It is "
+            "never applied to an estimate; when the provider does not report a "
+            "cost, the attempt cap is the binding guard."
+        ),
+    )
+    parser.add_argument(
+        "--require-free-model",
+        action="store_true",
+        help="refuse to start unless the pinned model id is a ':free' route.",
+    )
+    parser.add_argument(
+        "--seed-base",
+        type=int,
+        default=None,
+        help=(
+            "base value for the request-level seed. When set, every cell gets a "
+            "deterministic seed derived from this base and the cell's position "
+            "in the schedule. Omitting it means no seed is sent."
+        ),
+    )
+    parser.add_argument(
+        "--allow-shared-credential",
+        action="store_true",
+        help=(
+            "acknowledge that the declared provider's credential is also "
+            "configured for another provider. The live preflight refuses such "
+            "a configuration by default."
+        ),
     )
     parser.add_argument(
         "--request-timeout", type=float, default=60.0, help="per-request provider timeout in seconds."
@@ -180,6 +234,37 @@ def main(argv: Optional[List[str]] = None) -> int:
     planned = len(selected_tasks) * len(methods) * max(1, args.reps)
     output_dir = _resolve_output_dir(args)
 
+    # -- the output-token limit is derived from the task set (B5) ---------
+    selected_task_objects = repository.select(task_ids)
+    limit_info = resolve_output_token_limit(
+        selected_task_objects, explicit=args.max_output_tokens
+    )
+    output_limit = int(limit_info["resolved_limit"])
+
+    # -- the request budget (B2) ------------------------------------------
+    if args.mode == "live" and not args.max_attempts:
+        print(
+            "error: live mode requires an explicit --max-attempts limit. A run "
+            "without a request cap is unbounded.",
+            file=sys.stderr,
+        )
+        return 2
+    max_attempts = args.max_attempts if args.max_attempts else planned
+    if max_attempts > planned:
+        # A cap above the plan cannot increase the spend: the plan already
+        # bounds the number of requests.  The effective cap is the lower one.
+        print(
+            f"note: --max-attempts ({max_attempts}) is above the planned number "
+            f"of attempts ({planned}); the effective cap is {planned}."
+        )
+        max_attempts = planned
+    budget = BudgetGate(
+        max_attempts=max_attempts,
+        max_spend_usd=args.max_spend_usd,
+        require_free_model=bool(args.require_free_model),
+        model_id=args.model,
+    )
+
     print("=" * 72)
     print("ITMS code-editing benchmark — Phase 1 runner")
     print("=" * 72)
@@ -190,6 +275,10 @@ def main(argv: Optional[List[str]] = None) -> int:
     print(f"methods             : {', '.join(methods)}")
     print(f"repetitions         : {args.reps}")
     print(f"planned attempts    : {planned}")
+    print(f"max attempts        : {max_attempts} (hard request cap)")
+    print(f"max spend           : {args.max_spend_usd if args.max_spend_usd is not None else '(reported cost not capped)'}")
+    print(f"output token limit  : {output_limit} ({limit_info['limit_source']})")
+    print(f"request seed base   : {args.seed_base if args.seed_base is not None else '(no request-level seed)'}")
     print(f"task manifest digest: {repository.manifest_digest()}")
     print(f"output directory    : {output_dir}")
     print("-" * 72)
@@ -200,11 +289,13 @@ def main(argv: Optional[List[str]] = None) -> int:
             provider = LiveProvider(
                 provider=args.provider or "",
                 model_id=args.model or "",
-                max_output_tokens=args.max_output_tokens,
+                max_output_tokens=output_limit,
                 temperature=args.temperature,
                 request_timeout=args.request_timeout,
                 max_retries=args.max_retries,
                 allow_dynamic_alias=args.allow_dynamic_alias,
+                allow_shared_credential=args.allow_shared_credential,
+                enforce_credential_binding=True,
             )
             try:
                 provider.preflight()
@@ -212,6 +303,11 @@ def main(argv: Optional[List[str]] = None) -> int:
                 print(f"live preflight: FAILED — {exc}", file=sys.stderr)
                 return 2
             print("live preflight: OK (credentials and model id resolved)")
+        try:
+            budget.preflight()
+        except BudgetError as exc:
+            print(f"budget preflight: FAILED — {exc}", file=sys.stderr)
+            return 2
         print(f"dry run: {len(schedule)} attempts scheduled, no provider contacted.")
         return 0
 
@@ -219,19 +315,40 @@ def main(argv: Optional[List[str]] = None) -> int:
         provider = LiveProvider(
             provider=args.provider or "",
             model_id=args.model or "",
-            max_output_tokens=args.max_output_tokens,
+            max_output_tokens=output_limit,
             temperature=args.temperature,
             request_timeout=args.request_timeout,
             max_retries=args.max_retries,
             allow_dynamic_alias=args.allow_dynamic_alias,
+            allow_shared_credential=args.allow_shared_credential,
+            enforce_credential_binding=True,
         )
         try:
             provider.preflight()
         except ProviderError as exc:
             print(f"error: live mode is fail-closed — {exc}", file=sys.stderr)
             return 2
+        try:
+            budget.preflight()
+        except BudgetError as exc:
+            print(f"error: budget preflight failed — {exc}", file=sys.stderr)
+            return 2
 
         print(f"WARNING: this will make {planned} live chat-completion requests.")
+        print(
+            f"WARNING: the run stops after {max_attempts} requests (hard cap)."
+        )
+        if args.max_spend_usd is not None:
+            print(
+                f"WARNING: the run also stops when the REPORTED cost reaches "
+                f"${args.max_spend_usd:.4f}. A reported cost is only available "
+                f"when the provider supplies one."
+            )
+        else:
+            print(
+                "WARNING: no spend cap is configured; the attempt cap is the only "
+                "guard. Cost is only known when the provider reports it."
+            )
         print(
             "WARNING: the provider may additionally be asked once for its model "
             "catalog (one request per run, not per attempt)."
@@ -262,6 +379,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         evaluation_timeout=args.evaluation_timeout,
         allow_overwrite=args.allow_overwrite,
         model_id=args.model,
+        budget=budget,
+        seed_base=args.seed_base,
+        output_token_limit=output_limit,
+        output_limit_justification=limit_info,
     )
 
     try:

@@ -205,7 +205,7 @@ class TestCommandLineInterface:
         env["OPENAI_API_KEY"] = ""
         result = subprocess.run(
             [sys.executable, RUNNER, "--mode", "live", "--provider", "openrouter",
-             "--model", "vendor/model", "--dry-run"],
+             "--model", "vendor/model", "--max-attempts", "3", "--dry-run"],
             cwd=_ROOT,
             capture_output=True,
             text=True,
@@ -217,7 +217,8 @@ class TestCommandLineInterface:
 
     def test_live_mode_without_model_id_fails_closed(self):
         result = subprocess.run(
-            [sys.executable, RUNNER, "--mode", "live", "--provider", "openrouter", "--dry-run"],
+            [sys.executable, RUNNER, "--mode", "live", "--provider", "openrouter",
+             "--max-attempts", "3", "--dry-run"],
             cwd=_ROOT,
             capture_output=True,
             text=True,

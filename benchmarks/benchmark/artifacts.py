@@ -186,6 +186,9 @@ class ArtifactStore:
             "candidate_redacted": False,
             "raw_response_path": None,
             "raw_response_sha256": None,
+            "prompt_path": None,
+            "prompt_sha256": None,
+            "prompt_file_sha256": None,
         }
 
         # -- raw response -------------------------------------------------
@@ -240,6 +243,44 @@ class ArtifactStore:
             info["candidate_redacted"] = stored_bytes != evaluated_bytes
             info["candidate_file_sha256"] = file_digest
 
+        # -- prompt -------------------------------------------------------
+        # The exact request that was sent is stored next to the response, so
+        # the "every strategy received the same instruction" claim can be
+        # audited instead of asserted.
+        prompt = getattr(outcome, "prompt", None)
+        if prompt is not None:
+            original_digest = sha256_text(prompt)
+            redacted_prompt = redact_secrets(prompt) or ""
+            prompt_meta = _scrub_mapping(
+                {
+                    "attempt_id": record.attempt_id,
+                    "run_id": record.run_id,
+                    "task_id": record.task_id,
+                    "humaneval_task_id": record.humaneval_task_id,
+                    "method": record.method,
+                    "rep": record.rep,
+                    "mode": record.mode,
+                    "provider": record.provider,
+                    "requested_model_id": record.requested_model_id,
+                    "seed_requested": record.seed_requested,
+                    "max_output_tokens": record.max_output_tokens,
+                    "prompt_original_sha256": original_digest,
+                    "prompt_bytes": len(prompt.encode("utf-8")),
+                    "prompt_token_estimate": record.prompt_token_estimate,
+                    "redaction_applied": redacted_prompt != prompt,
+                }
+            )
+            prompt_path = os.path.join(attempt_dir, "prompt.txt")
+            prompt_digest = self._write(prompt_path, redacted_prompt.encode("utf-8"))
+            meta_path = os.path.join(attempt_dir, "prompt.json")
+            self._write(
+                meta_path,
+                (json.dumps(prompt_meta, indent=2, ensure_ascii=False) + "\n").encode("utf-8"),
+            )
+            info["prompt_path"] = self._relative(prompt_path)
+            info["prompt_sha256"] = original_digest
+            info["prompt_file_sha256"] = prompt_digest
+
         # -- attempt manifest ---------------------------------------------
         evaluation = getattr(outcome, "evaluation", None)
         provider_error = getattr(outcome, "provider_error", None)
@@ -281,6 +322,15 @@ class ArtifactStore:
                 "candidate_redacted": info["candidate_redacted"],
                 "raw_response_path": info["raw_response_path"],
                 "raw_response_sha256": info["raw_response_sha256"],
+                "prompt_path": info.get("prompt_path"),
+                "prompt_sha256": info.get("prompt_sha256"),
+                "prompt_file_sha256": info.get("prompt_file_sha256"),
+                "prompt_token_estimate": record.prompt_token_estimate,
+                "seed_requested": record.seed_requested,
+                "seed_supported": record.seed_supported,
+                "seed_applied": record.seed_applied,
+                "seed_honour_verified": record.seed_honour_verified,
+                "max_output_tokens": record.max_output_tokens,
                 "evaluation": evaluation,
                 "provider_error": provider_error,
                 "notes": [
@@ -288,6 +338,10 @@ class ArtifactStore:
                     "the official evaluator.",
                     "The raw response is stored after secret redaction; the digest "
                     "of the original text is kept as provenance.",
+                    "The prompt is stored after secret redaction; the digest of the "
+                    "original prompt bytes is kept as provenance.",
+                    "seed_honour_verified is false unless a repeated-request probe "
+                    "proved that the provider honours the seed.",
                 ],
             }
         )

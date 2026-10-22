@@ -1,6 +1,6 @@
 import time
-from dataclasses import dataclass, asdict
-from typing import Optional, Dict, Any, List
+from dataclasses import dataclass, asdict, field
+from typing import Optional, Dict, Any, List, Tuple
 from sandbox import ExecutionHarness, ExecutionResult
 from model_dispatcher import ModelDispatcher, ModelResponse
 from prompt_manager import (
@@ -9,6 +9,7 @@ from prompt_manager import (
     get_token_count,
     GLOBAL_STATIC_PREFIX
 )
+from surgical_splicer import ASTNodeLocator, ASTSurgicalSplicer
 from telemetry import (
     TelemetryEngine,
     PRESET_PRICING_PROFILES,
@@ -17,6 +18,24 @@ from telemetry import (
     PricingProfile,
     resolve_tier_pricing
 )
+
+# Candidate preparation outcomes.
+SPLICE_APPLIED = "spliced"            # the candidate was spliced into the context
+SPLICE_FALLBACK = "fallback"          # the candidate could not be treated as a replacement
+SPLICE_FAILED = "splice_failed"       # the candidate was a replacement but the splice was rejected
+CANDIDATE_MISSING = "no_candidate"     # the model returned no usable code
+
+
+@dataclass
+class PreparedCandidate:
+    """The result of turning a raw model response into evaluable source code."""
+    status: str
+    code: str                       # the code that must be handed to the evaluator
+    context: str                    # the context that must accompany the code
+    error: Optional[str] = None
+    target_qualified_name: Optional[str] = None
+    evaluated: bool = False         # True only when the code really reached the evaluator
+
 
 @dataclass
 class CascadeRunResult:
@@ -58,6 +77,14 @@ class CascadeRunResult:
     # Intra-Tier Elastic Cascade Telemetry
     tier1_surgical_repairs: int = 0
     escalation_reason: Optional[str] = None
+
+    # Honest outcome bookkeeping
+    outcome_status: str = "unknown"        # passed | failed | timeout | missing_candidate | unevaluated
+    evaluated: bool = False                # True only if a candidate really reached the evaluator
+    candidate_status: str = "not_attempted"
+    splice_status: str = "not_attempted"
+    splice_error: Optional[str] = None
+    attempts: int = 0
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -111,6 +138,106 @@ class RelayOrchestrator:
             return True
         return False
 
+    # ------------------------------------------------------------------
+    # ITMS generation -> locate -> splice -> validate -> evaluate
+    # ------------------------------------------------------------------
+    def prepare_candidate(
+        self,
+        context_code: str,
+        target_function_name: str,
+        candidate_text: str
+    ) -> PreparedCandidate:
+        """
+        Turns a raw model response into the code that will be evaluated.
+
+        The ITMS contract is that the model returns a *replacement* for the
+        target node.  That replacement is therefore located with the AST node
+        locator and applied with the surgical splicer, and the **complete**
+        spliced source file is what gets handed to the evaluator.  A candidate
+        that cannot be spliced is reported as a failed attempt; it is never
+        silently treated as a successful edit.
+        """
+        clean = ASTSurgicalSplicer.clean_replacement_code(candidate_text or "")
+        if not clean.strip():
+            return PreparedCandidate(
+                status=CANDIDATE_MISSING,
+                code="",
+                context=context_code,
+                error="The model returned no candidate code.",
+            )
+
+        target, locate_error = ASTNodeLocator.locate_target_ex(
+            context_code, target_function_name
+        )
+        if target is None:
+            # The target is not in the context at all: the candidate is treated
+            # as a standalone module and evaluated as-is.
+            return PreparedCandidate(
+                status=SPLICE_FALLBACK,
+                code=clean,
+                context=context_code,
+                error=locate_error,
+            )
+
+        ok, spliced, splice_error = ASTSurgicalSplicer.splice(
+            original_source=context_code,
+            target=target,
+            replacement_code=clean,
+        )
+        if ok:
+            return PreparedCandidate(
+                status=SPLICE_APPLIED,
+                code=spliced,
+                context="",
+                target_qualified_name=target.qualified_name,
+            )
+
+        # The candidate was a replacement for a located target but the splice
+        # was rejected.  The raw candidate is still handed to the evaluator so
+        # that a real diagnostic is produced, but the attempt is recorded as a
+        # failed splice and can never be reported as a successful repair.
+        return PreparedCandidate(
+            status=SPLICE_FAILED,
+            code=clean,
+            context=context_code,
+            error=splice_error,
+            target_qualified_name=target.qualified_name,
+        )
+
+    def evaluate_candidate(
+        self,
+        prepared: PreparedCandidate,
+        test_suite_code: str,
+        target_function_name: str
+    ) -> ExecutionResult:
+        """
+        Runs the deterministic gate on a prepared candidate.
+
+        A missing candidate is never executed and never reported as a pass.
+        """
+        if prepared.status == CANDIDATE_MISSING:
+            return ExecutionResult(
+                success=False,
+                exit_code=1,
+                error_type="NoCandidate",
+                error_message=prepared.error or "The model returned no candidate code.",
+                failing_assertion="NoCandidate: nothing to evaluate",
+                stdout="",
+                stderr=prepared.error or "",
+                duration_ms=0.0,
+                timed_out=False,
+                syntax_valid=False,
+            )
+
+        result = self.harness.execute_test(
+            candidate_code=prepared.code,
+            context_code=prepared.context,
+            test_suite_code=test_suite_code,
+            target_function_name=target_function_name
+        )
+        prepared.evaluated = True
+        return result
+
     def run_cascade(
         self,
         task_description: str,
@@ -150,22 +277,37 @@ class RelayOrchestrator:
         total_t1_tokens_in = t1_resp.raw_tokens_in
         total_t1_tokens_out = t1_resp.output_tokens
         tier1_repairs_count = 0
-        curr_code = t1_resp.content
         last_t1_prompt = t1_prompt
         last_t1_resp = t1_resp
+        attempts = 0
+        candidate_status = CANDIDATE_MISSING
+        splice_status = "not_attempted"
+        splice_error: Optional[str] = None
 
         # ======================================================================
         # PHASE 2: Deterministic Verification Gate & Intra-Tier Self-Repair
         # ======================================================================
-        logs.append("[Step 2] Passing Tier 1 code to Deterministic Sandbox Gate")
-        curr_exec = self.harness.execute_test(
-            candidate_code=curr_code,
-            context_code=raw_context_code,
-            test_suite_code=test_suite_code,
-            target_function_name=target_function_name
+        logs.append("[Step 2] Locating target node and splicing Tier 1 candidate, then running the Deterministic Sandbox Gate")
+        prepared = self.prepare_candidate(
+            raw_context_code, target_function_name, t1_resp.content
         )
+        attempts += 1
+        candidate_status = prepared.status
+        splice_status = prepared.status
+        splice_error = prepared.error
+        curr_code = prepared.code
+        curr_draft = t1_resp.content
+        if prepared.status == SPLICE_APPLIED:
+            logs.append(f"[Step 2] AST splice applied to '{prepared.target_qualified_name}'.")
+        elif prepared.status == SPLICE_FAILED:
+            logs.append(f"[Step 2] AST splice REJECTED: {prepared.error}")
+        elif prepared.status == CANDIDATE_MISSING:
+            logs.append("[Step 2] No candidate code was returned by the model.")
 
-        if curr_exec.success:
+        curr_exec = self.evaluate_candidate(prepared, test_suite_code, target_function_name)
+        attempt_ok = curr_exec.success and prepared.status != SPLICE_FAILED
+
+        if attempt_ok:
             # First-pass success: Deliver immediately at zero additional cost!
             logs.append(f"[Step 2] PASSED! Sandboxed unit test succeeded in {curr_exec.duration_ms:.1f}ms. Escalation avoided.")
             total_time_ms = (time.perf_counter() - t_start) * 1000.0
@@ -178,7 +320,7 @@ class RelayOrchestrator:
                 target_function=target_function_name,
                 final_success=True,
                 escalated_to_tier2=False,
-                verified_code=t1_resp.content,
+                verified_code=prepared.code,
                 tier1_result=curr_exec,
                 tier2_result=None,
                 tier1_response=t1_resp,
@@ -196,7 +338,13 @@ class RelayOrchestrator:
                 total_duration_ms=total_time_ms,
                 pipeline_log=logs,
                 tier1_surgical_repairs=0,
-                escalation_reason=None
+                escalation_reason=None,
+                outcome_status="passed",
+                evaluated=True,
+                candidate_status=candidate_status,
+                splice_status=splice_status,
+                splice_error=splice_error,
+                attempts=attempts
             )
 
         # First pass failed
@@ -220,7 +368,7 @@ class RelayOrchestrator:
                     f"Context:\n{raw_context_code}\n\n"
                     f"Your previous code produced this error:\n"
                     f"{diagnostic_signal}\n\n"
-                    f"Previous Draft:\n{curr_code}\n\n"
+                    f"Previous Draft:\n{curr_draft}\n\n"
                     f"Fix the error in your candidate implementation. Ensure the complete corrected implementation is provided within a ```python ... ``` block."
                 )
                 last_t1_prompt = repair_prompt
@@ -232,17 +380,26 @@ class RelayOrchestrator:
                 )
                 total_t1_tokens_in += repair_resp.raw_tokens_in
                 total_t1_tokens_out += repair_resp.output_tokens
-                curr_code = repair_resp.content
                 last_t1_resp = repair_resp
 
-                curr_exec = self.harness.execute_test(
-                    candidate_code=curr_code,
-                    context_code=raw_context_code,
-                    test_suite_code=test_suite_code,
-                    target_function_name=target_function_name
+                prepared = self.prepare_candidate(
+                    raw_context_code, target_function_name, repair_resp.content
                 )
+                attempts += 1
+                candidate_status = prepared.status
+                splice_status = prepared.status
+                splice_error = prepared.error
+                curr_code = prepared.code
+                curr_draft = repair_resp.content
+                if prepared.status == SPLICE_APPLIED:
+                    logs.append(f"[Step 2-R] AST splice applied to '{prepared.target_qualified_name}'.")
+                elif prepared.status == SPLICE_FAILED:
+                    logs.append(f"[Step 2-R] AST splice REJECTED: {prepared.error}")
 
-                if curr_exec.success:
+                curr_exec = self.evaluate_candidate(prepared, test_suite_code, target_function_name)
+                attempt_ok = curr_exec.success and prepared.status != SPLICE_FAILED
+
+                if attempt_ok:
                     logs.append(f"[Step 2-R] PASSED! Tier 1 intra-tier self-repair succeeded on attempt {attempt} in {curr_exec.duration_ms:.1f}ms. Tier 2 escalation avoided.")
                     total_time_ms = (time.perf_counter() - t_start) * 1000.0
                     t1_cost = (total_t1_tokens_in * t1_pricing.cost_per_uncached_token) + (total_t1_tokens_out * t1_pricing.cost_per_output_token)
@@ -324,19 +481,39 @@ class RelayOrchestrator:
         # ======================================================================
         # PHASE 4: Final Deterministic Verification
         # ======================================================================
-        logs.append("[Step 4] Re-verifying Tier 2 solution in Deterministic Sandbox Gate")
-        t2_exec = self.harness.execute_test(
-            candidate_code=t2_resp.content,
-            context_code=raw_context_code,
-            test_suite_code=test_suite_code,
-            target_function_name=target_function_name
+        logs.append("[Step 4] Locating target node, splicing Tier 2 candidate, then re-verifying in the Deterministic Sandbox Gate")
+        t2_prepared = self.prepare_candidate(
+            raw_context_code, target_function_name, t2_resp.content
         )
+        attempts += 1
+        candidate_status = t2_prepared.status
+        splice_status = t2_prepared.status
+        splice_error = t2_prepared.error
+        if t2_prepared.status == SPLICE_APPLIED:
+            logs.append(f"[Step 4] AST splice applied to '{t2_prepared.target_qualified_name}'.")
+        elif t2_prepared.status == SPLICE_FAILED:
+            logs.append(f"[Step 4] AST splice REJECTED: {t2_prepared.error}")
 
-        final_pass = t2_exec.success
+        t2_exec = self.evaluate_candidate(t2_prepared, test_suite_code, target_function_name)
+
+        final_pass = t2_exec.success and t2_prepared.status != SPLICE_FAILED
         if final_pass:
             logs.append(f"[Step 4] SUCCESS! Tier 2 resolved all assertion failures in {t2_exec.duration_ms:.1f}ms.")
+        elif t2_prepared.status == CANDIDATE_MISSING:
+            logs.append("[Step 4] Tier 2 returned no candidate code. Nothing was evaluated.")
         else:
             logs.append(f"[Step 4] Tier 2 execution failed: {t2_exec.error_type}")
+
+        if t2_exec.timed_out:
+            outcome_status = "timeout"
+        elif final_pass:
+            outcome_status = "passed"
+        elif t2_prepared.status == CANDIDATE_MISSING:
+            outcome_status = "missing_candidate"
+        elif not t2_prepared.evaluated:
+            outcome_status = "unevaluated"
+        else:
+            outcome_status = "failed"
 
         total_time_ms = (time.perf_counter() - t_start) * 1000.0
 
@@ -387,7 +564,7 @@ class RelayOrchestrator:
             target_function=target_function_name,
             final_success=final_pass,
             escalated_to_tier2=True,
-            verified_code=t2_resp.content if final_pass else curr_code,
+            verified_code=t2_prepared.code if final_pass else curr_code,
             tier1_result=curr_exec,
             tier2_result=t2_exec,
             tier1_response=last_t1_resp,
@@ -405,5 +582,11 @@ class RelayOrchestrator:
             total_duration_ms=total_time_ms,
             pipeline_log=logs,
             tier1_surgical_repairs=tier1_repairs_count,
-            escalation_reason=escalation_reason
+            escalation_reason=escalation_reason,
+            outcome_status=outcome_status,
+            evaluated=t2_prepared.evaluated,
+            candidate_status=candidate_status,
+            splice_status=splice_status,
+            splice_error=splice_error,
+            attempts=attempts
         )

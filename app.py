@@ -19,7 +19,7 @@ from telemetry import (
     PricingProfile,
     resolve_tier_pricing
 )
-from sandbox import ExecutionHarness
+from sandbox import ExecutionHarness, describe_isolation
 from model_dispatcher import ModelDispatcher
 from relay_orchestrator import RelayOrchestrator
 from surgical_splicer import ASTNodeLocator, ASTSurgicalSplicer, TextDiffPatcher, SurgicalTarget
@@ -528,7 +528,18 @@ def main():
     # =========================================================================
     with tab_runner:
         st.subheader("Deterministic Execution Gate & Live Relay Orchestrator")
-        st.caption("Executes Tier 1 speculation -> Deterministic Sandbox Verification -> Tier 2 Clean-Trace Escalation.")
+        st.caption(
+            "Executes Tier 1 speculation -> AST splice -> Deterministic Execution Gate -> Tier 2 Clean-Trace Escalation."
+        )
+        iso = describe_isolation()
+        with st.expander("Execution gate isolation level (read before trusting it with untrusted code)"):
+            st.write(f"- Isolation level: `{iso['isolation_level']}`")
+            st.markdown("**Enforced**")
+            for item in iso["enforced"]:
+                st.write(f"- {item}")
+            st.markdown("**Not enforced**")
+            for item in iso["not_enforced"]:
+                st.write(f"- {item}")
 
         col_btn, _ = st.columns([1, 4])
         run_relay = col_btn.button("Run Live Cascade Relay", type="primary")
@@ -566,27 +577,36 @@ def main():
                 <div class="kpi-grid">
                     <div class="kpi-box kpi-box-green">
                         <div class="kpi-title">Final Status</div>
-                        <div class="kpi-number kpi-number-green">{'PASSED' if run_res.final_success else 'FAILED'}</div>
+                        <div class="kpi-number kpi-number-green">{run_res.outcome_status.upper()}</div>
                         <div class="kpi-detail">{status_detail}</div>
                     </div>
                     <div class="kpi-box kpi-box-cyan">
                         <div class="kpi-title">Savings vs Direct Frontier</div>
                         <div class="kpi-number">{run_res.cost_saved_vs_frontier_pct:.1f}%</div>
-                        <div class="kpi-detail">Pipeline cost: ${run_res.total_pipeline_cost_usd:.5f}</div>
+                        <div class="kpi-detail">Modelled from the catalogue price profile</div>
                     </div>
                     <div class="kpi-box kpi-box-purple">
                         <div class="kpi-title">Savings vs Naive Agentic</div>
                         <div class="kpi-number">{run_res.cost_saved_vs_naive_pct:.1f}%</div>
-                        <div class="kpi-detail">Prevented draft contamination</div>
+                        <div class="kpi-detail">Modelled from the catalogue price profile</div>
                     </div>
                     <div class="kpi-box kpi-box-amber">
                         <div class="kpi-title">Total Latency</div>
                         <div class="kpi-number">{run_res.total_duration_ms:.0f}ms</div>
-                        <div class="kpi-detail">End-to-end execution</div>
+                        <div class="kpi-detail">Measured end-to-end (monotonic clock)</div>
                     </div>
                 </div>
                 """,
                 unsafe_allow_html=True
+            )
+
+            st.caption(
+                f"Attempts: {run_res.attempts} | Evaluated: {run_res.evaluated} | "
+                f"Candidate status: {run_res.candidate_status} | Splice status: {run_res.splice_status}"
+                + (f" | Splice error: {run_res.splice_error}" if run_res.splice_error else "")
+                + ". Cost savings are modelled from the catalogue price profile and the token counts "
+                "reported by the provider (or by the mock engine in mock mode); they are not billed spend. "
+                "The execution gate is a subprocess with a scrubbed environment, not an OS-level sandbox."
             )
 
             # Pipeline Trace Logs
@@ -806,7 +826,11 @@ def main():
     # =========================================================================
     with tab_surgical:
         st.subheader("AST-Guided Surgical Splicer & Speculative Edit Cascade (Phase 2)")
-        st.caption("Solves Full-File Rewrite Inflation and Search/Replace Whitespace Fragility using AST node line slicing.")
+        st.caption(
+            "Solves Full-File Rewrite Inflation and Search/Replace Whitespace Fragility using AST node line slicing. "
+            "The comparison below is a *simulated* three-way run on candidate code that you supply in the form: "
+            "no provider request is made, so its token, cost and latency figures are labelled with their source."
+        )
 
         col_edit_top1, col_edit_top2 = st.columns([2, 1])
         with col_edit_top1:
@@ -917,39 +941,49 @@ assert r.calculate_tax_allocation(0.5) == 1030.0
                 f"""
                 <div class="kpi-grid">
                     <div class="kpi-box kpi-box-green">
-                        <div class="kpi-title">Output Tokens Saved</div>
+                        <div class="kpi-title">Estimated Output Tokens Saved</div>
                         <div class="kpi-number kpi-number-green">{report.output_tokens_saved_vs_full_pct:.1f}%</div>
-                        <div class="kpi-detail">{report.itms_surgical_result.output_tokens} vs {report.full_file_result.output_tokens} tokens</div>
+                        <div class="kpi-detail">{report.itms_surgical_result.output_tokens} vs {report.full_file_result.output_tokens} (local tokenizer estimate)</div>
                     </div>
                     <div class="kpi-box kpi-box-cyan">
-                        <div class="kpi-title">Cost Reduction vs Full-File</div>
+                        <div class="kpi-title">Estimated Cost vs Full-File</div>
                         <div class="kpi-number">{report.cost_saved_vs_full_pct:.1f}%</div>
-                        <div class="kpi-detail">${report.itms_surgical_result.cost_usd:.5f} vs ${report.full_file_result.cost_usd:.5f}</div>
+                        <div class="kpi-detail">${report.itms_surgical_result.cost_usd:.5f} vs ${report.full_file_result.cost_usd:.5f} (estimate x catalogue price)</div>
                     </div>
                     <div class="kpi-box kpi-box-purple">
-                        <div class="kpi-title">Latency Acceleration</div>
-                        <div class="kpi-number">{report.latency_speedup_factor:.1f}x</div>
-                        <div class="kpi-detail">{report.itms_surgical_result.latency_ms:.0f}ms vs {report.full_file_result.latency_ms:.0f}ms</div>
+                        <div class="kpi-title">Edit Application Time</div>
+                        <div class="kpi-number">{report.itms_surgical_result.latency_ms:.2f} ms</div>
+                        <div class="kpi-detail">Measured local processing only - no provider request was made</div>
                     </div>
                     <div class="kpi-box kpi-box-amber">
-                        <div class="kpi-title">Splicing Reliability</div>
-                        <div class="kpi-number">{'PASS' if report.patch_reliability_itms else 'FAIL'}</div>
-                        <div class="kpi-detail">Diff Match: {'PASS' if report.patch_reliability_diff else 'FAILED'}</div>
+                        <div class="kpi-title">Splicing Status</div>
+                        <div class="kpi-number">{report.itms_surgical_result.status.upper()}</div>
+                        <div class="kpi-detail">Search/Replace: {report.search_replace_result.status} | Full-File: {report.full_file_result.status}</div>
                     </div>
                 </div>
                 """,
                 unsafe_allow_html=True
             )
 
+            st.warning(
+                "Simulated comparison, not a measured benchmark run. The candidate code for all "
+                "three strategies was supplied in the form above, so no provider request was made. "
+                f"Token counts are {report.token_source} values produced by the local tokenizer; the "
+                "cost figures are those estimates multiplied by the catalogue price; and the latency "
+                "is the measured wall-clock time of the local edit mechanism only. A latency "
+                "'speedup' is therefore not reported, and no claim is made about which method is "
+                "faster, cheaper or more accurate than another outside of this simulated run."
+            )
+
             # 3-Way Comparative Matrix
             st.markdown("#### Tri-Way Strategy Comparison Matrix")
             st.markdown(
                 f"""
-                | Strategy | Patch Status | Output Tokens | Total Cost ($) | Latency (ms) | Whitespace / Syntax Safety |
-                | :--- | :--- | :--- | :--- | :--- | :--- |
-                | **Full-File Regeneration (Baseline)** | `SUCCESS` | **{report.full_file_result.output_tokens}** | **${report.full_file_result.cost_usd:.5f}** | **{report.full_file_result.latency_ms:.0f} ms** | High syntax safety, but massive token waste |
-                | **Text-Based Search/Replace (Aider Style)** | `{ 'SUCCESS' if report.search_replace_result.success else 'FAILED' }` | **{report.search_replace_result.output_tokens}** | **${report.search_replace_result.cost_usd:.5f}** | **{report.search_replace_result.latency_ms:.0f} ms** | { 'Clean match' if report.search_replace_result.success else report.search_replace_result.splicing_error } |
-                | **ITMS AST-Guided Surgical Splicer (Our Work)** | `{ 'SUCCESS (100%)' if report.itms_surgical_result.success else 'FAILED' }` | **{report.itms_surgical_result.output_tokens}** | **${report.itms_surgical_result.cost_usd:.5f}** | **{report.itms_surgical_result.latency_ms:.0f} ms** | **100% Guaranteed** (Preserves all comments & AST indentation) |
+                | Strategy | Status | Evaluated Attempts | Output Tokens (est.) | Total Cost (est., $) | Local Edit Time (ms) | Notes |
+                | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+                | **Full-File Regeneration (Baseline)** | `{report.full_file_result.status}` | {report.full_file_result.passed_attempts}/{report.full_file_result.attempts} passed | **{report.full_file_result.output_tokens}** | **${report.full_file_result.cost_usd:.5f}** | **{report.full_file_result.latency_ms:.2f} ms** | token source: {report.full_file_result.token_source} |
+                | **Text-Based Search/Replace (Aider Style)** | `{report.search_replace_result.status}` | {report.search_replace_result.passed_attempts}/{report.search_replace_result.attempts} passed | **{report.search_replace_result.output_tokens}** | **${report.search_replace_result.cost_usd:.5f}** | **{report.search_replace_result.latency_ms:.2f} ms** | {report.search_replace_result.splicing_error or 'exact text match applied'} |
+                | **ITMS AST-Guided Surgical Splicer (Our Work)** | `{report.itms_surgical_result.status}` | {report.itms_surgical_result.passed_attempts}/{report.itms_surgical_result.attempts} passed | **{report.itms_surgical_result.output_tokens}** | **${report.itms_surgical_result.cost_usd:.5f}** | **{report.itms_surgical_result.latency_ms:.2f} ms** | token source: {report.itms_surgical_result.token_source}; cached tokens: {report.itms_surgical_result.cached_input_tokens if report.itms_surgical_result.cached_input_tokens is not None else 'unavailable'} |
                 """
             )
 
@@ -968,7 +1002,12 @@ assert r.calculate_tax_allocation(0.5) == 1030.0
                     st.code(target_loc.original_text, language="python")
             with col_c2:
                 st.markdown("#### Surgically Spliced Output File")
-                st.caption("100% of non-target comments, formatting, and classes are preserved.")
+                st.caption(
+                    "The splice replaces only the target's line range; comments, formatting and "
+                    "unrelated definitions outside that range are preserved byte-for-byte. "
+                    "This is a property of the line-boundary splice, not a success guarantee for "
+                    "the edit itself - the edit is graded by the evaluator above."
+                )
                 st.code(report.itms_surgical_result.resulting_code, language="python")
 
     # =========================================================================
@@ -1027,6 +1066,15 @@ assert r.calculate_tax_allocation(0.5) == 1030.0
                 </div>
                 """,
                 unsafe_allow_html=True
+            )
+
+            st.caption(
+                ("**MOCK RUN - not a live measurement.** " if macro_rep.contains_mock_results else "")
+                + f"Mock results: {macro_rep.contains_mock_results} | "
+                + f"Live request failures: {macro_rep.live_request_failures} | "
+                + "Costs are modelled from the catalogue price profile and the token counts "
+                "actually reported by the provider; in mock mode no provider was called and no "
+                "billed spend occurred."
             )
 
             st.markdown("#### Task Execution Telemetry")

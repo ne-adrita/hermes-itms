@@ -10,6 +10,46 @@ from dataclasses import dataclass, asdict
 from typing import Optional, Dict, Any
 from prompt_manager import sanitize_runtime_traceback
 
+# ---------------------------------------------------------------------------
+# ISOLATION LEVEL - read this before claiming the harness is a "sandbox".
+#
+# The execution gate runs candidate code in a *separate OS process* with a
+# scrubbed environment and a wall-clock timeout.  That is a process boundary,
+# not an OS-level sandbox:
+#
+#   * there is NO Docker / container / namespace isolation,
+#   * the child process can read and write the real file system,
+#   * network access is not blocked by the harness (a child interpreter can
+#     open a socket, so "socket blocked" only holds for code that does not
+#     deliberately re-enable it),
+#   * CPU / memory limits are not enforced beyond the timeout.
+#
+# The environment scrubbing (API keys, tokens, credentials) and the timeout
+# ARE enforced.  Anything stronger is a documented limitation, not a feature.
+# ---------------------------------------------------------------------------
+ISOLATION_LEVEL = "process_boundary_only"
+ISOLATION_ENFORCED = (
+    "separate OS process",
+    "scrubbed environment (credentials/keys removed)",
+    "wall-clock timeout with process termination",
+    "AST syntax pre-validation before execution",
+)
+ISOLATION_NOT_ENFORCED = (
+    "no Docker/container/namespace isolation",
+    "no file-system confinement (child can read/write the real file system)",
+    "no network isolation (not blocked by the harness)",
+    "no CPU or memory limits",
+)
+
+
+def describe_isolation() -> Dict[str, Any]:
+    """Returns an honest description of what the execution gate does and does not enforce."""
+    return {
+        "isolation_level": ISOLATION_LEVEL,
+        "enforced": list(ISOLATION_ENFORCED),
+        "not_enforced": list(ISOLATION_NOT_ENFORCED),
+    }
+
 @dataclass
 class ExecutionResult:
     """Structured, deterministic result of a sandboxed execution test."""
@@ -45,6 +85,10 @@ class ExecutionHarness:
     Deterministic Execution Gate.
     Executes candidate code in an isolated subprocess boundary at zero API cost.
     Guards against syntax errors, infinite loops, and unhandled exceptions.
+
+    Isolation level: ``process_boundary_only`` (see `ISOLATION_NOT_ENFORCED`).
+    This is *not* a Docker/container sandbox: the child process keeps the
+    machine's file-system and network permissions.
     """
     def __init__(self, default_timeout: float = 3.0):
         self.default_timeout = default_timeout

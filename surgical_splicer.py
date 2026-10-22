@@ -16,6 +16,7 @@ class SurgicalTarget:
     base_indentation: str    # Leading whitespace of the def/class line
     original_text: str       # Exact source text slice
     parent_class: Optional[str] = None
+    body_indentation: str = ""   # Leading whitespace of the first body statement
 
 
 class ASTNodeLocator:
@@ -24,105 +25,152 @@ class ASTNodeLocator:
     and indentation level of any function, method, or class.
     Supports multi-level qualified names (e.g. 'Outer.Inner.method')
     as well as standalone function and class lookups.
+
+    Resolution rules (deterministic, ambiguity-safe):
+      1. An exact qualified path match wins ('AccountLedger.reconcile_balance',
+         'Outer.Inner.method', or a module level 'foo').
+      2. Otherwise, for a single-segment name, every node with that name is
+         collected.  If more than one exists the name is *ambiguous* and no
+         target is returned, so a caller can never silently edit the wrong
+         function.
     """
+    @staticmethod
+    def _collect_entries(source_code: str) -> List[Tuple[str, ast.AST, Optional[str]]]:
+        """
+        Returns (qualified_path, node, nearest_enclosing_class_path) for every
+        function/class definition in the file, in source order.
+        """
+        tree = ast.parse(source_code)
+        entries: List[Tuple[str, ast.AST, Optional[str]]] = []
+
+        def walk(nodes, prefix: str, class_prefix: Optional[str]) -> None:
+            for node in nodes:
+                if isinstance(node, ast.ClassDef):
+                    path = f"{prefix}.{node.name}" if prefix else node.name
+                    entries.append((path, node, class_prefix))
+                    walk(node.body, path, path)
+                elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                    path = f"{prefix}.{node.name}" if prefix else node.name
+                    entries.append((path, node, class_prefix))
+                    walk(node.body, path, class_prefix)
+
+        walk(tree.body, "", None)
+        return entries
+
+    @staticmethod
+    def _build_target(
+        source_code: str,
+        path: str,
+        node: ast.AST,
+        class_prefix: Optional[str],
+        lines: List[str]
+    ) -> SurgicalTarget:
+        num_lines = len(lines)
+
+        start_line = node.lineno
+        if getattr(node, "decorator_list", None):
+            start_line = min(start_line, node.decorator_list[0].lineno)
+
+        end_line = getattr(node, "end_lineno", None)
+        if end_line is None:
+            end_line = num_lines
+
+        def_line_text = lines[node.lineno - 1] if 1 <= node.lineno <= num_lines else ""
+        indentation = def_line_text[: len(def_line_text) - len(def_line_text.lstrip())]
+
+        slice_lines = lines[start_line - 1 : end_line]
+        original_text = "".join(slice_lines)
+
+        body = getattr(node, "body", None)
+        body_start = body[0].lineno if body else start_line
+        body_text = lines[body_start - 1] if 1 <= body_start <= num_lines else ""
+        body_indentation = body_text[: len(body_text) - len(body_text.lstrip())]
+
+        return SurgicalTarget(
+            name=node.name,
+            qualified_name=path,
+            node_type=type(node).__name__,
+            start_line=start_line,
+            end_line=end_line,
+            body_start_line=body_start,
+            base_indentation=indentation,
+            original_text=original_text,
+            parent_class=class_prefix,
+            body_indentation=body_indentation,
+        )
+
+    @staticmethod
+    def find_matches(source_code: str, target_name: str) -> List[SurgicalTarget]:
+        """
+        Returns every target that matches `target_name`.
+        An empty list means "not found"; more than one element means the name
+        is ambiguous and must not be edited blindly.
+        """
+        if not source_code or not target_name:
+            return []
+
+        try:
+            entries = ASTNodeLocator._collect_entries(source_code)
+        except Exception:
+            return []
+
+        lines = source_code.splitlines(keepends=True)
+        query = target_name.strip()
+
+        exact = [e for e in entries if e[0] == query]
+        if exact:
+            path, node, class_prefix = exact[0]
+            return [ASTNodeLocator._build_target(source_code, path, node, class_prefix, lines)]
+
+        if "." in query:
+            return []
+
+        by_name = [e for e in entries if getattr(e[1], "name", None) == query]
+        return [
+            ASTNodeLocator._build_target(source_code, path, node, class_prefix, lines)
+            for path, node, class_prefix in by_name
+        ]
+
     @staticmethod
     def locate_target(source_code: str, target_name: str) -> Optional[SurgicalTarget]:
         """
         Locates a function or class by name or qualified name (e.g. 'AccountLedger.reconcile_balance',
         'Outer.Inner.method', 'standalone_func', or 'AccountLedger').
         Returns line boundaries and leading indentation.
+        Returns None when the target cannot be found *or* when the name is
+        ambiguous (more than one candidate), so that a wrong node is never
+        edited by accident.
+        """
+        matches = ASTNodeLocator.find_matches(source_code, target_name)
+        if len(matches) == 1:
+            return matches[0]
+        return None
+
+    @staticmethod
+    def locate_target_ex(
+        source_code: str, target_name: str
+    ) -> Tuple[Optional[SurgicalTarget], Optional[str]]:
+        """
+        Same as `locate_target` but returns an explicit diagnostic instead of
+        collapsing "not found" and "ambiguous" into None.
         """
         if not source_code or not target_name:
-            return None
-
+            return None, "No source code or target name supplied."
         try:
-            tree = ast.parse(source_code)
-        except Exception:
-            return None
+            ast.parse(source_code)
+        except SyntaxError as e:
+            return None, f"Source code is not valid Python: {e.msg} (line {e.lineno})."
 
-        lines = source_code.splitlines(keepends=True)
-        num_lines = len(lines)
-        target_clean = target_name.strip()
-        parts = target_clean.split(".")
-
-        matched_node = None
-        matched_class_name = None
-
-        def search_scope(nodes: List[ast.stmt], target_parts: List[str], current_parent: Optional[str] = None):
-            nonlocal matched_node, matched_class_name
-            if not target_parts or matched_node is not None:
-                return
-
-            current_target = target_parts[0]
-            remaining_parts = target_parts[1:]
-
-            for node in nodes:
-                if isinstance(node, ast.ClassDef):
-                    if node.name == current_target:
-                        if not remaining_parts:
-                            matched_node = node
-                            matched_class_name = current_parent
-                            return
-                        else:
-                            class_qual = f"{current_parent}.{node.name}" if current_parent else node.name
-                            search_scope(node.body, remaining_parts, class_qual)
-                            if matched_node is not None:
-                                return
-                    elif len(target_parts) == 1:
-                        # Unqualified search: inspect inside this class
-                        search_scope(node.body, target_parts, node.name)
-                        if matched_node is not None:
-                            return
-
-                elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                    if node.name == current_target and not remaining_parts:
-                        matched_node = node
-                        matched_class_name = current_parent
-                        return
-                    elif len(target_parts) == 1:
-                        search_scope(node.body, target_parts, current_parent)
-                        if matched_node is not None:
-                            return
-
-        search_scope(tree.body, parts)
-
-        if not matched_node:
-            return None
-
-        # Determine line boundaries (ast lineno is 1-indexed)
-        # Include decorators if present
-        start_line = matched_node.lineno
-        if hasattr(matched_node, "decorator_list") and matched_node.decorator_list:
-            first_dec = matched_node.decorator_list[0]
-            start_line = min(start_line, first_dec.lineno)
-
-        end_line = getattr(matched_node, "end_lineno", None)
-        if end_line is None:
-            end_line = num_lines
-
-        # Extract leading indentation of the definition line
-        def_line_text = lines[matched_node.lineno - 1] if 1 <= matched_node.lineno <= num_lines else ""
-        indentation = def_line_text[: len(def_line_text) - len(def_line_text.lstrip())]
-
-        # Extract original text slice
-        slice_lines = lines[start_line - 1 : end_line]
-        original_text = "".join(slice_lines)
-
-        body_start = matched_node.body[0].lineno if getattr(matched_node, "body", None) else start_line
-
-        qual_name = f"{matched_class_name}.{matched_node.name}" if matched_class_name else matched_node.name
-
-        return SurgicalTarget(
-            name=matched_node.name,
-            qualified_name=qual_name,
-            node_type=type(matched_node).__name__,
-            start_line=start_line,
-            end_line=end_line,
-            body_start_line=body_start,
-            base_indentation=indentation,
-            original_text=original_text,
-            parent_class=matched_class_name
-        )
+        matches = ASTNodeLocator.find_matches(source_code, target_name)
+        if not matches:
+            return None, f"Target '{target_name}' was not found in the source file."
+        if len(matches) > 1:
+            names = ", ".join(sorted(m.qualified_name for m in matches))
+            return None, (
+                f"Target '{target_name}' is ambiguous: it matches {len(matches)} "
+                f"definitions ({names}). Use a qualified name."
+            )
+        return matches[0], None
 
 
 class ASTSurgicalSplicer:
@@ -131,22 +179,22 @@ class ASTSurgicalSplicer:
     using exact line boundaries while strictly preserving comments, formatting,
     and indentation.
 
-    KNOWN LIMITATION (do not fix before the baseline benchmark measurement):
-    A body-only replacement (no ``def``/``class`` header) that itself declares
-    a nested function is mis-indented. The nested ``def`` is hoisted to module
-    level and the original method body is overwritten, so the spliced file is
-    syntactically valid but semantically wrong, and ``splice()`` still reports
-    success. Reproducer:
-
-        source    = "class Outer:\\n    class Inner:\\n        def method(self, x):\\n"
-                    "            def helper(v):\\n                return v * 2\\n"
-                    "            return helper(x) + 1\\n"
-        target    = "Outer.Inner.method"
-        replacement = "    def helper(v):\\n        return v * 2\\n    return helper(x) + 5\\n"
-
-    Full-node replacements (with a ``def`` header) are unaffected. This
-    limitation is documented rather than fixed so that the benchmark baseline
-    is measured against the current, unchanged implementation.
+    Guarantees
+    ----------
+    * A **body-only** replacement (no ``def``/``class`` header for the target)
+      keeps the original ``def``/``class`` header and nests *any* nested
+      function or class declared by the candidate **inside** that body, at the
+      body's own indentation level.  Nested helpers are never hoisted to module
+      scope and the original body is never silently discarded.
+    * A **full-node** replacement (a ``def``/``class`` with the target's own
+      name) replaces exactly the target's line range.
+    * A candidate that wraps the target inside a redundant class is unwrapped
+      to the target definition itself.
+    * The spliced file must parse, and the target node must still exist in it.
+      An edit that would remove or destroy the target is rejected instead of
+      being reported as a success.
+    * Everything outside the target's line range (comments, imports, other
+      functions, other classes) is preserved byte-for-byte.
     """
     @staticmethod
     def clean_replacement_code(candidate_code: str) -> str:
@@ -196,6 +244,152 @@ class ASTSurgicalSplicer:
         # 3. If no code fences at all, return raw text dedented and stripped
         return textwrap.dedent(candidate_code).strip()
 
+    # -- helpers ---------------------------------------------------------
+
+    @staticmethod
+    def _parse_candidate(clean_code: str) -> Tuple[Optional[str], Optional[ast.AST], Optional[str]]:
+        """
+        Parses a candidate snippet either as a module or as a function body.
+
+        Returns (kind, tree, error) where kind is 'module', 'body' or None.
+        'body' is used for snippets such as a bare ``return ...`` which are not
+        valid at module level but are valid inside the target function.
+        """
+        try:
+            return ("module", ast.parse(clean_code), None)
+        except SyntaxError as module_error:
+            module_msg = module_error.msg
+            module_lineno = module_error.lineno
+        try:
+            wrapper = "def _itms_probe():\n" + textwrap.indent(clean_code, "    ")
+            return ("body", ast.parse(wrapper), None)
+        except SyntaxError as body_error:
+            return (
+                None,
+                None,
+                f"SyntaxError in replacement code: {module_msg} (line {module_lineno}).",
+            )
+
+    @staticmethod
+    def _node_source(lines: List[str], node: ast.AST, fallback_end: int) -> str:
+        """Returns the source slice of a node, decorators included, dedented."""
+        start = node.lineno
+        if getattr(node, "decorator_list", None):
+            start = min(start, node.decorator_list[0].lineno)
+        end = getattr(node, "end_lineno", None) or fallback_end
+        chunk = "".join(lines[start - 1 : end])
+        return textwrap.dedent(chunk).strip()
+
+    @staticmethod
+    def _indent_block(code: str, indentation: str) -> str:
+        """Indents every non-empty line of `code` with `indentation`."""
+        out_lines = []
+        for line in code.splitlines():
+            out_lines.append(f"{indentation}{line}" if line.strip() else "")
+        return "\n".join(out_lines) + "\n"
+
+    @staticmethod
+    def _split_leading_comment_block(lines: List[str]) -> int:
+        """
+        Returns the number of leading lines that form a shebang / encoding /
+        header comment block.  Module level helpers must be inserted *after*
+        that block so the file header is not corrupted.
+        """
+        count = 0
+        for line in lines:
+            stripped = line.strip()
+            if stripped.startswith("#") or not stripped:
+                count += 1
+                continue
+            break
+        return count
+
+    @classmethod
+    def _classify_candidate(
+        cls, clean_code: str, target: SurgicalTarget
+    ) -> Tuple[Optional[str], str, List[str], Optional[str]]:
+        """
+        Classifies a candidate against the located target.
+
+        Returns (kind, payload, module_helpers, error) where kind is one of
+        'full_node', 'body_only' or None (on error).
+        """
+        kind, tree, error = cls._parse_candidate(clean_code)
+        if kind is None:
+            return None, "", [], error
+
+        if kind == "body":
+            # Only valid inside a function body: the target's own header is
+            # preserved and the snippet becomes the new body.
+            if target.node_type == "ClassDef":
+                return None, "", [], (
+                    f"Replacement does not define a class named '{target.name}'; "
+                    "it cannot be applied as a class body."
+                )
+            return "body_only", clean_code, [], None
+
+        cand_lines = clean_code.splitlines(keepends=True)
+        fallback_end = len(cand_lines)
+        is_class_target = target.node_type == "ClassDef"
+
+        matching: Optional[ast.AST] = None
+        wrapper_class: Optional[ast.AST] = None
+        others: List[ast.AST] = []
+
+        for node in tree.body:
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                if not is_class_target and node.name == target.name and matching is None:
+                    matching = node
+                else:
+                    others.append(node)
+            elif isinstance(node, ast.ClassDef):
+                if is_class_target and node.name == target.name and matching is None:
+                    matching = node
+                else:
+                    others.append(node)
+            else:
+                others.append(node)
+
+        if matching is None and not is_class_target:
+            # A redundant class wrapper around the target method/function.
+            for node in list(others):
+                if isinstance(node, ast.ClassDef):
+                    for item in node.body:
+                        if isinstance(item, (ast.FunctionDef, ast.AsyncFunctionDef)) and item.name == target.name:
+                            matching = item
+                            wrapper_class = node
+                            others.remove(node)
+                            break
+                if matching is not None:
+                    break
+
+        if matching is None:
+            if is_class_target:
+                return None, "", [], (
+                    f"Replacement does not define a class named '{target.name}'; "
+                    "refusing to apply an edit that would destroy the target."
+                )
+            # No definition of the target: the candidate is treated as the new
+            # *body* of the target.  Any nested def/class it declares stays
+            # nested, inside the target body.
+            return "body_only", clean_code, [], None
+
+        payload = cls._node_source(cand_lines, matching, fallback_end)
+        if not payload.strip():
+            return None, "", [], "Replacement code is empty after extraction."
+
+        helpers: List[str] = []
+        for node in others:
+            if node is wrapper_class:
+                continue
+            chunk = cls._node_source(cand_lines, node, fallback_end)
+            if chunk.strip():
+                helpers.append(chunk)
+
+        return "full_node", payload, helpers, None
+
+    # -- public API ------------------------------------------------------
+
     @classmethod
     def splice(
         cls,
@@ -205,114 +399,84 @@ class ASTSurgicalSplicer:
     ) -> Tuple[bool, str, Optional[str]]:
         """
         Slices the target lines from original_source and splices replacement_code.
-        Intelligently detects whether replacement is a full node definition, a class wrapper,
-        or a body-only block. Re-indents replacement code to match target's base indentation level.
+        Intelligently detects whether the replacement is a full node definition,
+        a class wrapper, or a body-only block.  Re-indents the replacement code
+        to match the target's own indentation level.
         Returns (success: bool, spliced_code: str, error_message: Optional[str]).
         """
         clean_code = cls.clean_replacement_code(replacement_code)
         if not clean_code:
             return False, original_source, "Replacement code is empty."
 
-        # If target is a class method, separate any top-level helper functions/classes
-        # so they are placed at module level rather than indented inside the class.
-        is_function_target = target.node_type in ("FunctionDef", "AsyncFunctionDef")
-        module_helpers = []
-        if is_function_target and target.parent_class is not None:
-            try:
-                cand_tree = ast.parse(clean_code)
-                cand_lines = clean_code.splitlines(keepends=True)
-                method_parts = []
-                for node in cand_tree.body:
-                    if isinstance(node, ast.ClassDef):
-                        # Extract all methods from class wrapper
-                        for item in node.body:
-                            if isinstance(item, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                                f_start = item.lineno - 1
-                                if hasattr(item, "decorator_list") and item.decorator_list:
-                                    f_start = min(f_start, item.decorator_list[0].lineno - 1)
-                                f_end = getattr(item, "end_lineno", len(cand_lines))
-                                method_parts.append(textwrap.dedent("".join(cand_lines[f_start:f_end])).strip())
-                    elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                        f_start = node.lineno - 1
-                        if hasattr(node, "decorator_list") and node.decorator_list:
-                            f_start = min(f_start, node.decorator_list[0].lineno - 1)
-                        f_end = getattr(node, "end_lineno", len(cand_lines))
-                        chunk = textwrap.dedent("".join(cand_lines[f_start:f_end])).strip()
-                        if node.name == target.name:
-                            method_parts.append(chunk)
-                        else:
-                            # Standalone helper function -> module level
-                            module_helpers.append(chunk)
-                    else:
-                        f_start = node.lineno - 1
-                        f_end = getattr(node, "end_lineno", len(cand_lines))
-                        module_helpers.append(textwrap.dedent("".join(cand_lines[f_start:f_end])).strip())
+        # The target must still exist in the source we are about to edit.
+        located, locate_error = ASTNodeLocator.locate_target_ex(
+            original_source, target.qualified_name
+        )
+        if located is None:
+            return False, original_source, (
+                locate_error
+                or f"Target '{target.qualified_name}' could not be located in the source file."
+            )
+        if (
+            located.start_line != target.start_line
+            or located.end_line != target.end_line
+        ):
+            return False, original_source, (
+                f"Stale target '{target.qualified_name}': the located node "
+                f"(lines {located.start_line}-{located.end_line}) does not match the "
+                f"supplied target (lines {target.start_line}-{target.end_line})."
+            )
 
-                if method_parts:
-                    clean_code = "\n\n".join(method_parts)
-            except Exception:
-                pass
-        elif is_function_target:
-            # Standalone function target: unwrap if wrapped in a class
-            try:
-                cand_tree = ast.parse(clean_code)
-                for node in cand_tree.body:
-                    if isinstance(node, ast.ClassDef):
-                        cand_lines = clean_code.splitlines(keepends=True)
-                        extracted_methods = []
-                        for item in node.body:
-                            if isinstance(item, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                                f_start = item.lineno - 1
-                                if hasattr(item, "decorator_list") and item.decorator_list:
-                                    f_start = min(f_start, item.decorator_list[0].lineno - 1)
-                                f_end = getattr(item, "end_lineno", len(cand_lines))
-                                extracted_methods.append(textwrap.dedent("".join(cand_lines[f_start:f_end])).strip())
-                        if extracted_methods:
-                            clean_code = "\n\n".join(extracted_methods)
-                            break
-            except Exception:
-                pass
-
-        # Detect if candidate is body-only (e.g. lacks 'def ' or 'class ' or '@')
-        first_clean_line = clean_code.splitlines()[0].strip() if clean_code.splitlines() else ""
-        has_header = first_clean_line.startswith(("def ", "async def ", "class ", "@"))
-        
-        is_body_only = is_function_target and not has_header
-
-        rep_lines = clean_code.splitlines()
-        indented_lines = []
-        target_indent = (target.base_indentation + "    ") if is_body_only else target.base_indentation
-
-        for line in rep_lines:
-            if line.strip():
-                indented_lines.append(f"{target_indent}{line}")
-            else:
-                indented_lines.append("")
-
-        new_block = "\n".join(indented_lines) + "\n"
+        kind, payload, module_helpers, error = cls._classify_candidate(clean_code, target)
+        if kind is None:
+            return False, original_source, error or "The replacement could not be applied safely."
 
         orig_lines = original_source.splitlines(keepends=True)
-        
-        # Line boundaries: if body-only, slice from body_start_line; otherwise from start_line
-        effective_start = target.body_start_line if is_body_only else target.start_line
+
+        if kind == "body_only":
+            effective_start = target.body_start_line
+            target_indent = target.body_indentation or (target.base_indentation + "    ")
+        else:
+            effective_start = target.start_line
+            target_indent = target.base_indentation
+
         start_idx = max(0, effective_start - 1)
         end_idx = min(len(orig_lines), target.end_line)
 
         prefix_lines = orig_lines[:start_idx]
         suffix_lines = orig_lines[end_idx:]
 
-        # Reconstruct composite file with module helpers prepended
-        helper_header = ("\n\n".join(module_helpers) + "\n\n") if module_helpers else ""
-        spliced_source = helper_header + "".join(prefix_lines) + new_block + "".join(suffix_lines)
+        new_block = cls._indent_block(payload, target_indent)
 
-        # Pre-validate AST syntax on the resulting spliced source
+        # Module level helpers are inserted after any shebang/encoding header.
+        if module_helpers:
+            header_count = min(cls._split_leading_comment_block(orig_lines), len(prefix_lines))
+            helper_text = "\n\n".join(module_helpers) + "\n\n"
+            prefix_lines = (
+                prefix_lines[:header_count] + [helper_text] + prefix_lines[header_count:]
+            )
+
+        spliced_source = "".join(prefix_lines) + new_block + "".join(suffix_lines)
+
+        # 1. The spliced file must be valid Python.
         try:
             ast.parse(spliced_source)
-            return True, spliced_source, None
         except SyntaxError as e:
             return False, original_source, f"SyntaxError in spliced output at line {e.lineno}: {e.msg}"
         except Exception as e:
             return False, original_source, f"ParseError in spliced output: {str(e)}"
+
+        # 2. The target must still exist after the edit.
+        post, post_error = ASTNodeLocator.locate_target_ex(
+            spliced_source, target.qualified_name
+        )
+        if post is None:
+            return False, original_source, (
+                f"The edit would remove the target '{target.qualified_name}'. "
+                f"Rejected. ({post_error})"
+            )
+
+        return True, spliced_source, None
 
     @classmethod
     def splice_multiple(
@@ -332,9 +496,15 @@ class ASTSurgicalSplicer:
         sorted_reps = sorted(replacements, key=lambda r: r[0].start_line, reverse=True)
         current_code = original_source
         for target, rep_code in sorted_reps:
-            fresh_target = ASTNodeLocator.locate_target(current_code, target.qualified_name)
-            target_to_use = fresh_target or target
-            ok, current_code, err = cls.splice(current_code, target_to_use, rep_code)
+            fresh_target, locate_error = ASTNodeLocator.locate_target_ex(
+                current_code, target.qualified_name
+            )
+            if fresh_target is None:
+                return False, original_source, (
+                    locate_error
+                    or f"Target '{target.qualified_name}' could not be re-located for multi-splice."
+                )
+            ok, current_code, err = cls.splice(current_code, fresh_target, rep_code)
             if not ok:
                 return False, original_source, err
 

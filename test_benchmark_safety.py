@@ -395,16 +395,21 @@ class TestTaskInventory(unittest.TestCase):
                              f"'{token}' unexpectedly present in benchmark_harness")
 
 
-class TestKnownSplicerLimitation(unittest.TestCase):
+class TestSplicerNestedFunctionRegression(unittest.TestCase):
     """
-    Characterizes the KNOWN nested-function splicer limitation.
+    Regression guard for the nested-function splicer defect.
 
-    This test pins the CURRENT behaviour so the bug is measurable in the
-    baseline and is not silently "fixed" mid-benchmark. The defect itself is
-    NOT fixed here (per the audit constraint).
+    Historically a body-only replacement that declared a nested function was
+    mis-classified as a full-node replacement: the nested ``def`` was hoisted
+    to module level and the original method body was overwritten while
+    ``splice()`` still reported success.
+
+    The defect has been fixed.  The historical benchmark runs that were
+    measured against the unfixed splicer are left untouched; this test now
+    pins the *correct* behaviour so the defect cannot silently return.
     """
 
-    def test_body_only_nested_def_replacement_is_misindented(self):
+    def test_body_only_nested_def_replacement_stays_nested(self):
         from surgical_splicer import ASTNodeLocator, ASTSurgicalSplicer
         source = (
             "class Outer:\n"
@@ -424,17 +429,32 @@ class TestKnownSplicerLimitation(unittest.TestCase):
         )
         ok, spliced, err = ASTSurgicalSplicer.splice(source, target, replacement)
 
-        # KNOWN BUG: the splice reports success but corrupts the file.
-        self.assertTrue(ok, "documented current behaviour: splice reports success")
+        self.assertTrue(ok, f"splice should succeed: {err}")
         self.assertIsNone(err)
 
-        # The nested def is hoisted to module level (the corruption).
-        self.assertTrue(
-            spliced.startswith("def helper(v):"),
-            "current behaviour: nested def hoisted to module level"
+        # The target's own header must survive a body-only replacement.
+        self.assertIn("def method(self, x):", spliced)
+
+        # The nested def must stay inside the method body, not at module level.
+        import ast
+        tree = ast.parse(spliced)
+        module_level_defs = [
+            node.name for node in tree.body if isinstance(node, ast.FunctionDef)
+        ]
+        self.assertNotIn(
+            "helper",
+            module_level_defs,
+            "the nested def must not be hoisted to module scope",
         )
-        # The original method body was replaced by the helper def.
-        self.assertIn("def helper(v):\n            return v * 2", spliced)
+        inner_cls = tree.body[0].body[0]
+        method = inner_cls.body[0]
+        nested = [
+            node.name
+            for node in method.body
+            if isinstance(node, ast.FunctionDef)
+        ]
+        self.assertIn("helper", nested)
+        self.assertIn("return helper(x) + 5", spliced)
 
     def test_full_node_replacement_is_unaffected(self):
         """Full-node replacements (with a def header) are not affected."""

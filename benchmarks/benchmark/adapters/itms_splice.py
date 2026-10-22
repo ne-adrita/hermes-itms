@@ -12,14 +12,15 @@ This adapter uses the project's **existing** ITMS implementation:
 Nothing here re-implements the splice: the benchmark measures the real ITMS
 behaviour, including its known limitations.
 
-Known limitation (documented, **not** fixed in Phase 1)
--------------------------------------------------------
-``ASTSurgicalSplicer.splice()`` mis-handles a *body-only* replacement that
-itself declares a nested function: the nested ``def`` is hoisted to module
-level and the original body is overwritten.  The spliced file stays
-syntactically valid but is semantically wrong, and ``splice()`` still reports
-success.  See ``BENCHMARK_READINESS_AUDIT.md`` §3.  The limitation is
-preserved on purpose so the benchmark measures the current implementation.
+Known limitation (fixed after the Phase 1 baseline was measured)
+---------------------------------------------------------------
+``ASTSurgicalSplicer.splice()`` used to mis-handle a *body-only* replacement
+that itself declares a nested function: the nested ``def`` was hoisted to
+module level and the original body was overwritten, while ``splice()`` still
+reported success.  The defect has since been fixed: a body-only replacement
+keeps the target's own header and nests any nested function inside the target
+body.  The historical benchmark runs that were measured against the unfixed
+splicer are preserved unchanged; only future runs use the fixed splicer.
 """
 
 from __future__ import annotations

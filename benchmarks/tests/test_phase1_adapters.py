@@ -273,13 +273,16 @@ class TestItmsSpliceAdapter:
         assert located, "ASTNodeLocator was not used"
         assert spliced, "ASTSurgicalSplicer.splice was not used"
 
-    def test_known_nested_function_limitation_is_preserved(self, repository):
+    def test_nested_function_replacement_stays_nested(self, repository):
         """
-        The documented ITMS limitation must still be present.
+        A body-only replacement that declares a nested function must keep the
+        nested function inside the target body.
 
-        A body-only replacement that declares a nested function is hoisted to
-        module level by the existing splicer. Phase 1 must not "fix" this: the
-        benchmark measures the current implementation.
+        (This used to be a documented ITMS limitation: the nested ``def`` was
+        hoisted to module level and the original method body was overwritten
+        while the splice still reported success. The defect has been fixed;
+        the historical benchmark runs measured against the unfixed splicer are
+        left untouched.)
         """
         from surgical_splicer import ASTNodeLocator, ASTSurgicalSplicer
 
@@ -298,12 +301,20 @@ class TestItmsSpliceAdapter:
             "    def helper(v):\n        return v * 2\n    return helper(x) + 5\n",
         )
         assert ok is True
-        # The known bug: the nested def is hoisted to module level.
+        # The nested def must NOT be hoisted to module level any more.
         tree = ast.parse(spliced)
         module_level = [
             node.name for node in tree.body if isinstance(node, ast.FunctionDef)
         ]
-        assert "helper" in module_level
+        assert "helper" not in module_level
+        # The target method survives and keeps the nested helper.
+        inner_cls = tree.body[0].body[0]
+        method = inner_cls.body[0]
+        assert method.name == "method"
+        assert any(
+            isinstance(node, ast.FunctionDef) and node.name == "helper"
+            for node in method.body
+        )
 
     def test_syntax_error_in_replacement_is_reported(self, simple_task):
         adapter = ItmsAstSpliceAdapter()

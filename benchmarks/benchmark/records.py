@@ -103,6 +103,14 @@ CSV_COLUMNS = [
     "raw_response_path",
     "raw_response_sha256",
     "evaluation_attempted",
+    "seed_requested",
+    "seed_supported",
+    "seed_applied",
+    "seed_honour_verified",
+    "max_output_tokens",
+    "prompt_path",
+    "prompt_sha256",
+    "prompt_token_estimate",
 ]
 
 
@@ -169,6 +177,28 @@ class AttemptRecord:
     raw_response_sha256: Optional[str] = None
     #: Whether the official evaluator was actually run for this attempt.
     evaluation_attempted: Optional[bool] = None
+    # -- reproducibility metadata ---------------------------------------
+    #: The request-level seed the runner asked for (None = no seed was sent).
+    seed_requested: Optional[int] = None
+    #: Whether the transport can carry a request-level seed.
+    seed_supported: Optional[bool] = None
+    #: Whether a seed was actually included in the request payload.
+    seed_applied: Optional[bool] = None
+    #: Whether the provider *honoured* the seed.  Always False unless a
+    #: repeated-request probe has been run; "we sent it" is not "it was
+    #: honoured" and the two are never conflated.
+    seed_honour_verified: bool = False
+    #: The output-token limit that was in force for this attempt.  It is
+    #: identical for every strategy in a run and is recorded so a truncation
+    #: can always be attributed to a known budget.
+    max_output_tokens: Optional[int] = None
+    # -- prompt provenance ----------------------------------------------
+    #: The exact prompt that was sent, stored next to the response.
+    prompt_path: Optional[str] = None
+    #: SHA-256 of the prompt bytes that were sent.
+    prompt_sha256: Optional[str] = None
+    #: Local token estimate of the prompt (never a provider measurement).
+    prompt_token_estimate: Optional[int] = None
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)

@@ -199,6 +199,17 @@ class ProviderResult:
     #: The provider path that will actually be used (may differ from the
     #: declared provider when the caller did not pin it).
     effective_provider: Optional[str] = None
+    # -- reproducibility metadata ---------------------------------------
+    #: The request-level seed the caller asked for (None = no seed was sent).
+    seed_requested: Optional[int] = None
+    #: Whether the transport can carry a request-level seed at all.
+    seed_supported: Optional[bool] = None
+    #: Whether a seed was actually included in the request payload.
+    seed_applied: Optional[bool] = None
+    #: Whether the provider *honoured* the seed.  This cannot be proven from a
+    #: single request, so it stays False unless a repeated-request probe has
+    #: been run.  It must never be claimed on the strength of "we sent it".
+    seed_honour_verified: bool = False
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -216,6 +227,10 @@ class ProviderResult:
             "retry_count": self.retry_count,
             "latency_ms": round(self.latency_ms, 3),
             "raw_usage": dict(self.raw_usage),
+            "seed_requested": self.seed_requested,
+            "seed_supported": self.seed_supported,
+            "seed_applied": self.seed_applied,
+            "seed_honour_verified": self.seed_honour_verified,
         }
 
 
@@ -224,7 +239,12 @@ class BenchmarkProvider:
 
     name: str = "abstract"
 
-    def complete(self, prompt: str, system_instruction: Optional[str] = None) -> ProviderResult:
+    def complete(
+        self,
+        prompt: str,
+        system_instruction: Optional[str] = None,
+        seed: Optional[int] = None,
+    ) -> ProviderResult:
         raise NotImplementedError
 
 
@@ -255,7 +275,12 @@ class MockProvider(BenchmarkProvider):
         self.model_id = model_id
         self._call_index = 0
 
-    def complete(self, prompt: str, system_instruction: Optional[str] = None) -> ProviderResult:
+    def complete(
+        self,
+        prompt: str,
+        system_instruction: Optional[str] = None,
+        seed: Optional[int] = None,
+    ) -> ProviderResult:
         self._call_index += 1
         if self.policy == "malformed":
             content = (
@@ -281,6 +306,13 @@ class MockProvider(BenchmarkProvider):
             retry_count=0,
             latency_ms=0.0,
             raw_usage={"policy": self.policy, "call_index": self._call_index},
+            # The mock engine performs no inference and has no request-level
+            # seed, so a requested seed is recorded as *not applied*.  It is
+            # never reported as honoured.
+            seed_requested=seed,
+            seed_supported=False,
+            seed_applied=False,
+            seed_honour_verified=False,
         )
 
     # -- helpers --------------------------------------------------------
@@ -347,6 +379,8 @@ class LiveProvider(BenchmarkProvider):
         request_timeout: float = 60.0,
         max_retries: int = 2,
         allow_dynamic_alias: bool = False,
+        allow_shared_credential: bool = False,
+        enforce_credential_binding: bool = False,
         dispatcher: Optional[ModelDispatcher] = None,
     ):
         self.provider = (provider or "").strip().lower()
@@ -356,6 +390,13 @@ class LiveProvider(BenchmarkProvider):
         self.request_timeout = float(request_timeout)
         self.max_retries = int(max_retries)
         self.allow_dynamic_alias = bool(allow_dynamic_alias)
+        self.allow_shared_credential = bool(allow_shared_credential)
+        #: When true, the preflight refuses a credential that is shared with
+        #: another provider.  The operator-facing runner sets it; a library
+        #: caller can leave it off and inspect
+        #: :meth:`credential_binding` instead.
+        self.enforce_credential_binding = bool(enforce_credential_binding)
+        self.credential_binding: Optional[Dict[str, Any]] = None
         self.name = self.provider or "unconfigured"
         self._dispatcher = dispatcher
         self._dispatcher_owned = dispatcher is None
@@ -427,6 +468,42 @@ class LiveProvider(BenchmarkProvider):
                 category="configuration_error",
             )
 
+        # -- credential binding ---------------------------------------------
+        # A credential that would be sent to **different** gateways is a
+        # misconfiguration risk: a wrong --provider could send one vendor's
+        # key to another vendor's endpoint.  Providers that share a key but
+        # all point at the same gateway are not a risk and are not refused.
+        # The report contains provider names and gateway hosts only - never a
+        # value, a length, a hash or a fingerprint.
+        binding = AppConfig.credential_binding_report()
+        self.credential_binding = binding
+        if (
+            self.enforce_credential_binding
+            and binding.get("cross_vendor_credential_detected")
+            and not self.allow_shared_credential
+        ):
+            groups = [
+                group
+                for group in binding.get("cross_vendor_credential_groups", [])
+                if self.provider in group.get("providers", [])
+            ]
+            if groups:
+                others = [
+                    name
+                    for name in groups[0]["providers"]
+                    if name != self.provider
+                ]
+                raise ProviderError(
+                    f"The credential configured for provider '{self.provider}' is "
+                    f"also configured for: {', '.join(others)}, and those providers "
+                    f"resolve to different gateways "
+                    f"({', '.join(groups[0]['gateways'])}). Refusing to run: a wrong "
+                    f"--provider could send this credential to another vendor. Fix "
+                    f"the environment, or pass --allow-shared-credential to "
+                    f"acknowledge the risk explicitly.",
+                    category="configuration_error",
+                )
+
     def _resolve_remote_model_id(self) -> str:
         """Return the model id the dispatcher would put on the wire."""
         from config import AppConfig
@@ -444,7 +521,12 @@ class LiveProvider(BenchmarkProvider):
             ) from exc
 
     # -- inference ------------------------------------------------------
-    def complete(self, prompt: str, system_instruction: Optional[str] = None) -> ProviderResult:
+    def complete(
+        self,
+        prompt: str,
+        system_instruction: Optional[str] = None,
+        seed: Optional[int] = None,
+    ) -> ProviderResult:
         self.preflight()
         dispatcher = self._dispatcher_instance()
         try:
@@ -454,6 +536,7 @@ class LiveProvider(BenchmarkProvider):
                 system_instruction=system_instruction,
                 max_output_tokens=self.max_output_tokens,
                 temperature=self.temperature,
+                seed=seed,
             )
         except ModelConfigurationError as exc:
             raise ProviderError(
@@ -514,4 +597,11 @@ class LiveProvider(BenchmarkProvider):
             estimated_prompt_tokens=getattr(response, "estimated_prompt_tokens", None),
             estimated_completion_tokens=getattr(response, "estimated_completion_tokens", None),
             effective_provider=self.effective_provider,
+            # -- reproducibility metadata ------------------------------------
+            # The seed was *sent* on the request.  Whether the provider honoured
+            # it cannot be proven from a single request, so it is never claimed.
+            seed_requested=seed,
+            seed_supported=seed is not None,
+            seed_applied=seed is not None,
+            seed_honour_verified=False,
         )

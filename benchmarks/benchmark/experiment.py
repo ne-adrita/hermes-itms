@@ -42,6 +42,7 @@ if _ROOT not in sys.path:
     sys.path.insert(0, _ROOT)
 
 from benchmarks.benchmark.adapters import METHODS, get_adapter  # noqa: E402
+from benchmarks.benchmark.budget import BudgetGate  # noqa: E402
 from benchmarks.benchmark.pipeline import AttemptPipeline  # noqa: E402
 from benchmarks.benchmark.provider import BenchmarkProvider  # noqa: E402
 from benchmarks.benchmark.records import (  # noqa: E402
@@ -117,6 +118,10 @@ class ExperimentRunner:
         run_id: Optional[str] = None,
         allow_overwrite: bool = False,
         model_id: Optional[str] = None,
+        budget: Optional["BudgetGate"] = None,
+        seed_base: Optional[int] = None,
+        output_token_limit: Optional[int] = None,
+        output_limit_justification: Optional[Dict[str, Any]] = None,
     ):
         self.repository = repository
         self.provider = provider
@@ -129,9 +134,15 @@ class ExperimentRunner:
         self.model_id = model_id or getattr(provider, "model_id", None)
         self.run_id = run_id or uuid.uuid4().hex[:12]
         self.allow_overwrite = allow_overwrite
+        self.budget = budget
+        self.seed_base = seed_base
+        self.output_token_limit = output_token_limit
+        self.output_limit_justification = output_limit_justification or {}
         self._records: List[AttemptRecord] = []
         self._output_paths: Optional[Dict[str, str]] = None
         self._artifact_store = None
+        #: Cells that were planned but never requested (budget limit reached).
+        self._not_executed: List[str] = []
 
         self.task_ids = list(task_ids) if task_ids else self.repository.task_ids
         for task_id in self.task_ids:
@@ -143,6 +154,19 @@ class ExperimentRunner:
 
     def planned_call_count(self) -> int:
         return len(self.task_ids) * len(self.methods) * self.reps
+
+    def seed_for(self, plan: AttemptPlan, position: int) -> Optional[int]:
+        """
+        Returns the request-level seed for one cell.
+
+        The seed is derived from ``--seed-base`` and the cell's position in the
+        deterministic schedule, so the same run configuration always produces
+        the same seed for the same cell.  ``None`` means "send no seed", which
+        is the default when no base was configured.
+        """
+        if self.seed_base is None:
+            return None
+        return int(self.seed_base) + int(position)
 
     # -- output directory -------------------------------------------------
     def prepare_output_dir(self) -> None:
@@ -201,6 +225,11 @@ class ExperimentRunner:
 
         jsonl = JsonlWriter(paths["attempts_jsonl"])
         csvw = CsvWriter(paths["attempts_csv"])
+        budget_state: Dict[str, Any] = {}
+        if self.budget is not None:
+            # The gate is validated before the first request; an invalid
+            # budget must stop the run before anything is spent.
+            budget_state = self.budget.preflight()
         try:
             for index, plan in enumerate(plans, start=1):
                 task = self.repository.get(plan.task_id)
@@ -212,8 +241,25 @@ class ExperimentRunner:
                     run_id=self.run_id,
                     evaluation_timeout=self.evaluation_timeout,
                 )
-                outcome = pipeline.run(task, plan.rep)
+                cell_seed = self.seed_for(plan, index - 1)
+                if self.budget is not None:
+                    try:
+                        self.budget.before_request(plan.key)
+                    except Exception as exc:
+                        # The limit was reached: every remaining cell is
+                        # recorded as not executed, never silently dropped.
+                        for remaining in plans[index - 1 :]:
+                            self._not_executed.append(remaining.key)
+                        if progress:
+                            print(
+                                f"[budget] stopping before {plan.key}: {exc}",
+                                flush=True,
+                            )
+                        break
+                outcome = pipeline.run(task, plan.rep, seed=cell_seed)
                 record = outcome.record
+                if self.budget is not None:
+                    self.budget.after_request(record.cost_usd)
                 self._persist_artifacts(outcome)
                 self._records.append(record)
                 jsonl.append(record)
@@ -231,6 +277,14 @@ class ExperimentRunner:
 
         elapsed_ms = (time.perf_counter() - started) * 1000.0
         summary = self._summarise(elapsed_ms)
+        if self.budget is not None:
+            summary["budget"] = self.budget.state()
+            summary["budget"]["not_executed_cells"] = sorted(
+                set(self._not_executed) | set(self.budget.state()["not_executed_cells"])
+            )
+            summary["budget"]["not_executed_count"] = len(
+                summary["budget"]["not_executed_cells"]
+            )
         write_json(paths["summary_json"], summary)
         return summary
 
@@ -312,6 +366,7 @@ class ExperimentRunner:
             # -- generation configuration (planned) -------------------------
             "temperature": getattr(provider, "temperature", None),
             "max_output_tokens": getattr(provider, "max_output_tokens", None),
+            "output_token_limit_justification": self.output_limit_justification or None,
             "request_timeout_seconds": getattr(provider, "request_timeout", None),
             "max_retries": getattr(provider, "max_retries", None),
             "retry_policy": (
@@ -319,13 +374,24 @@ class ExperimentRunner:
                 "quota caps are never retried"
             ),
             "evaluation_timeout_seconds": self.evaluation_timeout,
+            # -- request budget (B2) ----------------------------------------
+            "budget": self.budget.state() if self.budget is not None else None,
+            # -- reproducibility (B1) --------------------------------------
+            "run_order_seed": self.seed,
+            "request_seed_base": self.seed_base,
+            "seed_policy": (
+                "request-level seed per cell, derived from request_seed_base and "
+                "the cell's position in the deterministic schedule"
+                if self.seed_base is not None
+                else "no request-level seed was sent (repetitions are unseeded samples)"
+            ),
+            "seed_honour_verified": False,
+            "bootstrap_seed": BOOTSTRAP_SEED,
             # -- schedule ---------------------------------------------------
             "reps": self.reps,
             "tasks": list(self.task_ids),
             "task_count": len(self.task_ids),
             "methods": list(self.methods),
-            "run_order_seed": self.seed,
-            "bootstrap_seed": BOOTSTRAP_SEED,
             "planned_attempts": planned_attempts,
             "task_manifest_digest": self.repository.manifest_digest(),
             # -- environment -------------------------------------------------
@@ -416,6 +482,28 @@ class ExperimentRunner:
         )
         summary["candidates_persisted"] = sum(
             1 for r in self._records if r.candidate_state == "produced"
+        )
+        # -- truncation and budget exposure (B5 / B2) ---------------------
+        summary["truncated_outputs"] = sum(1 for r in self._records if r.truncated_output)
+        summary["truncated_outputs_by_method"] = {
+            method: sum(
+                1
+                for r in self._records
+                if r.method == method and r.truncated_output
+            )
+            for method in self.methods
+        }
+        summary["max_output_tokens_values"] = sorted(
+            {r.max_output_tokens for r in self._records if r.max_output_tokens is not None}
+        )
+        summary["output_cap_consistent_across_strategies"] = (
+            len(summary["max_output_tokens_values"]) <= 1
+        )
+        summary["seeded_attempts"] = sum(
+            1 for r in self._records if r.seed_applied
+        )
+        summary["seed_honour_verified"] = any(
+            r.seed_honour_verified for r in self._records
         )
         return summary
 

@@ -1,5 +1,5 @@
 import os
-from typing import Optional, Dict
+from typing import Optional, Dict, Any, List
 from dotenv import load_dotenv
 
 # Load environment variables from .env file if it exists
@@ -185,4 +185,114 @@ class AppConfig:
         if title and title.strip():
             headers["X-Title"] = title.strip()
         return headers
+
+    # ------------------------------------------------------------------
+    # Credential-binding and environment hygiene (never discloses a secret)
+    # ------------------------------------------------------------------
+    @classmethod
+    def credential_binding_report(cls) -> Dict[str, Any]:
+        """
+        Reports which providers resolve to the *same* credential, and whether
+        that credential would be sent to **different vendors**.
+
+        The report contains **provider names and gateway hosts only**.  No
+        credential value, no length, no hash and no fingerprint is produced,
+        printed or stored: the comparison is done in memory with a
+        constant-time comparison, so the output cannot leak information about
+        the secret itself.
+
+        Two different situations must not be conflated:
+
+        *   several providers that all point at the **same** gateway (for
+            example every provider configured against one OpenRouter base
+            URL) legitimately share one key. That is not a risk.
+        *   one key shared by providers that resolve to **different** base URLs
+            is a real risk: a wrong ``--provider`` would send the key to
+            another vendor.  The live benchmark refuses to start in that case
+            unless the operator acknowledges it explicitly.
+        """
+        import hmac
+        from urllib.parse import urlparse
+
+        providers = ("gemini", "openai", "anthropic", "deepseek", "openrouter")
+        resolved: Dict[str, Optional[str]] = {
+            provider: cls.resolve_api_key(provider) for provider in providers
+        }
+        configured = [provider for provider, key in resolved.items() if key]
+        base_urls = {provider: cls.resolve_base_url(provider) for provider in configured}
+
+        groups: List[List[str]] = []
+        cross_vendor: List[Dict[str, Any]] = []
+        for first in configured:
+            group = tuple(
+                sorted(
+                    second
+                    for second in configured
+                    # Constant-time comparison of the two in-memory values.
+                    if hmac.compare_digest(resolved[first] or "", resolved[second] or "")
+                )
+            )
+            if len(group) > 1 and list(group) not in groups:
+                groups.append(list(group))
+                hosts = sorted(
+                    {
+                        urlparse(base_urls[provider]).netloc or base_urls[provider]
+                        for provider in group
+                    }
+                )
+                if len(hosts) > 1:
+                    cross_vendor.append({"providers": list(group), "gateways": hosts})
+
+        return {
+            "providers_with_credential": sorted(configured),
+            "shared_credential_groups": sorted(groups),
+            "shared_credential_detected": bool(groups),
+            "cross_vendor_credential_groups": cross_vendor,
+            "cross_vendor_credential_detected": bool(cross_vendor),
+            "note": (
+                "Providers that share a credential AND resolve to the same "
+                "gateway are not a risk; only a credential shared across "
+                "different gateways is reported as cross-vendor."
+            ),
+        }
+
+    @staticmethod
+    def _env_file_path() -> str:
+        """The path of the project's environment file."""
+        return os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+
+    @classmethod
+    def env_hygiene_report(cls) -> Dict[str, Any]:
+        """
+        Reports the *structure* of the environment file, never its contents.
+
+        ``bare_secret_line_present`` is True when ``.env`` contains at least one
+        non-empty, non-comment line that is not a ``KEY=value`` assignment -
+        typically a pasted secret.  Such a line is ignored by every loader in
+        this project (it defines no variable), but it is still a live secret in
+        the working tree and must be removed and rotated by the operator.
+        """
+        path = cls._env_file_path()
+        names: List[str] = []
+        bare = False
+        if os.path.exists(path):
+            try:
+                with open(path, "r", encoding="utf-8", errors="replace") as handle:
+                    for raw in handle:
+                        line = raw.strip()
+                        if not line or line.startswith("#"):
+                            continue
+                        if "=" in line and line.split("=", 1)[0].strip().replace(
+                            "_", ""
+                        ).isalnum():
+                            names.append(line.split("=", 1)[0].strip())
+                        else:
+                            bare = True
+            except OSError:
+                pass
+        return {
+            "env_file_present": os.path.exists(path),
+            "defined_variable_names": sorted(set(names)),
+            "bare_secret_line_present": bare,
+        }
 
