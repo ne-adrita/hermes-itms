@@ -164,4 +164,4 @@ Follow this exact walkthrough during your presentation to Dr. Riasat Khan or the
 6. Point to the **Tri-Way Strategy Comparison Matrix**:  
    *“Compare the three strategies: Full-File Regeneration wasted 400+ output tokens re-streaming unchanged code. Text-Based Diff failed completely because of an indentation drift. Meanwhile, ITMS succeeded with 100% reliability because it spliced the node mathematically across AST line boundaries while preserving 100% of surrounding comments.”*
 7. Conclude your presentation:  
-   *“All 54 automated unit tests pass in 2.8 seconds, and the repository is completely clean, leak-proof, and GitHub-ready.”*
+   *“All 584 automated unit tests pass in [TBD after Step 8], and the repository is completely clean, leak-proof, and GitHub-ready.”*

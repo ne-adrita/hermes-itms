@@ -48,10 +48,10 @@ __all__ = [
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 DEFAULT_RUN_DIR = os.path.join(
-    PROJECT_ROOT, "pilot_runs", "2026-10-21_minimax-m3-1-flash-free_120_attempts"
+    PROJECT_ROOT, "results", "full_20x5_20261022T122009Z"
 )
 DEFAULT_ANALYSIS_DIR = os.path.join(
-    PROJECT_ROOT, "pilot_runs", "analysis_2026-10-21_minimax-m3-1-flash-free_120"
+    PROJECT_ROOT, "results", "full_20x5_20261022T122009Z"
 )
 
 #: The figures produced by the offline analysis, in presentation order.

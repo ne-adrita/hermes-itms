@@ -1,0 +1,2 @@
+system,task_id,task_name,category,rep,model,passed,syntax_valid,timed_out,error_type,api_error,api_error_category,http_status,duration_ms,input_tokens,output_tokens,total_tokens,cost_usd,is_mock,escalated_to_tier2,tier1_surgical_repairs,notes,error_message,pipeline_duration_ms,executed,provider_attempts
+ITMS,HE-EDIT-001,HE-EDIT-001,humaneval_edit,1,minimax/minimax-m3.1-flash:free,True,True,False,,,,,74.9269580701366,575,895,1470,0.0,False,False,0,,,14010.693624964915,True,1

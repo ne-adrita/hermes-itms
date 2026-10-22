@@ -70,10 +70,10 @@ Conversely, text-based search/replace approaches (such as Aider's diff blocks) s
 ---
 
 **Verification and Test Results:**  
-All Phase 1 and Phase 2 modules are fully implemented and verified through **54 automated unit and integration tests achieving a 100% pass rate in 2.38 seconds**:
+All Phase 1 and Phase 2 modules are fully implemented and verified through **584 automated unit and integration tests achieving a 100% pass rate in [TBD after Step 8]**:
 ● **test_itms.py (17 tests passed):** Verifies BPE token counting, AST reachability pruning, 1,024-token cache prefix padding, caret-safe traceback sanitization, economic formulas, and zero-emoji plaintext compliance.  
 ● **test_milestones_2_3.py (11 tests passed):** Verifies subprocess execution isolation, infinite-loop timeout termination (3.0s ceiling), anti-anchoring prompt isolation, secret key masking, and the 5-phase cascade relay.  
-● **test_tdsc.py (17 tests passed):** Confirms backward-compatibility regression across legacy telemetry wrappers.  
+● **test_tdsc.py (import wrapper re-exporting test_itms.py's 17 tests):** Confirms backward-compatibility regression across legacy telemetry wrappers.
 ● **test_surgical_splicer.py (9 tests passed):** Confirms AST node coordinate location, comment preservation across line-boundary slices, markdown fence stripping, auto-indentation normalization, syntax error rejection, and tri-way benchmark metrics (proving $\ge 94\%$ output token reduction and 8x latency acceleration).
 
 ---

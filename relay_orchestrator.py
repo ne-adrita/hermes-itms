@@ -35,6 +35,15 @@ class PreparedCandidate:
     error: Optional[str] = None
     target_qualified_name: Optional[str] = None
     evaluated: bool = False         # True only when the code really reached the evaluator
+    #: The complete module the candidate produced.
+    #:
+    #: ``code`` is whatever the pipeline hands to the legacy execution gate.
+    #: This field is the *module* a module-level evaluator (the official
+    #: Phase 0 evaluator) has to judge: the context with the target
+    #: function replaced by the candidate, or the context unchanged when the
+    #: candidate was rejected. Keeping it explicit removes any guesswork
+    #: about what was evaluated.
+    module: str = ""
 
 
 @dataclass
@@ -45,7 +54,7 @@ class CascadeRunResult:
     final_success: bool
     escalated_to_tier2: bool
     verified_code: str
-    
+
     # Execution gate details
     tier1_result: Optional[ExecutionResult]
     tier2_result: Optional[ExecutionResult]
@@ -84,6 +93,11 @@ class CascadeRunResult:
     candidate_status: str = "not_attempted"
     splice_status: str = "not_attempted"
     splice_error: Optional[str] = None
+    #: The complete module the pipeline produced for the final candidate.
+    #: A module-level evaluator (the official Phase 0 evaluator) judges
+    #: this; it is the context with the target function replaced by the
+    #: candidate, or the context unchanged when the candidate was rejected.
+    verified_module: str = ""
     attempts: int = 0
 
     def to_dict(self) -> Dict[str, Any]:
@@ -164,6 +178,7 @@ class RelayOrchestrator:
                 code="",
                 context=context_code,
                 error="The model returned no candidate code.",
+                module=context_code,
             )
 
         target, locate_error = ASTNodeLocator.locate_target_ex(
@@ -177,6 +192,7 @@ class RelayOrchestrator:
                 code=clean,
                 context=context_code,
                 error=locate_error,
+                module=clean,
             )
 
         ok, spliced, splice_error = ASTSurgicalSplicer.splice(
@@ -190,6 +206,7 @@ class RelayOrchestrator:
                 code=spliced,
                 context="",
                 target_qualified_name=target.qualified_name,
+                module=spliced,
             )
 
         # The candidate was a replacement for a located target but the splice
@@ -202,6 +219,7 @@ class RelayOrchestrator:
             context=context_code,
             error=splice_error,
             target_qualified_name=target.qualified_name,
+            module=context_code,
         )
 
     def evaluate_candidate(
@@ -249,7 +267,8 @@ class RelayOrchestrator:
         prune_reachability: bool = True,
         use_expanded_prefix: bool = False,
         enable_tier1_self_repair: bool = True,
-        max_tier1_retries: int = 2
+        max_tier1_retries: int = 2,
+        max_output_tokens: int = 1024
     ) -> CascadeRunResult:
         """
         Executes the full asymmetric relay pipeline with optional Tier 1 self-repair.
@@ -270,7 +289,8 @@ class RelayOrchestrator:
         t1_resp = self.dispatcher.generate(
             prompt=t1_prompt,
             model_name=tier1_model_name,
-            is_tier1=True
+            is_tier1=True,
+            max_output_tokens=max_output_tokens
         )
         logs.append(f"[Step 1] Tier 1 synthesized candidate code in {t1_resp.latency_ms:.1f}ms ({t1_resp.output_tokens} output tokens)")
 
@@ -321,6 +341,7 @@ class RelayOrchestrator:
                 final_success=True,
                 escalated_to_tier2=False,
                 verified_code=prepared.code,
+                verified_module=prepared.module,
                 tier1_result=curr_exec,
                 tier2_result=None,
                 tier1_response=t1_resp,
@@ -376,7 +397,8 @@ class RelayOrchestrator:
                 repair_resp = self.dispatcher.generate(
                     prompt=repair_prompt,
                     model_name=tier1_model_name,
-                    is_tier1=True
+                    is_tier1=True,
+                    max_output_tokens=max_output_tokens
                 )
                 total_t1_tokens_in += repair_resp.raw_tokens_in
                 total_t1_tokens_out += repair_resp.output_tokens
@@ -474,7 +496,8 @@ class RelayOrchestrator:
         t2_resp = self.dispatcher.generate(
             prompt=itms_prompt_data["full_prompt"],
             model_name=tier2_model_name,
-            is_tier1=False
+            is_tier1=False,
+            max_output_tokens=max_output_tokens
         )
         logs.append(f"[Step 3] Tier 2 synthesized solution in {t2_resp.latency_ms:.1f}ms ({t2_resp.output_tokens} output tokens, {t2_resp.reasoning_tokens} thinking tokens)")
 
@@ -565,6 +588,7 @@ class RelayOrchestrator:
             final_success=final_pass,
             escalated_to_tier2=True,
             verified_code=t2_prepared.code if final_pass else curr_code,
+            verified_module=t2_prepared.module,
             tier1_result=curr_exec,
             tier2_result=t2_exec,
             tier1_response=last_t1_resp,

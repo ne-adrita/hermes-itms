@@ -585,7 +585,17 @@ class ModelDispatcher:
         start_time: float
     ) -> ModelResponse:
         """Calls Google Gemini REST API."""
-        clean_model = "gemini-2.0-flash" if "flash" in model_name.lower() else "gemini-1.5-pro"
+        # A caller-supplied Gemini model id is sent verbatim.  The fallback
+        # below exists only for the *display labels* the product uses (for
+        # example "Gemini 3.5 Flash"), which are not wire model ids: a name
+        # that does not start with "gemini-" is mapped to the closest
+        # concrete route the dispatcher knows.  An explicit "gemini-..." id
+        # is never remapped.
+        requested = (model_name or "").strip()
+        if requested.lower().startswith("gemini-"):
+            clean_model = requested
+        else:
+            clean_model = "gemini-2.0-flash" if "flash" in requested.lower() else "gemini-1.5-pro"
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{clean_model}:generateContent?key={api_key}"
 
         payload: Dict[str, Any] = {
@@ -867,7 +877,10 @@ class ModelDispatcher:
         }
 
         payload: Dict[str, Any] = {
-            "model": "claude-3-5-sonnet-20241022",
+            # The caller's model id is sent verbatim.  A hard-coded model
+            # would silently run a different model than the one the
+            # experiment asked for, which makes the measurement a fiction.
+            "model": model_name,
             "messages": [{"role": "user", "content": prompt}],
             "max_tokens": max_output_tokens,
             "temperature": temperature

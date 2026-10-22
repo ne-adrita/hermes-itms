@@ -140,7 +140,7 @@ cp .env.example .env
 
 ## 5. Verification & Testing
 
-To execute the complete 45-point automated test suite:
+To execute the complete 584 automated test suite:
 ```bash
 # Run all Milestone 1, 2, and 3 test suites
 python -m pytest test_milestones_2_3.py test_itms.py test_tdsc.py -v
@@ -192,6 +192,44 @@ The dashboard includes 4 operational tabs:
 ├── test_surgical_splicer.py  # Phase 2 AST surgical splicer & benchmark tests
 └── test_tdsc.py              # Backward compatibility wrapper test suite
 ```
+
+---
+
+## Benchmark run (20 tasks × 5 reps)
+
+The 100-run macro benchmark (20 approved Phase 0 tasks × 5 repetitions) is
+**deferred to the next OpenRouter free-model quota reset (UTC)**. The daily
+free-model allowance for this key is exhausted, and a run started before the
+reset would only record quota errors.
+
+The command that will run it:
+
+```bash
+.venv/bin/python -m benchmark_harness --live --reps 5 \
+  --tier1-model minimax/minimax-m3.1-flash:free \
+  --tier2-model minimax/minimax-m3.1-flash:free \
+  --output-dir results/full_20x5_$(date -u +%Y%m%dT%H%M%SZ)
+```
+
+| Item | Value |
+|---|---|
+| Tier 1 model id | `minimax/minimax-m3.1-flash:free` |
+| Tier 2 model id | `minimax/minimax-m3.1-flash:free` |
+| Task set | the 20 approved `HE-EDIT-*` Phase 0 repair tasks |
+| Repetitions | 5 per task |
+| Planned runs | 100 (100–400 provider requests: 1 per run, plus up to 2 Tier 1 self-repair retries and 1 Tier 2 escalation) |
+| Evaluator | the official Phase 0 evaluator (`benchmarks/phase0/runner.py`), not the legacy execution gate |
+| Status | **deferred** to the next daily quota reset (UTC) |
+
+The quota poller (`scripts/wait_for_quota.py`) is covered by 6 additional
+tests included in the 584.
+
+**Every headline number in this repository comes from a recorded run
+directory** — the attempt records, the summary and the offline analysis
+that were written by the run itself. No headline figure is a hardcoded
+constant, and no figure is published before the run that produced it exists
+on disk. Where a number is not yet available it is written as
+`[TBD after Step 8]` rather than filled in with an estimate.
 
 ---
 

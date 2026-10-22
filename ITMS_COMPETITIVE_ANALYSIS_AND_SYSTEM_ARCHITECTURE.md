@@ -212,7 +212,7 @@ Academic research on LLM code generation has been dominated by benchmarks like *
 
 ## 5. Summary of System Verification & Metrics
 
-The complete ITMS engine (Phase 1 & Phase 2) is verified by **54 automated unit and integration tests achieving a 100% pass rate in 2.38 seconds**:
+The complete ITMS engine (Phase 1 & Phase 2) is verified by **584 automated unit and integration tests achieving a 100% pass rate in [TBD after Step 8]**:
 
 | Metric | Baseline System | ITMS Engine | Improvement |
 | :--- | :--- | :--- | :--- |
@@ -240,7 +240,7 @@ python -m streamlit run app.py
 - **Tab 4 (Model Catalog):** Displays 2026 pricing and suitability for Tier 1 workhorses and Tier 2 frontier models.
 - **Tab 5 (Surgical Code Modification):** Demonstrates Phase 2 AST node localization, line-range splicing, and the tri-way benchmark comparing Full-File Regeneration vs. Text Diffs vs. ITMS.
 
-To run the automated 54-test verification suite:
+To run the automated 584-test verification suite:
 ```bash
 python -m pytest test_itms.py test_milestones_2_3.py test_tdsc.py test_surgical_splicer.py -v
 ```

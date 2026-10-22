@@ -43,7 +43,8 @@ __all__ = [
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-RUNS_ROOT = os.path.join(PROJECT_ROOT, "experiments", "itms_aider_cline_v1", "runs")
+RUNS_ROOT = os.path.join(PROJECT_ROOT, "results", "full_20x5_20261022T122009Z")
+
 
 #: The figures produced by the Phase 3 analysis, in presentation order.
 GRAPH_FILENAMES = (

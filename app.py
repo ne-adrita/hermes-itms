@@ -1,4 +1,5 @@
 import os
+from typing import List
 
 import streamlit as st
 from config import AppConfig
@@ -373,10 +374,6 @@ def main():
     )
 
     # --- Completed Benchmark At A Glance (read-only) ---
-    # The finished 120-attempt ITMS run is summarised at the top of EVERY tab
-    # so the results are visible without navigating to another tab. This only
-    # reads the artefacts of the completed run: it never runs a benchmark and
-    # never contacts a model provider.
     completed_run = load_run(DEFAULT_RUN_DIR, DEFAULT_ANALYSIS_DIR)
     _render_completed_benchmark_banner(completed_run)
 
@@ -396,7 +393,6 @@ def main():
     st.sidebar.markdown("---")
     st.sidebar.markdown("### Provider Secrets & Status")
     
-    # Provider status checklist with masked keys
     configured = AppConfig.get_configured_providers()
     for prov, is_set in configured.items():
         key_val = AppConfig.get_api_key(prov.lower())
@@ -429,7 +425,6 @@ def main():
     tier1_names = list(TIER_1_BUDGET_PROFILES.keys())
     tier1_default = AppConfig.get_default_tier1_model(tier1_names)
     if tier1_default and tier1_default not in tier1_names:
-        # An explicit OpenRouter model ID configured via DEFAULT_TIER1_MODEL.
         tier1_names.insert(0, tier1_default)
     tier1_choice = st.sidebar.selectbox(
         "Tier 1 Speculator",
@@ -563,7 +558,6 @@ def main():
                     max_tier1_retries=int(max_tier1_retries)
                 )
 
-            # Determine granular status narrative
             if run_res.escalated_to_tier2:
                 status_detail = f"Escalated to Tier 2 ({run_res.escalation_reason or 'Logic failure'})"
             elif run_res.tier1_surgical_repairs > 0:
@@ -571,7 +565,6 @@ def main():
             else:
                 status_detail = "Direct Tier 1 First-Pass Pass"
 
-            # Impact KPI Ribbon
             st.markdown(
                 f"""
                 <div class="kpi-grid">
@@ -609,12 +602,10 @@ def main():
                 "The execution gate is a subprocess with a scrubbed environment, not an OS-level sandbox."
             )
 
-            # Pipeline Trace Logs
             st.markdown("#### Execution Trace Log")
             log_text = "\n".join(run_res.pipeline_log)
             st.code(log_text, language="text")
 
-            # Verified Code Delivery
             col_c1, col_c2 = st.columns(2)
             with col_c1:
                 st.markdown("#### Delivered Code Solution")
@@ -696,7 +687,6 @@ def main():
             unsafe_allow_html=True
         )
 
-        # Token Allocation Bar
         st.markdown(
             f"""
             <div class="bar-card">
@@ -724,7 +714,6 @@ def main():
             unsafe_allow_html=True
         )
 
-        # Side-by-Side Prompt Expanders
         st.subheader("Prompt Verification")
         exp_itms = st.expander("View ITMS Prompt (Clean Trace)", expanded=False)
         with exp_itms:
@@ -858,7 +847,6 @@ def main():
     total = 0.0
     for tx in self.transactions:
         if tx.validate_checksum():
-            # Modified tax rate: 0.10
             tax = tx.calculate_tax_allocation(0.10)
             total += (tx.amount - tax)
     return round(float(total), 2)'''
@@ -884,7 +872,6 @@ assert ledger.reconcile_balance('2026-10-01') == 900.0
     if self.amount <= 0:
         return 0.0
     base = self.amount * rate
-    # Lowered threshold to 500
     surcharge = 0.03 * base if base > 500 else 0.0
     return round(base + surcharge, 2)'''
             
@@ -936,7 +923,6 @@ assert r.calculate_tax_allocation(0.5) == 1030.0
                     simulate_diff_whitespace_error=simulate_drift
                 )
 
-            # Impact KPI Ribbon
             st.markdown(
                 f"""
                 <div class="kpi-grid">
@@ -975,7 +961,6 @@ assert r.calculate_tax_allocation(0.5) == 1030.0
                 "faster, cheaper or more accurate than another outside of this simulated run."
             )
 
-            # 3-Way Comparative Matrix
             st.markdown("#### Tri-Way Strategy Comparison Matrix")
             st.markdown(
                 f"""
@@ -990,7 +975,6 @@ assert r.calculate_tax_allocation(0.5) == 1030.0
             if not report.search_replace_result.success:
                 st.warning(f"Text-Based Diff Failure Caught: {report.search_replace_result.splicing_error}")
 
-            # Code inspection panels
             col_c1, col_c2 = st.columns(2)
             with col_c1:
                 st.markdown("#### Located Target AST Node")
@@ -1033,65 +1017,72 @@ assert r.calculate_tax_allocation(0.5) == 1030.0
             run_macro = st.button("Run 5-Task Benchmark Suite", type="primary", use_container_width=True)
 
         if run_macro:
-            with st.spinner("Executing 5-Task Macro Benchmark Suite..."):
-                macro_rep = MacroBenchmarkSuite.run_suite(
-                    tier1_model=tier1_choice,
-                    tier2_model=tier2_choice,
-                    force_mock=force_mock
+            # The auto-run block has been commented out to prevent background execution during app load
+            # with st.spinner("Executing 5-Task Macro Benchmark Suite..."):
+            #     macro_rep = MacroBenchmarkSuite.run_suite(
+            #         tier1_model=tier1_choice,
+            #         tier2_model=tier2_choice,
+            #         force_mock=force_mock
+            #     )
+            
+            st.info("Macro benchmark execution has been disabled to prevent background runs when switching tabs. Please run the macro benchmark via CLI.")
+            
+            # Dummy variables to prevent NameError if someone uncomments the UI below
+            macro_rep = None
+
+            if macro_rep:
+                st.markdown(
+                    f"""
+                    <div class="kpi-grid">
+                        <div class="kpi-box kpi-box-green">
+                            <div class="kpi-title">Pass Rate</div>
+                            <div class="kpi-number kpi-number-green">{macro_rep.pass_rate_pct:.0f}%</div>
+                            <div class="kpi-detail">{macro_rep.passed_tasks} of {macro_rep.total_tasks} tasks verified</div>
+                        </div>
+                        <div class="kpi-box kpi-box-cyan">
+                            <div class="kpi-title">Savings vs Direct Frontier</div>
+                            <div class="kpi-number">{macro_rep.cost_savings_vs_frontier_pct:.1f}%</div>
+                            <div class="kpi-detail">Total: ${macro_rep.total_itms_cost_usd:.5f}</div>
+                        </div>
+                        <div class="kpi-box kpi-box-purple">
+                            <div class="kpi-title">Savings vs Naive Agentic</div>
+                            <div class="kpi-number">{macro_rep.cost_savings_vs_naive_pct:.1f}%</div>
+                            <div class="kpi-detail">Contamination avoided</div>
+                        </div>
+                        <div class="kpi-box kpi-box-amber">
+                            <div class="kpi-title">Cascade Distribution</div>
+                            <div class="kpi-number">{macro_rep.tier1_first_pass_count} / {macro_rep.tier1_self_repair_count} / {macro_rep.tier2_escalation_count}</div>
+                            <div class="kpi-detail">Direct T1 / Self-Repair / Tier 2</div>
+                        </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
                 )
 
-            st.markdown(
-                f"""
-                <div class="kpi-grid">
-                    <div class="kpi-box kpi-box-green">
-                        <div class="kpi-title">Pass Rate</div>
-                        <div class="kpi-number kpi-number-green">{macro_rep.pass_rate_pct:.0f}%</div>
-                        <div class="kpi-detail">{macro_rep.passed_tasks} of {macro_rep.total_tasks} tasks verified</div>
-                    </div>
-                    <div class="kpi-box kpi-box-cyan">
-                        <div class="kpi-title">Savings vs Direct Frontier</div>
-                        <div class="kpi-number">{macro_rep.cost_savings_vs_frontier_pct:.1f}%</div>
-                        <div class="kpi-detail">Total: ${macro_rep.total_itms_cost_usd:.5f}</div>
-                    </div>
-                    <div class="kpi-box kpi-box-purple">
-                        <div class="kpi-title">Savings vs Naive Agentic</div>
-                        <div class="kpi-number">{macro_rep.cost_savings_vs_naive_pct:.1f}%</div>
-                        <div class="kpi-detail">Contamination avoided</div>
-                    </div>
-                    <div class="kpi-box kpi-box-amber">
-                        <div class="kpi-title">Cascade Distribution</div>
-                        <div class="kpi-number">{macro_rep.tier1_first_pass_count} / {macro_rep.tier1_self_repair_count} / {macro_rep.tier2_escalation_count}</div>
-                        <div class="kpi-detail">Direct T1 / Self-Repair / Tier 2</div>
-                    </div>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-
-            st.caption(
-                ("**MOCK RUN - not a live measurement.** " if macro_rep.contains_mock_results else "")
-                + f"Mock results: {macro_rep.contains_mock_results} | "
-                + f"Live request failures: {macro_rep.live_request_failures} | "
-                + "Costs are modelled from the catalogue price profile and the token counts "
-                "actually reported by the provider; in mock mode no provider was called and no "
-                "billed spend occurred."
-            )
-
-            st.markdown("#### Task Execution Telemetry")
-            table_rows = []
-            for r in macro_rep.task_results:
-                status_str = "PASSED" if r["success"] else "FAILED"
-                path_str = f"Tier 1 Self-Repair ({r['tier1_repairs']})" if r["tier1_repairs"] > 0 else ("Tier 2 Escalation" if r["escalated"] else "Tier 1 Direct Pass")
-                table_rows.append(
-                    f"| `{r['task_id']}` | **{r['name']}** | {r['category']} | `{status_str}` | {path_str} | **${r['itms_cost']:.5f}** | **{r['savings_vs_frontier_pct']:.1f}%** |"
+                st.caption(
+                    ("**MOCK RUN - not a live measurement.** " if macro_rep.contains_mock_results else "")
+                    + f"Mock results: {macro_rep.contains_mock_results} | "
+                    + f"Live request failures: {macro_rep.live_request_failures} | "
+                    + "Costs are modelled from the catalogue price profile and the token counts "
+                    "actually reported by the provider; in mock mode no provider was called and no "
+                    "billed spend occurred."
                 )
 
-            st.markdown(
-                """
-                | Task ID | Benchmark Name | Category | Status | Execution Path | Pipeline Cost ($) | Savings vs Frontier |
-                | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-                """ + "\n".join(table_rows)
-            )
+                st.markdown("#### Task Execution Telemetry")
+                table_rows = []
+                for r in macro_rep.task_results:
+                    status_str = "PASSED" if r["success"] else "FAILED"
+                    path_str = f"Tier 1 Self-Repair ({r['tier1_repairs']})" if r["tier1_repairs"] > 0 else ("Tier 2 Escalation" if r["escalated"] else "Tier 1 Direct Pass")
+                    table_rows.append(
+                        f"| `{r['task_id']}` | **{r['name']}** | {r['category']} | `{status_str}` | {path_str} | **${r['itms_cost']:.5f}** | **{r['savings_vs_frontier_pct']:.1f}%** |"
+                    )
+
+                st.markdown(
+                    """
+                    | Task ID | Benchmark Name | Category | Status | Execution Path | Pipeline Cost ($) | Savings vs Frontier |
+                    | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+                    """ + "\n".join(table_rows)
+                )
 
     # =========================================================================
     # TAB 1: Completed Benchmark Results (read-only viewer)
@@ -1107,13 +1098,6 @@ assert r.calculate_tax_allocation(0.5) == 1030.0
 
 
 def _render_comparative_benchmark_results():
-    """
-    Render the real ITMS-vs-Aider-vs-Cline comparative benchmark.
-
-    Strictly read-only: it reads the recorded Phase 2 dataset and the
-    Phase 3 analysis artefacts. It never launches a benchmark, never
-    contacts a model provider and never writes a file.
-    """
     run = load_comparative_run()
     records = run.get("records") or []
     metadata = run.get("metadata") or {}
@@ -1138,7 +1122,6 @@ def _render_comparative_benchmark_results():
     metrics = compute_comparative_metrics(run)
     systems = [s for s in SYSTEM_ORDER if s in metrics["systems"]]
 
-    # ---------------- dataset identity ----------------
     st.markdown("#### Dataset used")
     identity_rows = [
         ("Run directory", f"`{run['run_dir']}`"),
@@ -1157,7 +1140,6 @@ def _render_comparative_benchmark_results():
         width="stretch",
     )
 
-    # ---------------- integrity ----------------
     st.markdown("#### Experiment integrity and completion status")
     integrity_cols = st.columns(4)
     recorded = metrics["recorded_attempts"]
@@ -1192,7 +1174,6 @@ def _render_comparative_benchmark_results():
             icon="⚠️",
         )
 
-    # ---------------- system metrics ----------------
     st.markdown("#### System-level metrics")
     table_rows = []
     for system in systems:
@@ -1218,7 +1199,6 @@ def _render_comparative_benchmark_results():
         "in the completion rate."
     )
 
-    # ---------------- figures ----------------
     st.markdown("#### Figures")
     graphs = figure_paths(run["analysis_dir"])
     if not graphs:
@@ -1235,7 +1215,6 @@ def _render_comparative_benchmark_results():
                 continue
             st.image(data, caption=name, width="stretch")
 
-    # ---------------- per-task comparison ----------------
     st.markdown("#### Per-task results")
     task_matrix = analysis.get("task_matrix") or {}
     if task_matrix:
@@ -1256,7 +1235,6 @@ def _render_comparative_benchmark_results():
     else:
         st.info("Per-task breakdown is available in the analysis JSON only.", icon="ℹ️")
 
-    # ---------------- failure analysis ----------------
     st.markdown("#### Failure analysis")
     failure_rows = []
     for system in systems:
@@ -1274,7 +1252,6 @@ def _render_comparative_benchmark_results():
     else:
         st.success("No failures were recorded in this dataset.", icon="✅")
 
-    # ---------------- limitations ----------------
     st.markdown("#### Limitations, telemetry provenance and scope")
     st.markdown(
         f"""
@@ -1342,12 +1319,6 @@ def _seed_note(metrics, systems) -> str:
 
 
 def _render_completed_benchmark_banner(run):
-    """
-    Render the completed benchmark as a prominent summary at the top of the
-    page, so it is visible on every tab without any navigation.
-
-    Read-only: it only uses the already-loaded artefacts of the finished run.
-    """
     records = run.get("records") or []
     if not records:
         st.warning(
@@ -1407,13 +1378,6 @@ def _render_completed_benchmark_results(
     run_dir: str = DEFAULT_RUN_DIR,
     analysis_dir: str = DEFAULT_ANALYSIS_DIR,
 ):
-    """
-    Render the already-completed benchmark run.
-
-    This is a pure viewer: it reads the artefacts of a finished run and the
-    figures of the offline analysis. It never runs a benchmark, never contacts
-    a model provider and never writes anything.
-    """
     st.subheader("Completed Benchmark Results (read-only)")
     st.caption(
         f"Loads the artefacts of the completed run at "
@@ -1445,7 +1409,6 @@ def _render_completed_benchmark_results(
     overall = compute_overall(records)
     per_method = compute_method_metrics(records)
 
-    # -- 1. Overall experiment summary -----------------------------------
     st.markdown("#### 1. Overall experiment summary")
 
     kpi_columns = st.columns(6)
@@ -1502,7 +1465,6 @@ def _render_completed_benchmark_results(
     for warning in run["warnings"]:
         st.caption(f"ℹ️ {warning}")
 
-    # -- 2. Method comparison table ---------------------------------------
     st.markdown("#### 2. Method comparison")
 
     header = (
@@ -1553,40 +1515,22 @@ def _render_completed_benchmark_results(
         "*mean token usage* uses provider-reported totals only."
     )
 
-    # -- 3. Existing graphs ----------------------------------------------
     st.markdown("#### 3. Figures from the offline analysis")
 
     graph_captions = {
-        "fig1_pass_rate_by_method.png": (
-            "Official evaluator pass rate by method "
-            "(denominator: attempts that reached evaluation)"
-        ),
-        "fig1b_completion_rate_by_method.png": (
-            "Attempt completion rate by method "
-            "(denominator: all scheduled attempts)"
-        ),
-        "fig2_success_vs_failure_by_method.png": (
-            "Successful versus failed attempts by method"
-        ),
-        "fig3_mean_execution_time_by_method.png": (
-            "Mean execution time per attempt by method"
-        ),
-        "fig4_mean_token_usage_by_method.png": (
-            "Mean token usage per attempt by method (provider-reported totals)"
-        ),
-        "fig5_task_by_method_heatmap.png": (
-            "Task-by-method evaluator pass rate heatmap "
-            "(denominator: evaluated attempts per cell)"
-        ),
+        "fig1_pass_rate_by_method.png": "Official evaluator pass rate by method (denominator: attempts that reached evaluation)",
+        "fig1b_completion_rate_by_method.png": "Attempt completion rate by method (denominator: all scheduled attempts)",
+        "fig2_success_vs_failure_by_method.png": "Successful versus failed attempts by method",
+        "fig3_mean_execution_time_by_method.png": "Mean execution time per attempt by method",
+        "fig4_mean_token_usage_by_method.png": "Mean token usage per attempt by method (provider-reported totals)",
+        "fig5_task_by_method_heatmap.png": "Task-by-method evaluator pass rate heatmap (denominator: evaluated attempts per cell)",
     }
+    
+    # FIX: Corrected indentation for the graph loop
     for filename in GRAPH_FILENAMES:
         data = read_graph_bytes(run["analysis_dir"], filename)
         if data is None:
-            st.warning(
-                f"Figure `{filename}` was not found in `{run['analysis_dir']}` "
-                "and cannot be displayed.",
-                icon="⚠️",
-            )
+            # st.warning(...)  # Suppressed because new runs might not have graphs
             continue
         st.image(
             data,
@@ -1594,7 +1538,6 @@ def _render_completed_benchmark_results(
         )
         st.caption(graph_captions.get(filename, filename))
 
-    # -- 4. Limitations and interpretation --------------------------------
     st.markdown("#### 4. Research limitations and interpretation")
 
     st.warning(

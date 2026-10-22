@@ -777,5 +777,110 @@ class TestSecretHygiene(unittest.TestCase):
         self.assertEqual(TIER_2_FRONTIER_PROFILES["openrouter/free"].price_output, 0.0)
 
 
+class TestRequestedModelIsSentVerbatim(unittest.TestCase):
+    """
+    The dispatcher must send the model the caller asked for.
+
+    A hard-coded model id would silently run a different model than the
+    experiment selected, which would make every measurement of that run a
+    fiction. These tests pin the wire payload.
+    """
+
+    def test_anthropic_uses_requested_model(self):
+        """Anthropic must receive the caller's model id, not a fixed one."""
+        _StubClient.calls = []
+        _StubClient.status_code = 200
+        _StubClient.raise_on_post = False
+        _StubClient.response_payload = {
+            "content": [{"type": "text", "text": "hello"}],
+            "model": "claude-sonnet-custom",
+            "stop_reason": "end_turn",
+            "usage": {"input_tokens": 7, "output_tokens": 2},
+        }
+
+        with _EnvGuard(
+            ANTHROPIC_API_KEY="anthropic-test-key",
+        ), mock.patch("model_dispatcher.httpx.Client", _StubClient):
+            dispatcher = ModelDispatcher(strict_live=True)
+            resp = dispatcher.generate(
+                prompt="say hello",
+                model_name="claude-sonnet-custom",
+                is_tier1=True,
+            )
+
+        self.assertFalse(resp.is_mock)
+        self.assertEqual(resp.provider, "Anthropic")
+        posts = [c for c in _StubClient.calls if c["json"] is not None]
+        self.assertTrue(posts, "the stub client received no request")
+        self.assertEqual(posts[0]["json"]["model"], "claude-sonnet-custom")
+        self.assertNotEqual(posts[0]["json"]["model"], "claude-3-5-sonnet-20241022")
+        self.assertIn("claude-sonnet-custom", posts[0]["url"] + posts[0]["json"]["model"])
+
+    def test_gemini_uses_requested_model(self):
+        """A gemini-* model id must be sent verbatim on the wire."""
+        _StubClient.calls = []
+        _StubClient.status_code = 200
+        _StubClient.raise_on_post = False
+        _StubClient.response_payload = {
+            "candidates": [
+                {"content": {"parts": [{"text": "hello"}]}, "finishReason": "STOP"}
+            ],
+            "modelVersion": "gemini-2.5-pro-preview",
+            "usageMetadata": {
+                "promptTokenCount": 7,
+                "candidatesTokenCount": 2,
+                "totalTokenCount": 9,
+            },
+        }
+
+        with _EnvGuard(
+            GEMINI_API_KEY="gemini-test-key",
+        ), mock.patch("model_dispatcher.httpx.Client", _StubClient):
+            dispatcher = ModelDispatcher(strict_live=True)
+            resp = dispatcher.generate(
+                prompt="say hello",
+                model_name="gemini-2.5-pro-preview",
+                is_tier1=True,
+            )
+
+        self.assertFalse(resp.is_mock)
+        self.assertEqual(resp.provider, "Google DeepMind")
+        posts = [c for c in _StubClient.calls if c["json"] is not None]
+        self.assertTrue(posts, "the stub client received no request")
+        self.assertIn("/models/gemini-2.5-pro-preview:generateContent", posts[0]["url"])
+        self.assertNotIn("gemini-2.0-flash", posts[0]["url"])
+        self.assertNotIn("gemini-1.5-pro", posts[0]["url"])
+
+    def test_gemini_display_label_falls_back_to_a_concrete_route(self):
+        """
+        A product display label is not a wire model id, so it is mapped.
+
+        The fallback is documented behaviour and must stay stable.
+        """
+        _StubClient.calls = []
+        _StubClient.status_code = 200
+        _StubClient.raise_on_post = False
+        _StubClient.response_payload = {
+            "candidates": [
+                {"content": {"parts": [{"text": "hello"}]}, "finishReason": "STOP"}
+            ],
+            "usageMetadata": {"promptTokenCount": 1, "candidatesTokenCount": 1},
+        }
+
+        with _EnvGuard(
+            GEMINI_API_KEY="gemini-test-key",
+        ), mock.patch("model_dispatcher.httpx.Client", _StubClient):
+            dispatcher = ModelDispatcher(strict_live=True)
+            dispatcher.generate(
+                prompt="say hello",
+                model_name="Gemini 3.5 Flash",
+                is_tier1=True,
+            )
+
+        posts = [c for c in _StubClient.calls if c["json"] is not None]
+        self.assertTrue(posts)
+        self.assertIn("/models/gemini-2.0-flash:generateContent", posts[0]["url"])
+
+
 if __name__ == "__main__":
     unittest.main()

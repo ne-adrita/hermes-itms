@@ -503,11 +503,23 @@ class Processor:
         self.assertIn("class Processor:", skeleton)
 
     def test_macro_benchmark_suite_execution(self):
-        """Verifies macro benchmark suite executes 5 canonical tasks and generates summary telemetry."""
+        """
+        Verifies the macro benchmark suite executes every canonical task and
+        generates summary telemetry.
+
+        The task set is the 20 approved Phase 0 repair tasks. The mock
+        engine cannot repair them, so the pass rate is 0 % and the run is
+        flagged as mock - which is exactly the state the contamination guard
+        exists to catch.
+        """
         report = MacroBenchmarkSuite.run_suite()
-        self.assertEqual(report.total_tasks, 5)
-        self.assertEqual(report.passed_tasks, 5)
-        self.assertEqual(report.pass_rate_pct, 100.0)
+        self.assertEqual(report.total_tasks, 20)
+        self.assertEqual(len(report.run_records), 20)
+        self.assertEqual(len(report.task_results), 20)
+        self.assertIsInstance(report.pass_rate_pct, float)
+        self.assertGreaterEqual(report.pass_rate_pct, 0.0)
+        self.assertLessEqual(report.pass_rate_pct, 100.0)
+        self.assertTrue(report.contains_mock_results)
         self.assertGreater(report.cost_savings_vs_frontier_pct, 50.0)
         self.assertGreater(report.cost_savings_vs_naive_pct, 40.0)
         self.assertGreater(len(report.task_results), 0)

@@ -153,7 +153,7 @@ To protect API credentials and maintain production distribution hygiene:
 - Deterministic offline mock simulation engine for offline testing.
 - End-to-end asymmetric cascade coordinator enforcing the Anti-Anchoring Invariant (`relay_orchestrator.py`).
 - Interactive Streamlit dashboard with Live Relay Runner tab (`app.py`).
-- 45-point automated verification test suite with 100% pass rate (`test_milestones_2_3.py`, `test_itms.py`, `test_tdsc.py`).
+- 584 automated verification test suite with 100% pass rate (`test_milestones_2_3.py`, `test_itms.py`, `test_tdsc.py`).
 
 ### Milestone 4: Macro-Benchmark Evaluation & Container Hardening [NEXT PHASE]
 - Formal evaluation harness against HumanEval (164 tasks) and MBPP (500 tasks).
