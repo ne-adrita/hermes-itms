@@ -1,0 +1,9 @@
+Return the idle time between two intervals.
+
+    The gap is the time between the end of the first interval and the start
+    of the second one.  When the intervals overlap or touch, or when the
+    second one starts earlier, the result is ``0``.
+
+    >>> gap_between(0, 10, 15, 20)
+    5
+    

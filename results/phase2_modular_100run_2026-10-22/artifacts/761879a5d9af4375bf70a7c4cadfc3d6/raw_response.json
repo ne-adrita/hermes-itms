@@ -1,0 +1,19 @@
+{
+  "attempt_id": "761879a5d9af4375bf70a7c4cadfc3d6",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-018",
+  "humaneval_task_id": "modular/rate_limiting",
+  "method": "itms_ast_splice",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "014a4a41d7f86b292d70a9eae29c3273fd47248e4fd11c045d5b92b9c42c134c",
+  "response_bytes": 445,
+  "response_text": "```python\ndef window_utilisation(used: float, limit: float) -> float:\n    \"\"\"Return how much of a window's allowance has been used.\n\n    The result is the share of the limit that has been consumed and is\n    rounded to four decimal places.  A non-positive limit has no\n    utilisation, so the result is ``0.0``.\n\n    >>> window_utilisation(25.0, 100.0)\n    0.25\n    \"\"\"\n    if limit <= 0:\n        return 0.0\n    return round(used / limit, 4)\n```"
+}

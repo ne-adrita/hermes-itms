@@ -1,0 +1,49 @@
+You are repairing a Python module with a search/replace patch.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `largest_divisor`, whose docstring specifies its intended behaviour. The current implementation of `largest_divisor` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+
+
+def largest_divisor(n: int) -> int:
+    """ For a given number n, find the largest number that divides n evenly, smaller than n
+    >>> largest_divisor(15)
+    5
+    """
+
+
+CURRENT FILE (contains the defect)
+----------------------------------
+----- BEGIN FILE -----
+
+
+def largest_divisor(n: int) -> int:
+    """ For a given number n, find the largest number that divides n evenly, smaller than n
+    >>> largest_divisor(15)
+    5
+    """
+    for i in reversed(range(n)):
+        if n % i == 1:
+            return i
+----- END FILE -----
+
+OUTPUT FORMAT: search/replace block
+-----------------------------------
+Reply with exactly one block of this form:
+
+<<<<<<< SEARCH
+<the exact lines you want to replace, copied verbatim>
+=======
+<the replacement lines>
+>>>>>>> REPLACE
+
+The SEARCH section must appear exactly once in the file. Do not
+add commentary and do not return more than one block.

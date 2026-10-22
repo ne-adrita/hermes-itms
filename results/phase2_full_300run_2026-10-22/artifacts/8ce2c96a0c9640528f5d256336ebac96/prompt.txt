@@ -1,0 +1,61 @@
+You are repairing a Python module with a search/replace patch.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `sum_product`, whose docstring specifies its intended behaviour. The current implementation of `sum_product` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+from typing import List, Tuple
+
+
+def sum_product(numbers: List[int]) -> Tuple[int, int]:
+    """ For a given list of integers, return a tuple consisting of a sum and a product of all the integers in a list.
+    Empty sum should be equal to 0 and empty product should be equal to 1.
+    >>> sum_product([])
+    (0, 1)
+    >>> sum_product([1, 2, 3, 4])
+    (10, 24)
+    """
+
+
+CURRENT FILE (contains the defect)
+----------------------------------
+----- BEGIN FILE -----
+from typing import List, Tuple
+
+
+def sum_product(numbers: List[int]) -> Tuple[int, int]:
+    """ For a given list of integers, return a tuple consisting of a sum and a product of all the integers in a list.
+    Empty sum should be equal to 0 and empty product should be equal to 1.
+    >>> sum_product([])
+    (0, 1)
+    >>> sum_product([1, 2, 3, 4])
+    (10, 24)
+    """
+    sum_value = 1
+    prod_value = 1
+
+    for n in numbers:
+        sum_value += n
+        prod_value *= n
+    return sum_value, prod_value
+----- END FILE -----
+
+OUTPUT FORMAT: search/replace block
+-----------------------------------
+Reply with exactly one block of this form:
+
+<<<<<<< SEARCH
+<the exact lines you want to replace, copied verbatim>
+=======
+<the replacement lines>
+>>>>>>> REPLACE
+
+The SEARCH section must appear exactly once in the file. Do not
+add commentary and do not return more than one block.

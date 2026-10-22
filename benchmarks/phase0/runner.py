@@ -115,6 +115,98 @@ def _summarise_failure(stderr: str) -> tuple:
     return error_type, error_message
 
 
+def _current_user_process_count() -> int:
+    """Number of processes owned by the current user (used for RLIMIT_NPROC)."""
+    try:
+        import subprocess as _sp
+
+        out = _sp.run(
+            ["/bin/ps", "-u", str(os.getuid()), "-o", "pid="],
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+        return len([line for line in out.stdout.splitlines() if line.strip()])
+    except Exception:
+        return 0
+
+
+def _make_preexec(cpu_seconds: int, address_space_bytes: int, max_processes: int, max_file_bytes: int):
+    """
+    Builds the ``preexec_fn`` that applies POSIX resource limits.
+
+    The limits bound a runaway candidate: CPU time, address space, the number
+    of processes it may create and the size of a file it may write.
+    """
+    import resource
+
+    def _apply() -> None:
+        for limit, value in (
+            (resource.RLIMIT_CPU, cpu_seconds),
+            (resource.RLIMIT_AS, address_space_bytes),
+            (resource.RLIMIT_NPROC, max_processes),
+            (resource.RLIMIT_FSIZE, max_file_bytes),
+        ):
+            try:
+                resource.setrlimit(limit, (value, value))
+            except (ValueError, OSError):
+                pass
+        try:
+            os.setsid()
+        except OSError:
+            pass
+
+    return _apply
+
+
+def isolation_description() -> Dict[str, Any]:
+    """
+    Describes the isolation the official evaluator is running under.
+
+    The result is recorded in the run metadata so a reader can see exactly
+    how the candidate was executed.
+    """
+    from benchmarks.phase0.sandbox_profile import (
+        ISOLATION_OFF,
+        ISOLATION_SCRUBBED_SUBPROCESS,
+        ISOLATION_SEATBELT,
+        sandbox_available,
+    )
+
+    requested = (os.getenv("ITMS_EVAL_ISOLATION") or "").strip().lower()
+    if requested in ("seatbelt", "1", "on", "true") and sandbox_available():
+        level = ISOLATION_SEATBELT
+    elif requested in ("seatbelt", "1", "on", "true"):
+        # Requested but unavailable on this host: fall back and say so.
+        level = ISOLATION_SCRUBBED_SUBPROCESS
+    else:
+        level = ISOLATION_SCRUBBED_SUBPROCESS if requested != "off" else ISOLATION_OFF
+    return {
+        "requested": requested or "(unset)",
+        "level": level,
+        "seatbelt_available": sandbox_available(),
+        "enforced": [
+            "environment scrubbed to PATH/TMPDIR/LANG/PYTHON* (no provider credential)",
+            "PYTHONPATH restricted to the evaluation directory, user site-packages disabled",
+            "interpreter-level socket guard (sitecustomize)",
+            "wall-clock timeout with process termination",
+        ]
+        + (
+            [
+                "macOS Seatbelt profile: no network, no access to the operator's "
+                "home/project directory (the .env credential is unreadable)",
+                "POSIX resource limits: RLIMIT_CPU, RLIMIT_AS, RLIMIT_NPROC, RLIMIT_FSIZE",
+            ]
+            if level == ISOLATION_SEATBELT
+            else []
+        ),
+        "not_enforced": [
+            "no container/VM boundary",
+            "no file-system confinement beyond the rules above",
+        ],
+    }
+
+
 def run_official_test(
     source_code: str,
     test_code: str,
@@ -149,15 +241,44 @@ def run_official_test(
         env = _sanitized_env()
         env["PYTHONPATH"] = module_dir
 
+        command = [sys.executable, "-B", "-s", "run_checks.py"]
+        preexec = None
+        isolation = isolation_description()
+        if isolation["level"] == "macos_seatbelt_profile":
+            from benchmarks.phase0.sandbox_profile import (
+                SANDBOX_TOOL,
+                build_sandbox_profile,
+            )
+
+            home = os.path.expanduser("~")
+            venv = sys.prefix
+            profile = build_sandbox_profile(
+                module_dir=module_dir,
+                tmp_dir=tempfile.gettempdir(),
+                deny_paths=[home],
+                allow_paths=[venv, module_dir],
+            )
+            profile_path = os.path.join(tmp_root, "evaluation.sb")
+            with open(profile_path, "w", encoding="utf-8") as fh:
+                fh.write(profile)
+            command = [SANDBOX_TOOL, "-f", profile_path] + command
+            preexec = _make_preexec(
+                cpu_seconds=max(30, int(timeout) + 20),
+                address_space_bytes=1024 * 1024 * 1024,
+                max_processes=_current_user_process_count() + 64,
+                max_file_bytes=64 * 1024 * 1024,
+            )
+
         start = time.perf_counter()
         try:
             proc = subprocess.run(
-                [sys.executable, "-B", "-s", "run_checks.py"],
+                command,
                 cwd=module_dir,
                 capture_output=True,
                 text=True,
                 timeout=timeout,
                 env=env,
+                preexec_fn=preexec,
             )
         except subprocess.TimeoutExpired as exc:
             elapsed = (time.perf_counter() - start) * 1000.0

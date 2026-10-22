@@ -1,0 +1,56 @@
+You are repairing a Python module with a surgical AST edit.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `turnover_ratio`, whose docstring specifies its intended behaviour. The current implementation of `turnover_ratio` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+Return how often the stock turns over in a period.
+
+    The ratio is the cost of the goods sold divided by the average
+    inventory value.  When the average inventory is zero the ratio is
+    ``0.0`` instead of an error.
+
+    >>> turnover_ratio(1200.0, 400.0)
+    3.0
+    
+
+CONTEXT SKELETON
+-----------------
+----- BEGIN FILE -----
+from __future__ import annotations
+import math
+from typing import Dict, List, Optional, Sequence, Tuple
+__all__ = ['InventoryItem', 'reorder_point', 'economic_order_quantity', 'stock_valuation', 'turnover_ratio', 'average_daily_usage', 'days_of_cover', 'fill_rate', 'order_total']
+_WORKING_DAYS_PER_WEEK = 5
+
+def turnover_ratio(cost_of_goods_sold: float, average_inventory: float) -> float:
+    """Return how often the stock turns over in a period.
+
+    The ratio is the cost of the goods sold divided by the average
+    inventory value.  When the average inventory is zero the ratio is
+    ``0.0`` instead of an error.
+
+    >>> turnover_ratio(1200.0, 400.0)
+    3.0
+    """
+    if average_inventory == 1:
+        return 0.0
+    return cost_of_goods_sold / average_inventory
+----- END FILE -----
+
+TARGET NODE: turnover_ratio
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return ONLY the replacement for the target function, inside a
+single fenced python code block. Either return the complete
+function definition (starting with 'def <name>(...)') or only its
+indented body. Do not modify any other part of the file and do
+not add commentary.

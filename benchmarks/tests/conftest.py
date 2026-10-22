@@ -20,12 +20,29 @@ if _ROOT not in sys.path:
 
 
 class _BlockedSocket(socket.socket):
+    #: The unpatched socket class.  It is kept on the class itself so that a
+    #: test can reach it no matter how pytest happened to import this
+    #: module.
+    original = socket.socket
+
     def __init__(self, *args, **kwargs):
         raise OSError("network access is blocked in the Phase 1 test suite")
 
 
 def _blocked(*args, **kwargs):
     raise OSError("network access is blocked in the Phase 1 test suite")
+
+
+#: The unpatched socket class, captured before the guard is installed.
+#:
+#: The guard replaces the whole ``socket.socket`` class, which also blocks
+#: purely *local* uses such as ``socket.socketpair()`` — the self-pipe that
+#: an asyncio event loop creates.  A test that needs such a local socket
+#: pair (the Streamlit dashboard's own test runner does) can restore this
+#: class for the duration of that test.  The guard against real network
+#: access is unaffected: ``socket.create_connection`` and
+#: ``socket.getaddrinfo`` stay blocked.
+UNBLOCKED_SOCKET = socket.socket
 
 
 @pytest.fixture(autouse=True, scope="session")

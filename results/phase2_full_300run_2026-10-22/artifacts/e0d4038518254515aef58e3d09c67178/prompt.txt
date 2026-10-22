@@ -1,0 +1,50 @@
+You are repairing a Python module with a surgical AST edit.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `truncate_number`, whose docstring specifies its intended behaviour. The current implementation of `truncate_number` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+
+
+def truncate_number(number: float) -> float:
+    """ Given a positive floating point number, it can be decomposed into
+    and integer part (largest integer smaller than given number) and decimals
+    (leftover part always smaller than 1).
+
+    Return the decimal part of the number.
+    >>> truncate_number(3.5)
+    0.5
+    """
+
+
+CONTEXT SKELETON
+-----------------
+----- BEGIN FILE -----
+def truncate_number(number: float) -> float:
+    """ Given a positive floating point number, it can be decomposed into
+    and integer part (largest integer smaller than given number) and decimals
+    (leftover part always smaller than 1).
+
+    Return the decimal part of the number.
+    >>> truncate_number(3.5)
+    0.5
+    """
+    return number % 2.0
+----- END FILE -----
+
+TARGET NODE: truncate_number
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return ONLY the replacement for the target function, inside a
+single fenced python code block. Either return the complete
+function definition (starting with 'def <name>(...)') or only its
+indented body. Do not modify any other part of the file and do
+not add commentary.

@@ -1,0 +1,19 @@
+{
+  "attempt_id": "02e3b5ce6ff643d1804000feb2d624be",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-005",
+  "humaneval_task_id": "modular/rate_limiting",
+  "method": "itms_ast_splice",
+  "rep": 2,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "66ada8ce791d44ab903636112853cab97d8ff2b2829fbea77c69ee44bc641241",
+  "response_bytes": 618,
+  "response_text": "```python\ndef tokens_to_refill(elapsed_seconds: float, rate_per_second: float, capacity: float) -> float:\n    \"\"\"Return how many tokens the bucket regains during ``elapsed_seconds``.\n\n    The bucket regains ``elapsed_seconds * rate_per_second`` tokens, but it\n    never holds more than ``capacity`` tokens.  A negative elapsed time\n    regains nothing, and a non-positive rate never refills the bucket.\n\n    >>> tokens_to_refill(2.0, 5.0, 100.0)\n    10.0\n    \"\"\"\n    if elapsed_seconds <= 0 or rate_per_second <= 0:\n        return 0.0\n    gained = elapsed_seconds * rate_per_second\n    return min(gained, capacity)\n```"
+}

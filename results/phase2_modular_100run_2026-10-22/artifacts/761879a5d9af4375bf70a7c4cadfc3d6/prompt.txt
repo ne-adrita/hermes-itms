@@ -1,0 +1,55 @@
+You are repairing a Python module with a surgical AST edit.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `window_utilisation`, whose docstring specifies its intended behaviour. The current implementation of `window_utilisation` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+Return how much of a window's allowance has been used.
+
+    The result is the share of the limit that has been consumed and is
+    rounded to four decimal places.  A non-positive limit has no
+    utilisation, so the result is ``0.0``.
+
+    >>> window_utilisation(25.0, 100.0)
+    0.25
+    
+
+CONTEXT SKELETON
+-----------------
+----- BEGIN FILE -----
+from __future__ import annotations
+import math
+from typing import Dict, List, Optional, Sequence, Tuple
+__all__ = ['TokenBucket', 'tokens_to_refill', 'is_request_allowed', 'retry_after_seconds', 'window_utilisation', 'clamp_bucket', 'burst_allowance', 'average_rate']
+
+def window_utilisation(used: float, limit: float) -> float:
+    """Return how much of a window's allowance has been used.
+
+    The result is the share of the limit that has been consumed and is
+    rounded to four decimal places.  A non-positive limit has no
+    utilisation, so the result is ``0.0``.
+
+    >>> window_utilisation(25.0, 100.0)
+    0.25
+    """
+    if limit <= 0:
+        return 1.0
+    return round(used / limit, 4)
+----- END FILE -----
+
+TARGET NODE: window_utilisation
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return ONLY the replacement for the target function, inside a
+single fenced python code block. Either return the complete
+function definition (starting with 'def <name>(...)') or only its
+indented body. Do not modify any other part of the file and do
+not add commentary.

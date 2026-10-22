@@ -1,0 +1,4582 @@
+{
+  "schema_version": "1.0",
+  "task_set": "modular_edit",
+  "tasks_total": 20,
+  "tasks_passed": 20,
+  "tasks_failed": 0,
+  "failed_check_counts": {},
+  "mutation_rule_usage": {
+    "comparison_operator_swap": 5,
+    "off_by_one_boundary": 4,
+    "incorrect_constant": 4,
+    "arithmetic_operator_swap": 4,
+    "boolean_operator_swap": 3
+  },
+  "module_usage": {
+    "grid_geometry": 4,
+    "rate_limiting": 4,
+    "interval_math": 4,
+    "text_metrics": 4,
+    "inventory_math": 4
+  },
+  "distinct_modules": 5,
+  "distinct_targets": 20,
+  "selection_rule": {
+    "criteria": {
+      "min_file_lines": 200,
+      "max_target_ratio": 0.2,
+      "min_function_count": 5,
+      "min_class_count": 1
+    },
+    "tasks_total": 20,
+    "tasks_qualifying": 20,
+    "tasks_rejected": 0,
+    "rejections": {},
+    "properties": [
+      {
+        "task_id": "MOD-EDIT-001",
+        "file_lines": 232,
+        "file_tokens": 1752,
+        "target_tokens": 178,
+        "target_ratio": 0.1016,
+        "function_count": 16,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-002",
+        "file_lines": 232,
+        "file_tokens": 1752,
+        "target_tokens": 262,
+        "target_ratio": 0.1495,
+        "function_count": 16,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-003",
+        "file_lines": 232,
+        "file_tokens": 1752,
+        "target_tokens": 100,
+        "target_ratio": 0.0571,
+        "function_count": 16,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-004",
+        "file_lines": 232,
+        "file_tokens": 1752,
+        "target_tokens": 133,
+        "target_ratio": 0.0759,
+        "function_count": 16,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-005",
+        "file_lines": 204,
+        "file_tokens": 1532,
+        "target_tokens": 166,
+        "target_ratio": 0.1084,
+        "function_count": 15,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-006",
+        "file_lines": 239,
+        "file_tokens": 1879,
+        "target_tokens": 248,
+        "target_ratio": 0.132,
+        "function_count": 17,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-007",
+        "file_lines": 239,
+        "file_tokens": 1879,
+        "target_tokens": 240,
+        "target_ratio": 0.1277,
+        "function_count": 17,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-008",
+        "file_lines": 239,
+        "file_tokens": 1879,
+        "target_tokens": 126,
+        "target_ratio": 0.0671,
+        "function_count": 17,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-009",
+        "file_lines": 239,
+        "file_tokens": 1879,
+        "target_tokens": 160,
+        "target_ratio": 0.0852,
+        "function_count": 17,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-010",
+        "file_lines": 277,
+        "file_tokens": 2025,
+        "target_tokens": 217,
+        "target_ratio": 0.1072,
+        "function_count": 15,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-011",
+        "file_lines": 217,
+        "file_tokens": 1663,
+        "target_tokens": 172,
+        "target_ratio": 0.1034,
+        "function_count": 16,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-012",
+        "file_lines": 217,
+        "file_tokens": 1663,
+        "target_tokens": 123,
+        "target_ratio": 0.074,
+        "function_count": 16,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-013",
+        "file_lines": 217,
+        "file_tokens": 1663,
+        "target_tokens": 119,
+        "target_ratio": 0.0716,
+        "function_count": 16,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-014",
+        "file_lines": 217,
+        "file_tokens": 1663,
+        "target_tokens": 137,
+        "target_ratio": 0.0824,
+        "function_count": 16,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-015",
+        "file_lines": 277,
+        "file_tokens": 2025,
+        "target_tokens": 168,
+        "target_ratio": 0.083,
+        "function_count": 15,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-016",
+        "file_lines": 204,
+        "file_tokens": 1532,
+        "target_tokens": 102,
+        "target_ratio": 0.0666,
+        "function_count": 15,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-017",
+        "file_lines": 204,
+        "file_tokens": 1532,
+        "target_tokens": 180,
+        "target_ratio": 0.1175,
+        "function_count": 15,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-018",
+        "file_lines": 204,
+        "file_tokens": 1532,
+        "target_tokens": 123,
+        "target_ratio": 0.0803,
+        "function_count": 15,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-019",
+        "file_lines": 277,
+        "file_tokens": 2025,
+        "target_tokens": 257,
+        "target_ratio": 0.1269,
+        "function_count": 15,
+        "class_count": 1,
+        "has_module_docstring": true
+      },
+      {
+        "task_id": "MOD-EDIT-020",
+        "file_lines": 277,
+        "file_tokens": 2025,
+        "target_tokens": 149,
+        "target_ratio": 0.0736,
+        "function_count": 15,
+        "class_count": 1,
+        "has_module_docstring": true
+      }
+    ],
+    "all_qualify": true
+  },
+  "build_log_counts": {
+    "targets_inspected": 20,
+    "eligible": 20,
+    "gold_passed": 20,
+    "with_viable_mutations": 20,
+    "rejected": 0,
+    "not_selected": 0
+  },
+  "results": [
+    {
+      "task_id": "MOD-EDIT-001",
+      "module": "grid_geometry",
+      "target_function": "point_in_rectangle",
+      "mutation": {
+        "rule": "comparison_operator_swap",
+        "parameters": {
+          "from_op": "<",
+          "to_op": "<=",
+          "occurrence": 2,
+          "op_index": 0
+        },
+        "expected_change": {
+          "line": 81,
+          "before": "    if px < x or px >= x + width:",
+          "after": "    if px <= x or px >= x + width:",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "comparison_operator_swap",
+            "parameters": {
+              "from_op": "<",
+              "to_op": "<=",
+              "occurrence": 2,
+              "op_index": 0
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 64.24
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 66.863
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 6,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              81
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 81,
+              "before": "    if px < x or px >= x + width:",
+              "after": "    if px <= x or px >= x + width:",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 8
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "point_in_rectangle",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "Rectangle",
+                "bounding_box",
+                "clamp",
+                "distance_squared",
+                "lerp",
+                "manhattan_distance",
+                "point_in_rectangle",
+                "rectangle_area",
+                "shift_point"
+              ],
+              "has_other_module_level_functions": [
+                "bounding_box",
+                "clamp",
+                "distance_squared",
+                "lerp",
+                "manhattan_distance",
+                "rectangle_area",
+                "shift_point"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "point_in_rectangle",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 59.602
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 56.843
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-002",
+      "module": "grid_geometry",
+      "target_function": "bounding_box",
+      "mutation": {
+        "rule": "off_by_one_boundary",
+        "parameters": {
+          "delta": 1,
+          "occurrence": 0
+        },
+        "expected_change": {
+          "line": 102,
+          "before": "    min_x = points[0][0]",
+          "after": "    min_x = points[1][0]",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "off_by_one_boundary",
+            "parameters": {
+              "delta": 1,
+              "occurrence": 0
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 57.027
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "ExecutionError",
+            "error_message": "IndexError: list index out of range",
+            "duration_ms": 69.559
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 5,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              102
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 102,
+              "before": "    min_x = points[0][0]",
+              "after": "    min_x = points[1][0]",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 8
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "bounding_box",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "Rectangle",
+                "bounding_box",
+                "clamp",
+                "distance_squared",
+                "lerp",
+                "manhattan_distance",
+                "point_in_rectangle",
+                "rectangle_area",
+                "shift_point"
+              ],
+              "has_other_module_level_functions": [
+                "clamp",
+                "distance_squared",
+                "lerp",
+                "manhattan_distance",
+                "point_in_rectangle",
+                "rectangle_area",
+                "shift_point"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "bounding_box",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 59.758
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 63.76
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-003",
+      "module": "grid_geometry",
+      "target_function": "rectangle_area",
+      "mutation": {
+        "rule": "incorrect_constant",
+        "parameters": {
+          "new_value": 1,
+          "occurrence": 2
+        },
+        "expected_change": {
+          "line": 58,
+          "before": "        return 0",
+          "after": "        return 1",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "incorrect_constant",
+            "parameters": {
+              "new_value": 1,
+              "occurrence": 2
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 57.974
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 81.511
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 5,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              58
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 58,
+              "before": "        return 0",
+              "after": "        return 1",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 8
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "rectangle_area",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "Rectangle",
+                "bounding_box",
+                "clamp",
+                "distance_squared",
+                "lerp",
+                "manhattan_distance",
+                "point_in_rectangle",
+                "rectangle_area",
+                "shift_point"
+              ],
+              "has_other_module_level_functions": [
+                "bounding_box",
+                "clamp",
+                "distance_squared",
+                "lerp",
+                "manhattan_distance",
+                "point_in_rectangle",
+                "shift_point"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "rectangle_area",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 58.391
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 58.426
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-004",
+      "module": "grid_geometry",
+      "target_function": "manhattan_distance",
+      "mutation": {
+        "rule": "arithmetic_operator_swap",
+        "parameters": {
+          "from_op": "-",
+          "to_op": "+",
+          "occurrence": 0
+        },
+        "expected_change": {
+          "line": 39,
+          "before": "    dx = x1 - x2",
+          "after": "    dx = x1 + x2",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "arithmetic_operator_swap",
+            "parameters": {
+              "from_op": "-",
+              "to_op": "+",
+              "occurrence": 0
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 61.072
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 77.402
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 5,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              39
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 39,
+              "before": "    dx = x1 - x2",
+              "after": "    dx = x1 + x2",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 8
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "manhattan_distance",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "Rectangle",
+                "bounding_box",
+                "clamp",
+                "distance_squared",
+                "lerp",
+                "manhattan_distance",
+                "point_in_rectangle",
+                "rectangle_area",
+                "shift_point"
+              ],
+              "has_other_module_level_functions": [
+                "bounding_box",
+                "clamp",
+                "distance_squared",
+                "lerp",
+                "point_in_rectangle",
+                "rectangle_area",
+                "shift_point"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "manhattan_distance",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 65.027
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 66.724
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-005",
+      "module": "rate_limiting",
+      "target_function": "tokens_to_refill",
+      "mutation": {
+        "rule": "boolean_operator_swap",
+        "parameters": {
+          "from_op": "or",
+          "to_op": "and",
+          "occurrence": 0
+        },
+        "expected_change": {
+          "line": 46,
+          "before": "    if elapsed_seconds <= 0 or rate_per_second <= 0:",
+          "after": "    if elapsed_seconds <= 0 and rate_per_second <= 0:",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "boolean_operator_swap",
+            "parameters": {
+              "from_op": "or",
+              "to_op": "and",
+              "occurrence": 0
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 65.019
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 74.674
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 6,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              46
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 46,
+              "before": "    if elapsed_seconds <= 0 or rate_per_second <= 0:",
+              "after": "    if elapsed_seconds <= 0 and rate_per_second <= 0:",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [
+              "10.0"
+            ],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 7
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "tokens_to_refill",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "TokenBucket",
+                "average_rate",
+                "burst_allowance",
+                "clamp_bucket",
+                "is_request_allowed",
+                "retry_after_seconds",
+                "tokens_to_refill",
+                "window_utilisation"
+              ],
+              "has_other_module_level_functions": [
+                "average_rate",
+                "burst_allowance",
+                "clamp_bucket",
+                "is_request_allowed",
+                "retry_after_seconds",
+                "window_utilisation"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "tokens_to_refill",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 63.665
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 59.773
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-006",
+      "module": "interval_math",
+      "target_function": "merge_intervals",
+      "mutation": {
+        "rule": "comparison_operator_swap",
+        "parameters": {
+          "from_op": "<=",
+          "to_op": "<",
+          "occurrence": 0,
+          "op_index": 0
+        },
+        "expected_change": {
+          "line": 66,
+          "before": "        if start <= last_end:",
+          "after": "        if start < last_end:",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "comparison_operator_swap",
+            "parameters": {
+              "from_op": "<=",
+              "to_op": "<",
+              "occurrence": 0,
+              "op_index": 0
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 66.549
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 72.919
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 6,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              66
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 66,
+              "before": "        if start <= last_end:",
+              "after": "        if start < last_end:",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 8
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "merge_intervals",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "Schedule",
+                "gap_between",
+                "interval_duration",
+                "is_within",
+                "merge_intervals",
+                "normalize_interval",
+                "overlap_length",
+                "overlaps",
+                "total_covered_length"
+              ],
+              "has_other_module_level_functions": [
+                "gap_between",
+                "interval_duration",
+                "is_within",
+                "normalize_interval",
+                "overlap_length",
+                "overlaps",
+                "total_covered_length"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "merge_intervals",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 62.445
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 56.693
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-007",
+      "module": "interval_math",
+      "target_function": "total_covered_length",
+      "mutation": {
+        "rule": "off_by_one_boundary",
+        "parameters": {
+          "delta": 1,
+          "occurrence": 0
+        },
+        "expected_change": {
+          "line": 83,
+          "before": "    ordered = sorted(intervals, key=lambda item: (item[0], item[1]))",
+          "after": "    ordered = sorted(intervals, key=lambda item: (item[1], item[1]))",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "off_by_one_boundary",
+            "parameters": {
+              "delta": 1,
+              "occurrence": 0
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 59.218
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 66.804
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 6,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              83
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 83,
+              "before": "    ordered = sorted(intervals, key=lambda item: (item[0], item[1]))",
+              "after": "    ordered = sorted(intervals, key=lambda item: (item[1], item[1]))",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 8
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "total_covered_length",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "Schedule",
+                "gap_between",
+                "interval_duration",
+                "is_within",
+                "merge_intervals",
+                "normalize_interval",
+                "overlap_length",
+                "overlaps",
+                "total_covered_length"
+              ],
+              "has_other_module_level_functions": [
+                "gap_between",
+                "interval_duration",
+                "is_within",
+                "merge_intervals",
+                "normalize_interval",
+                "overlap_length",
+                "overlaps"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "total_covered_length",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 55.649
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 63.837
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-008",
+      "module": "interval_math",
+      "target_function": "gap_between",
+      "mutation": {
+        "rule": "incorrect_constant",
+        "parameters": {
+          "new_value": 1,
+          "occurrence": 0
+        },
+        "expected_change": {
+          "line": 115,
+          "before": "        return 0",
+          "after": "        return 1",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "incorrect_constant",
+            "parameters": {
+              "new_value": 1,
+              "occurrence": 0
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 55.679
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 61.793
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 6,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              115
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 115,
+              "before": "        return 0",
+              "after": "        return 1",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 8
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "gap_between",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "Schedule",
+                "gap_between",
+                "interval_duration",
+                "is_within",
+                "merge_intervals",
+                "normalize_interval",
+                "overlap_length",
+                "overlaps",
+                "total_covered_length"
+              ],
+              "has_other_module_level_functions": [
+                "interval_duration",
+                "is_within",
+                "merge_intervals",
+                "normalize_interval",
+                "overlap_length",
+                "overlaps",
+                "total_covered_length"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "gap_between",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 55.301
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 53.952
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-009",
+      "module": "interval_math",
+      "target_function": "overlap_length",
+      "mutation": {
+        "rule": "arithmetic_operator_swap",
+        "parameters": {
+          "from_op": "-",
+          "to_op": "+",
+          "occurrence": 0
+        },
+        "expected_change": {
+          "line": 44,
+          "before": "    return end - start",
+          "after": "    return end + start",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "arithmetic_operator_swap",
+            "parameters": {
+              "from_op": "-",
+              "to_op": "+",
+              "occurrence": 0
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 52.685
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 63.723
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 6,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              44
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 44,
+              "before": "    return end - start",
+              "after": "    return end + start",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 8
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "overlap_length",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "Schedule",
+                "gap_between",
+                "interval_duration",
+                "is_within",
+                "merge_intervals",
+                "normalize_interval",
+                "overlap_length",
+                "overlaps",
+                "total_covered_length"
+              ],
+              "has_other_module_level_functions": [
+                "gap_between",
+                "interval_duration",
+                "is_within",
+                "merge_intervals",
+                "normalize_interval",
+                "overlaps",
+                "total_covered_length"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "overlap_length",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 53.406
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 53.74
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-010",
+      "module": "text_metrics",
+      "target_function": "longest_word",
+      "mutation": {
+        "rule": "boolean_operator_swap",
+        "parameters": {
+          "from_op": "or",
+          "to_op": "and",
+          "occurrence": 0
+        },
+        "expected_change": {
+          "line": 97,
+          "before": "        if character.isalnum() or character == \"'\":",
+          "after": "        if character.isalnum() and character == \"'\":",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "boolean_operator_swap",
+            "parameters": {
+              "from_op": "or",
+              "to_op": "and",
+              "occurrence": 0
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 54.095
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 71.262
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 7,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              97
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 97,
+              "before": "        if character.isalnum() or character == \"'\":",
+              "after": "        if character.isalnum() and character == \"'\":",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [
+              "'quiet'"
+            ],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 9
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "longest_word",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "TextProfile",
+                "count_characters",
+                "longest_word",
+                "normalize_whitespace",
+                "split_on_whitespace_trimmed",
+                "strip_punctuation",
+                "truncate_words",
+                "vowel_ratio",
+                "word_frequencies"
+              ],
+              "has_other_module_level_functions": [
+                "count_characters",
+                "normalize_whitespace",
+                "split_on_whitespace_trimmed",
+                "strip_punctuation",
+                "truncate_words",
+                "vowel_ratio",
+                "word_frequencies"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "longest_word",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 56.539
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 55.564
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-011",
+      "module": "inventory_math",
+      "target_function": "economic_order_quantity",
+      "mutation": {
+        "rule": "comparison_operator_swap",
+        "parameters": {
+          "from_op": "<=",
+          "to_op": "<",
+          "occurrence": 0,
+          "op_index": 0
+        },
+        "expected_change": {
+          "line": 71,
+          "before": "    if holding_cost_per_unit <= 0:",
+          "after": "    if holding_cost_per_unit < 0:",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "comparison_operator_swap",
+            "parameters": {
+              "from_op": "<=",
+              "to_op": "<",
+              "occurrence": 0,
+              "op_index": 0
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 55.748
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "ExecutionError",
+            "error_message": "ZeroDivisionError: division by zero",
+            "duration_ms": 63.467
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 5,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              71
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 71,
+              "before": "    if holding_cost_per_unit <= 0:",
+              "after": "    if holding_cost_per_unit < 0:",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 8
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "economic_order_quantity",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "InventoryItem",
+                "average_daily_usage",
+                "days_of_cover",
+                "economic_order_quantity",
+                "fill_rate",
+                "order_total",
+                "reorder_point",
+                "stock_valuation",
+                "turnover_ratio"
+              ],
+              "has_other_module_level_functions": [
+                "average_daily_usage",
+                "days_of_cover",
+                "fill_rate",
+                "order_total",
+                "reorder_point",
+                "stock_valuation",
+                "turnover_ratio"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "economic_order_quantity",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 53.737
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 53.674
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-012",
+      "module": "inventory_math",
+      "target_function": "stock_valuation",
+      "mutation": {
+        "rule": "off_by_one_boundary",
+        "parameters": {
+          "delta": 1,
+          "occurrence": 0
+        },
+        "expected_change": {
+          "line": 86,
+          "before": "    usable = 1 - wastage_percent / 100",
+          "after": "    usable = 2 - wastage_percent / 100",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "off_by_one_boundary",
+            "parameters": {
+              "delta": 1,
+              "occurrence": 0
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 54.299
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 62.586
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 5,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              86
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 86,
+              "before": "    usable = 1 - wastage_percent / 100",
+              "after": "    usable = 2 - wastage_percent / 100",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [
+              "225.0"
+            ],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 8
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "stock_valuation",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "InventoryItem",
+                "average_daily_usage",
+                "days_of_cover",
+                "economic_order_quantity",
+                "fill_rate",
+                "order_total",
+                "reorder_point",
+                "stock_valuation",
+                "turnover_ratio"
+              ],
+              "has_other_module_level_functions": [
+                "average_daily_usage",
+                "days_of_cover",
+                "economic_order_quantity",
+                "fill_rate",
+                "order_total",
+                "reorder_point",
+                "turnover_ratio"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "stock_valuation",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 54.19
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 53.397
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-013",
+      "module": "inventory_math",
+      "target_function": "turnover_ratio",
+      "mutation": {
+        "rule": "incorrect_constant",
+        "parameters": {
+          "new_value": 1,
+          "occurrence": 0
+        },
+        "expected_change": {
+          "line": 100,
+          "before": "    if average_inventory == 0:",
+          "after": "    if average_inventory == 1:",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "incorrect_constant",
+            "parameters": {
+              "new_value": 1,
+              "occurrence": 0
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 52.982
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "ExecutionError",
+            "error_message": "ZeroDivisionError: division by zero",
+            "duration_ms": 62.803
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 5,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              100
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 100,
+              "before": "    if average_inventory == 0:",
+              "after": "    if average_inventory == 1:",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [
+              "3.0"
+            ],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 8
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "turnover_ratio",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "InventoryItem",
+                "average_daily_usage",
+                "days_of_cover",
+                "economic_order_quantity",
+                "fill_rate",
+                "order_total",
+                "reorder_point",
+                "stock_valuation",
+                "turnover_ratio"
+              ],
+              "has_other_module_level_functions": [
+                "average_daily_usage",
+                "days_of_cover",
+                "economic_order_quantity",
+                "fill_rate",
+                "order_total",
+                "reorder_point",
+                "stock_valuation"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "turnover_ratio",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 53.829
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 55.289
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-014",
+      "module": "inventory_math",
+      "target_function": "reorder_point",
+      "mutation": {
+        "rule": "arithmetic_operator_swap",
+        "parameters": {
+          "from_op": "+",
+          "to_op": "-",
+          "occurrence": 0
+        },
+        "expected_change": {
+          "line": 53,
+          "before": "    return avg_daily_demand * lead_time_days + safety_stock",
+          "after": "    return avg_daily_demand * lead_time_days - safety_stock",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "arithmetic_operator_swap",
+            "parameters": {
+              "from_op": "+",
+              "to_op": "-",
+              "occurrence": 0
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 56.677
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 62.121
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 6,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              53
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 53,
+              "before": "    return avg_daily_demand * lead_time_days + safety_stock",
+              "after": "    return avg_daily_demand * lead_time_days - safety_stock",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [
+              "35.0"
+            ],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 8
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "reorder_point",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "InventoryItem",
+                "average_daily_usage",
+                "days_of_cover",
+                "economic_order_quantity",
+                "fill_rate",
+                "order_total",
+                "reorder_point",
+                "stock_valuation",
+                "turnover_ratio"
+              ],
+              "has_other_module_level_functions": [
+                "average_daily_usage",
+                "days_of_cover",
+                "economic_order_quantity",
+                "fill_rate",
+                "order_total",
+                "stock_valuation",
+                "turnover_ratio"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "reorder_point",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 55.686
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 54.52
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-015",
+      "module": "text_metrics",
+      "target_function": "vowel_ratio",
+      "mutation": {
+        "rule": "boolean_operator_swap",
+        "parameters": {
+          "from_op": "and",
+          "to_op": "or",
+          "occurrence": 0
+        },
+        "expected_change": {
+          "line": 128,
+          "before": "        if character.isalpha() and character.lower() in \"aeiouAEIOU\":",
+          "after": "        if character.isalpha() or character.lower() in \"aeiouAEIOU\":",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "boolean_operator_swap",
+            "parameters": {
+              "from_op": "and",
+              "to_op": "or",
+              "occurrence": 0
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 56.288
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 64.972
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 6,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              128
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 128,
+              "before": "        if character.isalpha() and character.lower() in \"aeiouAEIOU\":",
+              "after": "        if character.isalpha() or character.lower() in \"aeiouAEIOU\":",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [
+              "0.3"
+            ],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 9
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "vowel_ratio",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "TextProfile",
+                "count_characters",
+                "longest_word",
+                "normalize_whitespace",
+                "split_on_whitespace_trimmed",
+                "strip_punctuation",
+                "truncate_words",
+                "vowel_ratio",
+                "word_frequencies"
+              ],
+              "has_other_module_level_functions": [
+                "count_characters",
+                "longest_word",
+                "normalize_whitespace",
+                "split_on_whitespace_trimmed",
+                "strip_punctuation",
+                "truncate_words",
+                "word_frequencies"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "vowel_ratio",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 55.036
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 57.142
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-016",
+      "module": "rate_limiting",
+      "target_function": "is_request_allowed",
+      "mutation": {
+        "rule": "comparison_operator_swap",
+        "parameters": {
+          "from_op": ">=",
+          "to_op": ">",
+          "occurrence": 1,
+          "op_index": 0
+        },
+        "expected_change": {
+          "line": 65,
+          "before": "    return bucket_tokens >= request_cost",
+          "after": "    return bucket_tokens > request_cost",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "comparison_operator_swap",
+            "parameters": {
+              "from_op": ">=",
+              "to_op": ">",
+              "occurrence": 1,
+              "op_index": 0
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 55.223
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 64.305
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 5,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              65
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 65,
+              "before": "    return bucket_tokens >= request_cost",
+              "after": "    return bucket_tokens > request_cost",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 7
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "is_request_allowed",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "TokenBucket",
+                "average_rate",
+                "burst_allowance",
+                "clamp_bucket",
+                "is_request_allowed",
+                "retry_after_seconds",
+                "tokens_to_refill",
+                "window_utilisation"
+              ],
+              "has_other_module_level_functions": [
+                "average_rate",
+                "burst_allowance",
+                "clamp_bucket",
+                "retry_after_seconds",
+                "tokens_to_refill",
+                "window_utilisation"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "is_request_allowed",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 55.284
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 57.06
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-017",
+      "module": "rate_limiting",
+      "target_function": "retry_after_seconds",
+      "mutation": {
+        "rule": "off_by_one_boundary",
+        "parameters": {
+          "delta": 1,
+          "occurrence": 0
+        },
+        "expected_change": {
+          "line": 79,
+          "before": "    if rate_per_second <= 0:",
+          "after": "    if rate_per_second <= 1:",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "off_by_one_boundary",
+            "parameters": {
+              "delta": 1,
+              "occurrence": 0
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 55.357
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 64.254
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 5,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              79
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 79,
+              "before": "    if rate_per_second <= 0:",
+              "after": "    if rate_per_second <= 1:",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 7
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "retry_after_seconds",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "TokenBucket",
+                "average_rate",
+                "burst_allowance",
+                "clamp_bucket",
+                "is_request_allowed",
+                "retry_after_seconds",
+                "tokens_to_refill",
+                "window_utilisation"
+              ],
+              "has_other_module_level_functions": [
+                "average_rate",
+                "burst_allowance",
+                "clamp_bucket",
+                "is_request_allowed",
+                "tokens_to_refill",
+                "window_utilisation"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "retry_after_seconds",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 58.774
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 56.29
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-018",
+      "module": "rate_limiting",
+      "target_function": "window_utilisation",
+      "mutation": {
+        "rule": "incorrect_constant",
+        "parameters": {
+          "new_value": 1.0,
+          "occurrence": 1
+        },
+        "expected_change": {
+          "line": 101,
+          "before": "        return 0.0",
+          "after": "        return 1.0",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "incorrect_constant",
+            "parameters": {
+              "new_value": 1.0,
+              "occurrence": 1
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 56.629
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 73.415
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 5,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              101
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 101,
+              "before": "        return 0.0",
+              "after": "        return 1.0",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [
+              "0.25"
+            ],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 7
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "window_utilisation",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "TokenBucket",
+                "average_rate",
+                "burst_allowance",
+                "clamp_bucket",
+                "is_request_allowed",
+                "retry_after_seconds",
+                "tokens_to_refill",
+                "window_utilisation"
+              ],
+              "has_other_module_level_functions": [
+                "average_rate",
+                "burst_allowance",
+                "clamp_bucket",
+                "is_request_allowed",
+                "retry_after_seconds",
+                "tokens_to_refill"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "window_utilisation",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 64.424
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 57.034
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-019",
+      "module": "text_metrics",
+      "target_function": "word_frequencies",
+      "mutation": {
+        "rule": "arithmetic_operator_swap",
+        "parameters": {
+          "from_op": "+",
+          "to_op": "-",
+          "occurrence": 0
+        },
+        "expected_change": {
+          "line": 64,
+          "before": "            word = word + character",
+          "after": "            word = word - character",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "arithmetic_operator_swap",
+            "parameters": {
+              "from_op": "+",
+              "to_op": "-",
+              "occurrence": 0
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 57.652
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "ExecutionError",
+            "error_message": "TypeError: unsupported operand type(s) for -: 'str' and 'str'",
+            "duration_ms": 69.72
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 6,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              64
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 64,
+              "before": "            word = word + character",
+              "after": "            word = word - character",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [
+              "'blue'",
+              "'red'"
+            ],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 9
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "word_frequencies",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "TextProfile",
+                "count_characters",
+                "longest_word",
+                "normalize_whitespace",
+                "split_on_whitespace_trimmed",
+                "strip_punctuation",
+                "truncate_words",
+                "vowel_ratio",
+                "word_frequencies"
+              ],
+              "has_other_module_level_functions": [
+                "count_characters",
+                "longest_word",
+                "normalize_whitespace",
+                "split_on_whitespace_trimmed",
+                "strip_punctuation",
+                "truncate_words",
+                "vowel_ratio"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "word_frequencies",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 56.649
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 65.748
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    },
+    {
+      "task_id": "MOD-EDIT-020",
+      "module": "text_metrics",
+      "target_function": "split_on_whitespace_trimmed",
+      "mutation": {
+        "rule": "comparison_operator_swap",
+        "parameters": {
+          "from_op": ">",
+          "to_op": ">=",
+          "occurrence": 0,
+          "op_index": 0
+        },
+        "expected_change": {
+          "line": 149,
+          "before": "        if len(piece) > 1:",
+          "after": "        if len(piece) >= 1:",
+          "changed_line_count": 1,
+          "note": "the defect is confined to the listed line"
+        }
+      },
+      "passed": true,
+      "checks": {
+        "mutation_reproduces_recorded_source": {
+          "passed": true,
+          "detail": {
+            "rule": "comparison_operator_swap",
+            "parameters": {
+              "from_op": ">",
+              "to_op": ">=",
+              "occurrence": 0,
+              "op_index": 0
+            }
+          }
+        },
+        "original_and_mutated_parse": {
+          "passed": true,
+          "detail": {
+            "original_parses": true,
+            "mutated_parses": true,
+            "original_error": null,
+            "mutated_error": null
+          }
+        },
+        "docstring_preserved_byte_for_byte": {
+          "passed": true,
+          "detail": {
+            "docstring_identical": true,
+            "docstring_present": true,
+            "problem_prompt_matches_docstring": true
+          }
+        },
+        "reference_module_passes_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": true,
+            "exit_code": 0,
+            "timed_out": false,
+            "error_type": null,
+            "error_message": null,
+            "duration_ms": 62.811
+          }
+        },
+        "defective_module_fails_official_check": {
+          "passed": true,
+          "detail": {
+            "passed": false,
+            "exit_code": 1,
+            "timed_out": false,
+            "error_type": "AssertionError",
+            "error_message": "AssertionError",
+            "duration_ms": 69.293
+          }
+        },
+        "official_check_has_several_assertions": {
+          "passed": true,
+          "detail": {
+            "assertions": 5,
+            "minimum_required": 3,
+            "note": "A check with a single assertion cannot distinguish a partially correct repair."
+          }
+        },
+        "defect_is_confined_to_one_line": {
+          "passed": true,
+          "detail": {
+            "changed_lines": [
+              149
+            ],
+            "changed_line_count": 1,
+            "expected_change": {
+              "line": 149,
+              "before": "        if len(piece) > 1:",
+              "after": "        if len(piece) >= 1:",
+              "changed_line_count": 1,
+              "note": "the defect is confined to the listed line"
+            }
+          }
+        },
+        "worked_example_does_not_leak_into_the_official_check": {
+          "passed": true,
+          "detail": {
+            "overlapping_values": [],
+            "example_values": [
+              "'alpha'",
+              "'beta'",
+              "'gamma'"
+            ],
+            "note": "If a value shown as the result of the worked example were also asserted by the official check, the task could be solved by hard-coding the example."
+          }
+        },
+        "worked_examples_in_the_module_are_correct": {
+          "passed": true,
+          "detail": {
+            "checked": true,
+            "failed": 0,
+            "attempted": 9
+          }
+        },
+        "reference_module_not_revealed": {
+          "passed": true,
+          "detail": {
+            "official_test_does_not_contain_module_lines": true,
+            "instruction_does_not_contain_module_lines": true
+          }
+        },
+        "task_is_self_contained": {
+          "passed": true,
+          "detail": {
+            "reasons": [],
+            "details": {
+              "target_function": "split_on_whitespace_trimmed",
+              "same_file_calls": [],
+              "same_file_free_name_refs": [],
+              "unresolved_free_names": [],
+              "nested_function_defs": [],
+              "module_level_definitions": [
+                "TextProfile",
+                "count_characters",
+                "longest_word",
+                "normalize_whitespace",
+                "split_on_whitespace_trimmed",
+                "strip_punctuation",
+                "truncate_words",
+                "vowel_ratio",
+                "word_frequencies"
+              ],
+              "has_other_module_level_functions": [
+                "count_characters",
+                "longest_word",
+                "normalize_whitespace",
+                "strip_punctuation",
+                "truncate_words",
+                "vowel_ratio",
+                "word_frequencies"
+              ]
+            }
+          }
+        },
+        "target_name_is_unique_in_the_module": {
+          "passed": true,
+          "detail": {
+            "target_function": "split_on_whitespace_trimmed",
+            "definitions_found": 1
+          }
+        },
+        "module_text_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "A credential-shaped module would be redacted by the artefact store, so the saved candidate would differ from the evaluated candidate."
+          }
+        },
+        "official_check_is_not_credential_shaped": {
+          "passed": true,
+          "detail": {
+            "note": "the official test is stored verbatim"
+          }
+        },
+        "compatible_with_full_file_regeneration": {
+          "passed": true,
+          "detail": {
+            "note": "the complete reference module passes the official check"
+          }
+        },
+        "compatible_with_search_replace_patch": {
+          "passed": true,
+          "detail": {
+            "patch_applied": true,
+            "error": null,
+            "patched_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 60.514
+            }
+          }
+        },
+        "compatible_with_itms_ast_splice": {
+          "passed": true,
+          "detail": {
+            "splice_applied": true,
+            "error": null,
+            "spliced_passes_official_test": true,
+            "outcome": {
+              "passed": true,
+              "exit_code": 0,
+              "timed_out": false,
+              "error_type": null,
+              "error_message": null,
+              "duration_ms": 54.928
+            }
+          }
+        },
+        "task_present_in_model_facing_payload": {
+          "passed": true,
+          "detail": {
+            "model_facing_task_ids": 20
+          }
+        }
+      }
+    }
+  ],
+  "manifest_verification": {
+    "manifest_present": true,
+    "files_checked": 85,
+    "mismatches": [],
+    "passed": true
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "attempt_id": "459544f432194356b12f6dcf6d4368e9",
+  "run_id": "8c886293d46d",
+  "task_id": "HE-EDIT-019",
+  "humaneval_task_id": "HumanEval/20",
+  "method": "search_replace_patch",
+  "rep": 4,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "88355f30cc41ad94aa40d4d92909eeeb021b4653d5c253258321940b11913f00",
+  "response_bytes": 144,
+  "response_text": "<<<<<<< SEARCH\n                    new_distance = abs(elem + elem2)\n=======\n                    new_distance = abs(elem - elem2)\n>>>>>>> REPLACE"
+}

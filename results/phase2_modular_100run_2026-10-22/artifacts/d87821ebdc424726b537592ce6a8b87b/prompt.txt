@@ -1,0 +1,72 @@
+You are repairing a Python module with a surgical AST edit.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `bounding_box`, whose docstring specifies its intended behaviour. The current implementation of `bounding_box` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+Return the smallest rectangle that contains every point.
+
+    The result is the tuple ``(x, y, width, height)`` of the lower-left
+    corner and the size of the bounding rectangle.  An empty sequence of
+    points has no bounding rectangle, so ``None`` is returned.
+
+    >>> bounding_box([(1, 2), (4, 6)])
+    (1, 2, 3, 4)
+    
+
+CONTEXT SKELETON
+-----------------
+----- BEGIN FILE -----
+from __future__ import annotations
+from typing import Dict, List, Optional, Sequence, Tuple
+__all__ = ['Rectangle', 'manhattan_distance', 'rectangle_area', 'point_in_rectangle', 'bounding_box', 'clamp', 'lerp', 'distance_squared', 'shift_point']
+
+def point_in_rectangle(px: float, py: float, x: float, y: float, width: float, height: float) -> bool:
+    ...
+
+def bounding_box(points: Sequence[Tuple[float, float]]) -> Optional[Tuple[float, float, float, float]]:
+    """Return the smallest rectangle that contains every point.
+
+    The result is the tuple ``(x, y, width, height)`` of the lower-left
+    corner and the size of the bounding rectangle.  An empty sequence of
+    points has no bounding rectangle, so ``None`` is returned.
+
+    >>> bounding_box([(1, 2), (4, 6)])
+    (1, 2, 3, 4)
+    """
+    if not points:
+        return None
+    min_x = points[1][0]
+    max_x = points[0][0]
+    min_y = points[0][1]
+    max_y = points[0][1]
+    for point in points:
+        px = point[0]
+        py = point[1]
+        if px < min_x:
+            min_x = px
+        if px > max_x:
+            max_x = px
+        if py < min_y:
+            min_y = py
+        if py > max_y:
+            max_y = py
+    return (min_x, min_y, max_x - min_x, max_y - min_y)
+----- END FILE -----
+
+TARGET NODE: bounding_box
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return ONLY the replacement for the target function, inside a
+single fenced python code block. Either return the complete
+function definition (starting with 'def <name>(...)') or only its
+indented body. Do not modify any other part of the file and do
+not add commentary.

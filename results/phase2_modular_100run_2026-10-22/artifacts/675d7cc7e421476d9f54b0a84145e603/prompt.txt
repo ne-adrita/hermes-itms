@@ -1,0 +1,65 @@
+You are repairing a Python module with a surgical AST edit.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `split_on_whitespace_trimmed`, whose docstring specifies its intended behaviour. The current implementation of `split_on_whitespace_trimmed` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+Return the whitespace-separated tokens of ``text``, without punctuation.
+
+    Every run of whitespace separates two tokens, and leading or trailing
+    punctuation is removed from each token.  A token that consists only of
+    punctuation, or that is shorter than two characters, is dropped.  The
+    order of the tokens is preserved.
+
+    >>> split_on_whitespace_trimmed("alpha beta, gamma")
+    ['alpha', 'beta', 'gamma']
+    
+
+CONTEXT SKELETON
+-----------------
+----- BEGIN FILE -----
+from __future__ import annotations
+import re
+import string
+from typing import Dict, List, Optional, Tuple
+__all__ = ['TextProfile', 'word_frequencies', 'longest_word', 'vowel_ratio', 'split_on_whitespace_trimmed', 'normalize_whitespace', 'count_characters', 'truncate_words', 'strip_punctuation']
+_WORD_PATTERN = re.compile("[A-Za-z0-9']+")
+_PUNCTUATION = frozenset(string.punctuation)
+_VOWELS = frozenset('aeiouAEIOU')
+_RATIO_PRECISION = 4
+
+def split_on_whitespace_trimmed(text: str) -> List[str]:
+    """Return the whitespace-separated tokens of ``text``, without punctuation.
+
+    Every run of whitespace separates two tokens, and leading or trailing
+    punctuation is removed from each token.  A token that consists only of
+    punctuation, or that is shorter than two characters, is dropped.  The
+    order of the tokens is preserved.
+
+    >>> split_on_whitespace_trimmed("alpha beta, gamma")
+    ['alpha', 'beta', 'gamma']
+    """
+    tokens: List[str] = []
+    for raw in text.split():
+        piece = raw.strip(string.punctuation)
+        if len(piece) >= 1:
+            tokens.append(piece)
+    return tokens
+----- END FILE -----
+
+TARGET NODE: split_on_whitespace_trimmed
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return ONLY the replacement for the target function, inside a
+single fenced python code block. Either return the complete
+function definition (starting with 'def <name>(...)') or only its
+indented body. Do not modify any other part of the file and do
+not add commentary.

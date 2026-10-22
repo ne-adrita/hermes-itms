@@ -1,0 +1,277 @@
+"""Measurement helpers for free-form text.
+
+The module is a small, self-contained helper library.  It provides pure
+functions for tokenising and measuring a document, plus a :class:`TextProfile`
+value object that bundles the measurements of one document.
+
+Every public function in this module is deterministic, has no side effects
+and depends on nothing but the standard library, so the module can be used
+in a batch pipeline without any additional state management.
+
+The measurement functions deliberately take plain strings and return plain
+Python containers.  That keeps them easy to test in isolation and easy to
+compose with the other helper modules of this project.
+"""
+
+from __future__ import annotations
+
+import re
+import string
+from typing import Dict, List, Optional, Tuple
+
+__all__ = [
+    "TextProfile",
+    "word_frequencies",
+    "longest_word",
+    "vowel_ratio",
+    "split_on_whitespace_trimmed",
+    "normalize_whitespace",
+    "count_characters",
+    "truncate_words",
+    "strip_punctuation",
+]
+
+#: A word is a maximal run of letters, digits and apostrophes.
+_WORD_PATTERN = re.compile(r"[A-Za-z0-9']+")
+
+#: Characters removed by :func:`strip_punctuation`.
+_PUNCTUATION = frozenset(string.punctuation)
+
+#: The vowels, in both cases.
+_VOWELS = frozenset("aeiouAEIOU")
+
+#: Default number of decimal places used by the ratio helpers.
+_RATIO_PRECISION = 4
+
+
+def word_frequencies(text: str) -> Dict[str, int]:
+    """Return how often each distinct word occurs in ``text``.
+
+    A word is a maximal run of letters, digits and apostrophes.  Words are
+    compared case-insensitively, so the returned keys are lowercased.  The
+    mapping lists the words in the order in which they first occur in
+    ``text``; the values are the number of occurrences.
+
+    The empty string yields an empty mapping.
+
+    >>> word_frequencies("Red red BLUE")
+    {'red': 2, 'blue': 1}
+    """
+    counts: Dict[str, int] = {}
+    word = ""
+    for character in text:
+        if character.isalnum() or character == "'":
+            word = word + character
+            continue
+        if word:
+            key = word.lower()
+            if key not in counts:
+                counts[key] = 1
+            else:
+                counts[key] = counts[key] + 1
+            word = ""
+    if word:
+        key = word.lower()
+        if key not in counts:
+            counts[key] = 1
+        else:
+            counts[key] = counts[key] + 1
+    return counts
+
+
+def longest_word(text: str) -> Optional[str]:
+    """Return the longest word of ``text``, or ``None`` when there is none.
+
+    Words are defined exactly as in :func:`word_frequencies` and are compared
+    case-insensitively.  The returned word is the lowercased spelling of the
+    winner.  When several words share the maximum length, the one that
+    occurs first in ``text`` wins.
+
+    >>> longest_word("the quiet brown fox")
+    'quiet'
+    """
+    best: Optional[str] = None
+    best_length = 0
+    word = ""
+    for character in text:
+        if character.isalnum() or character == "'":
+            word = word + character
+            continue
+        if word:
+            candidate = word.lower()
+            if len(candidate) > best_length:
+                best = candidate
+                best_length = len(candidate)
+            word = ""
+    if word:
+        candidate = word.lower()
+        if len(candidate) > best_length:
+            best = candidate
+    return best
+
+
+def vowel_ratio(text: str) -> float:
+    """Return the share of vowels among the letters of ``text``.
+
+    Only alphabetic characters are counted in the denominator.  The result
+    is a float rounded to four decimal places.  A text without any letter
+    has a ratio of ``0.0``.
+
+    >>> vowel_ratio("hello world")
+    0.3
+    """
+    vowels = 0
+    letters = 0
+    for character in text:
+        if character.isalpha():
+            letters = letters + 1
+        if character.isalpha() and character.lower() in "aeiouAEIOU":
+            vowels = vowels + 1
+    if letters == 0:
+        return 0.0
+    return round(vowels / letters, 4)
+
+
+def split_on_whitespace_trimmed(text: str) -> List[str]:
+    """Return the whitespace-separated tokens of ``text``, without punctuation.
+
+    Every run of whitespace separates two tokens, and leading or trailing
+    punctuation is removed from each token.  A token that consists only of
+    punctuation, or that is shorter than two characters, is dropped.  The
+    order of the tokens is preserved.
+
+    >>> split_on_whitespace_trimmed("alpha beta, gamma")
+    ['alpha', 'beta', 'gamma']
+    """
+    tokens: List[str] = []
+    for raw in text.split():
+        piece = raw.strip(string.punctuation)
+        if len(piece) >= 1:
+            tokens.append(piece)
+    return tokens
+
+
+def normalize_whitespace(text: str) -> str:
+    """Return ``text`` with every run of whitespace replaced by one space.
+
+    The result is stripped at both ends.
+
+    >>> normalize_whitespace("  a \\n\\t b  ")
+    'a b'
+    """
+    return " ".join(text.split())
+
+
+def count_characters(text: str) -> int:
+    """Return the number of characters in ``text``, whitespace included.
+
+    >>> count_characters("abc")
+    3
+    """
+    return len(text)
+
+
+def truncate_words(text: str, limit: int) -> str:
+    """Return the first ``limit`` words of ``text``.
+
+    Words are separated by whitespace.  When ``text`` has more than
+    ``limit`` words the result is cut at a word boundary and no ellipsis is
+    added.  A non-positive ``limit`` yields the empty string.
+
+    >>> truncate_words("one two three four", 2)
+    'one two'
+    """
+    if limit <= 0:
+        return ""
+    words = text.split()
+    return " ".join(words[:limit])
+
+
+def strip_punctuation(text: str) -> str:
+    """Return ``text`` without any punctuation characters.
+
+    >>> strip_punctuation("a,b;c")
+    'abc'
+    """
+    return "".join(character for character in text if character not in _PUNCTUATION)
+
+
+class TextProfile:
+    """The measurements of a single document.
+
+    A profile bundles the counts and the ratios of one document so that a
+    caller does not have to walk the text several times.  The attributes are
+    computed once, when the profile is created.
+    """
+
+    def __init__(self, text: str) -> None:
+        self.text = text
+        self.characters = count_characters(text)
+        self.words = split_on_whitespace_trimmed(text)
+        self.word_count = len(self.words)
+        self.frequencies = word_frequencies(text)
+        self.unique_words = len(self.frequencies)
+
+    @classmethod
+    def from_file(cls, path: str) -> "TextProfile":
+        """Build a profile from the text stored in ``path``."""
+        with open(path, "r", encoding="utf-8") as handle:
+            return cls(handle.read())
+
+    def top_words(self, count: int) -> List[Tuple[str, int]]:
+        """Return the ``count`` most frequent words, most frequent first.
+
+        Words that occur equally often are ordered alphabetically, so the
+        result is fully deterministic.  Fewer words are returned when the
+        document has fewer distinct words than ``count``.
+
+        >>> TextProfile("a b a").top_words(1)
+        [('a', 2)]
+        """
+        if count <= 0:
+            return []
+        ordered = sorted(self.frequencies.items(), key=lambda item: (-item[1], item[0]))
+        return ordered[:count]
+
+    def average_word_length(self) -> float:
+        """Return the mean length of the words of the document.
+
+        The result is rounded to two decimal places.  A document without
+        words has an average length of ``0.0``.
+        """
+        if not self.words:
+            return 0.0
+        total = 0
+        for word in self.words:
+            total = total + len(word)
+        return round(total / len(self.words), 2)
+
+    def density(self) -> float:
+        """Return the share of the characters that belong to a word.
+
+        The result is rounded to four decimal places and is ``0.0`` for an
+        empty document.
+        """
+        if self.characters == 0:
+            return 0.0
+        letters = 0
+        for word in self.words:
+            letters = letters + len(word)
+        return round(letters / self.characters, _RATIO_PRECISION)
+
+    def summary(self) -> Dict[str, object]:
+        """Return a dictionary with the most important measurements."""
+        return {
+            "characters": self.characters,
+            "word_count": self.word_count,
+            "unique_words": self.unique_words,
+            "average_word_length": self.average_word_length(),
+            "density": self.density(),
+            "longest_word": longest_word(self.text),
+        }
+
+    def __repr__(self) -> str:
+        return (
+            f"TextProfile(characters={self.characters}, "
+            f"word_count={self.word_count}, unique_words={self.unique_words})"
+        )

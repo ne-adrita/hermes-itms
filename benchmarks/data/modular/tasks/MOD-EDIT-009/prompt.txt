@@ -1,0 +1,9 @@
+Return the length of the overlap of two intervals.
+
+    The intervals are half-open: ``[a_start, a_end)`` and ``[b_start, b_end)``.
+    Touching intervals therefore do not overlap.  When the intervals do not
+    overlap at all the result is ``0``.
+
+    >>> overlap_length(0, 10, 5, 15)
+    5
+    

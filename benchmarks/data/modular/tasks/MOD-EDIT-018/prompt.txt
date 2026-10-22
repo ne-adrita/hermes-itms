@@ -1,0 +1,9 @@
+Return how much of a window's allowance has been used.
+
+    The result is the share of the limit that has been consumed and is
+    rounded to four decimal places.  A non-positive limit has no
+    utilisation, so the result is ``0.0``.
+
+    >>> window_utilisation(25.0, 100.0)
+    0.25
+    

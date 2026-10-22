@@ -1,0 +1,63 @@
+You are repairing a Python module with a search/replace patch.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `fizz_buzz`, whose docstring specifies its intended behaviour. The current implementation of `fizz_buzz` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+
+
+def fizz_buzz(n: int):
+    """Return the number of times the digit 7 appears in integers less than n which are divisible by 11 or 13.
+    >>> fizz_buzz(50)
+    0
+    >>> fizz_buzz(78)
+    2
+    >>> fizz_buzz(79)
+    3
+    """
+
+
+CURRENT FILE (contains the defect)
+----------------------------------
+----- BEGIN FILE -----
+
+
+def fizz_buzz(n: int):
+    """Return the number of times the digit 7 appears in integers less than n which are divisible by 11 or 13.
+    >>> fizz_buzz(50)
+    0
+    >>> fizz_buzz(78)
+    2
+    >>> fizz_buzz(79)
+    3
+    """
+    ns = []
+    for i in range(n):
+        if i % 11 == 0 and i % 13 == 0:
+            ns.append(i)
+    s = ''.join(list(map(str, ns)))
+    ans = 0
+    for c in s:
+        ans += (c == '7')
+    return ans
+----- END FILE -----
+
+OUTPUT FORMAT: search/replace block
+-----------------------------------
+Reply with exactly one block of this form:
+
+<<<<<<< SEARCH
+<the exact lines you want to replace, copied verbatim>
+=======
+<the replacement lines>
+>>>>>>> REPLACE
+
+The SEARCH section must appear exactly once in the file. Do not
+add commentary and do not return more than one block.

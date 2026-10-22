@@ -1,0 +1,9 @@
+Return how often the stock turns over in a period.
+
+    The ratio is the cost of the goods sold divided by the average
+    inventory value.  When the average inventory is zero the ratio is
+    ``0.0`` instead of an error.
+
+    >>> turnover_ratio(1200.0, 400.0)
+    3.0
+    

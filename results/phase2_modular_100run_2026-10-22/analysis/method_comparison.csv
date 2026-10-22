@@ -1,0 +1,4 @@
+method,planned_attempts,completed_attempts,officially_evaluated_attempts,evaluator_pass_count,evaluator_pass_rate_over_evaluated,completion_rate_over_scheduled,provider_error_count,failure_count,truncation_count,mean_total_tokens,median_total_tokens,mean_latency_ms,median_latency_ms,mean_provider_latency_ms,median_provider_latency_ms,provider_reported_cost_usd
+full_file_regeneration,34,34,34,34,1.0,1.0,0,0,0,4464.64705882353,4415.0,14145.675115174312,11988.043416989967,14030.190405678963,11872.680332977325,
+itms_ast_splice,33,33,33,33,1.0,1.0,0,0,0,1295.4848484848485,1135,8291.390976032497,4864.397333003581,8174.727880032592,4755.69458398968,
+search_replace_patch,33,33,33,33,1.0,1.0,0,0,0,2582.4242424242425,2485,5418.72320960939,4972.454708069563,5297.601914012127,4877.671582973562,

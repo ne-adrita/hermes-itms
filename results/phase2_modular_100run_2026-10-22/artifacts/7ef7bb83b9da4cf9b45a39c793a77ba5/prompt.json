@@ -1,0 +1,17 @@
+{
+  "attempt_id": "7ef7bb83b9da4cf9b45a39c793a77ba5",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-003",
+  "humaneval_task_id": "modular/grid_geometry",
+  "method": "full_file_regeneration",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "seed_requested": 991060,
+  "max_output_tokens": 4096,
+  "prompt_original_sha256": "4bc2d29b2501d5639e07e0d5dfc35436991b1cf320fc29d07d5a94e85019687d",
+  "prompt_bytes": 7897,
+  "prompt_token_estimate": 1993,
+  "redaction_applied": false
+}

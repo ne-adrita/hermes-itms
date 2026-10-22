@@ -36,6 +36,7 @@ FIGURE_FILENAMES = (
     "fig8_latency_decomposition_by_method.png",
     "fig9_truncation_by_method.png",
     "fig10_cost_availability.png",
+    "fig11_outcome_funnel_by_method.png",
 )
 
 
@@ -157,14 +158,27 @@ def render_figures(analysis: Dict[str, Any], out_dir: str) -> List[str]:
     token_values = [
         _values(analysis, m, "token_usage", "mean_total_tokens") for m in methods
     ]
+    median_token_values = [
+        _values(analysis, m, "token_usage", "median_total_tokens") for m in methods
+    ]
     reported = [
         _values(analysis, m, "token_usage", "provider_reported_attempts") or 0
         for m in methods
     ]
+    positions = list(range(len(methods)))
     ax.bar(
-        methods,
+        [p - 0.2 for p in positions],
         [t or 0 for t in token_values],
+        width=0.4,
+        label="mean",
         color="#0891b2",
+    )
+    ax.bar(
+        [p + 0.2 for p in positions],
+        [t or 0 for t in median_token_values],
+        width=0.4,
+        label="median",
+        color="#67e8f9",
     )
     for index, value in enumerate(token_values):
         if value is None:
@@ -178,9 +192,11 @@ def render_figures(analysis: Dict[str, Any], out_dir: str) -> List[str]:
                 va="bottom",
                 fontsize=8,
             )
-    ax.set_ylabel("mean total tokens")
+    ax.set_xticks(positions)
+    ax.set_xticklabels(methods, rotation=20)
+    ax.set_ylabel("provider-reported total tokens")
     ax.set_title("Provider-reported token usage per method (estimates excluded)")
-    ax.tick_params(axis="x", labelrotation=20)
+    ax.legend()
     save(fig, "fig4_token_usage_by_method.png")
 
     # -- fig5: task x method heatmap ---------------------------------------
@@ -304,5 +320,56 @@ def render_figures(analysis: Dict[str, Any], out_dir: str) -> List[str]:
         ax.set_yticks([])
         ax.set_title("Cost: unavailable (not reported by the provider)")
     save(fig, "fig10_cost_availability.png")
+
+    # -- fig11: outcome funnel --------------------------------------------
+    # The funnel separates the two events that must never be merged: the
+    # provider answering the request, and the official evaluator accepting the
+    # candidate.  Attempts that never reached the provider and attempts that
+    # were never evaluated are shown explicitly, not silently dropped.
+    fig, ax = plt.subplots(figsize=(9, 4.8))
+    funnel = analysis.get("generation_versus_evaluation") or {}
+    buckets = (
+        ("provider error (never answered)", "provider_error", "#b91c1c"),
+        ("evaluated and passed", "evaluator_pass", "#059669"),
+        ("evaluated and failed", "evaluator_fail", "#d97706"),
+        ("recorded but not evaluated (other)", "not_evaluated_other", "#94a3b8"),
+        ("incomplete", "incomplete", "#7c3aed"),
+    )
+    bottom = [0.0] * len(methods)
+    for label, key, colour in buckets:
+        values = []
+        for method in methods:
+            metrics = analysis["methods"][method]
+            recorded = metrics["denominators"]["recorded_attempts"]
+            evaluated = metrics["denominators"]["candidate_produced_attempts"]
+            provider_errors = metrics["provider_failures"]["count"]
+            incomplete = metrics["status_counts"].get("incomplete", 0)
+            if key == "provider_error":
+                values.append(provider_errors)
+            elif key == "evaluator_pass":
+                values.append(metrics["test_pass"]["count"])
+            elif key == "evaluator_fail":
+                values.append(evaluated - metrics["test_pass"]["count"])
+            elif key == "incomplete":
+                values.append(incomplete)
+            else:
+                # Everything that was recorded but neither answered by the
+                # provider nor evaluated nor incomplete (for example a
+                # malformed model output).
+                values.append(
+                    max(0, recorded - provider_errors - evaluated - incomplete)
+                )
+        if sum(values) == 0:
+            continue
+        ax.bar(methods, values, bottom=bottom, label=label, color=colour)
+        bottom = [b + v for b, v in zip(bottom, values)]
+    ax.set_ylabel("attempts")
+    ax.set_title(
+        "Outcome funnel per method: provider generation vs official evaluation "
+        "(denominator: recorded attempts)"
+    )
+    ax.legend(fontsize=8)
+    ax.tick_params(axis="x", labelrotation=20)
+    save(fig, "fig11_outcome_funnel_by_method.png")
 
     return written

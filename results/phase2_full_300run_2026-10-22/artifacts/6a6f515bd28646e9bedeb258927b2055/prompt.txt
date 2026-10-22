@@ -1,0 +1,53 @@
+You are repairing a Python module with a search/replace patch.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `filter_by_substring`, whose docstring specifies its intended behaviour. The current implementation of `filter_by_substring` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+from typing import List
+
+
+def filter_by_substring(strings: List[str], substring: str) -> List[str]:
+    """ Filter an input list of strings only for ones that contain given substring
+    >>> filter_by_substring([], 'a')
+    []
+    >>> filter_by_substring(['abc', 'bacd', 'cde', 'array'], 'a')
+    ['abc', 'bacd', 'array']
+    """
+
+
+CURRENT FILE (contains the defect)
+----------------------------------
+----- BEGIN FILE -----
+from typing import List
+
+
+def filter_by_substring(strings: List[str], substring: str) -> List[str]:
+    """ Filter an input list of strings only for ones that contain given substring
+    >>> filter_by_substring([], 'a')
+    []
+    >>> filter_by_substring(['abc', 'bacd', 'cde', 'array'], 'a')
+    ['abc', 'bacd', 'array']
+    """
+    return [x for x in strings if substring not in x]
+----- END FILE -----
+
+OUTPUT FORMAT: search/replace block
+-----------------------------------
+Reply with exactly one block of this form:
+
+<<<<<<< SEARCH
+<the exact lines you want to replace, copied verbatim>
+=======
+<the replacement lines>
+>>>>>>> REPLACE
+
+The SEARCH section must appear exactly once in the file. Do not
+add commentary and do not return more than one block.

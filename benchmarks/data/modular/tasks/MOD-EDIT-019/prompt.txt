@@ -1,0 +1,12 @@
+Return how often each distinct word occurs in ``text``.
+
+    A word is a maximal run of letters, digits and apostrophes.  Words are
+    compared case-insensitively, so the returned keys are lowercased.  The
+    mapping lists the words in the order in which they first occur in
+    ``text``; the values are the number of occurrences.
+
+    The empty string yields an empty mapping.
+
+    >>> word_frequencies("Red red BLUE")
+    {'red': 2, 'blue': 1}
+    

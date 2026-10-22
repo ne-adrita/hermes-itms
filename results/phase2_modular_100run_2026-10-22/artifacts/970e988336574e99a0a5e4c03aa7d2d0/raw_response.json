@@ -1,0 +1,19 @@
+{
+  "attempt_id": "970e988336574e99a0a5e4c03aa7d2d0",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-007",
+  "humaneval_task_id": "modular/interval_math",
+  "method": "itms_ast_splice",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "d4ee9dd1e2b5859cc2e3cadae7a86677b24ef0512d71d2372a8516e9fe9c5b78",
+  "response_bytes": 1036,
+  "response_text": "```python\ndef total_covered_length(intervals: Sequence[Tuple[float, float]]) -> float:\n    \"\"\"Return the total length covered by ``intervals``.\n\n    Overlapping parts are counted only once, so the result is the length of\n    the union of the intervals.  An empty input yields ``0``.\n\n    >>> total_covered_length([(0, 10), (5, 15)])\n    15\n    \"\"\"\n    ordered = sorted(intervals, key=lambda item: (item[0], item[1]))\n    total = 0\n    current_start: Optional[float] = None\n    current_end: Optional[float] = None\n    for start, end in ordered:\n        if current_start is None:\n            current_start = start\n            current_end = end\n            continue\n        if start <= current_end:\n            if end > current_end:\n                current_end = end\n        else:\n            total = total + (current_end - current_start)\n            current_start = start\n            current_end = end\n    if current_start is not None and current_end is not None:\n        total = total + (current_end - current_start)\n    return total\n```"
+}

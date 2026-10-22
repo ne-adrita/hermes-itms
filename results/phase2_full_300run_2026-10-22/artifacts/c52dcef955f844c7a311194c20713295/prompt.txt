@@ -1,0 +1,56 @@
+You are repairing a Python module.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `rolling_max`, whose docstring specifies its intended behaviour. The current implementation of `rolling_max` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+from typing import List, Tuple
+
+
+def rolling_max(numbers: List[int]) -> List[int]:
+    """ From a given list of integers, generate a list of rolling maximum element found until given moment
+    in the sequence.
+    >>> rolling_max([1, 2, 3, 2, 3, 4, 2])
+    [1, 2, 3, 3, 3, 4, 4]
+    """
+
+
+CURRENT FILE (contains the defect)
+----------------------------------
+----- BEGIN FILE -----
+from typing import List, Tuple
+
+
+def rolling_max(numbers: List[int]) -> List[int]:
+    """ From a given list of integers, generate a list of rolling maximum element found until given moment
+    in the sequence.
+    >>> rolling_max([1, 2, 3, 2, 3, 4, 2])
+    [1, 2, 3, 3, 3, 4, 4]
+    """
+    running_max = None
+    result = []
+
+    for n in numbers:
+        if running_max is not None:
+            running_max = n
+        else:
+            running_max = max(running_max, n)
+
+        result.append(running_max)
+
+    return result
+----- END FILE -----
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return the complete corrected file. Reply with exactly one fenced
+python code block that contains the whole module, including its
+imports, the target function and its docstring. Do not add any
+commentary, explanation or extra code blocks.

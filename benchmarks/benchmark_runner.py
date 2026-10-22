@@ -49,7 +49,7 @@ import argparse
 import json
 import os
 import sys
-from typing import List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if _ROOT not in sys.path:
@@ -57,7 +57,12 @@ if _ROOT not in sys.path:
 
 from benchmarks.benchmark.adapters import METHODS  # noqa: E402
 from benchmarks.benchmark.budget import BudgetError, BudgetGate  # noqa: E402
-from benchmarks.benchmark.experiment import ExperimentError, ExperimentRunner, build_schedule  # noqa: E402
+from benchmarks.benchmark.experiment import (  # noqa: E402
+    AttemptPlan,
+    ExperimentError,
+    ExperimentRunner,
+    build_schedule,
+)
 from benchmarks.benchmark.output_budget import resolve_output_token_limit  # noqa: E402
 from benchmarks.benchmark.provider import (  # noqa: E402
     LiveProvider,
@@ -98,7 +103,30 @@ def _build_parser() -> argparse.ArgumentParser:
         help="allow a dynamic model alias (e.g. openrouter/free) in live mode.",
     )
     parser.add_argument("--output-dir", default=None, help="output directory for this experiment.")
+    parser.add_argument(
+        "--data-dir",
+        default=None,
+        help=(
+            "root of the task dataset. The default is the HumanEval-derived "
+            "family in benchmarks/data. The modular family in "
+            "benchmarks/data/modular uses the same layout and can be "
+            "selected with --data-dir benchmarks/data/modular."
+        ),
+    )
     parser.add_argument("--seed", type=int, default=None, help="seed for the deterministic run order.")
+    parser.add_argument(
+        "--schedule-file",
+        default=None,
+        help=(
+            "path to a JSON file that lists the planned cells explicitly. "
+            "The file holds a list of {\"task_id\", \"method\", \"rep\"} "
+            "objects. It is needed when the request budget is smaller than "
+            "the full cross product of tasks x methods x repetitions, because "
+            "the default schedule cannot express a reduced plan. The cells "
+            "must be unique and the number of cells is the planned number of "
+            "attempts."
+        ),
+    )
     parser.add_argument("--temperature", type=float, default=0.2, help="sampling temperature (default: 0.2).")
     parser.add_argument(
         "--max-output-tokens",
@@ -198,6 +226,93 @@ def _split(value: Optional[str]) -> Optional[List[str]]:
     return items or None
 
 
+def _load_schedule(path: str) -> Tuple[List["AttemptPlan"], Dict[str, Any]]:
+    """
+    Loads an explicit schedule from a JSON file.
+
+    The file holds a list of ``{"task_id", "method", "rep"}`` objects, or an
+    object with a ``"cells"`` key holding that list.  The function returns
+    the cells and the provenance that is recorded in the run metadata.
+    """
+    import hashlib
+    import json
+
+    if not os.path.exists(path):
+        raise ValueError(f"schedule file not found: {path}")
+    with open(path, "rb") as handle:
+        raw = handle.read()
+    digest = hashlib.sha256(raw).hexdigest()
+    try:
+        payload = json.loads(raw.decode("utf-8"))
+    except (ValueError, UnicodeDecodeError) as exc:
+        raise ValueError(f"schedule file is not valid JSON: {exc}") from exc
+
+    if isinstance(payload, dict):
+        cells = payload.get("cells")
+        if cells is None:
+            raise ValueError(
+                "schedule file is an object without a 'cells' list"
+            )
+        description = payload.get("description")
+    else:
+        cells = payload
+        description = None
+    if not isinstance(cells, list) or not cells:
+        raise ValueError("schedule file must hold a non-empty list of cells")
+
+    plans: List[AttemptPlan] = []
+    for index, cell in enumerate(cells):
+        if not isinstance(cell, dict):
+            raise ValueError(f"schedule cell {index} is not an object")
+        try:
+            plans.append(
+                AttemptPlan(
+                    task_id=str(cell["task_id"]),
+                    method=str(cell["method"]),
+                    rep=int(cell["rep"]),
+                )
+            )
+        except KeyError as exc:
+            raise ValueError(
+                f"schedule cell {index} is missing the field {exc}"
+            ) from exc
+    provenance = {
+        "source": os.path.abspath(path),
+        "sha256": digest,
+        "cell_count": len(plans),
+        "description": description,
+    }
+    return plans, provenance
+
+
+def _validate_schedule_cells(schedule: List["AttemptPlan"], repository) -> None:
+    """
+    Validates the cells of an explicit schedule against the task set.
+
+    The check runs *before* the live preflight and before the operator is
+    asked to confirm the run, so a broken plan can never reach the
+    provider.
+    """
+    known_tasks = set(repository.task_ids)
+    seen = set()
+    for cell in schedule:
+        if cell.task_id not in known_tasks:
+            raise ValueError(
+                f"the schedule references an unknown task id: {cell.task_id}"
+            )
+        if cell.method not in METHODS:
+            raise ValueError(
+                f"the schedule references an unknown method: {cell.method}"
+            )
+        if cell.rep < 1:
+            raise ValueError(
+                f"the schedule references a repetition below 1: {cell.rep}"
+            )
+        if cell.key in seen:
+            raise ValueError(f"the schedule contains a duplicate cell: {cell.key}")
+        seen.add(cell.key)
+
+
 def _resolve_output_dir(args) -> str:
     if args.output_dir:
         return args.output_dir
@@ -210,7 +325,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     args = _build_parser().parse_args(argv)
 
     try:
-        repository = TaskRepository()
+        repository = TaskRepository(data_dir=args.data_dir)
     except Exception as exc:
         print(f"error: could not load the Phase 0 task set: {exc}", file=sys.stderr)
         return 2
@@ -231,7 +346,31 @@ def main(argv: Optional[List[str]] = None) -> int:
         print(f"error: {exc}", file=sys.stderr)
         return 2
 
-    planned = len(selected_tasks) * len(methods) * max(1, args.reps)
+    # -- an explicit schedule overrides the default cross product ---------
+    schedule = None
+    schedule_provenance: Dict[str, Any] = {}
+    if args.schedule_file:
+        try:
+            schedule, schedule_provenance = _load_schedule(args.schedule_file)
+            _validate_schedule_cells(schedule, repository)
+        except ValueError as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return 2
+        if task_ids:
+            wanted = set(task_ids)
+            schedule = [p for p in schedule if p.task_id in wanted]
+        if not schedule:
+            print("error: the schedule file selects no cells", file=sys.stderr)
+            return 2
+        methods = sorted({p.method for p in schedule})
+        selected_tasks = sorted({p.task_id for p in schedule})
+        print(
+            f"note: an explicit schedule of {len(schedule)} cell(s) was loaded "
+            f"from {args.schedule_file}; --reps is ignored for such a schedule."
+        )
+        planned = len(schedule)
+    else:
+        planned = len(selected_tasks) * len(methods) * max(1, args.reps)
     output_dir = _resolve_output_dir(args)
 
     # -- the output-token limit is derived from the task set (B5) ---------
@@ -273,7 +412,19 @@ def main(argv: Optional[List[str]] = None) -> int:
     print(f"model               : {args.model or '(mock engine)'}")
     print(f"tasks               : {len(selected_tasks)}")
     print(f"methods             : {', '.join(methods)}")
-    print(f"repetitions         : {args.reps}")
+    if schedule is not None:
+        _rep_counts: Dict[int, int] = {}
+        for _cell in schedule:
+            _rep_counts[_cell.rep] = _rep_counts.get(_cell.rep, 0) + 1
+        print(
+            "repetitions         : (explicit schedule) "
+            + ", ".join(
+                f"{count} cell(s) at rep {rep}"
+                for rep, count in sorted(_rep_counts.items())
+            )
+        )
+    else:
+        print(f"repetitions         : {args.reps}")
     print(f"planned attempts    : {planned}")
     print(f"max attempts        : {max_attempts} (hard request cap)")
     print(f"max spend           : {args.max_spend_usd if args.max_spend_usd is not None else '(reported cost not capped)'}")
@@ -284,7 +435,10 @@ def main(argv: Optional[List[str]] = None) -> int:
     print("-" * 72)
 
     if args.dry_run:
-        schedule = build_schedule(selected_tasks, methods, args.reps, seed=args.seed)
+        if schedule is None:
+            schedule = build_schedule(
+                selected_tasks, methods, args.reps, seed=args.seed
+            )
         if args.mode == "live":
             provider = LiveProvider(
                 provider=args.provider or "",
@@ -309,6 +463,22 @@ def main(argv: Optional[List[str]] = None) -> int:
             print(f"budget preflight: FAILED — {exc}", file=sys.stderr)
             return 2
         print(f"dry run: {len(schedule)} attempts scheduled, no provider contacted.")
+        if args.schedule_file:
+            by_method: Dict[str, int] = {}
+            by_task: Dict[str, int] = {}
+            for cell in schedule:
+                by_method[cell.method] = by_method.get(cell.method, 0) + 1
+                by_task[cell.task_id] = by_task.get(cell.task_id, 0) + 1
+            print(f"dry run: cells per method: {by_method}")
+            print(
+                "dry run: attempts per task: "
+                f"min={min(by_task.values())} max={max(by_task.values())} "
+                f"over {len(by_task)} task(s)"
+            )
+            print(
+                "dry run: every task is covered by every method: "
+                f"{all(len({c.method for c in schedule if c.task_id == t}) == len(methods) for t in by_task)}"
+            )
         return 0
 
     if args.mode == "live":
@@ -383,6 +553,8 @@ def main(argv: Optional[List[str]] = None) -> int:
         seed_base=args.seed_base,
         output_token_limit=output_limit,
         output_limit_justification=limit_info,
+        schedule=schedule,
+        schedule_provenance=schedule_provenance,
     )
 
     try:

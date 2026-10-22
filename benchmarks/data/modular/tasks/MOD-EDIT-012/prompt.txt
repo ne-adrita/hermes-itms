@@ -1,0 +1,8 @@
+Return the value of the stock that is actually sellable.
+
+    A share of the stock is written off as wastage, so only the remaining
+    part is valued.  The result is rounded to two decimal places.
+
+    >>> stock_valuation(100.0, 2.5, 10.0)
+    225.0
+    

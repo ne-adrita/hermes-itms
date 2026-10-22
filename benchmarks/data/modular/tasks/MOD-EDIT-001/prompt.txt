@@ -1,0 +1,9 @@
+Return whether the point lies inside the rectangle.
+
+    The rectangle is described by its lower-left corner and its size.  The
+    left and bottom edges belong to the rectangle, the right and top edges
+    do not.  A rectangle with a non-positive size contains no point.
+
+    >>> point_in_rectangle(2, 2, 0, 0, 3, 3)
+    True
+    

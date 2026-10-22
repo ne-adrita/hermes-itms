@@ -38,6 +38,10 @@ import sys
 from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, List, Optional, Sequence
 
+_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if _ROOT not in sys.path:
+    sys.path.insert(0, _ROOT)
+
 __all__ = [
     "TaskProperties",
     "SelectionCriteria",
@@ -230,15 +234,18 @@ def select_tasks(
 def write_report(
     out_path: Optional[str] = None,
     criteria: SelectionCriteria = DEFAULT_CRITERIA,
+    data_dir: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
     Writes the property/selection report for the approved task set.
 
     This is a *measurement of the task set*, not a modification of it.
+    ``data_dir`` selects the dataset root; the default is the HumanEval
+    family in ``benchmarks/data``.
     """
     from benchmarks.benchmark.tasks import TaskRepository
 
-    repository = TaskRepository()
+    repository = TaskRepository(data_dir=data_dir)
     tasks = repository.select(None)
     result = select_tasks(tasks, criteria)
     payload = {
@@ -268,6 +275,15 @@ def main(argv: Optional[List[str]] = None) -> int:
     )
     parser.add_argument("--out", default=None, help="write the JSON report here")
     parser.add_argument(
+        "--data-dir",
+        default=None,
+        help=(
+            "root of the task dataset to measure (default: benchmarks/data, "
+            "the HumanEval-derived family; the modular family lives in "
+            "benchmarks/data/modular)"
+        ),
+    )
+    parser.add_argument(
         "--min-file-lines", type=int, default=DEFAULT_CRITERIA.min_file_lines
     )
     parser.add_argument(
@@ -287,7 +303,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         min_function_count=args.min_function_count,
         min_class_count=args.min_class_count,
     )
-    payload = write_report(args.out, criteria)
+    payload = write_report(args.out, criteria, data_dir=args.data_dir)
     print("Phase 2 task-selection report (read-only)")
     print(f"task manifest digest : {payload['task_manifest_digest']}")
     print(f"tasks in the pool     : {payload['task_count']}")

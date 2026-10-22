@@ -1,0 +1,10 @@
+Return the economic order quantity for one stock keeping unit.
+
+    The result is the square root of ``2 * demand * order cost / holding
+    cost``.  The result is rounded down to a whole unit, because a fraction
+    of a unit cannot be ordered.  When the holding cost is not positive the
+    result is ``0``.
+
+    >>> economic_order_quantity(1200.0, 50.0, 5.0)
+    154
+    

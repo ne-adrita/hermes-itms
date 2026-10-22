@@ -1,0 +1,19 @@
+{
+  "attempt_id": "04d1ba15e7b543bbb537d29dda5a9cc8",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-016",
+  "humaneval_task_id": "modular/rate_limiting",
+  "method": "itms_ast_splice",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "c3beef1dd75033f676f55f5dee901cd86f2994499686bfcf5fe919d46f542da5",
+  "response_bytes": 446,
+  "response_text": "```python\ndef is_request_allowed(bucket_tokens: float, request_cost: float) -> bool:\n    \"\"\"Return whether a request of ``request_cost`` tokens may pass.\n\n    A request is allowed when the bucket holds at least as many tokens as\n    the request costs.  A request that costs nothing is always allowed.\n\n    >>> is_request_allowed(5.0, 2.0)\n    True\n    \"\"\"\n    if request_cost <= 0:\n        return True\n    return bucket_tokens >= request_cost\n```"
+}

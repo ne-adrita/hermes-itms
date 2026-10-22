@@ -1,0 +1,77 @@
+You are repairing a Python module with a surgical AST edit.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `longest_word`, whose docstring specifies its intended behaviour. The current implementation of `longest_word` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+Return the longest word of ``text``, or ``None`` when there is none.
+
+    Words are defined exactly as in :func:`word_frequencies` and are compared
+    case-insensitively.  The returned word is the lowercased spelling of the
+    winner.  When several words share the maximum length, the one that
+    occurs first in ``text`` wins.
+
+    >>> longest_word("the quiet brown fox")
+    'quiet'
+    
+
+CONTEXT SKELETON
+-----------------
+----- BEGIN FILE -----
+from __future__ import annotations
+import re
+import string
+from typing import Dict, List, Optional, Tuple
+__all__ = ['TextProfile', 'word_frequencies', 'longest_word', 'vowel_ratio', 'split_on_whitespace_trimmed', 'normalize_whitespace', 'count_characters', 'truncate_words', 'strip_punctuation']
+_WORD_PATTERN = re.compile("[A-Za-z0-9']+")
+_PUNCTUATION = frozenset(string.punctuation)
+_VOWELS = frozenset('aeiouAEIOU')
+_RATIO_PRECISION = 4
+
+def longest_word(text: str) -> Optional[str]:
+    """Return the longest word of ``text``, or ``None`` when there is none.
+
+    Words are defined exactly as in :func:`word_frequencies` and are compared
+    case-insensitively.  The returned word is the lowercased spelling of the
+    winner.  When several words share the maximum length, the one that
+    occurs first in ``text`` wins.
+
+    >>> longest_word("the quiet brown fox")
+    'quiet'
+    """
+    best: Optional[str] = None
+    best_length = 0
+    word = ''
+    for character in text:
+        if character.isalnum() and character == "'":
+            word = word + character
+            continue
+        if word:
+            candidate = word.lower()
+            if len(candidate) > best_length:
+                best = candidate
+                best_length = len(candidate)
+            word = ''
+    if word:
+        candidate = word.lower()
+        if len(candidate) > best_length:
+            best = candidate
+    return best
+----- END FILE -----
+
+TARGET NODE: longest_word
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return ONLY the replacement for the target function, inside a
+single fenced python code block. Either return the complete
+function definition (starting with 'def <name>(...)') or only its
+indented body. Do not modify any other part of the file and do
+not add commentary.

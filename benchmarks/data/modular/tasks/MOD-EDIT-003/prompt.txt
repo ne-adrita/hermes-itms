@@ -1,0 +1,8 @@
+Return the area of an axis-aligned rectangle.
+
+    A rectangle with a negative width or height has no area, so the result
+    is ``0``.
+
+    >>> rectangle_area(0, 0, 3, 4)
+    12
+    

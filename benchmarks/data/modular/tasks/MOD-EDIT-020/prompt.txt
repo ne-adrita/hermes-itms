@@ -1,0 +1,10 @@
+Return the whitespace-separated tokens of ``text``, without punctuation.
+
+    Every run of whitespace separates two tokens, and leading or trailing
+    punctuation is removed from each token.  A token that consists only of
+    punctuation, or that is shorter than two characters, is dropped.  The
+    order of the tokens is preserved.
+
+    >>> split_on_whitespace_trimmed("alpha beta, gamma")
+    ['alpha', 'beta', 'gamma']
+    

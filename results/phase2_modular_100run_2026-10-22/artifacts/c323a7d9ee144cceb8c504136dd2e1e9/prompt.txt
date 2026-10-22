@@ -1,0 +1,67 @@
+You are repairing a Python module with a surgical AST edit.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `vowel_ratio`, whose docstring specifies its intended behaviour. The current implementation of `vowel_ratio` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+Return the share of vowels among the letters of ``text``.
+
+    Only alphabetic characters are counted in the denominator.  The result
+    is a float rounded to four decimal places.  A text without any letter
+    has a ratio of ``0.0``.
+
+    >>> vowel_ratio("hello world")
+    0.3
+    
+
+CONTEXT SKELETON
+-----------------
+----- BEGIN FILE -----
+from __future__ import annotations
+import re
+import string
+from typing import Dict, List, Optional, Tuple
+__all__ = ['TextProfile', 'word_frequencies', 'longest_word', 'vowel_ratio', 'split_on_whitespace_trimmed', 'normalize_whitespace', 'count_characters', 'truncate_words', 'strip_punctuation']
+_WORD_PATTERN = re.compile("[A-Za-z0-9']+")
+_PUNCTUATION = frozenset(string.punctuation)
+_VOWELS = frozenset('aeiouAEIOU')
+_RATIO_PRECISION = 4
+
+def vowel_ratio(text: str) -> float:
+    """Return the share of vowels among the letters of ``text``.
+
+    Only alphabetic characters are counted in the denominator.  The result
+    is a float rounded to four decimal places.  A text without any letter
+    has a ratio of ``0.0``.
+
+    >>> vowel_ratio("hello world")
+    0.3
+    """
+    vowels = 0
+    letters = 0
+    for character in text:
+        if character.isalpha():
+            letters = letters + 1
+        if character.isalpha() or character.lower() in 'aeiouAEIOU':
+            vowels = vowels + 1
+    if letters == 0:
+        return 0.0
+    return round(vowels / letters, 4)
+----- END FILE -----
+
+TARGET NODE: vowel_ratio
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return ONLY the replacement for the target function, inside a
+single fenced python code block. Either return the complete
+function definition (starting with 'def <name>(...)') or only its
+indented body. Do not modify any other part of the file and do
+not add commentary.

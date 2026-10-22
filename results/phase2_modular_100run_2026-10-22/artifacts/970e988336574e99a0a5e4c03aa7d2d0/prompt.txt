@@ -1,0 +1,68 @@
+You are repairing a Python module with a surgical AST edit.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `total_covered_length`, whose docstring specifies its intended behaviour. The current implementation of `total_covered_length` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+Return the total length covered by ``intervals``.
+
+    Overlapping parts are counted only once, so the result is the length of
+    the union of the intervals.  An empty input yields ``0``.
+
+    >>> total_covered_length([(0, 10), (5, 15)])
+    15
+    
+
+CONTEXT SKELETON
+-----------------
+----- BEGIN FILE -----
+from __future__ import annotations
+from typing import Dict, Iterable, List, Optional, Sequence, Tuple
+__all__ = ['Schedule', 'overlap_length', 'merge_intervals', 'total_covered_length', 'gap_between', 'normalize_interval', 'interval_duration', 'overlaps', 'is_within']
+
+def total_covered_length(intervals: Sequence[Tuple[float, float]]) -> float:
+    """Return the total length covered by ``intervals``.
+
+    Overlapping parts are counted only once, so the result is the length of
+    the union of the intervals.  An empty input yields ``0``.
+
+    >>> total_covered_length([(0, 10), (5, 15)])
+    15
+    """
+    ordered = sorted(intervals, key=lambda item: (item[1], item[1]))
+    total = 0
+    current_start: Optional[float] = None
+    current_end: Optional[float] = None
+    for start, end in ordered:
+        if current_start is None:
+            current_start = start
+            current_end = end
+            continue
+        if start <= current_end:
+            if end > current_end:
+                current_end = end
+        else:
+            total = total + (current_end - current_start)
+            current_start = start
+            current_end = end
+    if current_start is not None and current_end is not None:
+        total = total + (current_end - current_start)
+    return total
+----- END FILE -----
+
+TARGET NODE: total_covered_length
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return ONLY the replacement for the target function, inside a
+single fenced python code block. Either return the complete
+function definition (starting with 'def <name>(...)') or only its
+indented body. Do not modify any other part of the file and do
+not add commentary.

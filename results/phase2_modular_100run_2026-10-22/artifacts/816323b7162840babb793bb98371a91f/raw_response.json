@@ -1,0 +1,19 @@
+{
+  "attempt_id": "816323b7162840babb793bb98371a91f",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-011",
+  "humaneval_task_id": "modular/inventory_math",
+  "method": "itms_ast_splice",
+  "rep": 2,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "139ec2f439459f95f2da704c976c371430d261e6e8c708820dd5b3592e68ca7b",
+  "response_bytes": 667,
+  "response_text": "```python\ndef economic_order_quantity(annual_demand: float, order_cost: float, holding_cost_per_unit: float) -> float:\n    \"\"\"Return the economic order quantity for one stock keeping unit.\n\n    The result is the square root of ``2 * demand * order cost / holding\n    cost``.  The result is rounded down to a whole unit, because a fraction\n    of a unit cannot be ordered.  When the holding cost is not positive the\n    result is ``0``.\n\n    >>> economic_order_quantity(1200.0, 50.0, 5.0)\n    154\n    \"\"\"\n    if holding_cost_per_unit <= 0:\n        return 0\n    raw = math.sqrt(2 * annual_demand * order_cost / holding_cost_per_unit)\n    return int(math.floor(raw))\n```"
+}

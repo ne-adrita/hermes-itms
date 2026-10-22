@@ -1,0 +1,10 @@
+Return the longest word of ``text``, or ``None`` when there is none.
+
+    Words are defined exactly as in :func:`word_frequencies` and are compared
+    case-insensitively.  The returned word is the lowercased spelling of the
+    winner.  When several words share the maximum length, the one that
+    occurs first in ``text`` wins.
+
+    >>> longest_word("the quiet brown fox")
+    'quiet'
+    

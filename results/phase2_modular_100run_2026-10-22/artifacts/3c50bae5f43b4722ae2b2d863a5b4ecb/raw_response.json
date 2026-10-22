@@ -1,0 +1,19 @@
+{
+  "attempt_id": "3c50bae5f43b4722ae2b2d863a5b4ecb",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-001",
+  "humaneval_task_id": "modular/grid_geometry",
+  "method": "itms_ast_splice",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "4405ab3a81a76ceab40fbcdb2666ca426f184ff6803407919a07d848fbd8b075",
+  "response_bytes": 640,
+  "response_text": "```python\ndef point_in_rectangle(px: float, py: float, x: float, y: float, width: float, height: float) -> bool:\n    \"\"\"Return whether the point lies inside the rectangle.\n\n    The rectangle is described by its lower-left corner and its size.  The\n    left and bottom edges belong to the rectangle, the right and top edges\n    do not.  A rectangle with a non-positive size contains no point.\n\n    >>> point_in_rectangle(2, 2, 0, 0, 3, 3)\n    True\n    \"\"\"\n    if width <= 0 or height <= 0:\n        return False\n    if px < x or px >= x + width:\n        return False\n    if py < y or py >= y + height:\n        return False\n    return True\n```"
+}

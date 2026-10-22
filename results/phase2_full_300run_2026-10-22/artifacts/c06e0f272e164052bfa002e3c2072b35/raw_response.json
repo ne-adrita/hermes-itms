@@ -1,0 +1,19 @@
+{
+  "attempt_id": "c06e0f272e164052bfa002e3c2072b35",
+  "run_id": "8c886293d46d",
+  "task_id": "HE-EDIT-014",
+  "humaneval_task_id": "HumanEval/18",
+  "method": "itms_ast_splice",
+  "rep": 4,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "4e5ced235bb81c33c61bcc0ced37996672020ebd990f770d0d271bae95a15930",
+  "response_bytes": 468,
+  "response_text": "```python\ndef how_many_times(string: str, substring: str) -> int:\n    \"\"\" Find how many times a given substring can be found in the original string. Count overlaping cases.\n    >>> how_many_times('', 'a')\n    0\n    >>> how_many_times('aaa', 'a')\n    3\n    >>> how_many_times('aaaa', 'aa')\n    3\n    \"\"\"\n    times = 0\n    for i in range(len(string) - len(substring) + 1):\n        if string[i:i + len(substring)] == substring:\n            times += 1\n    return times\n```"
+}

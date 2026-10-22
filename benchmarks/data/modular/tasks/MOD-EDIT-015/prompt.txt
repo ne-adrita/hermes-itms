@@ -1,0 +1,9 @@
+Return the share of vowels among the letters of ``text``.
+
+    Only alphabetic characters are counted in the denominator.  The result
+    is a float rounded to four decimal places.  A text without any letter
+    has a ratio of ``0.0``.
+
+    >>> vowel_ratio("hello world")
+    0.3
+    

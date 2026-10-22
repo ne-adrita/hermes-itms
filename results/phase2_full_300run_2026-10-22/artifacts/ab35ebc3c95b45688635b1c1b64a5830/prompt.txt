@@ -1,0 +1,58 @@
+You are repairing a Python module.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `below_zero`, whose docstring specifies its intended behaviour. The current implementation of `below_zero` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+from typing import List
+
+
+def below_zero(operations: List[int]) -> bool:
+    """ You're given a list of deposit and withdrawal operations on a bank account that starts with
+    zero balance. Your task is to detect if at any point the balance of account fallls below zero, and
+    at that point function should return True. Otherwise it should return False.
+    >>> below_zero([1, 2, 3])
+    False
+    >>> below_zero([1, 2, -4, 5])
+    True
+    """
+
+
+CURRENT FILE (contains the defect)
+----------------------------------
+----- BEGIN FILE -----
+from typing import List
+
+
+def below_zero(operations: List[int]) -> bool:
+    """ You're given a list of deposit and withdrawal operations on a bank account that starts with
+    zero balance. Your task is to detect if at any point the balance of account fallls below zero, and
+    at that point function should return True. Otherwise it should return False.
+    >>> below_zero([1, 2, 3])
+    False
+    >>> below_zero([1, 2, -4, 5])
+    True
+    """
+    balance = 0
+
+    for op in operations:
+        balance += op
+        if balance <= 0:
+            return True
+
+    return False
+----- END FILE -----
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return the complete corrected file. Reply with exactly one fenced
+python code block that contains the whole module, including its
+imports, the target function and its docstring. Do not add any
+commentary, explanation or extra code blocks.

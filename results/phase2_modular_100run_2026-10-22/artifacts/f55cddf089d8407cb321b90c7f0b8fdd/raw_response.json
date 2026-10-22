@@ -1,0 +1,19 @@
+{
+  "attempt_id": "f55cddf089d8407cb321b90c7f0b8fdd",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-017",
+  "humaneval_task_id": "modular/rate_limiting",
+  "method": "itms_ast_splice",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "9edb57ea8618627d77db8c29d669f7d628aef65685b73be7e1bd0c05177ec1bd",
+  "response_bytes": 714,
+  "response_text": "```python\ndef retry_after_seconds(remaining_tokens: float, rate_per_second: float) -> int:\n    \"\"\"Return how many whole seconds a rejected client has to wait.\n\n    The delay is the time the bucket needs to regain the missing tokens,\n    rounded up to a whole second.  A non-positive rate means the bucket\n    never refills, so the delay is unbounded and is reported as ``-1``.  The\n    delay is never smaller than one second.\n\n    >>> retry_after_seconds(0.0, 2.0)\n    1\n    \"\"\"\n    if rate_per_second <= 0:\n        return -1\n    missing = -remaining_tokens\n    if missing <= 0:\n        missing = 0\n    seconds = int(math.ceil(missing / rate_per_second))\n    if seconds < 1:\n        return 1\n    return seconds\n```"
+}

@@ -1,0 +1,65 @@
+You are repairing a Python module.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `vowels_count`, whose docstring specifies its intended behaviour. The current implementation of `vowels_count` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+
+FIX = """
+Add more test cases.
+"""
+
+def vowels_count(s):
+    """Write a function vowels_count which takes a string representing
+    a word as input and returns the number of vowels in the string.
+    Vowels in this case are 'a', 'e', 'i', 'o', 'u'. Here, 'y' is also a
+    vowel, but only when it is at the end of the given word.
+
+    Example:
+    >>> vowels_count("abcde")
+    2
+    >>> vowels_count("ACEDY")
+    3
+    """
+
+
+CURRENT FILE (contains the defect)
+----------------------------------
+----- BEGIN FILE -----
+
+FIX = """
+Add more test cases.
+"""
+
+def vowels_count(s):
+    """Write a function vowels_count which takes a string representing
+    a word as input and returns the number of vowels in the string.
+    Vowels in this case are 'a', 'e', 'i', 'o', 'u'. Here, 'y' is also a
+    vowel, but only when it is at the end of the given word.
+
+    Example:
+    >>> vowels_count("abcde")
+    2
+    >>> vowels_count("ACEDY")
+    3
+    """
+    vowels = "aeiouAEIOU"
+    n_vowels = sum(c in vowels for c in s)
+    if s[-1] == 'y' and s[-1] == 'Y':
+        n_vowels += 1
+    return n_vowels
+----- END FILE -----
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return the complete corrected file. Reply with exactly one fenced
+python code block that contains the whole module, including its
+imports, the target function and its docstring. Do not add any
+commentary, explanation or extra code blocks.

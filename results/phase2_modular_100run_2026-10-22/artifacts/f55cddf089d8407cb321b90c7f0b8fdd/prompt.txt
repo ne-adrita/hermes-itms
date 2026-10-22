@@ -1,0 +1,63 @@
+You are repairing a Python module with a surgical AST edit.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `retry_after_seconds`, whose docstring specifies its intended behaviour. The current implementation of `retry_after_seconds` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+Return how many whole seconds a rejected client has to wait.
+
+    The delay is the time the bucket needs to regain the missing tokens,
+    rounded up to a whole second.  A non-positive rate means the bucket
+    never refills, so the delay is unbounded and is reported as ``-1``.  The
+    delay is never smaller than one second.
+
+    >>> retry_after_seconds(0.0, 2.0)
+    1
+    
+
+CONTEXT SKELETON
+-----------------
+----- BEGIN FILE -----
+from __future__ import annotations
+import math
+from typing import Dict, List, Optional, Sequence, Tuple
+__all__ = ['TokenBucket', 'tokens_to_refill', 'is_request_allowed', 'retry_after_seconds', 'window_utilisation', 'clamp_bucket', 'burst_allowance', 'average_rate']
+
+def retry_after_seconds(remaining_tokens: float, rate_per_second: float) -> int:
+    """Return how many whole seconds a rejected client has to wait.
+
+    The delay is the time the bucket needs to regain the missing tokens,
+    rounded up to a whole second.  A non-positive rate means the bucket
+    never refills, so the delay is unbounded and is reported as ``-1``.  The
+    delay is never smaller than one second.
+
+    >>> retry_after_seconds(0.0, 2.0)
+    1
+    """
+    if rate_per_second <= 1:
+        return -1
+    missing = -remaining_tokens
+    if missing <= 0:
+        missing = 0
+    seconds = int(math.ceil(missing / rate_per_second))
+    if seconds < 1:
+        return 1
+    return seconds
+----- END FILE -----
+
+TARGET NODE: retry_after_seconds
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return ONLY the replacement for the target function, inside a
+single fenced python code block. Either return the complete
+function definition (starting with 'def <name>(...)') or only its
+indented body. Do not modify any other part of the file and do
+not add commentary.

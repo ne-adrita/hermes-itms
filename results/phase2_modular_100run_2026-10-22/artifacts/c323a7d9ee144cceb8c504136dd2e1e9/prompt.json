@@ -1,0 +1,17 @@
+{
+  "attempt_id": "c323a7d9ee144cceb8c504136dd2e1e9",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-015",
+  "humaneval_task_id": "modular/text_metrics",
+  "method": "itms_ast_splice",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "seed_requested": 991061,
+  "max_output_tokens": 4096,
+  "prompt_original_sha256": "18d71ec28b55c23a93942177d08bacc4cf0ab742531924510934495c2d0f29bd",
+  "prompt_bytes": 2446,
+  "prompt_token_estimate": 568,
+  "redaction_applied": false
+}

@@ -122,6 +122,8 @@ class ExperimentRunner:
         seed_base: Optional[int] = None,
         output_token_limit: Optional[int] = None,
         output_limit_justification: Optional[Dict[str, Any]] = None,
+        schedule: Optional[Sequence[AttemptPlan]] = None,
+        schedule_provenance: Optional[Dict[str, Any]] = None,
     ):
         self.repository = repository
         self.provider = provider
@@ -148,12 +150,62 @@ class ExperimentRunner:
         for task_id in self.task_ids:
             self.repository.get(task_id)  # fail fast on unknown task ids
 
+        # -- an explicit schedule overrides the default cross product -------
+        # The default schedule is the full cross product of tasks x methods
+        # x repetitions.  A *reduced* budget (fewer requests than that
+        # product) cannot be expressed by it, so a schedule may be supplied
+        # explicitly.  It is validated here: every cell must name a known
+        # task and a known method, and no cell may be repeated.
+        self._explicit_schedule: Optional[List[AttemptPlan]] = None
+        self.schedule_provenance: Dict[str, Any] = dict(schedule_provenance or {})
+        if schedule is not None:
+            self._explicit_schedule = self._validate_schedule(schedule)
+            # The recorded repetition count is the deepest repetition the
+            # schedule actually uses, not the cross-product default.
+            self.reps = max(plan.rep for plan in self._explicit_schedule)
+
+    def _validate_schedule(self, schedule: Sequence[AttemptPlan]) -> List[AttemptPlan]:
+        """Validates an explicitly supplied schedule."""
+        if not schedule:
+            raise ExperimentError("an explicit schedule must not be empty")
+        seen = set()
+        for plan in schedule:
+            if plan.task_id not in self.repository.task_ids:
+                raise ExperimentError(
+                    f"schedule references an unknown task id: {plan.task_id}"
+                )
+            if plan.method not in METHODS:
+                raise ExperimentError(
+                    f"schedule references an unknown method: {plan.method}"
+                )
+            if plan.rep < 1:
+                raise ExperimentError(
+                    f"schedule references a repetition below 1: {plan.rep}"
+                )
+            if plan.key in seen:
+                raise ExperimentError(
+                    f"schedule contains a duplicate cell: {plan.key}"
+                )
+            seen.add(plan.key)
+        return list(schedule)
+
     # -- planning --------------------------------------------------------
     def plan(self) -> List[AttemptPlan]:
+        if self._explicit_schedule is not None:
+            return list(self._explicit_schedule)
         return build_schedule(self.task_ids, self.methods, self.reps, seed=self.seed)
 
     def planned_call_count(self) -> int:
+        if self._explicit_schedule is not None:
+            return len(self._explicit_schedule)
         return len(self.task_ids) * len(self.methods) * self.reps
+
+    def scheduled_cells_by_method(self) -> Dict[str, int]:
+        """Return the number of planned cells per method."""
+        counts: Dict[str, int] = {}
+        for plan in self.plan():
+            counts[plan.method] = counts.get(plan.method, 0) + 1
+        return counts
 
     def seed_for(self, plan: AttemptPlan, position: int) -> Optional[int]:
         """
@@ -374,6 +426,8 @@ class ExperimentRunner:
                 "quota caps are never retried"
             ),
             "evaluation_timeout_seconds": self.evaluation_timeout,
+            # -- evaluator isolation (recorded so a reader can see it) -------
+            "evaluation_isolation": _evaluation_isolation(),
             # -- request budget (B2) ----------------------------------------
             "budget": self.budget.state() if self.budget is not None else None,
             # -- reproducibility (B1) --------------------------------------
@@ -393,6 +447,7 @@ class ExperimentRunner:
             "task_count": len(self.task_ids),
             "methods": list(self.methods),
             "planned_attempts": planned_attempts,
+            "schedule": self._schedule_metadata(planned_attempts),
             "task_manifest_digest": self.repository.manifest_digest(),
             # -- environment -------------------------------------------------
             "python_version": sys.version,
@@ -426,6 +481,42 @@ class ExperimentRunner:
         }
         write_json(paths["run_metadata_json"], metadata)
 
+    def _schedule_metadata(self, planned_attempts: int) -> Dict[str, Any]:
+        """
+        Describes the schedule the run actually used.
+
+        The default schedule is the full cross product of tasks x methods x
+        repetitions.  An explicitly supplied schedule is recorded with its
+        provenance, so a reader can tell which cells were planned and why
+        the plan is not the cross product.
+        """
+        scheduled_by_method = self.scheduled_cells_by_method()
+        metadata: Dict[str, Any] = {
+            "kind": (
+                "explicit"
+                if self._explicit_schedule is not None
+                else "full_cross_product"
+            ),
+            "planned_attempts": planned_attempts,
+            "scheduled_cells_by_method": scheduled_by_method,
+        }
+        if self._explicit_schedule is not None:
+            per_task: Dict[str, int] = {}
+            reps_per_cell: Dict[str, int] = {}
+            for plan in self._explicit_schedule:
+                per_task[plan.task_id] = per_task.get(plan.task_id, 0) + 1
+                reps_per_cell[plan.key] = plan.rep
+            metadata["cells_by_task"] = dict(sorted(per_task.items()))
+            metadata["repetitions_used"] = sorted(set(reps_per_cell.values()))
+            metadata["cells_with_repetition_1"] = sum(
+                1 for rep in reps_per_cell.values() if rep == 1
+            )
+            metadata["cells_with_repetition_above_1"] = sum(
+                1 for rep in reps_per_cell.values() if rep > 1
+            )
+            metadata["provenance"] = dict(self.schedule_provenance)
+        return metadata
+
     def _summarise(self, elapsed_ms: float) -> Dict[str, Any]:
         from benchmarks.benchmark.analysis import (
             method_metrics,
@@ -447,16 +538,24 @@ class ExperimentRunner:
         )
 
         tasks_count = len(self.task_ids)
+        # The *scheduled* denominator of a method is the number of cells that
+        # were planned for it.  For the default cross product that is
+        # tasks x repetitions; for an explicit schedule it is the number of
+        # cells the schedule assigns to the method.
+        scheduled_by_method = self.scheduled_cells_by_method()
         summary["method_metrics"] = {
             method: method_metrics(
                 self._records,
-                scheduled=tasks_count * self.reps,
+                scheduled=scheduled_by_method.get(
+                    method, tasks_count * self.reps
+                ),
                 method=method,
                 tasks_count=tasks_count,
                 reps=self.reps,
             )
             for method in self.methods
         }
+        summary["scheduled_cells_by_method"] = scheduled_by_method
         comparisons = []
         for i, method_a in enumerate(self.methods):
             for method_b in self.methods[i + 1 :]:
@@ -506,6 +605,16 @@ class ExperimentRunner:
             r.seed_honour_verified for r in self._records
         )
         return summary
+
+
+def _evaluation_isolation() -> Dict[str, Any]:
+    """The isolation level the official evaluator is running under."""
+    try:
+        from benchmarks.phase0.runner import isolation_description
+
+        return isolation_description()
+    except Exception as exc:  # pragma: no cover - defensive
+        return {"level": "unknown", "error": f"{type(exc).__name__}: {exc}"}
 
 
 def _software_versions() -> Dict[str, Optional[str]]:

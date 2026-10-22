@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "catalogue_version": "1.0.0",
+  "deterministic": true,
+  "selection_policy": "For a given (source, target function) the candidate mutations are enumerated in a fixed order: rules in the order listed below, and within a rule, occurrences in ascending source order. A mutation is accepted for a task only if it keeps the module syntactically valid and makes the official check() fail.",
+  "rules": [
+    {
+      "name": "comparison_operator_swap",
+      "category": "logic",
+      "description": "Replace the comparison operator of a comparison expression with a different, logically adjacent operator (e.g. '>' becomes '>=').",
+      "parameters": [
+        "from_op",
+        "to_op",
+        "occurrence"
+      ]
+    },
+    {
+      "name": "off_by_one_boundary",
+      "category": "boundary",
+      "description": "Shift by +/- 1 an integer literal that sits in a boundary position (a comparison operand, a slice bound, a subscript index, a range() argument, or an operand of '+'/'-'), producing an off-by-one error.",
+      "parameters": [
+        "delta",
+        "occurrence"
+      ]
+    },
+    {
+      "name": "incorrect_constant",
+      "category": "constant",
+      "description": "Replace a numeric literal with a different numeric literal, changing a hard-coded constant.",
+      "parameters": [
+        "new_value",
+        "occurrence"
+      ]
+    },
+    {
+      "name": "arithmetic_operator_swap",
+      "category": "arithmetic",
+      "description": "Replace the arithmetic operator of a binary expression with a different operator (e.g. '+' becomes '-').",
+      "parameters": [
+        "from_op",
+        "to_op",
+        "occurrence"
+      ]
+    },
+    {
+      "name": "boolean_operator_swap",
+      "category": "logic",
+      "description": "Replace a boolean connective ('and'/'or') with its counterpart, changing the short-circuit logic of a condition.",
+      "parameters": [
+        "from_op",
+        "to_op",
+        "occurrence"
+      ]
+    }
+  ]
+}

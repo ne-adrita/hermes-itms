@@ -1,0 +1,519 @@
+{
+  "schema_version": "1.0",
+  "manifest_version": "1.0.0",
+  "task_set": "modular_edit",
+  "generated_at_utc": "2026-10-22T05:39:31Z",
+  "generator": "benchmarks/phase0/build_modular_tasks.py",
+  "python_version": "3.14.4",
+  "counts": {
+    "tasks": 20,
+    "mutation_rules": 5
+  },
+  "files": {
+    "benchmarks/data/modular/modular_edit_tasks.json": {
+      "sha256": "340c64eaa82a89e95b21f698128d7d115147f098e0d1b62de8473db491eb77c1",
+      "bytes": 383105
+    },
+    "benchmarks/data/modular/gold_solutions.json": {
+      "sha256": "4f73b7239f9cd093712d24a090fc71281e51459ccefe4086c5f3eaa3143199ff",
+      "bytes": 154543
+    },
+    "benchmarks/data/modular/model_facing_tasks.json": {
+      "sha256": "bb05ad69cad1650a147e4eb0e50a134430f34b89a562b974e3a67091ca19bb70",
+      "bytes": 187306
+    },
+    "benchmarks/data/modular/mutation_catalogue.json": {
+      "sha256": "6f045fafd13a25b6854cddb4040ca7b2fae4646c99d7fb6367fcab99b0e3683b",
+      "bytes": 2004
+    },
+    "benchmarks/data/modular/build_log.json": {
+      "sha256": "b976d6e56bb9de3c128faa37e73688e371aa3159684bc81dfe2c5b37d17e87c4",
+      "bytes": 9005
+    }
+  },
+  "task_files": {
+    "MOD-EDIT-001": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-001/prompt.txt",
+        "sha256": "ec88c310d6ee6da0bcede666ab8b826c4dd17ed1e95fcce8290a9d45a03c1fbf"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-001/official_test.py",
+        "sha256": "9f47601314ae0b76f6c4f8f2a90fb0e182f93aaa97817ae978410a2358d72184"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-001/original_source.py",
+        "sha256": "f68bba5d2ac39b8f0e0ff8bee8c6218e501b362080922b2e4adb947802177793"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-001/mutated_source.py",
+        "sha256": "1ec2b00d590e92d50d2bf50b220601f4466cf5cdcf4b15654818c5db9659bcff"
+      }
+    },
+    "MOD-EDIT-002": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-002/prompt.txt",
+        "sha256": "aaffc944003bc15c05aae198b2cb6273cb17c2a9aea510710035eaa14597c0e6"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-002/official_test.py",
+        "sha256": "c8c08e0a601861e03fd7e895b67acea9928c4563d4606d52f93c51bc4304a9e2"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-002/original_source.py",
+        "sha256": "f68bba5d2ac39b8f0e0ff8bee8c6218e501b362080922b2e4adb947802177793"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-002/mutated_source.py",
+        "sha256": "aa020a2f4d51450f95ffdf669e76cd684a6df3cc7e0d28d2de7de3dd91a6d791"
+      }
+    },
+    "MOD-EDIT-003": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-003/prompt.txt",
+        "sha256": "c9979df5200d9943d7b3f07a8a41baa0cba84f3c38839f266f80c62428f45770"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-003/official_test.py",
+        "sha256": "e7920b6b1def03bfa7ddbfd4c84706789d8f4a40c1e3dfa286f44bf26ef9fbe9"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-003/original_source.py",
+        "sha256": "f68bba5d2ac39b8f0e0ff8bee8c6218e501b362080922b2e4adb947802177793"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-003/mutated_source.py",
+        "sha256": "8978a7dfd06408ac0449fa01d78d6967287f0469c58106b15d0cc5c5a891e329"
+      }
+    },
+    "MOD-EDIT-004": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-004/prompt.txt",
+        "sha256": "ea80aeff57be35cc5bd8129ba1ab6c66ba338ffa89068b1baeb668528273b499"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-004/official_test.py",
+        "sha256": "8100024c0d97cbf81e2f32cbf04617f053b1f0ae07d0e3e598464da1f3de4668"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-004/original_source.py",
+        "sha256": "f68bba5d2ac39b8f0e0ff8bee8c6218e501b362080922b2e4adb947802177793"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-004/mutated_source.py",
+        "sha256": "93793ae41448628b52106dfc248e1ed5fa12007998a91ebab04fa2d36407ef46"
+      }
+    },
+    "MOD-EDIT-005": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-005/prompt.txt",
+        "sha256": "14aa38b02856f90e92bf3a901331330f72748c9fabdd8e91622ed85664c0d282"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-005/official_test.py",
+        "sha256": "e6a060375e6e06fcf9fd383d73c1d69f61c4db28337a0d488ce04af0c096acfe"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-005/original_source.py",
+        "sha256": "19487ede7bada0dea0c7e16d03e40f41142a82c85fa4fc508b8f0e23f5b2a9ae"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-005/mutated_source.py",
+        "sha256": "6b04aaf12de73d91893d89dfa9a640e90fbea9e828bac0a44253408de6080c2c"
+      }
+    },
+    "MOD-EDIT-006": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-006/prompt.txt",
+        "sha256": "c79256b4b15179948e12eade2aeb595f113a6f9fc6c2b4d7c46c33eeb448e7c1"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-006/official_test.py",
+        "sha256": "58a4235a40b095d98f5b1b60fe5059ae441a2b1490d5c7035d4e44c825dddabb"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-006/original_source.py",
+        "sha256": "30d56465bec830ec0016538f977741d96ffc23a37d230a40db656d6f0e2f2cf8"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-006/mutated_source.py",
+        "sha256": "017f961ac957427a3e721dd81bf5e9cd7308f1296b476cd4f39b9fdbb997fd8f"
+      }
+    },
+    "MOD-EDIT-007": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-007/prompt.txt",
+        "sha256": "e2c11fb83ce42c69a2228d61e0a5138e6f76feab83c29443acf0a773b9894203"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-007/official_test.py",
+        "sha256": "a3280fd0e84d6c8f6295c8b9e42b2fa779b256a28c5019573f8daab37275bf1a"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-007/original_source.py",
+        "sha256": "30d56465bec830ec0016538f977741d96ffc23a37d230a40db656d6f0e2f2cf8"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-007/mutated_source.py",
+        "sha256": "84682cc67c55b10c6c6268a1d318b58bb0ebd3a6c10d315e8a12fbb9272a0572"
+      }
+    },
+    "MOD-EDIT-008": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-008/prompt.txt",
+        "sha256": "c4b2bcb1199ddece7e98de2d90e2727124a5ace3112e1b3ed67a9e8c9974d8c2"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-008/official_test.py",
+        "sha256": "b71e6cbe7bd0e99a18c5ca94b9f3d0f1cc2d0779f916c68ee965a03eb9e89f98"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-008/original_source.py",
+        "sha256": "30d56465bec830ec0016538f977741d96ffc23a37d230a40db656d6f0e2f2cf8"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-008/mutated_source.py",
+        "sha256": "9d5332f8087ffb5a9c5f902f5da639d25d05efe713f9ac57786f83eaa3cf74f0"
+      }
+    },
+    "MOD-EDIT-009": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-009/prompt.txt",
+        "sha256": "8fe5b7a7503e3b11b172d2777dd8039cd57bfa2e89fac12458be5333423e3d6f"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-009/official_test.py",
+        "sha256": "74fd9bb8b37d188e131ea9971dec3a178cea6d1855bc948e99de2652d9fcd000"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-009/original_source.py",
+        "sha256": "30d56465bec830ec0016538f977741d96ffc23a37d230a40db656d6f0e2f2cf8"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-009/mutated_source.py",
+        "sha256": "99ec6a5d29ff2c55feeeb8fbcbf3b58b467d5101b6ba9bbb3f5023bb51b11782"
+      }
+    },
+    "MOD-EDIT-010": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-010/prompt.txt",
+        "sha256": "07c0d3a77899eb69b769cc27abcaa630e6872d2bdb9d63c8a1aa01f1dfe532c4"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-010/official_test.py",
+        "sha256": "f6b8364685c94c7b533fad16a17af1e34481c14ec0b3ac1e277400260cd6f1ba"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-010/original_source.py",
+        "sha256": "c415cfbe300cf008b43b760d2468aaafb937afcdda5eca4fefc7e98f842f3d12"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-010/mutated_source.py",
+        "sha256": "43720654db4038d40c22d6706e4e236904e9afc0aa4cec05c8f46f68fef5bc8d"
+      }
+    },
+    "MOD-EDIT-011": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-011/prompt.txt",
+        "sha256": "7e46d2a005a5c4a4c4fa4d932ac0c6f341c85859d7380a96ed95d0884971827b"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-011/official_test.py",
+        "sha256": "f9697b326d1027aaa6e6694ae41b2d6ac9ca2fb2292491b4e97637d325377abf"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-011/original_source.py",
+        "sha256": "a90e007c2f0ca8fb8c56cc7389dd0973ef1b2457bd08c13cc4cd0aee5460ff4f"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-011/mutated_source.py",
+        "sha256": "dd3e776641d37733032db75635080723816f769b09a1c78aa81c82e1b97c715c"
+      }
+    },
+    "MOD-EDIT-012": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-012/prompt.txt",
+        "sha256": "b57c69bed0dd26bfe28c268aee1c6b2b0c8a4b36c0e05bb3968c12cf1419ed65"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-012/official_test.py",
+        "sha256": "74cac909b4b812872b56962854111f010461065f96c623d52c5a4ce07036ae4d"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-012/original_source.py",
+        "sha256": "a90e007c2f0ca8fb8c56cc7389dd0973ef1b2457bd08c13cc4cd0aee5460ff4f"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-012/mutated_source.py",
+        "sha256": "4b5de83aa3059e981f7ff7d351ba8a3a9c08ca43cc95f37da675d5a761e35420"
+      }
+    },
+    "MOD-EDIT-013": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-013/prompt.txt",
+        "sha256": "cea7951e1a80559d70fe30cea8a36927306a46a21a7ed29c2ae7fdb46a9467cf"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-013/official_test.py",
+        "sha256": "1cac6133ce7f444e967d8639958667bf410bdf27e178dd67cc2bef4e853eccc7"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-013/original_source.py",
+        "sha256": "a90e007c2f0ca8fb8c56cc7389dd0973ef1b2457bd08c13cc4cd0aee5460ff4f"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-013/mutated_source.py",
+        "sha256": "700b421ad7533529860f4b8769ba497469794d72680ec888c709baaa7674a244"
+      }
+    },
+    "MOD-EDIT-014": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-014/prompt.txt",
+        "sha256": "a7d3c12eed9a7c1abb219b0f3359a6dfa6c31f262f49e6e042aa2d410fd04709"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-014/official_test.py",
+        "sha256": "bd36ab4972ddddb86ddcb6c4da84e8d25d4353bee2c8b8de0953481eba7635fb"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-014/original_source.py",
+        "sha256": "a90e007c2f0ca8fb8c56cc7389dd0973ef1b2457bd08c13cc4cd0aee5460ff4f"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-014/mutated_source.py",
+        "sha256": "d138c1613aadec2b22712b83563f0f957ec7eb9d17e89894caf4d852484a6380"
+      }
+    },
+    "MOD-EDIT-015": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-015/prompt.txt",
+        "sha256": "f58285490e48c4a1969c99b7380f48087fb203c9b3034e8500040a74012e89a7"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-015/official_test.py",
+        "sha256": "9172c48d92bd12d46395c4c456ae1860e75d4ea80f85dbe4c889a50c7c13bbb2"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-015/original_source.py",
+        "sha256": "c415cfbe300cf008b43b760d2468aaafb937afcdda5eca4fefc7e98f842f3d12"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-015/mutated_source.py",
+        "sha256": "d8aad691f18e59774f617e53b3fd8579cae5255a3397369a3f6d7cc3f9e4dbf5"
+      }
+    },
+    "MOD-EDIT-016": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-016/prompt.txt",
+        "sha256": "bcc86b2fadf5742f17796dca74de4ed3d5fa78dddfdcc3ab834daf54ef175d8a"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-016/official_test.py",
+        "sha256": "86d931dd710b308b8a2c6b613150074ab679a51acc381e777c77d7ba098f4fa4"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-016/original_source.py",
+        "sha256": "19487ede7bada0dea0c7e16d03e40f41142a82c85fa4fc508b8f0e23f5b2a9ae"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-016/mutated_source.py",
+        "sha256": "7d0a30c859651776fec888b94b4fbd354553948157ce46b0c013af562ba505be"
+      }
+    },
+    "MOD-EDIT-017": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-017/prompt.txt",
+        "sha256": "adbdb97edc839fd664cfec628639c9db194eb447faf86fbfda0137f23b0f6415"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-017/official_test.py",
+        "sha256": "b1a7f2cd5074be24bbc7bd9fbc0fa972c6538ac9e5657f6fb16b28921aa3645f"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-017/original_source.py",
+        "sha256": "19487ede7bada0dea0c7e16d03e40f41142a82c85fa4fc508b8f0e23f5b2a9ae"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-017/mutated_source.py",
+        "sha256": "c047cfd10197b0972f7a0268435155f7363d86888d8640684c448b3ea189d462"
+      }
+    },
+    "MOD-EDIT-018": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-018/prompt.txt",
+        "sha256": "8f5c6963688bebd67d1634133194c8fd7eff1d00912e01fe896a13c9e93bcbb9"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-018/official_test.py",
+        "sha256": "e2f64fef37f9e8d736e2fcb68e6981e6b41db6913e2f721be08f640b141bf61c"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-018/original_source.py",
+        "sha256": "19487ede7bada0dea0c7e16d03e40f41142a82c85fa4fc508b8f0e23f5b2a9ae"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-018/mutated_source.py",
+        "sha256": "7a0dc4e89c338b95f58155a255a80c3417eb2d8290816d06923fe622efb09f8e"
+      }
+    },
+    "MOD-EDIT-019": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-019/prompt.txt",
+        "sha256": "1fa8796e9690849ab0ab35a6e432056745e0cafd1f44a20cc0056613c80b8dea"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-019/official_test.py",
+        "sha256": "c88773599eb9b4513a259f695dff905e88e4733290681bb6c0c38234962b5a5f"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-019/original_source.py",
+        "sha256": "c415cfbe300cf008b43b760d2468aaafb937afcdda5eca4fefc7e98f842f3d12"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-019/mutated_source.py",
+        "sha256": "b7a411227d52f34d411940fd882170cebee77b57de7b22a457acd3203066a159"
+      }
+    },
+    "MOD-EDIT-020": {
+      "prompt": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-020/prompt.txt",
+        "sha256": "d97456f0ad97af93845454bad7a9fe0fa6835d4282e37a8a6576581555ec6fb8"
+      },
+      "official_test": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-020/official_test.py",
+        "sha256": "97ee0eecf455dcc34d48c7e8d070ca4e9fac915767c2c6ffed4a6a613e0cf936"
+      },
+      "original_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-020/original_source.py",
+        "sha256": "c415cfbe300cf008b43b760d2468aaafb937afcdda5eca4fefc7e98f842f3d12"
+      },
+      "mutated_source": {
+        "path": "benchmarks/data/modular/tasks/MOD-EDIT-020/mutated_source.py",
+        "sha256": "15ea5345aace6c78a568480e56750368ae49c4013bce97086cf3e49c5f5dc2d2"
+      }
+    }
+  },
+  "task_checksums": {
+    "MOD-EDIT-001": {
+      "problem_prompt_sha256": "ec88c310d6ee6da0bcede666ab8b826c4dd17ed1e95fcce8290a9d45a03c1fbf",
+      "official_test_sha256": "9f47601314ae0b76f6c4f8f2a90fb0e182f93aaa97817ae978410a2358d72184",
+      "original_source_sha256": "f68bba5d2ac39b8f0e0ff8bee8c6218e501b362080922b2e4adb947802177793",
+      "mutated_source_sha256": "1ec2b00d590e92d50d2bf50b220601f4466cf5cdcf4b15654818c5db9659bcff"
+    },
+    "MOD-EDIT-002": {
+      "problem_prompt_sha256": "aaffc944003bc15c05aae198b2cb6273cb17c2a9aea510710035eaa14597c0e6",
+      "official_test_sha256": "c8c08e0a601861e03fd7e895b67acea9928c4563d4606d52f93c51bc4304a9e2",
+      "original_source_sha256": "f68bba5d2ac39b8f0e0ff8bee8c6218e501b362080922b2e4adb947802177793",
+      "mutated_source_sha256": "aa020a2f4d51450f95ffdf669e76cd684a6df3cc7e0d28d2de7de3dd91a6d791"
+    },
+    "MOD-EDIT-003": {
+      "problem_prompt_sha256": "c9979df5200d9943d7b3f07a8a41baa0cba84f3c38839f266f80c62428f45770",
+      "official_test_sha256": "e7920b6b1def03bfa7ddbfd4c84706789d8f4a40c1e3dfa286f44bf26ef9fbe9",
+      "original_source_sha256": "f68bba5d2ac39b8f0e0ff8bee8c6218e501b362080922b2e4adb947802177793",
+      "mutated_source_sha256": "8978a7dfd06408ac0449fa01d78d6967287f0469c58106b15d0cc5c5a891e329"
+    },
+    "MOD-EDIT-004": {
+      "problem_prompt_sha256": "ea80aeff57be35cc5bd8129ba1ab6c66ba338ffa89068b1baeb668528273b499",
+      "official_test_sha256": "8100024c0d97cbf81e2f32cbf04617f053b1f0ae07d0e3e598464da1f3de4668",
+      "original_source_sha256": "f68bba5d2ac39b8f0e0ff8bee8c6218e501b362080922b2e4adb947802177793",
+      "mutated_source_sha256": "93793ae41448628b52106dfc248e1ed5fa12007998a91ebab04fa2d36407ef46"
+    },
+    "MOD-EDIT-005": {
+      "problem_prompt_sha256": "14aa38b02856f90e92bf3a901331330f72748c9fabdd8e91622ed85664c0d282",
+      "official_test_sha256": "e6a060375e6e06fcf9fd383d73c1d69f61c4db28337a0d488ce04af0c096acfe",
+      "original_source_sha256": "19487ede7bada0dea0c7e16d03e40f41142a82c85fa4fc508b8f0e23f5b2a9ae",
+      "mutated_source_sha256": "6b04aaf12de73d91893d89dfa9a640e90fbea9e828bac0a44253408de6080c2c"
+    },
+    "MOD-EDIT-006": {
+      "problem_prompt_sha256": "c79256b4b15179948e12eade2aeb595f113a6f9fc6c2b4d7c46c33eeb448e7c1",
+      "official_test_sha256": "58a4235a40b095d98f5b1b60fe5059ae441a2b1490d5c7035d4e44c825dddabb",
+      "original_source_sha256": "30d56465bec830ec0016538f977741d96ffc23a37d230a40db656d6f0e2f2cf8",
+      "mutated_source_sha256": "017f961ac957427a3e721dd81bf5e9cd7308f1296b476cd4f39b9fdbb997fd8f"
+    },
+    "MOD-EDIT-007": {
+      "problem_prompt_sha256": "e2c11fb83ce42c69a2228d61e0a5138e6f76feab83c29443acf0a773b9894203",
+      "official_test_sha256": "a3280fd0e84d6c8f6295c8b9e42b2fa779b256a28c5019573f8daab37275bf1a",
+      "original_source_sha256": "30d56465bec830ec0016538f977741d96ffc23a37d230a40db656d6f0e2f2cf8",
+      "mutated_source_sha256": "84682cc67c55b10c6c6268a1d318b58bb0ebd3a6c10d315e8a12fbb9272a0572"
+    },
+    "MOD-EDIT-008": {
+      "problem_prompt_sha256": "c4b2bcb1199ddece7e98de2d90e2727124a5ace3112e1b3ed67a9e8c9974d8c2",
+      "official_test_sha256": "b71e6cbe7bd0e99a18c5ca94b9f3d0f1cc2d0779f916c68ee965a03eb9e89f98",
+      "original_source_sha256": "30d56465bec830ec0016538f977741d96ffc23a37d230a40db656d6f0e2f2cf8",
+      "mutated_source_sha256": "9d5332f8087ffb5a9c5f902f5da639d25d05efe713f9ac57786f83eaa3cf74f0"
+    },
+    "MOD-EDIT-009": {
+      "problem_prompt_sha256": "8fe5b7a7503e3b11b172d2777dd8039cd57bfa2e89fac12458be5333423e3d6f",
+      "official_test_sha256": "74fd9bb8b37d188e131ea9971dec3a178cea6d1855bc948e99de2652d9fcd000",
+      "original_source_sha256": "30d56465bec830ec0016538f977741d96ffc23a37d230a40db656d6f0e2f2cf8",
+      "mutated_source_sha256": "99ec6a5d29ff2c55feeeb8fbcbf3b58b467d5101b6ba9bbb3f5023bb51b11782"
+    },
+    "MOD-EDIT-010": {
+      "problem_prompt_sha256": "07c0d3a77899eb69b769cc27abcaa630e6872d2bdb9d63c8a1aa01f1dfe532c4",
+      "official_test_sha256": "f6b8364685c94c7b533fad16a17af1e34481c14ec0b3ac1e277400260cd6f1ba",
+      "original_source_sha256": "c415cfbe300cf008b43b760d2468aaafb937afcdda5eca4fefc7e98f842f3d12",
+      "mutated_source_sha256": "43720654db4038d40c22d6706e4e236904e9afc0aa4cec05c8f46f68fef5bc8d"
+    },
+    "MOD-EDIT-011": {
+      "problem_prompt_sha256": "7e46d2a005a5c4a4c4fa4d932ac0c6f341c85859d7380a96ed95d0884971827b",
+      "official_test_sha256": "f9697b326d1027aaa6e6694ae41b2d6ac9ca2fb2292491b4e97637d325377abf",
+      "original_source_sha256": "a90e007c2f0ca8fb8c56cc7389dd0973ef1b2457bd08c13cc4cd0aee5460ff4f",
+      "mutated_source_sha256": "dd3e776641d37733032db75635080723816f769b09a1c78aa81c82e1b97c715c"
+    },
+    "MOD-EDIT-012": {
+      "problem_prompt_sha256": "b57c69bed0dd26bfe28c268aee1c6b2b0c8a4b36c0e05bb3968c12cf1419ed65",
+      "official_test_sha256": "74cac909b4b812872b56962854111f010461065f96c623d52c5a4ce07036ae4d",
+      "original_source_sha256": "a90e007c2f0ca8fb8c56cc7389dd0973ef1b2457bd08c13cc4cd0aee5460ff4f",
+      "mutated_source_sha256": "4b5de83aa3059e981f7ff7d351ba8a3a9c08ca43cc95f37da675d5a761e35420"
+    },
+    "MOD-EDIT-013": {
+      "problem_prompt_sha256": "cea7951e1a80559d70fe30cea8a36927306a46a21a7ed29c2ae7fdb46a9467cf",
+      "official_test_sha256": "1cac6133ce7f444e967d8639958667bf410bdf27e178dd67cc2bef4e853eccc7",
+      "original_source_sha256": "a90e007c2f0ca8fb8c56cc7389dd0973ef1b2457bd08c13cc4cd0aee5460ff4f",
+      "mutated_source_sha256": "700b421ad7533529860f4b8769ba497469794d72680ec888c709baaa7674a244"
+    },
+    "MOD-EDIT-014": {
+      "problem_prompt_sha256": "a7d3c12eed9a7c1abb219b0f3359a6dfa6c31f262f49e6e042aa2d410fd04709",
+      "official_test_sha256": "bd36ab4972ddddb86ddcb6c4da84e8d25d4353bee2c8b8de0953481eba7635fb",
+      "original_source_sha256": "a90e007c2f0ca8fb8c56cc7389dd0973ef1b2457bd08c13cc4cd0aee5460ff4f",
+      "mutated_source_sha256": "d138c1613aadec2b22712b83563f0f957ec7eb9d17e89894caf4d852484a6380"
+    },
+    "MOD-EDIT-015": {
+      "problem_prompt_sha256": "f58285490e48c4a1969c99b7380f48087fb203c9b3034e8500040a74012e89a7",
+      "official_test_sha256": "9172c48d92bd12d46395c4c456ae1860e75d4ea80f85dbe4c889a50c7c13bbb2",
+      "original_source_sha256": "c415cfbe300cf008b43b760d2468aaafb937afcdda5eca4fefc7e98f842f3d12",
+      "mutated_source_sha256": "d8aad691f18e59774f617e53b3fd8579cae5255a3397369a3f6d7cc3f9e4dbf5"
+    },
+    "MOD-EDIT-016": {
+      "problem_prompt_sha256": "bcc86b2fadf5742f17796dca74de4ed3d5fa78dddfdcc3ab834daf54ef175d8a",
+      "official_test_sha256": "86d931dd710b308b8a2c6b613150074ab679a51acc381e777c77d7ba098f4fa4",
+      "original_source_sha256": "19487ede7bada0dea0c7e16d03e40f41142a82c85fa4fc508b8f0e23f5b2a9ae",
+      "mutated_source_sha256": "7d0a30c859651776fec888b94b4fbd354553948157ce46b0c013af562ba505be"
+    },
+    "MOD-EDIT-017": {
+      "problem_prompt_sha256": "adbdb97edc839fd664cfec628639c9db194eb447faf86fbfda0137f23b0f6415",
+      "official_test_sha256": "b1a7f2cd5074be24bbc7bd9fbc0fa972c6538ac9e5657f6fb16b28921aa3645f",
+      "original_source_sha256": "19487ede7bada0dea0c7e16d03e40f41142a82c85fa4fc508b8f0e23f5b2a9ae",
+      "mutated_source_sha256": "c047cfd10197b0972f7a0268435155f7363d86888d8640684c448b3ea189d462"
+    },
+    "MOD-EDIT-018": {
+      "problem_prompt_sha256": "8f5c6963688bebd67d1634133194c8fd7eff1d00912e01fe896a13c9e93bcbb9",
+      "official_test_sha256": "e2f64fef37f9e8d736e2fcb68e6981e6b41db6913e2f721be08f640b141bf61c",
+      "original_source_sha256": "19487ede7bada0dea0c7e16d03e40f41142a82c85fa4fc508b8f0e23f5b2a9ae",
+      "mutated_source_sha256": "7a0dc4e89c338b95f58155a255a80c3417eb2d8290816d06923fe622efb09f8e"
+    },
+    "MOD-EDIT-019": {
+      "problem_prompt_sha256": "1fa8796e9690849ab0ab35a6e432056745e0cafd1f44a20cc0056613c80b8dea",
+      "official_test_sha256": "c88773599eb9b4513a259f695dff905e88e4733290681bb6c0c38234962b5a5f",
+      "original_source_sha256": "c415cfbe300cf008b43b760d2468aaafb937afcdda5eca4fefc7e98f842f3d12",
+      "mutated_source_sha256": "b7a411227d52f34d411940fd882170cebee77b57de7b22a457acd3203066a159"
+    },
+    "MOD-EDIT-020": {
+      "problem_prompt_sha256": "d97456f0ad97af93845454bad7a9fe0fa6835d4282e37a8a6576581555ec6fb8",
+      "official_test_sha256": "97ee0eecf455dcc34d48c7e8d070ca4e9fac915767c2c6ffed4a6a613e0cf936",
+      "original_source_sha256": "c415cfbe300cf008b43b760d2468aaafb937afcdda5eca4fefc7e98f842f3d12",
+      "mutated_source_sha256": "15ea5345aace6c78a568480e56750368ae49c4013bce97086cf3e49c5f5dc2d2"
+    }
+  },
+  "verify_command": "python benchmarks/phase0/validate_modular_tasks.py --verify-manifest --json benchmarks/data/modular/validation_report.json"
+}

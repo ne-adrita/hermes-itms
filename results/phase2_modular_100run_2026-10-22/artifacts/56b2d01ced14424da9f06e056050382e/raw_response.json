@@ -1,0 +1,19 @@
+{
+  "attempt_id": "56b2d01ced14424da9f06e056050382e",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-006",
+  "humaneval_task_id": "modular/interval_math",
+  "method": "itms_ast_splice",
+  "rep": 2,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "4a502059791a3bbbc5193741034ded064531f84d4564a052636603bddb243830",
+  "response_bytes": 963,
+  "response_text": "```python\ndef merge_intervals(intervals: Sequence[Tuple[float, float]]) -> List[Tuple[float, float]]:\n    \"\"\"Merge overlapping and touching intervals into a minimal covering list.\n\n    The result is sorted by start time and contains no two intervals that\n    overlap or touch.  Intervals that only touch at one end are merged as\n    well, so ``(0, 5)`` and ``(5, 10)`` become ``(0, 10)``.\n\n    An empty input yields an empty list.\n\n    >>> merge_intervals([(5, 6), (0, 3), (2, 4)])\n    [(0, 4), (5, 6)]\n    \"\"\"\n    ordered = sorted(intervals, key=lambda item: (item[0], item[1]))\n    result: List[Tuple[float, float]] = []\n    for start, end in ordered:\n        if not result:\n            result.append((start, end))\n            continue\n        last_start, last_end = result[-1]\n        if start <= last_end:\n            if end > last_end:\n                result[-1] = (last_start, end)\n        else:\n            result.append((start, end))\n    return result\n```"
+}

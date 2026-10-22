@@ -1,0 +1,19 @@
+{
+  "attempt_id": "dc2cb2ed741a4e78a433960d73722fd1",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-006",
+  "humaneval_task_id": "modular/interval_math",
+  "method": "search_replace_patch",
+  "rep": 2,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "93d51fd420d31ab719796e2ffa1bc800790944d3106e2f5b477d58529e111daf",
+  "response_bytes": 97,
+  "response_text": "<<<<<<< SEARCH\n        if start < last_end:\n=======\n        if start <= last_end:\n>>>>>>> REPLACE"
+}

@@ -1,0 +1,17 @@
+{
+  "attempt_id": "255e27bd323f4a5bb2a08fdc97fe80d2",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-018",
+  "humaneval_task_id": "modular/rate_limiting",
+  "method": "search_replace_patch",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "seed_requested": 991054,
+  "max_output_tokens": 4096,
+  "prompt_original_sha256": "313c449bfcbb18d4ffb5e50236c940998441abb84f0b8ab715f37df64dc440f1",
+  "prompt_bytes": 7797,
+  "prompt_token_estimate": 1818,
+  "redaction_applied": false
+}

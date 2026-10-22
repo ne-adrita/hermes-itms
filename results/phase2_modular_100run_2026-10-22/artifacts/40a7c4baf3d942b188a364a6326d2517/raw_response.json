@@ -1,0 +1,19 @@
+{
+  "attempt_id": "40a7c4baf3d942b188a364a6326d2517",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-004",
+  "humaneval_task_id": "modular/grid_geometry",
+  "method": "itms_ast_splice",
+  "rep": 2,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "aedd2920515d3922aabf931e5d010d74d9ac64ae8c31792bc3dab189c7fe78a2",
+  "response_bytes": 436,
+  "response_text": "```python\ndef manhattan_distance(x1: float, y1: float, x2: float, y2: float) -> float:\n    \"\"\"Return the Manhattan distance between two points.\n\n    The Manhattan distance is the sum of the absolute differences of the\n    two coordinates.  It is never negative.\n\n    >>> manhattan_distance(0, 0, 3, 4)\n    7\n    \"\"\"\n    dx = x1 - x2\n    if dx < 0:\n        dx = -dx\n    dy = y1 - y2\n    if dy < 0:\n        dy = -dy\n    return dx + dy\n```"
+}

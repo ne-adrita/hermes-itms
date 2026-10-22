@@ -1,0 +1,10 @@
+Return how many whole seconds a rejected client has to wait.
+
+    The delay is the time the bucket needs to regain the missing tokens,
+    rounded up to a whole second.  A non-positive rate means the bucket
+    never refills, so the delay is unbounded and is reported as ``-1``.  The
+    delay is never smaller than one second.
+
+    >>> retry_after_seconds(0.0, 2.0)
+    1
+    

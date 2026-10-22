@@ -1,0 +1,17 @@
+{
+  "attempt_id": "4849af09f2584d57989737d37d0e4979",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-011",
+  "humaneval_task_id": "modular/inventory_math",
+  "method": "full_file_regeneration",
+  "rep": 2,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "seed_requested": 991066,
+  "max_output_tokens": 4096,
+  "prompt_original_sha256": "79d98cca927d14f734e339fd38d2a51f89417e936b7adb08509a9c09474298b0",
+  "prompt_bytes": 8239,
+  "prompt_token_estimate": 1952,
+  "redaction_applied": false
+}

@@ -1,0 +1,55 @@
+You are repairing a Python module with a surgical AST edit.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `rectangle_area`, whose docstring specifies its intended behaviour. The current implementation of `rectangle_area` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+Return the area of an axis-aligned rectangle.
+
+    A rectangle with a negative width or height has no area, so the result
+    is ``0``.
+
+    >>> rectangle_area(0, 0, 3, 4)
+    12
+    
+
+CONTEXT SKELETON
+-----------------
+----- BEGIN FILE -----
+from __future__ import annotations
+from typing import Dict, List, Optional, Sequence, Tuple
+__all__ = ['Rectangle', 'manhattan_distance', 'rectangle_area', 'point_in_rectangle', 'bounding_box', 'clamp', 'lerp', 'distance_squared', 'shift_point']
+
+def rectangle_area(x: float, y: float, width: float, height: float) -> float:
+    """Return the area of an axis-aligned rectangle.
+
+    A rectangle with a negative width or height has no area, so the result
+    is ``0``.
+
+    >>> rectangle_area(0, 0, 3, 4)
+    12
+    """
+    if width <= 0 or height <= 0:
+        return 1
+    return width * height
+
+def point_in_rectangle(px: float, py: float, x: float, y: float, width: float, height: float) -> bool:
+    ...
+----- END FILE -----
+
+TARGET NODE: rectangle_area
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return ONLY the replacement for the target function, inside a
+single fenced python code block. Either return the complete
+function definition (starting with 'def <name>(...)') or only its
+indented body. Do not modify any other part of the file and do
+not add commentary.

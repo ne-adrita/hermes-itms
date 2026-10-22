@@ -1,0 +1,59 @@
+You are repairing a Python module with a surgical AST edit.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `manhattan_distance`, whose docstring specifies its intended behaviour. The current implementation of `manhattan_distance` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+Return the Manhattan distance between two points.
+
+    The Manhattan distance is the sum of the absolute differences of the
+    two coordinates.  It is never negative.
+
+    >>> manhattan_distance(0, 0, 3, 4)
+    7
+    
+
+CONTEXT SKELETON
+-----------------
+----- BEGIN FILE -----
+from __future__ import annotations
+from typing import Dict, List, Optional, Sequence, Tuple
+__all__ = ['Rectangle', 'manhattan_distance', 'rectangle_area', 'point_in_rectangle', 'bounding_box', 'clamp', 'lerp', 'distance_squared', 'shift_point']
+
+def manhattan_distance(x1: float, y1: float, x2: float, y2: float) -> float:
+    """Return the Manhattan distance between two points.
+
+    The Manhattan distance is the sum of the absolute differences of the
+    two coordinates.  It is never negative.
+
+    >>> manhattan_distance(0, 0, 3, 4)
+    7
+    """
+    dx = x1 + x2
+    if dx < 0:
+        dx = -dx
+    dy = y1 - y2
+    if dy < 0:
+        dy = -dy
+    return dx + dy
+
+def point_in_rectangle(px: float, py: float, x: float, y: float, width: float, height: float) -> bool:
+    ...
+----- END FILE -----
+
+TARGET NODE: manhattan_distance
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return ONLY the replacement for the target function, inside a
+single fenced python code block. Either return the complete
+function definition (starting with 'def <name>(...)') or only its
+indented body. Do not modify any other part of the file and do
+not add commentary.

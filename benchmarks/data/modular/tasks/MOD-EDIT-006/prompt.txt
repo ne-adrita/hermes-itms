@@ -1,0 +1,11 @@
+Merge overlapping and touching intervals into a minimal covering list.
+
+    The result is sorted by start time and contains no two intervals that
+    overlap or touch.  Intervals that only touch at one end are merged as
+    well, so ``(0, 5)`` and ``(5, 10)`` become ``(0, 10)``.
+
+    An empty input yields an empty list.
+
+    >>> merge_intervals([(5, 6), (0, 3), (2, 4)])
+    [(0, 4), (5, 6)]
+    

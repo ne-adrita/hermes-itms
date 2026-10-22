@@ -1,0 +1,19 @@
+{
+  "attempt_id": "715658a9635c4eafaef63a45ec753276",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-009",
+  "humaneval_task_id": "modular/interval_math",
+  "method": "itms_ast_splice",
+  "rep": 2,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "1c3c507399cf6c5903429c6ae05a6d7db422709c0f330ca54d9193b4819924eb",
+  "response_bytes": 568,
+  "response_text": "```python\ndef overlap_length(a_start: float, a_end: float, b_start: float, b_end: float) -> float:\n    \"\"\"Return the length of the overlap of two intervals.\n\n    The intervals are half-open: ``[a_start, a_end)`` and ``[b_start, b_end)``.\n    Touching intervals therefore do not overlap.  When the intervals do not\n    overlap at all the result is ``0``.\n\n    >>> overlap_length(0, 10, 5, 15)\n    5\n    \"\"\"\n    start = a_start if a_start > b_start else b_start\n    end = a_end if a_end < b_end else b_end\n    if end <= start:\n        return 0\n    return end - start\n```"
+}

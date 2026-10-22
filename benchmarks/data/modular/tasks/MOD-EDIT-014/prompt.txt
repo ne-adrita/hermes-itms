@@ -1,0 +1,9 @@
+Return the stock level at which a new order has to be placed.
+
+    The reorder point is the demand expected during the supplier lead time
+    plus the safety stock.  A non-positive lead time contributes nothing,
+    so the result is never below the safety stock.
+
+    >>> reorder_point(10.0, 3.0, 5.0)
+    35.0
+    

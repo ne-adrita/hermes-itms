@@ -1,0 +1,58 @@
+You are repairing a Python module.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `intersperse`, whose docstring specifies its intended behaviour. The current implementation of `intersperse` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+from typing import List
+
+
+def intersperse(numbers: List[int], delimeter: int) -> List[int]:
+    """ Insert a number 'delimeter' between every two consecutive elements of input list `numbers'
+    >>> intersperse([], 4)
+    []
+    >>> intersperse([1, 2, 3], 4)
+    [1, 4, 2, 4, 3]
+    """
+
+
+CURRENT FILE (contains the defect)
+----------------------------------
+----- BEGIN FILE -----
+from typing import List
+
+
+def intersperse(numbers: List[int], delimeter: int) -> List[int]:
+    """ Insert a number 'delimeter' between every two consecutive elements of input list `numbers'
+    >>> intersperse([], 4)
+    []
+    >>> intersperse([1, 2, 3], 4)
+    [1, 4, 2, 4, 3]
+    """
+    if not numbers:
+        return []
+
+    result = []
+
+    for n in numbers[:-2]:
+        result.append(n)
+        result.append(delimeter)
+
+    result.append(numbers[-1])
+
+    return result
+----- END FILE -----
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return the complete corrected file. Reply with exactly one fenced
+python code block that contains the whole module, including its
+imports, the target function and its docstring. Do not add any
+commentary, explanation or extra code blocks.

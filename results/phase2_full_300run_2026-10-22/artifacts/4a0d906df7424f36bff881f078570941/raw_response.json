@@ -1,0 +1,19 @@
+{
+  "attempt_id": "4a0d906df7424f36bff881f078570941",
+  "run_id": "8c886293d46d",
+  "task_id": "HE-EDIT-010",
+  "humaneval_task_id": "HumanEval/57",
+  "method": "search_replace_patch",
+  "rep": 5,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "003133797bcf245ab654c12832701705de1e3768eb608021e507dcf0b5379d6a",
+  "response_bytes": 149,
+  "response_text": "<<<<<<< SEARCH\n    if l == sorted(l) and l == sorted(l, reverse=True):\n=======\n    if l == sorted(l) or l == sorted(l, reverse=True):\n>>>>>>> REPLACE"
+}

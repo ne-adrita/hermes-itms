@@ -316,6 +316,14 @@ def _integrity_checks(run: Dict[str, Any]) -> List[Dict[str, Any]]:
 # ----------------------------------------------------------------------
 # Analysis bundle
 # ----------------------------------------------------------------------
+def _count_by_repetition(records: Sequence[AttemptRecord]) -> Dict[str, int]:
+    """Return the number of recorded attempts per repetition number."""
+    counts: Dict[int, int] = {}
+    for record in records:
+        counts[record.rep] = counts.get(record.rep, 0) + 1
+    return {str(rep): count for rep, count in sorted(counts.items())}
+
+
 def build_analysis(run_dir: str) -> Dict[str, Any]:
     """Reads a run directory and returns the analysis bundle."""
     run = load_run(run_dir)
@@ -328,12 +336,33 @@ def build_analysis(run_dir: str) -> Dict[str, Any]:
     )
     tasks = sorted({r.task_id for r in records})
     reps = max((r.rep for r in records), default=0)
-    scheduled = len(tasks) * len(methods) * max(1, reps) if tasks and methods else 0
+    computed_scheduled = len(tasks) * len(methods) * max(1, reps) if tasks and methods else 0
+
+    # The *planned* number of cells is taken from the run summary when the
+    # run recorded one.  The summary is authoritative: a run whose plan is
+    # not the full cross product (a reduced-budget schedule) has a planned
+    # count that cannot be re-derived from the records alone.  For a run
+    # with the default cross-product schedule the two values agree.
+    summary_method_metrics = summary.get("method_metrics") or {}
+    planned_from_summary = summary.get("planned_attempts")
+    scheduled = (
+        int(planned_from_summary)
+        if planned_from_summary is not None
+        else computed_scheduled
+    )
+
+    def _scheduled_for(method: str) -> int:
+        entry = summary_method_metrics.get(method)
+        if isinstance(entry, dict):
+            value = (entry.get("denominators") or {}).get("scheduled_attempts")
+            if value is not None:
+                return int(value)
+        return scheduled // max(1, len(methods)) if methods else 0
 
     per_method = {
         method: method_metrics(
             records,
-            scheduled=scheduled // max(1, len(methods)) if methods else 0,
+            scheduled=_scheduled_for(method),
             method=method,
             tasks_count=len(tasks),
             reps=reps,
@@ -366,6 +395,27 @@ def build_analysis(run_dir: str) -> Dict[str, Any]:
     checks = _integrity_checks(run)
     all_passed = all(check["passed"] for check in checks)
 
+    # -- the request-side denominators, stated separately -----------------
+    # "planned", "requested", "completed" and "evaluated" are four different
+    # numbers and are never collapsed into one.  A provider request that
+    # failed before a response existed was *requested* and *completed as an
+    # attempt*, but it was never *evaluated*.
+    budget_state = summary.get("budget") or metadata.get("budget") or {}
+    planned_attempts = metadata.get("planned_attempts")
+    if planned_attempts is None:
+        planned_attempts = summary.get("planned_attempts", scheduled)
+    requests_issued = budget_state.get("requests_issued")
+    if requests_issued is None:
+        requests_issued = sum(1 for r in records if r.status != AttemptStatus.INCOMPLETE)
+    evaluated_attempts = sum(1 for r in records if r.evaluation_attempted)
+    generation_success = sum(
+        1 for r in records if r.candidate_state == "produced"
+    )
+    incomplete_attempts = sum(
+        1 for r in records if r.status == AttemptStatus.INCOMPLETE
+    )
+    unevaluated_attempts = len(records) - evaluated_attempts
+
     analysis: Dict[str, Any] = {
         "schema_version": "1.0",
         "run_dir": run["run_dir"],
@@ -383,11 +433,50 @@ def build_analysis(run_dir: str) -> Dict[str, Any]:
             "tasks": len(tasks),
             "methods": len(methods),
             "reps_per_task": reps,
+            "planned_attempts": planned_attempts,
             "scheduled_attempts": scheduled,
+            "provider_requests_issued": requests_issued,
+            "completed_attempts": len(records),
             "recorded_attempts": len(records),
-            "evaluated_attempts": sum(1 for r in records if r.evaluation_attempted),
+            "evaluated_attempts": evaluated_attempts,
             "candidate_produced_attempts": sum(
                 1 for r in records if r.candidate_state == "produced"
+            ),
+            "provider_generation_success_attempts": generation_success,
+            "unevaluated_attempts": unevaluated_attempts,
+            "incomplete_attempts": incomplete_attempts,
+            "missing_attempts": int(planned_attempts) - len(records),
+            # How many recorded attempts belong to each repetition number.
+            # A reduced-budget run has an uneven distribution here and the
+            # distribution is part of the result, not a detail.
+            "cells_by_repetition": _count_by_repetition(records),
+        },
+        "schedule": metadata.get("schedule"),
+        # The distinction the report must never blur: the provider answering
+        # is not the same event as the official evaluator accepting the
+        # candidate.
+        "generation_versus_evaluation": {
+            "provider_requests_issued": requests_issued,
+            "provider_answered": sum(
+                1 for r in records if r.status != AttemptStatus.PROVIDER_ERROR
+            ),
+            "provider_error": sum(
+                1 for r in records if r.status == AttemptStatus.PROVIDER_ERROR
+            ),
+            "candidate_produced": generation_success,
+            "officially_evaluated": evaluated_attempts,
+            "evaluator_pass": sum(1 for r in records if r.test_passed is True),
+            "evaluator_fail": sum(
+                1
+                for r in records
+                if r.evaluation_attempted and r.test_passed is not True
+            ),
+            "never_evaluated": unevaluated_attempts,
+            "incomplete": incomplete_attempts,
+            "note": (
+                "A provider response is not a benchmark pass. Only an attempt "
+                "that reached the official evaluator and passed it counts as a "
+                "pass."
             ),
         },
         "methods": per_method,
@@ -539,19 +628,48 @@ def render_markdown(
 
     lines.append("## Denominators")
     lines.append("")
+    lines.append(
+        "The four counts below are different numbers and are never merged: a "
+        "cell can be *planned* and *requested* and still never be *evaluated*."
+    )
+    lines.append("")
     lines.append("| Quantity | Value |")
     lines.append("|---|---|")
     for key, value in denominators.items():
         lines.append(f"| {key} | {value} |")
     lines.append("")
 
+    lines.append("## Provider generation versus official evaluation")
+    lines.append("")
+    gv = analysis["generation_versus_evaluation"]
+    lines.append("| Stage | Attempts |")
+    lines.append("|---|---|")
+    for key in (
+        "provider_requests_issued",
+        "provider_answered",
+        "provider_error",
+        "candidate_produced",
+        "officially_evaluated",
+        "evaluator_pass",
+        "evaluator_fail",
+        "never_evaluated",
+        "incomplete",
+    ):
+        lines.append(f"| {key} | {gv[key]} |")
+    lines.append("")
+    lines.append(f"> {gv['note']}")
+    lines.append("")
+
     lines.append("## Per-method results")
     lines.append("")
     lines.append(
-        "| Method | n | Success | Evaluated | Evaluator pass rate | Completion rate | "
-        "Mean latency (ms) | Median latency (ms) | Mean tokens (provider-reported) |"
+        "| Method | Planned | Completed | Evaluated | Evaluator passes | Pass rate "
+        "(of evaluated) | Provider errors | Failures | Truncations | Mean tokens | "
+        "Median tokens | Mean latency (ms) | Median latency (ms) |"
     )
-    lines.append("|---|---|---|---|---|---|---|---|---|")
+    lines.append(
+        "|---|---|---|---|---|---|---|---|---|---|---|---|---|"
+    )
     for method in methods:
         metrics = analysis["methods"][method]
         success = metrics["repair_success"]["count"]
@@ -560,15 +678,43 @@ def render_markdown(
         completion = metrics["repair_success"]["rate_over_scheduled"]
         latency = metrics["latency_ms"]
         tokens = metrics["token_usage"]["mean_total_tokens"]
+        median_tokens = metrics["token_usage"].get("median_total_tokens")
+        provider_errors = metrics["provider_failures"]["count"]
+        failures = max(0, metrics["denominators"]["recorded_attempts"] - success)
+        truncations = metrics["failure_categories"].get("truncated_output", 0)
         lines.append(
-            f"| {method} | {metrics['denominators']['recorded_attempts']} | {success} | "
+            f"| {method} | {metrics['denominators']['scheduled_attempts']} | "
+            f"{metrics['denominators']['recorded_attempts']} | "
             f"{evaluated} | "
+            f"{metrics['test_pass']['count']} | "
             f"{'n/a' if pass_rate is None else f'{100.0 * pass_rate:.1f}%'} | "
-            f"{'n/a' if completion is None else f'{100.0 * completion:.1f}%'} | "
+            f"{provider_errors} | {failures} | {truncations} | "
+            f"{'unavailable' if tokens is None else f'{tokens:.0f}'} | "
+            f"{'unavailable' if median_tokens is None else f'{median_tokens:.0f}'} | "
             f"{'n/a' if latency['mean'] is None else f'{latency['mean']:.0f}'} | "
-            f"{'n/a' if latency['median'] is None else f'{latency['median']:.0f}'} | "
-            f"{'unavailable' if tokens is None else f'{tokens:.0f}'} |"
+            f"{'n/a' if latency['median'] is None else f'{latency['median']:.0f}'} |"
         )
+    lines.append("")
+    lines.append(
+        f"- Completion rate over the full schedule: "
+        + ", ".join(
+            f"{method}="
+            + (
+                "n/a"
+                if analysis["methods"][method]["repair_success"]["rate_over_scheduled"]
+                is None
+                else f"{100.0 * analysis['methods'][method]['repair_success']['rate_over_scheduled']:.1f}%"
+            )
+            for method in methods
+        )
+    )
+    lines.append(
+        "- The latency column above is measured over **every recorded attempt**, "
+        "including the attempts that never reached the provider and therefore "
+        "contain a full connection timeout. The provider-only latency, which is "
+        "the meaningful comparison between the three methods, is in the latency "
+        "decomposition figure."
+    )
     lines.append("")
 
     lines.append("## Truncation and output budget")
@@ -683,6 +829,78 @@ def write_analysis(
         for record in analysis["_records"]:
             row = record.to_dict()
             writer.writerow({key: row.get(key) for key in PER_ATTEMPT_CSV_COLUMNS})
+
+    # -- one compact comparison table for the three methods ----------------
+    comparison_path = os.path.join(out_dir, "method_comparison.csv")
+    comparison_columns = (
+        "method",
+        "planned_attempts",
+        "completed_attempts",
+        "officially_evaluated_attempts",
+        "evaluator_pass_count",
+        "evaluator_pass_rate_over_evaluated",
+        "completion_rate_over_scheduled",
+        "provider_error_count",
+        "failure_count",
+        "truncation_count",
+        "mean_total_tokens",
+        "median_total_tokens",
+        "mean_latency_ms",
+        "median_latency_ms",
+        "mean_provider_latency_ms",
+        "median_provider_latency_ms",
+        "provider_reported_cost_usd",
+    )
+    with open(comparison_path, "w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(comparison_columns))
+        writer.writeheader()
+        for method in analysis["method_order"]:
+            metrics = analysis["methods"][method]
+            writer.writerow(
+                {
+                    "method": method,
+                    "planned_attempts": metrics["denominators"]["scheduled_attempts"],
+                    "completed_attempts": metrics["denominators"]["recorded_attempts"],
+                    "officially_evaluated_attempts": metrics["denominators"][
+                        "candidate_produced_attempts"
+                    ],
+                    "evaluator_pass_count": metrics["test_pass"]["count"],
+                    "evaluator_pass_rate_over_evaluated": metrics["test_pass"][
+                        "rate_over_candidates"
+                    ],
+                    "completion_rate_over_scheduled": metrics["repair_success"][
+                        "rate_over_scheduled"
+                    ],
+                    "provider_error_count": metrics["provider_failures"]["count"],
+                    "failure_count": max(
+                        0,
+                        metrics["denominators"]["recorded_attempts"]
+                        - metrics["repair_success"]["count"],
+                    ),
+                    "truncation_count": metrics["failure_categories"].get(
+                        "truncated_output", 0
+                    ),
+                    "mean_total_tokens": metrics["token_usage"][
+                        "mean_total_tokens"
+                    ],
+                    "median_total_tokens": metrics["token_usage"].get(
+                        "median_total_tokens"
+                    ),
+                    "mean_latency_ms": metrics["latency_ms"]["mean"],
+                    "median_latency_ms": metrics["latency_ms"]["median"],
+                    "mean_provider_latency_ms": metrics["provider_latency_ms"]["mean"],
+                    "median_provider_latency_ms": metrics["provider_latency_ms"][
+                        "median"
+                    ],
+                    # Never zero and never an estimate: the value stays empty
+                    # when the provider reported no cost.
+                    "provider_reported_cost_usd": (
+                        metrics["cost"]["total_cost_usd"]
+                        if metrics["cost"]["total_cost_usd"] is not None
+                        else ""
+                    ),
+                }
+            )
 
     figures: List[str] = []
     if write_figures:

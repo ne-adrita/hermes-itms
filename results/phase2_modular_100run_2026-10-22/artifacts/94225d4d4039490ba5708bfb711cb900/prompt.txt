@@ -1,0 +1,68 @@
+You are repairing a Python module with a surgical AST edit.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `merge_intervals`, whose docstring specifies its intended behaviour. The current implementation of `merge_intervals` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+Merge overlapping and touching intervals into a minimal covering list.
+
+    The result is sorted by start time and contains no two intervals that
+    overlap or touch.  Intervals that only touch at one end are merged as
+    well, so ``(0, 5)`` and ``(5, 10)`` become ``(0, 10)``.
+
+    An empty input yields an empty list.
+
+    >>> merge_intervals([(5, 6), (0, 3), (2, 4)])
+    [(0, 4), (5, 6)]
+    
+
+CONTEXT SKELETON
+-----------------
+----- BEGIN FILE -----
+from __future__ import annotations
+from typing import Dict, Iterable, List, Optional, Sequence, Tuple
+__all__ = ['Schedule', 'overlap_length', 'merge_intervals', 'total_covered_length', 'gap_between', 'normalize_interval', 'interval_duration', 'overlaps', 'is_within']
+
+def merge_intervals(intervals: Sequence[Tuple[float, float]]) -> List[Tuple[float, float]]:
+    """Merge overlapping and touching intervals into a minimal covering list.
+
+    The result is sorted by start time and contains no two intervals that
+    overlap or touch.  Intervals that only touch at one end are merged as
+    well, so ``(0, 5)`` and ``(5, 10)`` become ``(0, 10)``.
+
+    An empty input yields an empty list.
+
+    >>> merge_intervals([(5, 6), (0, 3), (2, 4)])
+    [(0, 4), (5, 6)]
+    """
+    ordered = sorted(intervals, key=lambda item: (item[0], item[1]))
+    result: List[Tuple[float, float]] = []
+    for start, end in ordered:
+        if not result:
+            result.append((start, end))
+            continue
+        last_start, last_end = result[-1]
+        if start < last_end:
+            if end > last_end:
+                result[-1] = (last_start, end)
+        else:
+            result.append((start, end))
+    return result
+----- END FILE -----
+
+TARGET NODE: merge_intervals
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return ONLY the replacement for the target function, inside a
+single fenced python code block. Either return the complete
+function definition (starting with 'def <name>(...)') or only its
+indented body. Do not modify any other part of the file and do
+not add commentary.

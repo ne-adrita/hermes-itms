@@ -1,0 +1,17 @@
+{
+  "attempt_id": "5acb61c3ba3842fcbc24b95d102a4663",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-008",
+  "humaneval_task_id": "modular/interval_math",
+  "method": "itms_ast_splice",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "seed_requested": 991053,
+  "max_output_tokens": 4096,
+  "prompt_original_sha256": "9308b1abed1dc3ebbf6ca4c19ddf70683bd9b27d8cd7baad0c6369a7a895babc",
+  "prompt_bytes": 2105,
+  "prompt_token_estimate": 476,
+  "redaction_applied": false
+}

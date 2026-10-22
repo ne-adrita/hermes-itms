@@ -1,0 +1,19 @@
+{
+  "attempt_id": "050f9379de384abe96f4e1f2fd046bd9",
+  "run_id": "8c886293d46d",
+  "task_id": "HE-EDIT-011",
+  "humaneval_task_id": "HumanEval/7",
+  "method": "itms_ast_splice",
+  "rep": 2,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "ba04393fa34d863d7617e5e7803f4bd4be1b21cc47fe7a452fd9ffea989ca84d",
+  "response_bytes": 367,
+  "response_text": "```python\ndef filter_by_substring(strings: List[str], substring: str) -> List[str]:\n    \"\"\" Filter an input list of strings only for ones that contain given substring\n    >>> filter_by_substring([], 'a')\n    []\n    >>> filter_by_substring(['abc', 'bacd', 'cde', 'array'], 'a')\n    ['abc', 'bacd', 'array']\n    \"\"\"\n    return [x for x in strings if substring in x]\n```"
+}

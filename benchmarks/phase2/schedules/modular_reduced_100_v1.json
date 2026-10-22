@@ -1,0 +1,557 @@
+{
+  "schema_version": "1.0",
+  "schedule_id": "modular_reduced_100_v1",
+  "description": "Reduced 100-request schedule for the modular task family. Every task is attempted with every method at least once (60 cells); the remaining 40 cells give each task exactly 5 attempts in total and split the budget 34/33/33 across the three methods. This is NOT 20 tasks x 5 repetitions x 3 methods: that design needs 300 requests.",
+  "task_set": "modular_edit",
+  "data_dir": "benchmarks/data/modular",
+  "task_count": 20,
+  "methods": [
+    "full_file_regeneration",
+    "search_replace_patch",
+    "itms_ast_splice"
+  ],
+  "cell_count": 100,
+  "cells_per_method": {
+    "full_file_regeneration": 34,
+    "search_replace_patch": 33,
+    "itms_ast_splice": 33
+  },
+  "attempts_per_task": {
+    "MOD-EDIT-001": 5,
+    "MOD-EDIT-002": 5,
+    "MOD-EDIT-003": 5,
+    "MOD-EDIT-004": 5,
+    "MOD-EDIT-005": 5,
+    "MOD-EDIT-006": 5,
+    "MOD-EDIT-007": 5,
+    "MOD-EDIT-008": 5,
+    "MOD-EDIT-009": 5,
+    "MOD-EDIT-010": 5,
+    "MOD-EDIT-011": 5,
+    "MOD-EDIT-012": 5,
+    "MOD-EDIT-013": 5,
+    "MOD-EDIT-014": 5,
+    "MOD-EDIT-015": 5,
+    "MOD-EDIT-016": 5,
+    "MOD-EDIT-017": 5,
+    "MOD-EDIT-018": 5,
+    "MOD-EDIT-019": 5,
+    "MOD-EDIT-020": 5
+  },
+  "order_seed": 20261024,
+  "repetition_policy": {
+    "repetitions_used": [
+      1,
+      2
+    ],
+    "cells_with_rep_1": 60,
+    "cells_with_rep_2": 40,
+    "note": "Each task has 5 attempts: one per method (the coverage pass) plus a second attempt for two of its three methods.  Across the family, 60 of the 100 cells are a first attempt and 40 are a second attempt.  The imbalance is a consequence of the 100-request budget and is reported, not hidden."
+  },
+  "coverage": {
+    "every_task_covered_by_every_method": true,
+    "every_task_attempts": 5
+  },
+  "cells": [
+    {
+      "task_id": "MOD-EDIT-012",
+      "method": "full_file_regeneration",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-005",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-008",
+      "method": "full_file_regeneration",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-017",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-010",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-002",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-016",
+      "method": "search_replace_patch",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-014",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-006",
+      "method": "search_replace_patch",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-011",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-010",
+      "method": "itms_ast_splice",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-006",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-001",
+      "method": "itms_ast_splice",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-013",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-016",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-014",
+      "method": "search_replace_patch",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-006",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-012",
+      "method": "itms_ast_splice",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-007",
+      "method": "full_file_regeneration",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-020",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-003",
+      "method": "itms_ast_splice",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-007",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-012",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-011",
+      "method": "itms_ast_splice",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-010",
+      "method": "full_file_regeneration",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-014",
+      "method": "full_file_regeneration",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-015",
+      "method": "search_replace_patch",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-003",
+      "method": "search_replace_patch",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-013",
+      "method": "full_file_regeneration",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-004",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-001",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-001",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-020",
+      "method": "search_replace_patch",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-016",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-018",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-009",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-018",
+      "method": "full_file_regeneration",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-015",
+      "method": "full_file_regeneration",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-018",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-017",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-009",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-015",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-007",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-012",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-003",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-006",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-011",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-001",
+      "method": "search_replace_patch",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-006",
+      "method": "itms_ast_splice",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-017",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-004",
+      "method": "itms_ast_splice",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-008",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-019",
+      "method": "full_file_regeneration",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-008",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-018",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-004",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-005",
+      "method": "search_replace_patch",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-019",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-004",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-002",
+      "method": "search_replace_patch",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-003",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-015",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-010",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-020",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-004",
+      "method": "search_replace_patch",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-019",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-011",
+      "method": "full_file_regeneration",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-002",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-020",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-008",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-009",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-010",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-007",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-007",
+      "method": "itms_ast_splice",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-013",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-012",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-013",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-020",
+      "method": "full_file_regeneration",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-005",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-017",
+      "method": "search_replace_patch",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-011",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-009",
+      "method": "itms_ast_splice",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-016",
+      "method": "full_file_regeneration",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-013",
+      "method": "itms_ast_splice",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-018",
+      "method": "search_replace_patch",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-014",
+      "method": "full_file_regeneration",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-009",
+      "method": "full_file_regeneration",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-003",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-015",
+      "method": "search_replace_patch",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-019",
+      "method": "search_replace_patch",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-002",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-014",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-005",
+      "method": "itms_ast_splice",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-001",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-017",
+      "method": "full_file_regeneration",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-008",
+      "method": "itms_ast_splice",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-002",
+      "method": "itms_ast_splice",
+      "rep": 2
+    },
+    {
+      "task_id": "MOD-EDIT-019",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-005",
+      "method": "itms_ast_splice",
+      "rep": 1
+    },
+    {
+      "task_id": "MOD-EDIT-016",
+      "method": "full_file_regeneration",
+      "rep": 1
+    }
+  ]
+}

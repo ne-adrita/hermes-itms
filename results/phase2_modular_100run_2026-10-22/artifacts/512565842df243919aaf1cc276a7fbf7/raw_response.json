@@ -1,0 +1,19 @@
+{
+  "attempt_id": "512565842df243919aaf1cc276a7fbf7",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-013",
+  "humaneval_task_id": "modular/inventory_math",
+  "method": "itms_ast_splice",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "a286c5a02ce0843caa1c0be5e2dd26ad130f4c9b9fe650a0b50e0f73a5cdc442",
+  "response_bytes": 479,
+  "response_text": "```python\ndef turnover_ratio(cost_of_goods_sold: float, average_inventory: float) -> float:\n    \"\"\"Return how often the stock turns over in a period.\n\n    The ratio is the cost of the goods sold divided by the average\n    inventory value.  When the average inventory is zero the ratio is\n    ``0.0`` instead of an error.\n\n    >>> turnover_ratio(1200.0, 400.0)\n    3.0\n    \"\"\"\n    if average_inventory == 0:\n        return 0.0\n    return cost_of_goods_sold / average_inventory\n```"
+}

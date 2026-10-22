@@ -1,0 +1,808 @@
+{
+  "schema_version": "1.0",
+  "run_dir": "/Users/noshinebnatadrita/Documents/499B/results/phase2_modular_100run_2026-10-22",
+  "run_id": "eb1b0f4b58a9",
+  "mode": "live",
+  "is_measurement": true,
+  "created_at_utc": "2026-10-22T06:04:27Z",
+  "model": {
+    "requested_model_id": "minimax/minimax-m3.1-flash:free",
+    "served_model_ids": [
+      "minimax/minimax-m3.1-flash:free"
+    ],
+    "single_served_model": true
+  },
+  "denominators": {
+    "tasks": 20,
+    "methods": 3,
+    "reps_per_task": 2,
+    "planned_attempts": 100,
+    "scheduled_attempts": 100,
+    "provider_requests_issued": 100,
+    "completed_attempts": 100,
+    "recorded_attempts": 100,
+    "evaluated_attempts": 100,
+    "candidate_produced_attempts": 100,
+    "provider_generation_success_attempts": 100,
+    "unevaluated_attempts": 0,
+    "incomplete_attempts": 0,
+    "missing_attempts": 0,
+    "cells_by_repetition": {
+      "1": 60,
+      "2": 40
+    }
+  },
+  "schedule": {
+    "kind": "explicit",
+    "planned_attempts": 100,
+    "scheduled_cells_by_method": {
+      "full_file_regeneration": 34,
+      "search_replace_patch": 33,
+      "itms_ast_splice": 33
+    },
+    "cells_by_task": {
+      "MOD-EDIT-001": 5,
+      "MOD-EDIT-002": 5,
+      "MOD-EDIT-003": 5,
+      "MOD-EDIT-004": 5,
+      "MOD-EDIT-005": 5,
+      "MOD-EDIT-006": 5,
+      "MOD-EDIT-007": 5,
+      "MOD-EDIT-008": 5,
+      "MOD-EDIT-009": 5,
+      "MOD-EDIT-010": 5,
+      "MOD-EDIT-011": 5,
+      "MOD-EDIT-012": 5,
+      "MOD-EDIT-013": 5,
+      "MOD-EDIT-014": 5,
+      "MOD-EDIT-015": 5,
+      "MOD-EDIT-016": 5,
+      "MOD-EDIT-017": 5,
+      "MOD-EDIT-018": 5,
+      "MOD-EDIT-019": 5,
+      "MOD-EDIT-020": 5
+    },
+    "repetitions_used": [
+      1,
+      2
+    ],
+    "cells_with_repetition_1": 60,
+    "cells_with_repetition_above_1": 40,
+    "provenance": {
+      "source": "/Users/noshinebnatadrita/Documents/499B/benchmarks/phase2/schedules/modular_reduced_100_v1.json",
+      "sha256": "cf90e2ae0fcd81ec404662171d99fa71d0e14c55636b38d4021b46dd77bf833e",
+      "cell_count": 100,
+      "description": "Reduced 100-request schedule for the modular task family. Every task is attempted with every method at least once (60 cells); the remaining 40 cells give each task exactly 5 attempts in total and split the budget 34/33/33 across the three methods. This is NOT 20 tasks x 5 repetitions x 3 methods: that design needs 300 requests."
+    }
+  },
+  "generation_versus_evaluation": {
+    "provider_requests_issued": 100,
+    "provider_answered": 100,
+    "provider_error": 0,
+    "candidate_produced": 100,
+    "officially_evaluated": 100,
+    "evaluator_pass": 100,
+    "evaluator_fail": 0,
+    "never_evaluated": 0,
+    "incomplete": 0,
+    "note": "A provider response is not a benchmark pass. Only an attempt that reached the official evaluator and passed it counts as a pass."
+  },
+  "methods": {
+    "full_file_regeneration": {
+      "method": "full_file_regeneration",
+      "denominators": {
+        "scheduled_attempts": 34,
+        "recorded_attempts": 34,
+        "attempted_attempts": 34,
+        "candidate_produced_attempts": 34,
+        "tasks": 20,
+        "reps_per_task": 2
+      },
+      "repair_success": {
+        "count": 34,
+        "rate_over_scheduled": 1.0,
+        "rate_over_attempted": 1.0,
+        "note": "A repair counts as successful only for a completed repair attempt; attempts demoted for an artefact-persistence failure are never counted as successes."
+      },
+      "task_level": {
+        "tasks_with_at_least_one_success": 20,
+        "tasks_total": 20,
+        "task_success_rate": 1.0,
+        "mean_task_pass_rate": 1.0,
+        "per_task_pass_rate": {
+          "MOD-EDIT-012": 1.0,
+          "MOD-EDIT-008": 1.0,
+          "MOD-EDIT-010": 1.0,
+          "MOD-EDIT-011": 1.0,
+          "MOD-EDIT-007": 1.0,
+          "MOD-EDIT-014": 1.0,
+          "MOD-EDIT-013": 1.0,
+          "MOD-EDIT-001": 1.0,
+          "MOD-EDIT-018": 1.0,
+          "MOD-EDIT-015": 1.0,
+          "MOD-EDIT-017": 1.0,
+          "MOD-EDIT-009": 1.0,
+          "MOD-EDIT-006": 1.0,
+          "MOD-EDIT-019": 1.0,
+          "MOD-EDIT-004": 1.0,
+          "MOD-EDIT-003": 1.0,
+          "MOD-EDIT-020": 1.0,
+          "MOD-EDIT-002": 1.0,
+          "MOD-EDIT-005": 1.0,
+          "MOD-EDIT-016": 1.0
+        }
+      },
+      "syntax_valid": {
+        "count": 34,
+        "rate_over_candidates": 1.0
+      },
+      "test_pass": {
+        "count": 34,
+        "rate_over_candidates": 1.0
+      },
+      "malformed_output": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "provider_failures": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "timeouts": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "failure_categories": {
+        "none": 34
+      },
+      "status_counts": {
+        "repair_success": 34
+      },
+      "latency_ms": {
+        "mean": 14145.675115174312,
+        "median": 11988.043416989967,
+        "min": 6683.536917087622,
+        "max": 36935.904582962394,
+        "measured_attempts": 34
+      },
+      "provider_latency_ms": {
+        "mean": 14030.190405678963,
+        "median": 11872.680332977325,
+        "measured_attempts": 34
+      },
+      "token_usage": {
+        "provider_reported_attempts": 34,
+        "provider_partial_attempts": 0,
+        "local_estimate_only_attempts": 0,
+        "missing_attempts": 0,
+        "prompt_tokens_total": 77730,
+        "completion_tokens_total": 74068,
+        "total_tokens_total": 151798,
+        "mean_total_tokens": 4464.64705882353,
+        "median_total_tokens": 4415.0,
+        "median_prompt_tokens": 2228.5,
+        "median_completion_tokens": 2074.0,
+        "note": "Totals include provider-reported values only. Local token estimates are stored per attempt in estimated_prompt_tokens / estimated_completion_tokens and are never added to a provider-reported total."
+      },
+      "cost": {
+        "provider_reported_attempts": 0,
+        "missing_attempts": 34,
+        "total_cost_usd": null,
+        "source": null
+      },
+      "mock_attempts": 0,
+      "token_distribution": [
+        4062,
+        4400,
+        5143,
+        4034,
+        4508,
+        4430,
+        5307,
+        6281,
+        4147,
+        4202,
+        3713,
+        5149,
+        3807,
+        3799,
+        4474,
+        4973,
+        4620,
+        4600,
+        5301,
+        4246,
+        4496,
+        4896,
+        4916,
+        4075,
+        4277,
+        3974,
+        4268,
+        4836,
+        5048,
+        3689,
+        4065,
+        4580,
+        3801,
+        3681
+      ]
+    },
+    "itms_ast_splice": {
+      "method": "itms_ast_splice",
+      "denominators": {
+        "scheduled_attempts": 33,
+        "recorded_attempts": 33,
+        "attempted_attempts": 33,
+        "candidate_produced_attempts": 33,
+        "tasks": 20,
+        "reps_per_task": 2
+      },
+      "repair_success": {
+        "count": 33,
+        "rate_over_scheduled": 1.0,
+        "rate_over_attempted": 1.0,
+        "note": "A repair counts as successful only for a completed repair attempt; attempts demoted for an artefact-persistence failure are never counted as successes."
+      },
+      "task_level": {
+        "tasks_with_at_least_one_success": 20,
+        "tasks_total": 20,
+        "task_success_rate": 1.0,
+        "mean_task_pass_rate": 1.0,
+        "per_task_pass_rate": {
+          "MOD-EDIT-010": 1.0,
+          "MOD-EDIT-001": 1.0,
+          "MOD-EDIT-006": 1.0,
+          "MOD-EDIT-012": 1.0,
+          "MOD-EDIT-020": 1.0,
+          "MOD-EDIT-003": 1.0,
+          "MOD-EDIT-011": 1.0,
+          "MOD-EDIT-016": 1.0,
+          "MOD-EDIT-018": 1.0,
+          "MOD-EDIT-017": 1.0,
+          "MOD-EDIT-004": 1.0,
+          "MOD-EDIT-008": 1.0,
+          "MOD-EDIT-015": 1.0,
+          "MOD-EDIT-009": 1.0,
+          "MOD-EDIT-007": 1.0,
+          "MOD-EDIT-013": 1.0,
+          "MOD-EDIT-002": 1.0,
+          "MOD-EDIT-014": 1.0,
+          "MOD-EDIT-005": 1.0,
+          "MOD-EDIT-019": 1.0
+        }
+      },
+      "syntax_valid": {
+        "count": 33,
+        "rate_over_candidates": 1.0
+      },
+      "test_pass": {
+        "count": 33,
+        "rate_over_candidates": 1.0
+      },
+      "malformed_output": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "provider_failures": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "timeouts": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "failure_categories": {
+        "none": 33
+      },
+      "status_counts": {
+        "repair_success": 33
+      },
+      "latency_ms": {
+        "mean": 8291.390976032497,
+        "median": 4864.397333003581,
+        "min": 2683.179624960758,
+        "max": 29573.80379200913,
+        "measured_attempts": 33
+      },
+      "provider_latency_ms": {
+        "mean": 8174.727880032592,
+        "median": 4755.69458398968,
+        "measured_attempts": 33
+      },
+      "token_usage": {
+        "provider_reported_attempts": 33,
+        "provider_partial_attempts": 0,
+        "local_estimate_only_attempts": 0,
+        "missing_attempts": 0,
+        "prompt_tokens_total": 24973,
+        "completion_tokens_total": 17778,
+        "total_tokens_total": 42751,
+        "mean_total_tokens": 1295.4848484848485,
+        "median_total_tokens": 1135,
+        "median_prompt_tokens": 746,
+        "median_completion_tokens": 417,
+        "note": "Totals include provider-reported values only. Local token estimates are stored per attempt in estimated_prompt_tokens / estimated_completion_tokens and are never added to a provider-reported total."
+      },
+      "cost": {
+        "provider_reported_attempts": 0,
+        "missing_attempts": 33,
+        "total_cost_usd": null,
+        "source": null
+      },
+      "mock_attempts": 0,
+      "token_distribution": [
+        2007,
+        1191,
+        1223,
+        888,
+        1071,
+        863,
+        1240,
+        836,
+        930,
+        957,
+        1096,
+        1239,
+        1393,
+        1201,
+        1015,
+        966,
+        1034,
+        1526,
+        961,
+        2059,
+        2085,
+        1252,
+        1019,
+        1061,
+        1018,
+        1780,
+        1135,
+        1262,
+        1064,
+        985,
+        1404,
+        3048,
+        1942
+      ]
+    },
+    "search_replace_patch": {
+      "method": "search_replace_patch",
+      "denominators": {
+        "scheduled_attempts": 33,
+        "recorded_attempts": 33,
+        "attempted_attempts": 33,
+        "candidate_produced_attempts": 33,
+        "tasks": 20,
+        "reps_per_task": 2
+      },
+      "repair_success": {
+        "count": 33,
+        "rate_over_scheduled": 1.0,
+        "rate_over_attempted": 1.0,
+        "note": "A repair counts as successful only for a completed repair attempt; attempts demoted for an artefact-persistence failure are never counted as successes."
+      },
+      "task_level": {
+        "tasks_with_at_least_one_success": 20,
+        "tasks_total": 20,
+        "task_success_rate": 1.0,
+        "mean_task_pass_rate": 1.0,
+        "per_task_pass_rate": {
+          "MOD-EDIT-005": 1.0,
+          "MOD-EDIT-017": 1.0,
+          "MOD-EDIT-002": 1.0,
+          "MOD-EDIT-016": 1.0,
+          "MOD-EDIT-014": 1.0,
+          "MOD-EDIT-006": 1.0,
+          "MOD-EDIT-013": 1.0,
+          "MOD-EDIT-012": 1.0,
+          "MOD-EDIT-015": 1.0,
+          "MOD-EDIT-003": 1.0,
+          "MOD-EDIT-004": 1.0,
+          "MOD-EDIT-001": 1.0,
+          "MOD-EDIT-020": 1.0,
+          "MOD-EDIT-009": 1.0,
+          "MOD-EDIT-007": 1.0,
+          "MOD-EDIT-018": 1.0,
+          "MOD-EDIT-019": 1.0,
+          "MOD-EDIT-010": 1.0,
+          "MOD-EDIT-008": 1.0,
+          "MOD-EDIT-011": 1.0
+        }
+      },
+      "syntax_valid": {
+        "count": 33,
+        "rate_over_candidates": 1.0
+      },
+      "test_pass": {
+        "count": 33,
+        "rate_over_candidates": 1.0
+      },
+      "malformed_output": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "provider_failures": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "timeouts": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "failure_categories": {
+        "none": 33
+      },
+      "status_counts": {
+        "repair_success": 33
+      },
+      "latency_ms": {
+        "mean": 5418.72320960939,
+        "median": 4972.454708069563,
+        "min": 2081.2745839357376,
+        "max": 13165.505458018743,
+        "measured_attempts": 33
+      },
+      "provider_latency_ms": {
+        "mean": 5297.601914012127,
+        "median": 4877.671582973562,
+        "measured_attempts": 33
+      },
+      "token_usage": {
+        "provider_reported_attempts": 33,
+        "provider_partial_attempts": 0,
+        "local_estimate_only_attempts": 0,
+        "missing_attempts": 0,
+        "prompt_tokens_total": 75480,
+        "completion_tokens_total": 9740,
+        "total_tokens_total": 85220,
+        "mean_total_tokens": 2582.4242424242425,
+        "median_total_tokens": 2485,
+        "median_prompt_tokens": 2231,
+        "median_completion_tokens": 238,
+        "note": "Totals include provider-reported values only. Local token estimates are stored per attempt in estimated_prompt_tokens / estimated_completion_tokens and are never added to a provider-reported total."
+      },
+      "cost": {
+        "provider_reported_attempts": 0,
+        "missing_attempts": 33,
+        "total_cost_usd": null,
+        "source": null
+      },
+      "mock_attempts": 0,
+      "token_distribution": [
+        2443,
+        2237,
+        2740,
+        2176,
+        2485,
+        2841,
+        2964,
+        2358,
+        2118,
+        2851,
+        2307,
+        3587,
+        2538,
+        2448,
+        2444,
+        2762,
+        2473,
+        2665,
+        2402,
+        2188,
+        2456,
+        2850,
+        2577,
+        2769,
+        2556,
+        2920,
+        2556,
+        2254,
+        2396,
+        2147,
+        2466,
+        3149,
+        3097
+      ]
+    }
+  },
+  "method_order": [
+    "full_file_regeneration",
+    "itms_ast_splice",
+    "search_replace_patch"
+  ],
+  "paired_task_comparisons": [
+    {
+      "method_a": "full_file_regeneration",
+      "method_b": "itms_ast_splice",
+      "unit_of_analysis": "task",
+      "paired_tasks": 20,
+      "mean_difference_a_minus_b": 0.0,
+      "bootstrap_95ci": {
+        "mean": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.0,
+        "n": 20
+      },
+      "task_wins_a": 0,
+      "task_losses_a": 0,
+      "task_ties": 20,
+      "per_task_difference": {
+        "MOD-EDIT-001": 0.0,
+        "MOD-EDIT-002": 0.0,
+        "MOD-EDIT-003": 0.0,
+        "MOD-EDIT-004": 0.0,
+        "MOD-EDIT-005": 0.0,
+        "MOD-EDIT-006": 0.0,
+        "MOD-EDIT-007": 0.0,
+        "MOD-EDIT-008": 0.0,
+        "MOD-EDIT-009": 0.0,
+        "MOD-EDIT-010": 0.0,
+        "MOD-EDIT-011": 0.0,
+        "MOD-EDIT-012": 0.0,
+        "MOD-EDIT-013": 0.0,
+        "MOD-EDIT-014": 0.0,
+        "MOD-EDIT-015": 0.0,
+        "MOD-EDIT-016": 0.0,
+        "MOD-EDIT-017": 0.0,
+        "MOD-EDIT-018": 0.0,
+        "MOD-EDIT-019": 0.0,
+        "MOD-EDIT-020": 0.0
+      },
+      "caveat": "20 tasks; the bootstrap interval over tasks reflects task-level variability only. No strong statistical-significance claim is made, and this is not a HumanEval pass rate."
+    },
+    {
+      "method_a": "full_file_regeneration",
+      "method_b": "search_replace_patch",
+      "unit_of_analysis": "task",
+      "paired_tasks": 20,
+      "mean_difference_a_minus_b": 0.0,
+      "bootstrap_95ci": {
+        "mean": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.0,
+        "n": 20
+      },
+      "task_wins_a": 0,
+      "task_losses_a": 0,
+      "task_ties": 20,
+      "per_task_difference": {
+        "MOD-EDIT-001": 0.0,
+        "MOD-EDIT-002": 0.0,
+        "MOD-EDIT-003": 0.0,
+        "MOD-EDIT-004": 0.0,
+        "MOD-EDIT-005": 0.0,
+        "MOD-EDIT-006": 0.0,
+        "MOD-EDIT-007": 0.0,
+        "MOD-EDIT-008": 0.0,
+        "MOD-EDIT-009": 0.0,
+        "MOD-EDIT-010": 0.0,
+        "MOD-EDIT-011": 0.0,
+        "MOD-EDIT-012": 0.0,
+        "MOD-EDIT-013": 0.0,
+        "MOD-EDIT-014": 0.0,
+        "MOD-EDIT-015": 0.0,
+        "MOD-EDIT-016": 0.0,
+        "MOD-EDIT-017": 0.0,
+        "MOD-EDIT-018": 0.0,
+        "MOD-EDIT-019": 0.0,
+        "MOD-EDIT-020": 0.0
+      },
+      "caveat": "20 tasks; the bootstrap interval over tasks reflects task-level variability only. No strong statistical-significance claim is made, and this is not a HumanEval pass rate."
+    },
+    {
+      "method_a": "itms_ast_splice",
+      "method_b": "search_replace_patch",
+      "unit_of_analysis": "task",
+      "paired_tasks": 20,
+      "mean_difference_a_minus_b": 0.0,
+      "bootstrap_95ci": {
+        "mean": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.0,
+        "n": 20
+      },
+      "task_wins_a": 0,
+      "task_losses_a": 0,
+      "task_ties": 20,
+      "per_task_difference": {
+        "MOD-EDIT-001": 0.0,
+        "MOD-EDIT-002": 0.0,
+        "MOD-EDIT-003": 0.0,
+        "MOD-EDIT-004": 0.0,
+        "MOD-EDIT-005": 0.0,
+        "MOD-EDIT-006": 0.0,
+        "MOD-EDIT-007": 0.0,
+        "MOD-EDIT-008": 0.0,
+        "MOD-EDIT-009": 0.0,
+        "MOD-EDIT-010": 0.0,
+        "MOD-EDIT-011": 0.0,
+        "MOD-EDIT-012": 0.0,
+        "MOD-EDIT-013": 0.0,
+        "MOD-EDIT-014": 0.0,
+        "MOD-EDIT-015": 0.0,
+        "MOD-EDIT-016": 0.0,
+        "MOD-EDIT-017": 0.0,
+        "MOD-EDIT-018": 0.0,
+        "MOD-EDIT-019": 0.0,
+        "MOD-EDIT-020": 0.0
+      },
+      "caveat": "20 tasks; the bootstrap interval over tasks reflects task-level variability only. No strong statistical-significance claim is made, and this is not a HumanEval pass rate."
+    }
+  ],
+  "summary_from_run": {
+    "schema_version": "1.0",
+    "attempts_recorded": 100,
+    "attempts_with_local_token_estimates": 0,
+    "attempts_truncated_by_provider": 0,
+    "observed_served_model_ids": [
+      "minimax/minimax-m3.1-flash:free"
+    ],
+    "methods": [
+      "full_file_regeneration",
+      "itms_ast_splice",
+      "search_replace_patch"
+    ],
+    "contains_mock_results": false,
+    "is_measurement": true,
+    "mock_warning": null,
+    "status_counts": {
+      "repair_success": 100
+    },
+    "failure_categories": {
+      "none": 100
+    },
+    "attempts_with_provider_reported_usage": 100,
+    "attempts_with_provider_reported_cost": 0
+  },
+  "truncation": {
+    "total": 0,
+    "by_method": {
+      "full_file_regeneration": 0,
+      "itms_ast_splice": 0,
+      "search_replace_patch": 0
+    },
+    "note": "A truncated attempt is a harness-budget outcome. It is reported separately and must not be read as a repair-quality result."
+  },
+  "output_cap": {
+    "values_in_use": [
+      4096
+    ],
+    "consistent_across_strategies": true,
+    "justification": {
+      "resolved_limit": 4096,
+      "formula": "ceil(safety_factor * max_file_tokens) + reasoning_allowance",
+      "safety_factor": 2.0,
+      "reasoning_allowance": 1024,
+      "max_file_tokens": 2025,
+      "min_file_tokens": 1532,
+      "tasks_considered": 20,
+      "applied_to_every_strategy": true,
+      "rationale": "The limit is derived from the largest file the baseline strategy must re-emit, plus an allowance for provider-side reasoning, so a truncation reflects the task, not the strategy. It is identical for all three strategies and is recorded per attempt.",
+      "limit_source": "operator_explicit"
+    }
+  },
+  "seeds": {
+    "request_seed_base": 991000,
+    "seeded_attempts": 100,
+    "seed_honour_verified": false,
+    "note": "seed_honour_verified is false unless a repeated-request probe proved that the provider honours the seed."
+  },
+  "cost": {
+    "provider_reported_attempts": 0,
+    "total_cost_usd": null,
+    "available": false,
+    "note": "Cost is reported only when the provider supplied it. When no attempt carries a reported cost, the cost is unavailable - it is never shown as zero and never replaced by an estimate."
+  },
+  "budget": {
+    "max_attempts": 100,
+    "max_spend_usd": 1.0,
+    "require_free_model": true,
+    "model_id": "minimax/minimax-m3.1-flash:free",
+    "requests_issued": 100,
+    "cumulative_reported_spend_usd": 0.0,
+    "unreported_cost_attempts": 100,
+    "cost_reporting_available": false,
+    "spend_cap_effective": false,
+    "limit_reached_reason": null,
+    "not_executed_cells": [],
+    "not_executed_count": 0
+  },
+  "prompt_persistence": {
+    "attempts_with_stored_prompt": 100,
+    "total_attempts": 100,
+    "available": true,
+    "note": "Runs executed before prompt persistence was implemented carry no stored prompt; the check is reported as vacuous for them."
+  },
+  "integrity": {
+    "all_passed": true,
+    "checks": [
+      {
+        "check": "jsonl_csv_same_attempt_ids",
+        "passed": true,
+        "detail": "100 records vs 100 csv rows"
+      },
+      {
+        "check": "jsonl_csv_same_status",
+        "passed": true,
+        "detail": "no status mismatch"
+      },
+      {
+        "check": "attempt_ids_unique",
+        "passed": true,
+        "detail": "100 unique of 100"
+      },
+      {
+        "check": "summary_recorded_matches",
+        "passed": true,
+        "detail": "summary=100 files=100"
+      },
+      {
+        "check": "summary_planned_matches",
+        "passed": true,
+        "detail": "planned=100 recorded=100"
+      },
+      {
+        "check": "artifacts_present_for_every_attempt",
+        "passed": true,
+        "detail": "all present"
+      },
+      {
+        "check": "candidate_hashes_match_artifacts",
+        "passed": true,
+        "detail": "all match"
+      },
+      {
+        "check": "prompt_persisted_when_supported",
+        "passed": true,
+        "detail": "100/100 attempts carry a stored prompt"
+      },
+      {
+        "check": "no_mock_records_in_live_run",
+        "passed": true,
+        "detail": "0 mock attempts"
+      },
+      {
+        "check": "failed_and_unevaluated_attempts_retained",
+        "passed": true,
+        "detail": "0 non-success attempts present in the records"
+      },
+      {
+        "check": "missing_telemetry_stored_as_null",
+        "passed": true,
+        "detail": "no estimate stored in a provider-reported field"
+      },
+      {
+        "check": "single_served_model",
+        "passed": true,
+        "detail": "served ids: ['minimax/minimax-m3.1-flash:free']"
+      },
+      {
+        "check": "output_cap_consistent_across_strategies",
+        "passed": true,
+        "detail": "caps in use: [4096]"
+      },
+      {
+        "check": "seed_consistent_per_cell",
+        "passed": true,
+        "detail": "100 cells, 0 with conflicting seeds"
+      },
+      {
+        "check": "seed_honour_never_claimed_without_probe",
+        "passed": true,
+        "detail": "seed_honour_verified is false for every attempt"
+      },
+      {
+        "check": "cost_either_reported_or_explicitly_unavailable",
+        "passed": true,
+        "detail": "0/100 attempts carry a provider-reported cost"
+      }
+    ]
+  },
+  "limitations": [
+    "The provider reported no cost for this run, so the cost is unavailable. It is not zero and no estimate is substituted.",
+    "Whether the provider honoured the request-level seed is unverified: no repeated-request probe was run.",
+    "The evaluation gate is a scrubbed-environment subprocess, not a secure OS-level sandbox."
+  ]
+}

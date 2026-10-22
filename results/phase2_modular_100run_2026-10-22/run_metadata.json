@@ -1,0 +1,159 @@
+{
+  "schema_version": "1.0",
+  "run_id": "eb1b0f4b58a9",
+  "created_at_utc": "2026-10-22T06:04:27Z",
+  "mode": "live",
+  "declared_provider": "openrouter",
+  "effective_provider": "openrouter",
+  "is_measurement": true,
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": null,
+  "temperature": 0.2,
+  "max_output_tokens": 4096,
+  "output_token_limit_justification": {
+    "resolved_limit": 4096,
+    "formula": "ceil(safety_factor * max_file_tokens) + reasoning_allowance",
+    "safety_factor": 2.0,
+    "reasoning_allowance": 1024,
+    "max_file_tokens": 2025,
+    "min_file_tokens": 1532,
+    "tasks_considered": 20,
+    "applied_to_every_strategy": true,
+    "rationale": "The limit is derived from the largest file the baseline strategy must re-emit, plus an allowance for provider-side reasoning, so a truncation reflects the task, not the strategy. It is identical for all three strategies and is recorded per attempt.",
+    "limit_source": "operator_explicit"
+  },
+  "request_timeout_seconds": 60.0,
+  "max_retries": 0,
+  "retry_policy": "bounded; transient HTTP 429 only; HTTP 402 and daily/per-minute quota caps are never retried",
+  "evaluation_timeout_seconds": 10.0,
+  "evaluation_isolation": {
+    "requested": "seatbelt",
+    "level": "macos_seatbelt_profile",
+    "seatbelt_available": true,
+    "enforced": [
+      "environment scrubbed to PATH/TMPDIR/LANG/PYTHON* (no provider credential)",
+      "PYTHONPATH restricted to the evaluation directory, user site-packages disabled",
+      "interpreter-level socket guard (sitecustomize)",
+      "wall-clock timeout with process termination",
+      "macOS Seatbelt profile: no network, no access to the operator's home/project directory (the .env credential is unreadable)",
+      "POSIX resource limits: RLIMIT_CPU, RLIMIT_AS, RLIMIT_NPROC, RLIMIT_FSIZE"
+    ],
+    "not_enforced": [
+      "no container/VM boundary",
+      "no file-system confinement beyond the rules above"
+    ]
+  },
+  "budget": {
+    "max_attempts": 100,
+    "max_spend_usd": 1.0,
+    "require_free_model": true,
+    "model_id": "minimax/minimax-m3.1-flash:free",
+    "requests_issued": 0,
+    "cumulative_reported_spend_usd": 0.0,
+    "unreported_cost_attempts": 0,
+    "cost_reporting_available": false,
+    "spend_cap_effective": true,
+    "limit_reached_reason": null,
+    "not_executed_cells": []
+  },
+  "run_order_seed": 20261024,
+  "request_seed_base": 991000,
+  "seed_policy": "request-level seed per cell, derived from request_seed_base and the cell's position in the deterministic schedule",
+  "seed_honour_verified": false,
+  "bootstrap_seed": 20260101,
+  "reps": 2,
+  "tasks": [
+    "MOD-EDIT-001",
+    "MOD-EDIT-002",
+    "MOD-EDIT-003",
+    "MOD-EDIT-004",
+    "MOD-EDIT-005",
+    "MOD-EDIT-006",
+    "MOD-EDIT-007",
+    "MOD-EDIT-008",
+    "MOD-EDIT-009",
+    "MOD-EDIT-010",
+    "MOD-EDIT-011",
+    "MOD-EDIT-012",
+    "MOD-EDIT-013",
+    "MOD-EDIT-014",
+    "MOD-EDIT-015",
+    "MOD-EDIT-016",
+    "MOD-EDIT-017",
+    "MOD-EDIT-018",
+    "MOD-EDIT-019",
+    "MOD-EDIT-020"
+  ],
+  "task_count": 20,
+  "methods": [
+    "full_file_regeneration",
+    "itms_ast_splice",
+    "search_replace_patch"
+  ],
+  "planned_attempts": 100,
+  "schedule": {
+    "kind": "explicit",
+    "planned_attempts": 100,
+    "scheduled_cells_by_method": {
+      "full_file_regeneration": 34,
+      "search_replace_patch": 33,
+      "itms_ast_splice": 33
+    },
+    "cells_by_task": {
+      "MOD-EDIT-001": 5,
+      "MOD-EDIT-002": 5,
+      "MOD-EDIT-003": 5,
+      "MOD-EDIT-004": 5,
+      "MOD-EDIT-005": 5,
+      "MOD-EDIT-006": 5,
+      "MOD-EDIT-007": 5,
+      "MOD-EDIT-008": 5,
+      "MOD-EDIT-009": 5,
+      "MOD-EDIT-010": 5,
+      "MOD-EDIT-011": 5,
+      "MOD-EDIT-012": 5,
+      "MOD-EDIT-013": 5,
+      "MOD-EDIT-014": 5,
+      "MOD-EDIT-015": 5,
+      "MOD-EDIT-016": 5,
+      "MOD-EDIT-017": 5,
+      "MOD-EDIT-018": 5,
+      "MOD-EDIT-019": 5,
+      "MOD-EDIT-020": 5
+    },
+    "repetitions_used": [
+      1,
+      2
+    ],
+    "cells_with_repetition_1": 60,
+    "cells_with_repetition_above_1": 40,
+    "provenance": {
+      "source": "/Users/noshinebnatadrita/Documents/499B/benchmarks/phase2/schedules/modular_reduced_100_v1.json",
+      "sha256": "cf90e2ae0fcd81ec404662171d99fa71d0e14c55636b38d4021b46dd77bf833e",
+      "cell_count": 100,
+      "description": "Reduced 100-request schedule for the modular task family. Every task is attempted with every method at least once (60 cells); the remaining 40 cells give each task exactly 5 attempts in total and split the budget 34/33/33 across the three methods. This is NOT 20 tasks x 5 repetitions x 3 methods: that design needs 300 requests."
+    }
+  },
+  "task_manifest_digest": "da4eb6b1857a3706a0f83ae09804f08c32ad430a9e225210410dd6793a2edab9",
+  "python_version": "3.14.4 (main, Apr  7 2026, 13:13:20) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "software_versions": {
+    "python": "3.14.4",
+    "httpx": "0.28.1",
+    "pytest": "9.1.1",
+    "tiktoken": "0.14.0",
+    "dotenv": "unknown"
+  },
+  "artifact_files": {
+    "attempts_jsonl": "attempts.jsonl",
+    "attempts_csv": "attempts.csv",
+    "summary_json": "summary.json",
+    "run_metadata_json": "run_metadata.json"
+  },
+  "artifacts_dir": "artifacts",
+  "notes": [
+    "This benchmark evaluates three editing strategies of this project on synthetic HumanEval-derived repair tasks. It is not the HumanEval benchmark and produces no HumanEval pass rate.",
+    "Mock-mode runs are pipeline tests only and are not measurements.",
+    "The evaluation sandbox is best-effort isolation, not a security boundary: filesystem and subprocess containment are absent and the socket guard can be bypassed by a child process."
+  ]
+}

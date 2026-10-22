@@ -1,0 +1,83 @@
+You are repairing a Python module with a surgical AST edit.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `word_frequencies`, whose docstring specifies its intended behaviour. The current implementation of `word_frequencies` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+Return how often each distinct word occurs in ``text``.
+
+    A word is a maximal run of letters, digits and apostrophes.  Words are
+    compared case-insensitively, so the returned keys are lowercased.  The
+    mapping lists the words in the order in which they first occur in
+    ``text``; the values are the number of occurrences.
+
+    The empty string yields an empty mapping.
+
+    >>> word_frequencies("Red red BLUE")
+    {'red': 2, 'blue': 1}
+    
+
+CONTEXT SKELETON
+-----------------
+----- BEGIN FILE -----
+from __future__ import annotations
+import re
+import string
+from typing import Dict, List, Optional, Tuple
+__all__ = ['TextProfile', 'word_frequencies', 'longest_word', 'vowel_ratio', 'split_on_whitespace_trimmed', 'normalize_whitespace', 'count_characters', 'truncate_words', 'strip_punctuation']
+_WORD_PATTERN = re.compile("[A-Za-z0-9']+")
+_PUNCTUATION = frozenset(string.punctuation)
+_VOWELS = frozenset('aeiouAEIOU')
+_RATIO_PRECISION = 4
+
+def word_frequencies(text: str) -> Dict[str, int]:
+    """Return how often each distinct word occurs in ``text``.
+
+    A word is a maximal run of letters, digits and apostrophes.  Words are
+    compared case-insensitively, so the returned keys are lowercased.  The
+    mapping lists the words in the order in which they first occur in
+    ``text``; the values are the number of occurrences.
+
+    The empty string yields an empty mapping.
+
+    >>> word_frequencies("Red red BLUE")
+    {'red': 2, 'blue': 1}
+    """
+    counts: Dict[str, int] = {}
+    word = ''
+    for character in text:
+        if character.isalnum() or character == "'":
+            word = word - character
+            continue
+        if word:
+            key = word.lower()
+            if key not in counts:
+                counts[key] = 1
+            else:
+                counts[key] = counts[key] + 1
+            word = ''
+    if word:
+        key = word.lower()
+        if key not in counts:
+            counts[key] = 1
+        else:
+            counts[key] = counts[key] + 1
+    return counts
+----- END FILE -----
+
+TARGET NODE: word_frequencies
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return ONLY the replacement for the target function, inside a
+single fenced python code block. Either return the complete
+function definition (starting with 'def <name>(...)') or only its
+indented body. Do not modify any other part of the file and do
+not add commentary.

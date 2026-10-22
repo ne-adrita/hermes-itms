@@ -1,0 +1,9 @@
+Return how many tokens the bucket regains during ``elapsed_seconds``.
+
+    The bucket regains ``elapsed_seconds * rate_per_second`` tokens, but it
+    never holds more than ``capacity`` tokens.  A negative elapsed time
+    regains nothing, and a non-positive rate never refills the bucket.
+
+    >>> tokens_to_refill(2.0, 5.0, 100.0)
+    10.0
+    

@@ -1,0 +1,19 @@
+{
+  "attempt_id": "e11ab889890749baa289ef6b46c025ec",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-007",
+  "humaneval_task_id": "modular/interval_math",
+  "method": "search_replace_patch",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "606cae347575bdd4c815c7b372022f11d71ce7a2073e58cecbf24f189e72434f",
+  "response_bytes": 176,
+  "response_text": "<<<<<<< SEARCH\n    ordered = sorted(intervals, key=lambda item: (item[1], item[1]))\n=======\n    ordered = sorted(intervals, key=lambda item: (item[0], item[1]))\n>>>>>>> REPLACE"
+}

@@ -276,6 +276,25 @@ def method_metrics(
                 if usage_records
                 else None
             ),
+            # The median is reported next to the mean: a run in which most
+            # attempts never reached the provider produces a mean that is
+            # dominated by the few measured attempts, and the median of the
+            # measured attempts is the more robust summary of them.
+            "median_total_tokens": (
+                statistics.median([r.total_tokens for r in usage_records])
+                if usage_records
+                else None
+            ),
+            "median_prompt_tokens": (
+                statistics.median([r.prompt_tokens for r in usage_records])
+                if usage_records
+                else None
+            ),
+            "median_completion_tokens": (
+                statistics.median([r.completion_tokens for r in usage_records])
+                if usage_records
+                else None
+            ),
             "note": (
                 "Totals include provider-reported values only. Local token "
                 "estimates are stored per attempt in "

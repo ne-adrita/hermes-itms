@@ -1,0 +1,58 @@
+You are repairing a Python module with a surgical AST edit.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `point_in_rectangle`, whose docstring specifies its intended behaviour. The current implementation of `point_in_rectangle` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+Return whether the point lies inside the rectangle.
+
+    The rectangle is described by its lower-left corner and its size.  The
+    left and bottom edges belong to the rectangle, the right and top edges
+    do not.  A rectangle with a non-positive size contains no point.
+
+    >>> point_in_rectangle(2, 2, 0, 0, 3, 3)
+    True
+    
+
+CONTEXT SKELETON
+-----------------
+----- BEGIN FILE -----
+from __future__ import annotations
+from typing import Dict, List, Optional, Sequence, Tuple
+__all__ = ['Rectangle', 'manhattan_distance', 'rectangle_area', 'point_in_rectangle', 'bounding_box', 'clamp', 'lerp', 'distance_squared', 'shift_point']
+
+def point_in_rectangle(px: float, py: float, x: float, y: float, width: float, height: float) -> bool:
+    """Return whether the point lies inside the rectangle.
+
+    The rectangle is described by its lower-left corner and its size.  The
+    left and bottom edges belong to the rectangle, the right and top edges
+    do not.  A rectangle with a non-positive size contains no point.
+
+    >>> point_in_rectangle(2, 2, 0, 0, 3, 3)
+    True
+    """
+    if width <= 0 or height <= 0:
+        return False
+    if px <= x or px >= x + width:
+        return False
+    if py < y or py >= y + height:
+        return False
+    return True
+----- END FILE -----
+
+TARGET NODE: point_in_rectangle
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return ONLY the replacement for the target function, inside a
+single fenced python code block. Either return the complete
+function definition (starting with 'def <name>(...)') or only its
+indented body. Do not modify any other part of the file and do
+not add commentary.

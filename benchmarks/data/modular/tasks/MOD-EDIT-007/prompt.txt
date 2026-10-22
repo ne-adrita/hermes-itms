@@ -1,0 +1,8 @@
+Return the total length covered by ``intervals``.
+
+    Overlapping parts are counted only once, so the result is the length of
+    the union of the intervals.  An empty input yields ``0``.
+
+    >>> total_covered_length([(0, 10), (5, 15)])
+    15
+    

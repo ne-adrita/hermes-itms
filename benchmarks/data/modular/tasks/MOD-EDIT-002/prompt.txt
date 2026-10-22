@@ -1,0 +1,9 @@
+Return the smallest rectangle that contains every point.
+
+    The result is the tuple ``(x, y, width, height)`` of the lower-left
+    corner and the size of the bounding rectangle.  An empty sequence of
+    points has no bounding rectangle, so ``None`` is returned.
+
+    >>> bounding_box([(1, 2), (4, 6)])
+    (1, 2, 3, 4)
+    

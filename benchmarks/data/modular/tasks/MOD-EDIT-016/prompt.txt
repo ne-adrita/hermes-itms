@@ -1,0 +1,8 @@
+Return whether a request of ``request_cost`` tokens may pass.
+
+    A request is allowed when the bucket holds at least as many tokens as
+    the request costs.  A request that costs nothing is always allowed.
+
+    >>> is_request_allowed(5.0, 2.0)
+    True
+    

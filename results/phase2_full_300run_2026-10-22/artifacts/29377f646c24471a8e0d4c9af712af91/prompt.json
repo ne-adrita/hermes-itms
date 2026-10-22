@@ -1,0 +1,17 @@
+{
+  "attempt_id": "29377f646c24471a8e0d4c9af712af91",
+  "run_id": "8c886293d46d",
+  "task_id": "HE-EDIT-003",
+  "humaneval_task_id": "HumanEval/2",
+  "method": "search_replace_patch",
+  "rep": 4,
+  "mode": "live",
+  "provider": "openrouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "seed_requested": 990292,
+  "max_output_tokens": 4096,
+  "prompt_original_sha256": "920b0a17ed0b06b21dff1f4ab6e2ab5c60f10cd7cf544b3ac4811c0c08ebae36",
+  "prompt_bytes": 1791,
+  "prompt_token_estimate": 376,
+  "redaction_applied": false
+}

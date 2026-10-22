@@ -37,6 +37,7 @@ import ast
 import json
 import os
 import sys
+import textwrap
 from typing import Any, Dict, List, Optional, Tuple
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
@@ -331,20 +332,37 @@ def _ast_splice_check(record: Dict[str, Any], gold_source: str) -> Tuple[bool, A
 
 
 def _body_only(function_source: str) -> str:
-    """Strip the ``def`` header from a function source block."""
+    """
+    Strip the ``def`` header from a function source block.
+
+    The header may span several lines (a long parameter list, or a long
+    return annotation).  The header is therefore located with the AST
+    instead of by scanning for the first indented line: the body of a
+    function starts at its first statement.  A function whose body cannot
+    be located yields the empty string.
+
+    This is a *correctness fix* for the body extraction only.  It changes
+    no check, weakens no check and does not touch the official evaluator.
+    """
     lines = function_source.splitlines(keepends=True)
-    body_start = None
-    for index, line in enumerate(lines):
-        stripped = line.strip()
-        if stripped.startswith("def ") or stripped.startswith("async def ") or stripped.startswith("@"):
-            continue
-        if stripped and not line.startswith((" ", "\t")):
-            break
-        body_start = index
-        break
-    if body_start is None:
+    try:
+        module = ast.parse(textwrap.dedent("".join(lines)))
+    except SyntaxError:
         return ""
-    return "".join(lines[body_start:])
+    bodies = [
+        node.body
+        for node in ast.walk(module)
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+    ]
+    if not bodies:
+        return ""
+    body = bodies[0]
+    if not body:
+        return ""
+    start = body[0].lineno - 1
+    if start < 0 or start >= len(lines):
+        return ""
+    return "".join(lines[start:])
 
 
 # --------------------------------------------------------------------------

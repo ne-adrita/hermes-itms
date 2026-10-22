@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0",
+  "run_id": "8c886293d46d",
+  "created_at_utc": "2026-10-22T00:50:21Z",
+  "mode": "live",
+  "declared_provider": "openrouter",
+  "effective_provider": "openrouter",
+  "is_measurement": true,
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": null,
+  "temperature": 0.2,
+  "max_output_tokens": 4096,
+  "output_token_limit_justification": {
+    "resolved_limit": 4096,
+    "formula": "ceil(safety_factor * max_file_tokens) + reasoning_allowance",
+    "safety_factor": 2.0,
+    "reasoning_allowance": 1024,
+    "max_file_tokens": 268,
+    "min_file_tokens": 68,
+    "tasks_considered": 20,
+    "applied_to_every_strategy": true,
+    "rationale": "The limit is derived from the largest file the baseline strategy must re-emit, plus an allowance for provider-side reasoning, so a truncation reflects the task, not the strategy. It is identical for all three strategies and is recorded per attempt.",
+    "limit_source": "operator_explicit"
+  },
+  "request_timeout_seconds": 60.0,
+  "max_retries": 0,
+  "retry_policy": "bounded; transient HTTP 429 only; HTTP 402 and daily/per-minute quota caps are never retried",
+  "evaluation_timeout_seconds": 10.0,
+  "evaluation_isolation": {
+    "requested": "seatbelt",
+    "level": "macos_seatbelt_profile",
+    "seatbelt_available": true,
+    "enforced": [
+      "environment scrubbed to PATH/TMPDIR/LANG/PYTHON* (no provider credential)",
+      "PYTHONPATH restricted to the evaluation directory, user site-packages disabled",
+      "interpreter-level socket guard (sitecustomize)",
+      "wall-clock timeout with process termination",
+      "macOS Seatbelt profile: no network, no access to the operator's home/project directory (the .env credential is unreadable)",
+      "POSIX resource limits: RLIMIT_CPU, RLIMIT_AS, RLIMIT_NPROC, RLIMIT_FSIZE"
+    ],
+    "not_enforced": [
+      "no container/VM boundary",
+      "no file-system confinement beyond the rules above"
+    ]
+  },
+  "budget": {
+    "max_attempts": 300,
+    "max_spend_usd": 1.0,
+    "require_free_model": true,
+    "model_id": "minimax/minimax-m3.1-flash:free",
+    "requests_issued": 0,
+    "cumulative_reported_spend_usd": 0.0,
+    "unreported_cost_attempts": 0,
+    "cost_reporting_available": false,
+    "spend_cap_effective": true,
+    "limit_reached_reason": null,
+    "not_executed_cells": []
+  },
+  "run_order_seed": 20261023,
+  "request_seed_base": 990000,
+  "seed_policy": "request-level seed per cell, derived from request_seed_base and the cell's position in the deterministic schedule",
+  "seed_honour_verified": false,
+  "bootstrap_seed": 20260101,
+  "reps": 5,
+  "tasks": [
+    "HE-EDIT-001",
+    "HE-EDIT-002",
+    "HE-EDIT-003",
+    "HE-EDIT-004",
+    "HE-EDIT-005",
+    "HE-EDIT-006",
+    "HE-EDIT-007",
+    "HE-EDIT-008",
+    "HE-EDIT-009",
+    "HE-EDIT-010",
+    "HE-EDIT-011",
+    "HE-EDIT-012",
+    "HE-EDIT-013",
+    "HE-EDIT-014",
+    "HE-EDIT-015",
+    "HE-EDIT-016",
+    "HE-EDIT-017",
+    "HE-EDIT-018",
+    "HE-EDIT-019",
+    "HE-EDIT-020"
+  ],
+  "task_count": 20,
+  "methods": [
+    "full_file_regeneration",
+    "search_replace_patch",
+    "itms_ast_splice"
+  ],
+  "planned_attempts": 300,
+  "task_manifest_digest": "92077bdca33b75b3ca3c7c15a55b237b6c1f5c79d1da20ebb0f9efb4d23d08f1",
+  "python_version": "3.14.4 (main, Apr  7 2026, 13:13:20) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "software_versions": {
+    "python": "3.14.4",
+    "httpx": "0.28.1",
+    "pytest": "9.1.1",
+    "tiktoken": "0.14.0",
+    "dotenv": "unknown"
+  },
+  "artifact_files": {
+    "attempts_jsonl": "attempts.jsonl",
+    "attempts_csv": "attempts.csv",
+    "summary_json": "summary.json",
+    "run_metadata_json": "run_metadata.json"
+  },
+  "artifacts_dir": "artifacts",
+  "notes": [
+    "This benchmark evaluates three editing strategies of this project on synthetic HumanEval-derived repair tasks. It is not the HumanEval benchmark and produces no HumanEval pass rate.",
+    "Mock-mode runs are pipeline tests only and are not measurements.",
+    "The evaluation sandbox is best-effort isolation, not a security boundary: filesystem and subprocess containment are absent and the socket guard can be bypassed by a child process."
+  ]
+}

@@ -1,0 +1,8 @@
+Return the Manhattan distance between two points.
+
+    The Manhattan distance is the sum of the absolute differences of the
+    two coordinates.  It is never negative.
+
+    >>> manhattan_distance(0, 0, 3, 4)
+    7
+    

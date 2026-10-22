@@ -1,0 +1,309 @@
+{
+  "schema_version": "1.0",
+  "generated_by": "benchmarks/phase0/build_modular_tasks.py",
+  "modules": [
+    "grid_geometry",
+    "interval_math",
+    "inventory_math",
+    "rate_limiting",
+    "text_metrics"
+  ],
+  "targets_inspected": 20,
+  "eligible": 20,
+  "gold_passed": 20,
+  "with_viable_mutations": 20,
+  "accepted": 20,
+  "rejected": 0,
+  "not_selected": 0,
+  "mutation_rule_usage": {
+    "comparison_operator_swap": 5,
+    "off_by_one_boundary": 4,
+    "incorrect_constant": 4,
+    "arithmetic_operator_swap": 4,
+    "boolean_operator_swap": 3
+  },
+  "rejected_candidates": [],
+  "not_selected_candidates": [],
+  "per_target": [
+    {
+      "module": "grid_geometry",
+      "target_function": "bounding_box",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 6,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 2
+      }
+    },
+    {
+      "module": "grid_geometry",
+      "target_function": "manhattan_distance",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 2,
+        "arithmetic_operator_swap": 3
+      }
+    },
+    {
+      "module": "grid_geometry",
+      "target_function": "point_in_rectangle",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 4,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 2,
+        "arithmetic_operator_swap": 2,
+        "boolean_operator_swap": 3
+      }
+    },
+    {
+      "module": "grid_geometry",
+      "target_function": "rectangle_area",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 1,
+        "boolean_operator_swap": 1
+      }
+    },
+    {
+      "module": "interval_math",
+      "target_function": "gap_between",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 2,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 1
+      }
+    },
+    {
+      "module": "interval_math",
+      "target_function": "merge_intervals",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 6,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3
+      }
+    },
+    {
+      "module": "interval_math",
+      "target_function": "overlap_length",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 2,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 1
+      }
+    },
+    {
+      "module": "interval_math",
+      "target_function": "total_covered_length",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 9,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3,
+        "boolean_operator_swap": 1
+      }
+    },
+    {
+      "module": "inventory_math",
+      "target_function": "economic_order_quantity",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 8,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3
+      }
+    },
+    {
+      "module": "inventory_math",
+      "target_function": "reorder_point",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 2,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 2
+      }
+    },
+    {
+      "module": "inventory_math",
+      "target_function": "stock_valuation",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 6,
+      "mutation_candidates_evaluated": {
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3
+      }
+    },
+    {
+      "module": "inventory_math",
+      "target_function": "turnover_ratio",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 2,
+        "arithmetic_operator_swap": 1
+      }
+    },
+    {
+      "module": "rate_limiting",
+      "target_function": "is_request_allowed",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1
+      }
+    },
+    {
+      "module": "rate_limiting",
+      "target_function": "retry_after_seconds",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 1
+      }
+    },
+    {
+      "module": "rate_limiting",
+      "target_function": "tokens_to_refill",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 5,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 1,
+        "boolean_operator_swap": 1
+      }
+    },
+    {
+      "module": "rate_limiting",
+      "target_function": "window_utilisation",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 4,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 1
+      }
+    },
+    {
+      "module": "text_metrics",
+      "target_function": "longest_word",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 4,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "incorrect_constant": 1,
+        "arithmetic_operator_swap": 1,
+        "boolean_operator_swap": 1
+      }
+    },
+    {
+      "module": "text_metrics",
+      "target_function": "split_on_whitespace_trimmed",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 3,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 1,
+        "off_by_one_boundary": 1,
+        "incorrect_constant": 1
+      }
+    },
+    {
+      "module": "text_metrics",
+      "target_function": "vowel_ratio",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 12,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 2,
+        "off_by_one_boundary": 3,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3,
+        "boolean_operator_swap": 1
+      }
+    },
+    {
+      "module": "text_metrics",
+      "target_function": "word_frequencies",
+      "eligible": true,
+      "eligibility_reasons": [],
+      "gold_passes_official_check": true,
+      "viable_mutations_found": 12,
+      "mutation_candidates_evaluated": {
+        "comparison_operator_swap": 3,
+        "off_by_one_boundary": 2,
+        "incorrect_constant": 3,
+        "arithmetic_operator_swap": 3,
+        "boolean_operator_swap": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+You are repairing a Python module with a surgical AST edit.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `tokens_to_refill`, whose docstring specifies its intended behaviour. The current implementation of `tokens_to_refill` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+Return how many tokens the bucket regains during ``elapsed_seconds``.
+
+    The bucket regains ``elapsed_seconds * rate_per_second`` tokens, but it
+    never holds more than ``capacity`` tokens.  A negative elapsed time
+    regains nothing, and a non-positive rate never refills the bucket.
+
+    >>> tokens_to_refill(2.0, 5.0, 100.0)
+    10.0
+    
+
+CONTEXT SKELETON
+-----------------
+----- BEGIN FILE -----
+from __future__ import annotations
+import math
+from typing import Dict, List, Optional, Sequence, Tuple
+__all__ = ['TokenBucket', 'tokens_to_refill', 'is_request_allowed', 'retry_after_seconds', 'window_utilisation', 'clamp_bucket', 'burst_allowance', 'average_rate']
+
+def tokens_to_refill(elapsed_seconds: float, rate_per_second: float, capacity: float) -> float:
+    """Return how many tokens the bucket regains during ``elapsed_seconds``.
+
+    The bucket regains ``elapsed_seconds * rate_per_second`` tokens, but it
+    never holds more than ``capacity`` tokens.  A negative elapsed time
+    regains nothing, and a non-positive rate never refills the bucket.
+
+    >>> tokens_to_refill(2.0, 5.0, 100.0)
+    10.0
+    """
+    if elapsed_seconds <= 0 and rate_per_second <= 0:
+        return 0
+    gained = elapsed_seconds * rate_per_second
+    if gained > capacity:
+        return capacity
+    return gained
+----- END FILE -----
+
+TARGET NODE: tokens_to_refill
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return ONLY the replacement for the target function, inside a
+single fenced python code block. Either return the complete
+function definition (starting with 'def <name>(...)') or only its
+indented body. Do not modify any other part of the file and do
+not add commentary.

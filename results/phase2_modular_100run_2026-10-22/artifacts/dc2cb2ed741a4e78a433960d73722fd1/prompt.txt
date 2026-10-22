@@ -1,0 +1,281 @@
+You are repairing a Python module with a search/replace patch.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `merge_intervals`, whose docstring specifies its intended behaviour. The current implementation of `merge_intervals` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+Merge overlapping and touching intervals into a minimal covering list.
+
+    The result is sorted by start time and contains no two intervals that
+    overlap or touch.  Intervals that only touch at one end are merged as
+    well, so ``(0, 5)`` and ``(5, 10)`` become ``(0, 10)``.
+
+    An empty input yields an empty list.
+
+    >>> merge_intervals([(5, 6), (0, 3), (2, 4)])
+    [(0, 4), (5, 6)]
+    
+
+CURRENT FILE (contains the defect)
+----------------------------------
+----- BEGIN FILE -----
+"""Arithmetic over one-dimensional time intervals.
+
+The module provides pure functions for combining, measuring and comparing
+intervals on a line.  An interval is a pair ``(start, end)`` of numbers with
+``start <= end``; the functions accept any pair of comparable numbers.
+
+A :class:`Schedule` collects intervals and answers the questions that a
+booking or a resource planner usually asks: how much time is booked, which
+bookings overlap, and where the gaps are.
+
+All functions are deterministic and free of side effects.
+"""
+
+from __future__ import annotations
+
+from typing import Dict, Iterable, List, Optional, Sequence, Tuple
+
+__all__ = [
+    "Schedule",
+    "overlap_length",
+    "merge_intervals",
+    "total_covered_length",
+    "gap_between",
+    "normalize_interval",
+    "interval_duration",
+    "overlaps",
+    "is_within",
+]
+
+def overlap_length(a_start: float, a_end: float, b_start: float, b_end: float) -> float:
+    """Return the length of the overlap of two intervals.
+
+    The intervals are half-open: ``[a_start, a_end)`` and ``[b_start, b_end)``.
+    Touching intervals therefore do not overlap.  When the intervals do not
+    overlap at all the result is ``0``.
+
+    >>> overlap_length(0, 10, 5, 15)
+    5
+    """
+    start = a_start if a_start > b_start else b_start
+    end = a_end if a_end < b_end else b_end
+    if end <= start:
+        return 0
+    return end - start
+
+
+def merge_intervals(intervals: Sequence[Tuple[float, float]]) -> List[Tuple[float, float]]:
+    """Merge overlapping and touching intervals into a minimal covering list.
+
+    The result is sorted by start time and contains no two intervals that
+    overlap or touch.  Intervals that only touch at one end are merged as
+    well, so ``(0, 5)`` and ``(5, 10)`` become ``(0, 10)``.
+
+    An empty input yields an empty list.
+
+    >>> merge_intervals([(5, 6), (0, 3), (2, 4)])
+    [(0, 4), (5, 6)]
+    """
+    ordered = sorted(intervals, key=lambda item: (item[0], item[1]))
+    result: List[Tuple[float, float]] = []
+    for start, end in ordered:
+        if not result:
+            result.append((start, end))
+            continue
+        last_start, last_end = result[-1]
+        if start < last_end:
+            if end > last_end:
+                result[-1] = (last_start, end)
+        else:
+            result.append((start, end))
+    return result
+
+
+def total_covered_length(intervals: Sequence[Tuple[float, float]]) -> float:
+    """Return the total length covered by ``intervals``.
+
+    Overlapping parts are counted only once, so the result is the length of
+    the union of the intervals.  An empty input yields ``0``.
+
+    >>> total_covered_length([(0, 10), (5, 15)])
+    15
+    """
+    ordered = sorted(intervals, key=lambda item: (item[0], item[1]))
+    total = 0
+    current_start: Optional[float] = None
+    current_end: Optional[float] = None
+    for start, end in ordered:
+        if current_start is None:
+            current_start = start
+            current_end = end
+            continue
+        if start <= current_end:
+            if end > current_end:
+                current_end = end
+        else:
+            total = total + (current_end - current_start)
+            current_start = start
+            current_end = end
+    if current_start is not None and current_end is not None:
+        total = total + (current_end - current_start)
+    return total
+
+
+def gap_between(a_start: float, a_end: float, b_start: float, b_end: float) -> float:
+    """Return the idle time between two intervals.
+
+    The gap is the time between the end of the first interval and the start
+    of the second one.  When the intervals overlap or touch, or when the
+    second one starts earlier, the result is ``0``.
+
+    >>> gap_between(0, 10, 15, 20)
+    5
+    """
+    if b_start <= a_end:
+        return 0
+    return b_start - a_end
+
+
+def normalize_interval(interval: Tuple[float, float]) -> Tuple[float, float]:
+    """Return the interval with its two ends in ascending order.
+
+    >>> normalize_interval((9, 2))
+    (2, 9)
+    """
+    start, end = interval
+    if start <= end:
+        return (start, end)
+    return (end, start)
+
+
+def interval_duration(interval: Tuple[float, float]) -> float:
+    """Return the length of one interval.
+
+    >>> interval_duration((2, 7))
+    5
+    """
+    start, end = normalize_interval(interval)
+    return end - start
+
+
+def overlaps(a: Tuple[float, float], b: Tuple[float, float]) -> bool:
+    """Return whether two intervals overlap.
+
+    Touching intervals do not overlap.
+
+    >>> overlaps((0, 5), (5, 9))
+    False
+    """
+    a_start, a_end = normalize_interval(a)
+    b_start, b_end = normalize_interval(b)
+    return overlap_length(a_start, a_end, b_start, b_end) > 0
+
+
+def is_within(inner: Tuple[float, float], outer: Tuple[float, float]) -> bool:
+    """Return whether ``inner`` lies completely inside ``outer``.
+
+    >>> is_within((2, 3), (0, 5))
+    True
+    """
+    inner_start, inner_end = normalize_interval(inner)
+    outer_start, outer_end = normalize_interval(outer)
+    if inner_start < outer_start or inner_end > outer_end:
+        return False
+    return True
+
+
+class Schedule:
+    """A collection of booked intervals.
+
+    The schedule keeps the intervals in the order in which they were added
+    and answers the aggregate questions about them.  Two intervals that
+    touch do not conflict.
+    """
+
+    def __init__(self, intervals: Optional[Iterable[Tuple[float, float]]] = None) -> None:
+        self.intervals: List[Tuple[float, float]] = []
+        for interval in intervals or []:
+            self.add(interval)
+
+    def add(self, interval: Tuple[float, float]) -> None:
+        """Book one more interval."""
+        self.intervals.append(normalize_interval(interval))
+
+    def conflicts_with(self, interval: Tuple[float, float]) -> List[Tuple[float, float]]:
+        """Return the booked intervals that overlap ``interval``."""
+        start, end = normalize_interval(interval)
+        found: List[Tuple[float, float]] = []
+        for booked in self.intervals:
+            if overlap_length(start, end, booked[0], booked[1]) > 0:
+                found.append(booked)
+        return found
+
+    def total_duration(self) -> float:
+        """Return the total booked time, counting overlaps only once."""
+        return total_covered_length(self.intervals)
+
+    def longest_interval(self) -> Optional[Tuple[float, float]]:
+        """Return the longest booked interval, or ``None`` when empty.
+
+        When several intervals share the maximum length, the earliest one
+        is returned.
+        """
+        best: Optional[Tuple[float, float]] = None
+        best_length = 0
+        for interval in self.intervals:
+            length = interval_duration(interval)
+            if length > best_length:
+                best = interval
+                best_length = length
+        return best
+
+    def merged(self) -> List[Tuple[float, float]]:
+        """Return the booked intervals merged into free slots."""
+        return merge_intervals(self.intervals)
+
+    def free_slots(self, window: Tuple[float, float]) -> List[Tuple[float, float]]:
+        """Return the gaps of ``window`` that are not booked."""
+        start, end = normalize_interval(window)
+        free: List[Tuple[float, float]] = []
+        cursor = start
+        for busy_start, busy_end in self.merged():
+            if busy_start > cursor:
+                free.append((cursor, busy_start))
+            if busy_end > cursor:
+                cursor = busy_end
+        if cursor < end:
+            free.append((cursor, end))
+        return free
+
+    def summary(self) -> Dict[str, object]:
+        """Return a dictionary with the aggregate figures of the schedule."""
+        return {
+            "intervals": len(self.intervals),
+            "total_duration": self.total_duration(),
+            "merged": self.merged(),
+        }
+
+    def __repr__(self) -> str:
+        return f"Schedule(intervals={len(self.intervals)})"
+----- END FILE -----
+
+OUTPUT FORMAT: search/replace block
+-----------------------------------
+Reply with exactly one block of this form:
+
+<<<<<<< SEARCH
+<the exact lines you want to replace, copied verbatim>
+=======
+<the replacement lines>
+>>>>>>> REPLACE
+
+The SEARCH section must appear exactly once in the file. Do not
+add commentary and do not return more than one block.

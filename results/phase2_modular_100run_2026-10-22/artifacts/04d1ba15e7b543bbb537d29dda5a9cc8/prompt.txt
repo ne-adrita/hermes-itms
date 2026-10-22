@@ -1,0 +1,53 @@
+You are repairing a Python module with a surgical AST edit.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `is_request_allowed`, whose docstring specifies its intended behaviour. The current implementation of `is_request_allowed` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+Return whether a request of ``request_cost`` tokens may pass.
+
+    A request is allowed when the bucket holds at least as many tokens as
+    the request costs.  A request that costs nothing is always allowed.
+
+    >>> is_request_allowed(5.0, 2.0)
+    True
+    
+
+CONTEXT SKELETON
+-----------------
+----- BEGIN FILE -----
+from __future__ import annotations
+import math
+from typing import Dict, List, Optional, Sequence, Tuple
+__all__ = ['TokenBucket', 'tokens_to_refill', 'is_request_allowed', 'retry_after_seconds', 'window_utilisation', 'clamp_bucket', 'burst_allowance', 'average_rate']
+
+def is_request_allowed(bucket_tokens: float, request_cost: float) -> bool:
+    """Return whether a request of ``request_cost`` tokens may pass.
+
+    A request is allowed when the bucket holds at least as many tokens as
+    the request costs.  A request that costs nothing is always allowed.
+
+    >>> is_request_allowed(5.0, 2.0)
+    True
+    """
+    if request_cost <= 0:
+        return True
+    return bucket_tokens > request_cost
+----- END FILE -----
+
+TARGET NODE: is_request_allowed
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return ONLY the replacement for the target function, inside a
+single fenced python code block. Either return the complete
+function definition (starting with 'def <name>(...)') or only its
+indented body. Do not modify any other part of the file and do
+not add commentary.

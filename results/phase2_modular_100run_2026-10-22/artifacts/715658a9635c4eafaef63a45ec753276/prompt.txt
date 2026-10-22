@@ -1,0 +1,56 @@
+You are repairing a Python module with a surgical AST edit.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `overlap_length`, whose docstring specifies its intended behaviour. The current implementation of `overlap_length` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+Return the length of the overlap of two intervals.
+
+    The intervals are half-open: ``[a_start, a_end)`` and ``[b_start, b_end)``.
+    Touching intervals therefore do not overlap.  When the intervals do not
+    overlap at all the result is ``0``.
+
+    >>> overlap_length(0, 10, 5, 15)
+    5
+    
+
+CONTEXT SKELETON
+-----------------
+----- BEGIN FILE -----
+from __future__ import annotations
+from typing import Dict, Iterable, List, Optional, Sequence, Tuple
+__all__ = ['Schedule', 'overlap_length', 'merge_intervals', 'total_covered_length', 'gap_between', 'normalize_interval', 'interval_duration', 'overlaps', 'is_within']
+
+def overlap_length(a_start: float, a_end: float, b_start: float, b_end: float) -> float:
+    """Return the length of the overlap of two intervals.
+
+    The intervals are half-open: ``[a_start, a_end)`` and ``[b_start, b_end)``.
+    Touching intervals therefore do not overlap.  When the intervals do not
+    overlap at all the result is ``0``.
+
+    >>> overlap_length(0, 10, 5, 15)
+    5
+    """
+    start = a_start if a_start > b_start else b_start
+    end = a_end if a_end < b_end else b_end
+    if end <= start:
+        return 0
+    return end + start
+----- END FILE -----
+
+TARGET NODE: overlap_length
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return ONLY the replacement for the target function, inside a
+single fenced python code block. Either return the complete
+function definition (starting with 'def <name>(...)') or only its
+indented body. Do not modify any other part of the file and do
+not add commentary.

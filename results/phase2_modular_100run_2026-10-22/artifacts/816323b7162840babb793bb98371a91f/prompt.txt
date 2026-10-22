@@ -1,0 +1,59 @@
+You are repairing a Python module with a surgical AST edit.
+
+TASK INSTRUCTIONS
+---------------
+The Python module below contains the function `economic_order_quantity`, whose docstring specifies its intended behaviour. The current implementation of `economic_order_quantity` is defective: it does not satisfy the specification. Repair the function so that it behaves exactly as specified.
+Constraints:
+- Keep the function name and its signature unchanged.
+- Do not modify the docstring.
+- Do not change the behaviour of any other part of the module.
+- Return only the repaired function (or the repaired module).
+
+PROBLEM STATEMENT
+-----------------
+Return the economic order quantity for one stock keeping unit.
+
+    The result is the square root of ``2 * demand * order cost / holding
+    cost``.  The result is rounded down to a whole unit, because a fraction
+    of a unit cannot be ordered.  When the holding cost is not positive the
+    result is ``0``.
+
+    >>> economic_order_quantity(1200.0, 50.0, 5.0)
+    154
+    
+
+CONTEXT SKELETON
+-----------------
+----- BEGIN FILE -----
+from __future__ import annotations
+import math
+from typing import Dict, List, Optional, Sequence, Tuple
+__all__ = ['InventoryItem', 'reorder_point', 'economic_order_quantity', 'stock_valuation', 'turnover_ratio', 'average_daily_usage', 'days_of_cover', 'fill_rate', 'order_total']
+_WORKING_DAYS_PER_WEEK = 5
+
+def economic_order_quantity(annual_demand: float, order_cost: float, holding_cost_per_unit: float) -> float:
+    """Return the economic order quantity for one stock keeping unit.
+
+    The result is the square root of ``2 * demand * order cost / holding
+    cost``.  The result is rounded down to a whole unit, because a fraction
+    of a unit cannot be ordered.  When the holding cost is not positive the
+    result is ``0``.
+
+    >>> economic_order_quantity(1200.0, 50.0, 5.0)
+    154
+    """
+    if holding_cost_per_unit < 0:
+        return 0
+    raw = math.sqrt(2 * annual_demand * order_cost / holding_cost_per_unit)
+    return int(math.floor(raw))
+----- END FILE -----
+
+TARGET NODE: economic_order_quantity
+
+OUTPUT FORMAT: single fenced python block
+---------------------------------------
+Return ONLY the replacement for the target function, inside a
+single fenced python code block. Either return the complete
+function definition (starting with 'def <name>(...)') or only its
+indented body. Do not modify any other part of the file and do
+not add commentary.

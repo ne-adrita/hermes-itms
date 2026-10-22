@@ -1,0 +1,19 @@
+{
+  "attempt_id": "a40ac4f29da740128e1e14b29a87ca2f",
+  "run_id": "eb1b0f4b58a9",
+  "task_id": "MOD-EDIT-014",
+  "humaneval_task_id": "modular/inventory_math",
+  "method": "itms_ast_splice",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "minimax/minimax-m3.1-flash:free",
+  "served_model_id": "minimax/minimax-m3.1-flash:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "e0eb4ff440271d2cc66fd2017b7ff142385e87e9e42429f3ce7b896fc55d0bdf",
+  "response_bytes": 552,
+  "response_text": "```python\ndef reorder_point(avg_daily_demand: float, lead_time_days: float, safety_stock: float) -> float:\n    \"\"\"Return the stock level at which a new order has to be placed.\n\n    The reorder point is the demand expected during the supplier lead time\n    plus the safety stock.  A non-positive lead time contributes nothing,\n    so the result is never below the safety stock.\n\n    >>> reorder_point(10.0, 3.0, 5.0)\n    35.0\n    \"\"\"\n    if lead_time_days <= 0:\n        return safety_stock\n    return avg_daily_demand * lead_time_days + safety_stock\n```"
+}
