@@ -1,0 +1,2 @@
+method,planned_attempts,completed_attempts,officially_evaluated_attempts,evaluator_pass_count,evaluator_pass_rate_over_evaluated,completion_rate_over_scheduled,provider_error_count,failure_count,truncation_count,mean_total_tokens,median_total_tokens,mean_latency_ms,median_latency_ms,mean_provider_latency_ms,median_provider_latency_ms,provider_reported_cost_usd
+itms_ast_splice,35,35,17,17,1.0,0.4857142857142857,18,18,0,1795.0,1865,6771.875974855253,191.6972920007538,13711.998377293212,12410.768125002505,

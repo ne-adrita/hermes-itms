@@ -262,201 +262,201 @@ def _render_measured_panel(measured: dict) -> None:
     )
 
 
-    def inject_custom_styles():
-        """Injects high-contrast dark theme CSS with complementary accent palettes."""
-        st.markdown(
-        """
-        <style>
-        .stApp {
-            background-color: #0B0F17;
-            color: #E2E8F0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        }
-
-        .header-card {
-            padding: 1.1rem 1.4rem;
-            background: linear-gradient(135deg, #111827 0%, #161F30 100%);
-            border: 1px solid #1E293B;
-            border-radius: 10px;
-            margin-bottom: 1.25rem;
-        }
-        .header-title {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #F8FAFC;
-            letter-spacing: -0.02em;
-            margin-bottom: 0.25rem;
-        }
-        .header-desc {
-            font-size: 0.88rem;
-            color: #94A3B8;
-        }
-
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.85rem;
-            margin-bottom: 1.25rem;
-        }
-        @media (max-width: 900px) {
-            .kpi-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        .kpi-box {
-            background: #111827;
-            border-radius: 8px;
-            padding: 1rem 1.15rem;
-            border: 1px solid #1E293B;
-        }
-        .kpi-box-green { border-top: 3px solid #10B981; }
-        .kpi-box-cyan  { border-top: 3px solid #0EA5E9; }
-        .kpi-box-purple{ border-top: 3px solid #8B5CF6; }
-        .kpi-box-amber { border-top: 3px solid #F59E0B; }
-
-        .kpi-title {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            font-weight: 600;
-            color: #94A3B8;
-            letter-spacing: 0.04em;
-            margin-bottom: 0.25rem;
-        }
-        .kpi-number {
-            font-size: 1.65rem;
-            font-weight: 700;
-            color: #F8FAFC;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        }
-        .kpi-number-green { color: #34D399; }
-        .kpi-detail {
-            font-size: 0.74rem;
-            color: #64748B;
-            margin-top: 0.2rem;
-        }
-
-        .bar-card {
-            background: #111827;
-            border: 1px solid #1E293B;
-            border-radius: 8px;
-            padding: 0.9rem 1.15rem;
-            margin-bottom: 1.25rem;
-        }
-        .bar-header {
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: #94A3B8;
-            margin-bottom: 0.4rem;
-            display: flex;
-            justify-content: space-between;
-        }
-        .bar-track {
-            display: flex;
-            height: 18px;
-            border-radius: 4px;
-            overflow: hidden;
-            background: #1E293B;
-            margin-bottom: 0.45rem;
-        }
-        .seg-cached { background-color: #10B981; }
-        .seg-uncached { background-color: #0EA5E9; }
-        .seg-output { background-color: #6366F1; }
-        .seg-reasoning { background-color: #A855F7; }
-        .seg-ruminate { background-color: #E11D48; }
-
-        .legend-row {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            font-size: 0.72rem;
-            color: #94A3B8;
-            margin-top: 0.35rem;
-        }
-        .legend-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 2px;
-            display: inline-block;
-            margin-right: 0.3rem;
-        }
-
-        .system-card {
-            background: #111827;
-            border: 1px solid #1E293B;
-            border-radius: 10px;
-            padding: 1.15rem 1.25rem;
-            height: 100%;
-        }
-        .system-card-itms { border-top: 3px solid #10B981; }
-        .system-card-baseline { border-top: 3px solid #F43F5E; }
-        .system-card-header {
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: #F8FAFC;
-            margin-bottom: 0.2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .system-subtitle {
-            font-size: 0.78rem;
-            color: #94A3B8;
-            margin-bottom: 0.9rem;
-        }
-
-        .status-container {
-            background: #0B0F17;
-            border: 1px solid #1E293B;
-            border-radius: 6px;
-            padding: 0.75rem 0.9rem;
-            margin-top: 0.85rem;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 0.78rem;
-            line-height: 1.55;
-        }
-        .badge {
-            font-size: 0.68rem;
-            font-weight: 700;
-            padding: 0.1rem 0.35rem;
-            border-radius: 3px;
-            margin-right: 0.45rem;
-        }
-        .badge-green { background: rgba(16,185,129,0.2); color: #34D399; border: 1px solid rgba(16,185,129,0.3); }
-        .badge-rose  { background: rgba(244,63,94,0.2);  color: #FB7185; border: 1px solid rgba(244,63,94,0.3); }
-        .badge-blue  { background: rgba(14,165,233,0.2); color: #38BDF8; border: 1px solid rgba(14,165,233,0.3); }
-
-        .terminal-box {
-            background: #050811;
-            border: 1px solid #1E293B;
-            border-radius: 6px;
-            padding: 0.85rem 1rem;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 0.82rem;
-            color: #E2E8F0;
-            line-height: 1.6;
-        }
-
-        .model-card {
-            background: #111827;
-            border: 1px solid #1E293B;
-            border-radius: 8px;
-            padding: 0.9rem 1rem;
-            margin-bottom: 0.75rem;
-        }
-        .model-card-tier1 { border-left: 3px solid #0EA5E9; }
-        .model-card-tier2 { border-left: 3px solid #8B5CF6; }
-        .model-name { font-size: 0.95rem; font-weight: 700; color: #F8FAFC; }
-        .model-meta { font-size: 0.75rem; color: #94A3B8; margin-top: 0.2rem; }
-        .model-cost { font-family: ui-monospace, monospace; font-size: 0.8rem; color: #34D399; margin-top: 0.25rem; }
-        .model-desc { font-size: 0.78rem; color: #CBD5E1; margin-top: 0.35rem; }
-
-        section[data-testid="stSidebar"] {
-            background-color: #0D131F !important;
-            border-right: 1px solid #1E293B;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
+def inject_custom_styles():
+    """Injects high-contrast dark theme CSS with complementary accent palettes."""
+    st.markdown(
+    """
+    <style>
+    .stApp {
+    background-color: #0B0F17;
+    color: #E2E8F0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    
+    .header-card {
+    padding: 1.1rem 1.4rem;
+    background: linear-gradient(135deg, #111827 0%, #161F30 100%);
+    border: 1px solid #1E293B;
+    border-radius: 10px;
+    margin-bottom: 1.25rem;
+    }
+    .header-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #F8FAFC;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+    }
+    .header-desc {
+    font-size: 0.88rem;
+    color: #94A3B8;
+    }
+    
+    .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.85rem;
+    margin-bottom: 1.25rem;
+    }
+    @media (max-width: 900px) {
+    .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+    }
+    }
+    .kpi-box {
+    background: #111827;
+    border-radius: 8px;
+    padding: 1rem 1.15rem;
+    border: 1px solid #1E293B;
+    }
+    .kpi-box-green { border-top: 3px solid #10B981; }
+    .kpi-box-cyan  { border-top: 3px solid #0EA5E9; }
+    .kpi-box-purple{ border-top: 3px solid #8B5CF6; }
+    .kpi-box-amber { border-top: 3px solid #F59E0B; }
+    
+    .kpi-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #94A3B8;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.25rem;
+    }
+    .kpi-number {
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #F8FAFC;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    .kpi-number-green { color: #34D399; }
+    .kpi-detail {
+    font-size: 0.74rem;
+    color: #64748B;
+    margin-top: 0.2rem;
+    }
+    
+    .bar-card {
+    background: #111827;
+    border: 1px solid #1E293B;
+    border-radius: 8px;
+    padding: 0.9rem 1.15rem;
+    margin-bottom: 1.25rem;
+    }
+    .bar-header {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #94A3B8;
+    margin-bottom: 0.4rem;
+    display: flex;
+    justify-content: space-between;
+    }
+    .bar-track {
+    display: flex;
+    height: 18px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #1E293B;
+    margin-bottom: 0.45rem;
+    }
+    .seg-cached { background-color: #10B981; }
+    .seg-uncached { background-color: #0EA5E9; }
+    .seg-output { background-color: #6366F1; }
+    .seg-reasoning { background-color: #A855F7; }
+    .seg-ruminate { background-color: #E11D48; }
+    
+    .legend-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.72rem;
+    color: #94A3B8;
+    margin-top: 0.35rem;
+    }
+    .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-right: 0.3rem;
+    }
+    
+    .system-card {
+    background: #111827;
+    border: 1px solid #1E293B;
+    border-radius: 10px;
+    padding: 1.15rem 1.25rem;
+    height: 100%;
+    }
+    .system-card-itms { border-top: 3px solid #10B981; }
+    .system-card-baseline { border-top: 3px solid #F43F5E; }
+    .system-card-header {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #F8FAFC;
+    margin-bottom: 0.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+    .system-subtitle {
+    font-size: 0.78rem;
+    color: #94A3B8;
+    margin-bottom: 0.9rem;
+    }
+    
+    .status-container {
+    background: #0B0F17;
+    border: 1px solid #1E293B;
+    border-radius: 6px;
+    padding: 0.75rem 0.9rem;
+    margin-top: 0.85rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.78rem;
+    line-height: 1.55;
+    }
+    .badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+    margin-right: 0.45rem;
+    }
+    .badge-green { background: rgba(16,185,129,0.2); color: #34D399; border: 1px solid rgba(16,185,129,0.3); }
+    .badge-rose  { background: rgba(244,63,94,0.2);  color: #FB7185; border: 1px solid rgba(244,63,94,0.3); }
+    .badge-blue  { background: rgba(14,165,233,0.2); color: #38BDF8; border: 1px solid rgba(14,165,233,0.3); }
+    
+    .terminal-box {
+    background: #050811;
+    border: 1px solid #1E293B;
+    border-radius: 6px;
+    padding: 0.85rem 1rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.82rem;
+    color: #E2E8F0;
+    line-height: 1.6;
+    }
+    
+    .model-card {
+    background: #111827;
+    border: 1px solid #1E293B;
+    border-radius: 8px;
+    padding: 0.9rem 1rem;
+    margin-bottom: 0.75rem;
+    }
+    .model-card-tier1 { border-left: 3px solid #0EA5E9; }
+    .model-card-tier2 { border-left: 3px solid #8B5CF6; }
+    .model-name { font-size: 0.95rem; font-weight: 700; color: #F8FAFC; }
+    .model-meta { font-size: 0.75rem; color: #94A3B8; margin-top: 0.2rem; }
+    .model-cost { font-family: ui-monospace, monospace; font-size: 0.8rem; color: #34D399; margin-top: 0.25rem; }
+    .model-desc { font-size: 0.78rem; color: #CBD5E1; margin-top: 0.35rem; }
+    
+    section[data-testid="stSidebar"] {
+    background-color: #0D131F !important;
+    border-right: 1px solid #1E293B;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
     )
 
 
@@ -1053,7 +1053,7 @@ assert r.calculate_tax_allocation(0.5) == 1030.0
                     </div>
                     <div class="kpi-box kpi-box-cyan">
                         <div class="kpi-title">Estimated Cost vs Full-File</div>
-                        <div class="kpi-number">{report.cost_saved_vs_full_pct:.1f}%</div>
+                        <div class="kpi-number">{f"{report.cost_saved_vs_full_pct:.1f}%" if report.cost_saved_vs_full_pct is not None else "N/A"}</div>
                         <div class="kpi-detail">${report.itms_surgical_result.cost_usd:.5f} vs ${report.full_file_result.cost_usd:.5f} (estimate x catalogue price)</div>
                     </div>
                     <div class="kpi-box kpi-box-purple">
@@ -1091,7 +1091,7 @@ assert r.calculate_tax_allocation(0.5) == 1030.0
             )
             measured_path = st.text_input(
                 "analysis.json path (measured run)",
-                value="results/latest/analysis/analysis.json",
+                value="results/bench_100_modelB_20261029T054947Z/analysis/analysis.json",
                 help="Path to analysis.json produced by benchmarks/analyze_run.py",
                 key="measured_analysis_path",
             )

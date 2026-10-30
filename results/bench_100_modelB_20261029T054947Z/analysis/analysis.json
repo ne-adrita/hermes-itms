@@ -1,0 +1,347 @@
+{
+  "schema_version": "1.0",
+  "run_dir": "/Users/noshinebnatadrita/Documents/499B/results/bench_100_modelB_20261029T054947Z",
+  "run_id": "248e0bac363d",
+  "mode": "live",
+  "is_measurement": true,
+  "created_at_utc": "2026-10-29T05:49:48Z",
+  "model": {
+    "requested_model_id": "nvidia/nemotron-3.5-lightning:free",
+    "served_model_ids": [
+      "nvidia/nemotron-3.5-lightning:free"
+    ],
+    "single_served_model": true
+  },
+  "denominators": {
+    "tasks": 7,
+    "methods": 1,
+    "reps_per_task": 5,
+    "planned_attempts": 35,
+    "scheduled_attempts": 35,
+    "provider_requests_issued": 35,
+    "completed_attempts": 35,
+    "recorded_attempts": 35,
+    "evaluated_attempts": 17,
+    "candidate_produced_attempts": 17,
+    "provider_generation_success_attempts": 17,
+    "unevaluated_attempts": 18,
+    "incomplete_attempts": 0,
+    "missing_attempts": 0,
+    "cells_by_repetition": {
+      "1": 7,
+      "2": 7,
+      "3": 7,
+      "4": 7,
+      "5": 7
+    }
+  },
+  "schedule": {
+    "kind": "full_cross_product",
+    "planned_attempts": 35,
+    "scheduled_cells_by_method": {
+      "itms_ast_splice": 35
+    }
+  },
+  "generation_versus_evaluation": {
+    "provider_requests_issued": 35,
+    "provider_answered": 17,
+    "provider_error": 18,
+    "candidate_produced": 17,
+    "officially_evaluated": 17,
+    "evaluator_pass": 17,
+    "evaluator_fail": 0,
+    "never_evaluated": 18,
+    "incomplete": 0,
+    "note": "A provider response is not a benchmark pass. Only an attempt that reached the official evaluator and passed it counts as a pass."
+  },
+  "methods": {
+    "itms_ast_splice": {
+      "method": "itms_ast_splice",
+      "denominators": {
+        "scheduled_attempts": 35,
+        "recorded_attempts": 35,
+        "attempted_attempts": 17,
+        "candidate_produced_attempts": 17,
+        "tasks": 7,
+        "reps_per_task": 5
+      },
+      "repair_success": {
+        "count": 17,
+        "rate_over_scheduled": 0.4857142857142857,
+        "rate_over_attempted": 1.0,
+        "note": "A repair counts as successful only for a completed repair attempt; attempts demoted for an artefact-persistence failure are never counted as successes."
+      },
+      "task_level": {
+        "tasks_with_at_least_one_success": 7,
+        "tasks_total": 7,
+        "task_success_rate": 1.0,
+        "mean_task_pass_rate": 0.48571428571428577,
+        "per_task_pass_rate": {
+          "HE-EDIT-008": 0.8,
+          "HE-EDIT-009": 0.6,
+          "HE-EDIT-010": 0.4,
+          "HE-EDIT-011": 0.4,
+          "HE-EDIT-012": 0.4,
+          "HE-EDIT-013": 0.4,
+          "HE-EDIT-014": 0.4
+        }
+      },
+      "syntax_valid": {
+        "count": 17,
+        "rate_over_candidates": 1.0
+      },
+      "test_pass": {
+        "count": 17,
+        "rate_over_candidates": 1.0
+      },
+      "malformed_output": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "provider_failures": {
+        "count": 18,
+        "rate_over_scheduled": 0.5142857142857142
+      },
+      "timeouts": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "failure_categories": {
+        "none": 17,
+        "quota_exceeded": 18
+      },
+      "status_counts": {
+        "provider_error": 18,
+        "repair_success": 17
+      },
+      "latency_ms": {
+        "mean": 6771.875974855253,
+        "median": 191.6972920007538,
+        "min": 57.580624998081475,
+        "max": 23739.46420798893,
+        "measured_attempts": 35
+      },
+      "provider_latency_ms": {
+        "mean": 13711.998377293212,
+        "median": 12410.768125002505,
+        "measured_attempts": 17
+      },
+      "token_usage": {
+        "provider_reported_attempts": 17,
+        "provider_partial_attempts": 0,
+        "local_estimate_only_attempts": 0,
+        "missing_attempts": 18,
+        "prompt_tokens_total": 7589,
+        "completion_tokens_total": 22926,
+        "total_tokens_total": 30515,
+        "mean_total_tokens": 1795.0,
+        "median_total_tokens": 1865,
+        "median_prompt_tokens": 443,
+        "median_completion_tokens": 1382,
+        "note": "Totals include provider-reported values only. Local token estimates are stored per attempt in estimated_prompt_tokens / estimated_completion_tokens and are never added to a provider-reported total."
+      },
+      "cost": {
+        "provider_reported_attempts": 0,
+        "missing_attempts": 35,
+        "total_cost_usd": null,
+        "source": null
+      },
+      "mock_attempts": 0,
+      "token_distribution": [
+        2159,
+        1562,
+        2361,
+        1196,
+        1402,
+        1607,
+        1839,
+        1925,
+        1654,
+        2269,
+        1501,
+        1261,
+        1866,
+        1865,
+        1924,
+        1871,
+        2253
+      ]
+    }
+  },
+  "method_order": [
+    "itms_ast_splice"
+  ],
+  "paired_task_comparisons": [],
+  "summary_from_run": {
+    "schema_version": "1.0",
+    "attempts_recorded": 35,
+    "attempts_with_local_token_estimates": 0,
+    "attempts_truncated_by_provider": 0,
+    "observed_served_model_ids": [
+      "nvidia/nemotron-3.5-lightning:free"
+    ],
+    "methods": [
+      "itms_ast_splice"
+    ],
+    "contains_mock_results": false,
+    "is_measurement": true,
+    "mock_warning": null,
+    "status_counts": {
+      "provider_error": 18,
+      "repair_success": 17
+    },
+    "failure_categories": {
+      "none": 17,
+      "quota_exceeded": 18
+    },
+    "attempts_with_provider_reported_usage": 17,
+    "attempts_with_provider_reported_cost": 0
+  },
+  "truncation": {
+    "total": 0,
+    "by_method": {
+      "itms_ast_splice": 0
+    },
+    "note": "A truncated attempt is a harness-budget outcome. It is reported separately and must not be read as a repair-quality result."
+  },
+  "output_cap": {
+    "values_in_use": [
+      2048
+    ],
+    "consistent_across_strategies": true,
+    "justification": {
+      "resolved_limit": 2048,
+      "formula": "ceil(safety_factor * max_file_tokens) + reasoning_allowance",
+      "safety_factor": 2.0,
+      "reasoning_allowance": 1024,
+      "max_file_tokens": 144,
+      "min_file_tokens": 81,
+      "tasks_considered": 7,
+      "applied_to_every_strategy": true,
+      "rationale": "The limit is derived from the largest file the baseline strategy must re-emit, plus an allowance for provider-side reasoning, so a truncation reflects the task, not the strategy. It is identical for all three strategies and is recorded per attempt.",
+      "limit_source": "justified_from_task_set"
+    }
+  },
+  "seeds": {
+    "request_seed_base": null,
+    "seeded_attempts": 0,
+    "seed_honour_verified": false,
+    "note": "seed_honour_verified is false unless a repeated-request probe proved that the provider honours the seed."
+  },
+  "cost": {
+    "provider_reported_attempts": 0,
+    "total_cost_usd": null,
+    "available": false,
+    "note": "Cost is reported only when the provider supplied it. When no attempt carries a reported cost, the cost is unavailable - it is never shown as zero and never replaced by an estimate."
+  },
+  "budget": {
+    "max_attempts": 35,
+    "max_spend_usd": null,
+    "require_free_model": true,
+    "model_id": "nvidia/nemotron-3.5-lightning:free",
+    "requests_issued": 35,
+    "cumulative_reported_spend_usd": 0.0,
+    "unreported_cost_attempts": 35,
+    "cost_reporting_available": false,
+    "spend_cap_effective": false,
+    "limit_reached_reason": null,
+    "not_executed_cells": [],
+    "not_executed_count": 0
+  },
+  "prompt_persistence": {
+    "attempts_with_stored_prompt": 35,
+    "total_attempts": 35,
+    "available": true,
+    "note": "Runs executed before prompt persistence was implemented carry no stored prompt; the check is reported as vacuous for them."
+  },
+  "integrity": {
+    "all_passed": true,
+    "checks": [
+      {
+        "check": "jsonl_csv_same_attempt_ids",
+        "passed": true,
+        "detail": "35 records vs 35 csv rows"
+      },
+      {
+        "check": "jsonl_csv_same_status",
+        "passed": true,
+        "detail": "no status mismatch"
+      },
+      {
+        "check": "attempt_ids_unique",
+        "passed": true,
+        "detail": "35 unique of 35"
+      },
+      {
+        "check": "summary_recorded_matches",
+        "passed": true,
+        "detail": "summary=35 files=35"
+      },
+      {
+        "check": "summary_planned_matches",
+        "passed": true,
+        "detail": "planned=35 recorded=35"
+      },
+      {
+        "check": "artifacts_present_for_every_attempt",
+        "passed": true,
+        "detail": "all present"
+      },
+      {
+        "check": "candidate_hashes_match_artifacts",
+        "passed": true,
+        "detail": "all match"
+      },
+      {
+        "check": "prompt_persisted_when_supported",
+        "passed": true,
+        "detail": "35/35 attempts carry a stored prompt"
+      },
+      {
+        "check": "no_mock_records_in_live_run",
+        "passed": true,
+        "detail": "0 mock attempts"
+      },
+      {
+        "check": "failed_and_unevaluated_attempts_retained",
+        "passed": true,
+        "detail": "18 non-success attempts present in the records"
+      },
+      {
+        "check": "missing_telemetry_stored_as_null",
+        "passed": true,
+        "detail": "no estimate stored in a provider-reported field"
+      },
+      {
+        "check": "single_served_model",
+        "passed": true,
+        "detail": "served ids: ['nvidia/nemotron-3.5-lightning:free']"
+      },
+      {
+        "check": "output_cap_consistent_across_strategies",
+        "passed": true,
+        "detail": "caps in use: [2048]"
+      },
+      {
+        "check": "seed_consistent_per_cell",
+        "passed": true,
+        "detail": "35 cells, 0 with conflicting seeds"
+      },
+      {
+        "check": "seed_honour_never_claimed_without_probe",
+        "passed": true,
+        "detail": "seed_honour_verified is false for every attempt"
+      },
+      {
+        "check": "cost_either_reported_or_explicitly_unavailable",
+        "passed": true,
+        "detail": "0/35 attempts carry a provider-reported cost"
+      }
+    ]
+  },
+  "limitations": [
+    "The provider reported no cost for this run, so the cost is unavailable. It is not zero and no estimate is substituted.",
+    "Whether the provider honoured the request-level seed is unverified: no repeated-request probe was run.",
+    "The evaluation gate is a scrubbed-environment subprocess, not a secure OS-level sandbox."
+  ]
+}
