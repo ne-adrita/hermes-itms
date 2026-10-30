@@ -547,3 +547,236 @@ class TextDiffPatcher:
             return True, patched, None
         except SyntaxError as e:
             return False, original_source, f"IndentationError/SyntaxError in patched code: {e.msg}"
+
+
+# =============================================================================
+# LanguageAdapter abstraction (GAP-5: multi-language surgical splicing)
+# =============================================================================
+#
+# The line-boundary splice logic in ASTSurgicalSplicer is language-agnostic:
+# it only needs a SurgicalTarget (start_line/end_line/base_indentation).  The
+# *locator* is what varies by language.  PythonAdapter reuses the existing
+# ast-based locator; TreeSitterAdapter covers JavaScript/TypeScript.
+
+
+class LanguageAdapter:
+    """
+    Abstract interface for locating an editable node in source code.
+
+    Substituting an adapter changes *only* which nodes can be located; the
+    downstream splice (ASTSurgicalSplicer.splice) is unchanged.
+    """
+
+    language: str = "text"
+
+    def locate_target(self, source_code: str, target_name: str) -> Optional[SurgicalTarget]:
+        """Locate a single target by name or qualified name.
+
+        Returns None when not found or ambiguous (more than one match), so a
+        wrong node is never edited by accident.
+        """
+        raise NotImplementedError
+
+    def find_matches(self, source_code: str, target_name: str) -> List[SurgicalTarget]:
+        """Return every target matching target_name (empty list = not found)."""
+        raise NotImplementedError
+
+
+class PythonAdapter(LanguageAdapter):
+    """Python adapter: reuses the existing ast-based ASTNodeLocator."""
+
+    language = "python"
+
+    def locate_target(self, source_code: str, target_name: str) -> Optional[SurgicalTarget]:
+        return ASTNodeLocator.locate_target(source_code, target_name)
+
+    def find_matches(self, source_code: str, target_name: str) -> List[SurgicalTarget]:
+        return ASTNodeLocator.find_matches(source_code, target_name)
+
+
+class TreeSitterAdapter(LanguageAdapter):
+    """
+    tree-sitter based adapter for C-family languages (JavaScript/TypeScript).
+
+    Locates function declarations and class methods by name/qualified name and
+    returns a SurgicalTarget with line boundaries and indentation.  Only the
+    locator changes; the splice itself stays language-agnostic.
+    """
+
+    def __init__(self, language: str):
+        self.language = language.lower()
+        if self.language not in ("javascript", "typescript"):
+            raise ValueError(f"TreeSitterAdapter supports javascript/typescript, got {language!r}")
+        self._parser = self._build_parser(self.language)
+
+    @staticmethod
+    def _build_parser(language: str):
+        from tree_sitter import Language, Parser  # type: ignore
+
+        if language == "javascript":
+            import tree_sitter_javascript as ts_lang  # type: ignore
+            lang = Language(ts_lang.language())
+        else:  # typescript
+            import tree_sitter_typescript as ts_lang  # type: ignore
+            lang = Language(ts_lang.language_typescript())
+
+        parser = Parser(lang)
+        return parser
+
+    # -- node helpers -------------------------------------------------------
+
+    @staticmethod
+    def _text_of(node, source_bytes: bytes) -> str:
+        return node.text.decode("utf-8", errors="replace")
+
+    @staticmethod
+    def _child_text(node, source_bytes: bytes, child_type: str) -> Optional[str]:
+        for child in node.children:
+            if child.type == child_type:
+                return TreeSitterAdapter._text_of(child, source_bytes)
+        return None
+
+    @staticmethod
+    def _indent_of_line(source_code: str, line_1_indexed: int) -> str:
+        lines = source_code.splitlines(keepends=True)
+        if 1 <= line_1_indexed <= len(lines):
+            line = lines[line_1_indexed - 1]
+            return line[: len(line) - len(line.lstrip())]
+        return ""
+
+    @staticmethod
+    def _end_line(node, source_lines: List[str]) -> int:
+        end_row, end_col = node.end_point
+        inclusive_row = end_row if end_col == 0 else end_row
+        return min(inclusive_row + 1, len(source_lines))
+
+    # -- collection ---------------------------------------------------------
+
+    def _collect_entries(
+        self, source_code: str
+    ) -> List[Tuple[str, Any, Optional[str]]]:
+        source_bytes = source_code.encode("utf-8")
+        tree = self._parser.parse(source_bytes)
+        root = tree.root_node
+        source_lines = source_code.splitlines(keepends=True)
+        entries: List[Tuple[str, Any, Optional[str]]] = []
+
+        def walk(node, current_class: Optional[str]) -> None:
+            for child in node.children:
+                if child.type == "class_declaration":
+                    cname = (
+                        self._child_text(child, source_bytes, "identifier")
+                        or self._child_text(child, source_bytes, "type_identifier")
+                        or "AnonymousClass"
+                    )
+                    walk(child, cname)
+                elif child.type == "method_definition":
+                    name = (
+                        self._child_text(child, source_bytes, "property_identifier")
+                        or self._child_text(child, source_bytes, "identifier")
+                    )
+                    if name:
+                        qname = f"{current_class}.{name}" if current_class else name
+                        entries.append((qname, child, current_class))
+                elif child.type == "function_declaration" and current_class is None:
+                    name = self._child_text(child, source_bytes, "identifier")
+                    if name:
+                        entries.append((name, child, None))
+                else:
+                    walk(child, current_class)
+
+        walk(root, None)
+        return entries
+
+    @staticmethod
+    def _build_target(
+        source_code: str,
+        source_bytes: bytes,
+        qname: str,
+        node,
+        class_prefix: Optional[str],
+        source_lines: List[str],
+    ) -> SurgicalTarget:
+        start_line = node.start_point[0] + 1
+        end_line = TreeSitterAdapter._end_line(node, source_lines)
+        indentation = TreeSitterAdapter._indent_of_line(source_code, start_line)
+
+        slice_lines = source_lines[start_line - 1 : end_line]
+        original_text = "".join(slice_lines)
+
+        return SurgicalTarget(
+            name=qname.split(".")[-1],
+            qualified_name=qname,
+            node_type=node.type,
+            start_line=start_line,
+            end_line=end_line,
+            body_start_line=start_line,
+            base_indentation=indentation,
+            original_text=original_text,
+            parent_class=class_prefix,
+            body_indentation=indentation,
+        )
+
+    # -- public API ----------------------------------------------------------
+
+    def find_matches(self, source_code: str, target_name: str) -> List[SurgicalTarget]:
+        if not source_code or not target_name:
+            return []
+        try:
+            entries = self._collect_entries(source_code)
+        except Exception:
+            return []
+        source_lines = source_code.splitlines(keepends=True)
+        source_bytes = source_code.encode("utf-8")
+        query = target_name.strip()
+        exact = [e for e in entries if e[0] == query]
+        if exact:
+            qname, node, class_prefix = exact[0]
+            return [self._build_target(source_code, source_bytes, qname, node, class_prefix, source_lines)]
+        if "." in query:
+            return []
+        by_name = [e for e in entries if e[0].split(".")[-1] == query]
+        return [
+            self._build_target(source_code, source_bytes, qname, node, class_prefix, source_lines)
+            for qname, node, class_prefix in by_name
+        ]
+
+    def locate_target(self, source_code: str, target_name: str) -> Optional[SurgicalTarget]:
+        matches = self.find_matches(source_code, target_name)
+        if len(matches) == 1:
+            return matches[0]
+        return None
+
+
+_ADAPTER_CACHE: Dict[str, LanguageAdapter] = {}
+
+
+def get_adapter(language: str) -> LanguageAdapter:
+    """Return a cached adapter for the given language (default: python)."""
+    key = (language or "python").lower()
+    if key not in _ADAPTER_CACHE:
+        if key == "python":
+            _ADAPTER_CACHE[key] = PythonAdapter()
+        elif key in ("javascript", "typescript"):
+            _ADAPTER_CACHE[key] = TreeSitterAdapter(key)
+        else:
+            raise ValueError(f"Unsupported language for surgical splicing: {language!r}")
+    return _ADAPTER_CACHE[key]
+
+
+def locate_target_for_language(
+    source_code: str, target_name: str, language: str = "python"
+) -> Optional[SurgicalTarget]:
+    """Locate a target in source_code using the adapter for `language`.
+
+    Python uses the existing ast locator; javascript/typescript use tree-sitter.
+    Returns None when not found or ambiguous.
+    """
+    return get_adapter(language).locate_target(source_code, target_name)
+
+
+def find_matches_for_language(
+    source_code: str, target_name: str, language: str = "python"
+) -> List[SurgicalTarget]:
+    return get_adapter(language).find_matches(source_code, target_name)
+

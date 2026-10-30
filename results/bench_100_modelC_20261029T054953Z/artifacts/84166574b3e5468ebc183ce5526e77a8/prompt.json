@@ -1,0 +1,17 @@
+{
+  "attempt_id": "84166574b3e5468ebc183ce5526e77a8",
+  "run_id": "68cd74a04e48",
+  "task_id": "HE-EDIT-019",
+  "humaneval_task_id": "HumanEval/20",
+  "method": "itms_ast_splice",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "nvidia/nemotron-3.5-super-vl:free",
+  "seed_requested": null,
+  "max_output_tokens": 2048,
+  "prompt_original_sha256": "6fd5ad80d27b20e1f17a6f7c5f37ab8032e0b60a7d56cb7e6e1f012976c10b94",
+  "prompt_bytes": 2589,
+  "prompt_token_estimate": 645,
+  "redaction_applied": false
+}

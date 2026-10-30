@@ -1,0 +1,19 @@
+{
+  "attempt_id": "1933b4e24c854c32b6703267b28dd0a5",
+  "run_id": "248e0bac363d",
+  "task_id": "HE-EDIT-010",
+  "humaneval_task_id": "HumanEval/57",
+  "method": "itms_ast_splice",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "nvidia/nemotron-3.5-lightning:free",
+  "served_model_id": "nvidia/nemotron-3.5-lightning:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "3a2f8f76ba74a7ee876c823592dff068e08db75d1030034710170c0047a4f0f9",
+  "response_bytes": 344,
+  "response_text": "```python\ndef monotonic(l: list):\n    \"\"\"Return True is list elements are monotonically increasing or decreasing.\n    >>> monotonic([1, 2, 4, 20])\n    True\n    >>> monotonic([1, 20, 4, 10])\n    False\n    >>> monotonic([4, 1, 0, -10])\n    True\n    \"\"\"\n    return all(a <= b for a, b in zip(l, l[1:])) or all(a >= b for a, b in zip(l, l[1:]))\n```"
+}

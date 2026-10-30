@@ -108,13 +108,31 @@ class RelayOrchestrator:
     """
     Asymmetric Test-Driven Speculative Cascade (TDSC / ITMS) Orchestrator.
     Manages Tier 1 speculation -> Deterministic Sandbox -> Tier 2 surgical escalation.
+
+    ``sandbox_mode`` selects the execution gate backend:
+      - "process" (default): the subprocess-based ``ExecutionHarness``.
+      - "docker":            ``DockerSandboxEngine`` with network air-gapping,
+                             memory limits and a read-only root filesystem;
+                             falls back transparently to the subprocess harness
+                             when Docker is unavailable.
     """
     def __init__(
         self,
         harness: Optional[ExecutionHarness] = None,
-        dispatcher: Optional[ModelDispatcher] = None
+        dispatcher: Optional[ModelDispatcher] = None,
+        sandbox_mode: str = "process",
     ):
-        self.harness = harness or ExecutionHarness()
+        if harness is None:
+            mode = (sandbox_mode or "process").strip().lower()
+            if mode == "docker":
+                from sandbox_docker import DockerSandboxEngine  # type: ignore
+                self.harness = DockerSandboxEngine()
+            else:
+                self.harness = ExecutionHarness()
+            self.sandbox_mode = mode
+        else:
+            self.harness = harness
+            self.sandbox_mode = "process"
         self.dispatcher = dispatcher or ModelDispatcher()
 
     @staticmethod

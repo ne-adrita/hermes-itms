@@ -1,0 +1,162 @@
+{
+  "schema_version": "1.0",
+  "attempts_recorded": 30,
+  "attempts_with_local_token_estimates": 0,
+  "attempts_truncated_by_provider": 0,
+  "observed_served_model_ids": [
+    "nvidia/nemotron-3.5-super-vl:free"
+  ],
+  "methods": [
+    "itms_ast_splice"
+  ],
+  "contains_mock_results": false,
+  "is_measurement": true,
+  "mock_warning": null,
+  "status_counts": {
+    "provider_error": 8,
+    "repair_success": 22
+  },
+  "failure_categories": {
+    "none": 22,
+    "quota_exceeded": 8
+  },
+  "attempts_with_provider_reported_usage": 22,
+  "attempts_with_provider_reported_cost": 0,
+  "run_id": "68cd74a04e48",
+  "mode": "live",
+  "elapsed_wall_clock_ms": 215353.699,
+  "planned_attempts": 30,
+  "recorded_attempts": 30,
+  "method_metrics": {
+    "itms_ast_splice": {
+      "method": "itms_ast_splice",
+      "denominators": {
+        "scheduled_attempts": 30,
+        "recorded_attempts": 30,
+        "attempted_attempts": 22,
+        "candidate_produced_attempts": 22,
+        "tasks": 6,
+        "reps_per_task": 5
+      },
+      "repair_success": {
+        "count": 22,
+        "rate_over_scheduled": 0.7333333333333333,
+        "rate_over_attempted": 1.0,
+        "note": "A repair counts as successful only for a completed repair attempt; attempts demoted for an artefact-persistence failure are never counted as successes."
+      },
+      "task_level": {
+        "tasks_with_at_least_one_success": 6,
+        "tasks_total": 6,
+        "task_success_rate": 1.0,
+        "mean_task_pass_rate": 0.7333333333333334,
+        "per_task_pass_rate": {
+          "HE-EDIT-015": 0.8,
+          "HE-EDIT-016": 0.8,
+          "HE-EDIT-017": 0.8,
+          "HE-EDIT-018": 0.8,
+          "HE-EDIT-019": 0.6,
+          "HE-EDIT-020": 0.6
+        }
+      },
+      "syntax_valid": {
+        "count": 22,
+        "rate_over_candidates": 1.0
+      },
+      "test_pass": {
+        "count": 22,
+        "rate_over_candidates": 1.0
+      },
+      "malformed_output": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "provider_failures": {
+        "count": 8,
+        "rate_over_scheduled": 0.26666666666666666
+      },
+      "timeouts": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "failure_categories": {
+        "none": 22,
+        "quota_exceeded": 8
+      },
+      "status_counts": {
+        "provider_error": 8,
+        "repair_success": 22
+      },
+      "latency_ms": {
+        "mean": 7164.09926933411,
+        "median": 4841.218020999804,
+        "min": 70.92779100639746,
+        "max": 54223.38416601997,
+        "measured_attempts": 30
+      },
+      "provider_latency_ms": {
+        "mean": 9609.645854227974,
+        "median": 6533.097437000833,
+        "measured_attempts": 22
+      },
+      "token_usage": {
+        "provider_reported_attempts": 22,
+        "provider_partial_attempts": 0,
+        "local_estimate_only_attempts": 0,
+        "missing_attempts": 8,
+        "prompt_tokens_total": 11842,
+        "completion_tokens_total": 19940,
+        "total_tokens_total": 31782,
+        "mean_total_tokens": 1444.6363636363637,
+        "median_total_tokens": 1435.0,
+        "median_prompt_tokens": 550.0,
+        "median_completion_tokens": 932.0,
+        "note": "Totals include provider-reported values only. Local token estimates are stored per attempt in estimated_prompt_tokens / estimated_completion_tokens and are never added to a provider-reported total."
+      },
+      "cost": {
+        "provider_reported_attempts": 0,
+        "missing_attempts": 30,
+        "total_cost_usd": null,
+        "source": null
+      },
+      "mock_attempts": 0
+    }
+  },
+  "scheduled_cells_by_method": {
+    "itms_ast_splice": 30
+  },
+  "paired_task_comparisons": [],
+  "artifact_files": {
+    "attempts_jsonl": "attempts.jsonl",
+    "attempts_csv": "attempts.csv",
+    "summary_json": "summary.json",
+    "run_metadata_json": "run_metadata.json"
+  },
+  "artifacts_dir": "artifacts",
+  "artifacts_persisted": 30,
+  "artifacts_failed": 0,
+  "candidates_persisted": 22,
+  "truncated_outputs": 0,
+  "truncated_outputs_by_method": {
+    "itms_ast_splice": 0
+  },
+  "max_output_tokens_values": [
+    2048
+  ],
+  "output_cap_consistent_across_strategies": true,
+  "seeded_attempts": 0,
+  "seed_honour_verified": false,
+  "budget": {
+    "max_attempts": 30,
+    "max_spend_usd": null,
+    "require_free_model": true,
+    "model_id": "nvidia/nemotron-3.5-super-vl:free",
+    "requests_issued": 30,
+    "cumulative_reported_spend_usd": 0.0,
+    "unreported_cost_attempts": 30,
+    "cost_reporting_available": false,
+    "spend_cap_effective": false,
+    "limit_reached_reason": null,
+    "not_executed_cells": [],
+    "not_executed_count": 0
+  }
+}

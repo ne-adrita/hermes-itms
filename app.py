@@ -160,9 +160,111 @@ assert pipeline.dispatch_batch("a1b2") == 1
 '''
 
 
-def inject_custom_styles():
-    """Injects high-contrast dark theme CSS with complementary accent palettes."""
-    st.markdown(
+# =============================================================================
+# GAP-6: measured-run disclosure for the tri-way (Phase 2) tab
+# =============================================================================
+# A second, clearly-labelled view that loads the *measured* run produced by
+# benchmarks/analyze_run.py (GAP-3) and displays real provider-measured numbers
+# side-by-side with the simulation. Until a live run exists it shows a plain
+# "not measured" placeholder pointing at RUN_ME_LATER.md — never a fabricated
+# number.
+import json as _json  # noqa: E402 (module-level helper imports)
+
+
+def _load_measured_analysis(path: str):
+    """Load analysis.json from a completed live run. Returns None if absent."""
+    if not path or not path.strip():
+        return None
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            return _json.load(handle)
+    except (OSError, ValueError):
+        return None
+
+
+def _render_measured_panel(measured: dict) -> None:
+    """Render provider-measured numbers from a completed live tri-way run."""
+    denominators = measured.get("denominators") or {}
+    gve = measured.get("generation_versus_evaluation") or {}
+
+    col_m1, col_m2, col_m3, col_m4 = st.columns(4)
+    with col_m1:
+        st.markdown(
+            f"""
+            <div class="kpi-box kpi-box-green">
+                <div class="kpi-title">Mode</div>
+                <div class="kpi-number">{'LIVE' if measured.get('is_measurement') else 'MOCK'}</div>
+                <div class="kpi-detail">{measured.get('mode') or 'unknown'}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with col_m2:
+        st.markdown(
+            f"""
+            <div class="kpi-box kpi-box-cyan">
+                <div class="kpi-title">Recorded Attempts</div>
+                <div class="kpi-number">{denominators.get('recorded_attempts', 0)}</div>
+                <div class="kpi-detail">of {denominators.get('planned_attempts', 0)} planned</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with col_m3:
+        st.markdown(
+            f"""
+            <div class="kpi-box kpi-box-purple">
+                <div class="kpi-title">Officially Evaluated</div>
+                <div class="kpi-number">{denominators.get('evaluated_attempts', 0)}</div>
+                <div class="kpi-detail">reached the evaluator</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with col_m4:
+        st.markdown(
+            f"""
+            <div class="kpi-box kpi-box-amber">
+                <div class="kpi-title">Evaluator Pass</div>
+                <div class="kpi-number">{gve.get('evaluator_pass', 0)}</div>
+                <div class="kpi-detail">{gve.get('evaluator_fail', 0)} failed / {gve.get('never_evaluated', 0)} not evaluated</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    model = measured.get("model") or {}
+    st.caption(
+        f"Model: {model.get('requested_model_id') or 'unknown'} | "
+        f"served: {', '.join(model.get('served_model_ids') or []) or 'unknown'} | "
+        f"run: {measured.get('run_id') or 'unknown'}"
+    )
+
+    per_method = measured.get("per_method") or {}
+    if per_method:
+        st.markdown("#### Per-method measured metrics")
+        rows = []
+        for method, entry in per_method.items():
+            d = entry.get("denominators") or {}
+            rows.append(
+                f"| {method} | {d.get('recorded_attempts', 0)} | "
+                f"{d.get('evaluated_attempts', 0)} | {entry.get('evaluator_pass', 0) if isinstance(entry, dict) else 0} |"
+            )
+        st.markdown(
+            "| Method | Recorded | Evaluated | Passed |\n"
+            "| :--- | :--- | :--- | :--- |\n" + "\n".join(rows)
+        )
+
+    st.caption(
+        "These are provider-measured numbers from a completed live run; they are "
+        "not estimates and not simulated. Missing per-method detail means the "
+        "analysis bundle does not include it."
+    )
+
+
+    def inject_custom_styles():
+        """Injects high-contrast dark theme CSS with complementary accent palettes."""
+        st.markdown(
         """
         <style>
         .stApp {
@@ -433,6 +535,15 @@ def main():
     )
     selected_t1_pricing: PricingProfile = resolve_tier_pricing(tier1_choice, TIER_1_BUDGET_PROFILES)
 
+    _t1_provider = ModelDispatcher._resolve_provider(tier1_choice)
+    _t1_has_key = AppConfig.resolve_api_key(_t1_provider) is not None
+    if not _t1_has_key:
+        st.sidebar.error(
+            f"Tier 1 model '{tier1_choice}' will run in MOCK mode — "
+            f"no API key configured for provider {_t1_provider.title()}. "
+            "No live request will be made."
+        )
+
     tier2_names = list(TIER_2_FRONTIER_PROFILES.keys())
     tier2_default = AppConfig.get_default_tier2_model(tier2_names)
     if tier2_default and tier2_default not in tier2_names:
@@ -443,6 +554,15 @@ def main():
         index=tier2_names.index(tier2_default) if tier2_default in tier2_names else 0
     )
     selected_t2_pricing: PricingProfile = resolve_tier_pricing(tier2_choice, TIER_2_FRONTIER_PROFILES)
+
+    _t2_provider = ModelDispatcher._resolve_provider(tier2_choice)
+    _t2_has_key = AppConfig.resolve_api_key(_t2_provider) is not None
+    if not _t2_has_key:
+        st.sidebar.error(
+            f"Tier 2 model '{tier2_choice}' will run in MOCK mode — "
+            f"no API key configured for provider {_t2_provider.title()}. "
+            "No live request will be made."
+        )
 
     st.sidebar.markdown("---")
     st.sidebar.markdown("### Self-Repair & Cascade Limits")
@@ -960,6 +1080,30 @@ assert r.calculate_tax_allocation(0.5) == 1030.0
                 "'speedup' is therefore not reported, and no claim is made about which method is "
                 "faster, cheaper or more accurate than another outside of this simulated run."
             )
+
+            # --- GAP-6: measured run disclosure ---
+            st.markdown("---")
+            st.markdown("#### Measured Results (Live Tri-Way Benchmark)")
+            st.caption(
+                "Real provider-measured numbers from a completed live tri-way run. "
+                "Populate this by running the live benchmark (see RUN_ME_LATER.md) and "
+                "pointing to its analysis.json. Until then this shows 'not measured'."
+            )
+            measured_path = st.text_input(
+                "analysis.json path (measured run)",
+                value="results/latest/analysis/analysis.json",
+                help="Path to analysis.json produced by benchmarks/analyze_run.py",
+                key="measured_analysis_path",
+            )
+            measured = _load_measured_analysis(measured_path)
+            if measured is None:
+                st.info(
+                    "No measured run found. The figures above are a **simulation** "
+                    "(local estimates only). Run the live tri-way benchmark to produce "
+                    "real numbers: see RUN_ME_LATER.md."
+                )
+            else:
+                _render_measured_panel(measured)
 
             st.markdown("#### Tri-Way Strategy Comparison Matrix")
             st.markdown(

@@ -1,0 +1,19 @@
+{
+  "attempt_id": "4353b4dd8f584d6b815a65c9b947d155",
+  "run_id": "68cd74a04e48",
+  "task_id": "HE-EDIT-017",
+  "humaneval_task_id": "HumanEval/24",
+  "method": "itms_ast_splice",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "nvidia/nemotron-3.5-super-vl:free",
+  "served_model_id": "nvidia/nemotron-3.5-super-vl:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "cb5dfc4f8aa780d41609a3ae2d10f6017d850b648d1d83e3c61d4bdc57472be3",
+  "response_bytes": 263,
+  "response_text": "```python\ndef largest_divisor(n: int) -> int:\n    \"\"\" For a given number n, find the largest number that divides n evenly, smaller than n\n    >>> largest_divisor(15)\n    5\n    \"\"\"\n    for i in reversed(range(1, n)):\n        if n % i == 0:\n            return i\n```"
+}

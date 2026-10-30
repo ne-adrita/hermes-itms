@@ -1,0 +1,19 @@
+{
+  "attempt_id": "2d9b45ffefa24e018ccb223c045dba9f",
+  "run_id": "b43342b65651",
+  "task_id": "HE-EDIT-008",
+  "humaneval_task_id": "HumanEval/5",
+  "method": "itms_ast_splice",
+  "rep": 1,
+  "mode": "live",
+  "provider": "OpenRouter",
+  "requested_model_id": "nvidia/nemotron-3.5-lightning:free",
+  "served_model_id": "nvidia/nemotron-3.5-lightning:free",
+  "finish_reason": "stop",
+  "usage_source": "provider_reported",
+  "is_mock": false,
+  "redaction_applied": false,
+  "response_original_sha256": "75ce82c07b0d9154cba77800b9f7c943e2decde5a1a77e3c85890f0c5a78822b",
+  "response_bytes": 462,
+  "response_text": "```python\ndef intersperse(numbers: List[int], delimeter: int) -> List[int]:\n    \"\"\" Insert a number 'delimeter' between every two consecutive elements of input list `numbers'\n    >>> intersperse([], 4)\n    []\n    >>> intersperse([1, 2, 3], 4)\n    [1, 4, 2, 4, 3]\n    \"\"\"\n    if not numbers:\n        return []\n    result = []\n    for n in numbers[:-1]:\n        result.append(n)\n        result.append(delimeter)\n    result.append(numbers[-1])\n    return result\n```"
+}

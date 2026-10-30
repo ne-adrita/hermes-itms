@@ -12,3 +12,13 @@ python-dotenv>=1.0.0
 
 # Unit and Integration Testing
 pytest>=8.0.0
+
+# Docker sandbox engine (GAP-4): optional, gracefully falls back to subprocess
+# harness when Docker or the docker Python client is unavailable.
+docker>=7.0.0
+
+# Multi-language surgical splicing (GAP-5): tree-sitter parsers for JS/TS.
+tree-sitter>=0.24.0
+tree-sitter-python>=0.24.0
+tree-sitter-javascript>=0.24.0
+tree-sitter-typescript>=0.24.0

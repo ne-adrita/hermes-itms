@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "run_id": "34d7ca170301",
+  "created_at_utc": "2026-10-28T09:31:41Z",
+  "mode": "live",
+  "declared_provider": "openrouter",
+  "effective_provider": "openrouter",
+  "is_measurement": true,
+  "requested_model_id": "qwen/qwen3-coder:free",
+  "served_model_id": null,
+  "temperature": 0.2,
+  "max_output_tokens": 2048,
+  "output_token_limit_justification": {
+    "resolved_limit": 2048,
+    "formula": "ceil(safety_factor * max_file_tokens) + reasoning_allowance",
+    "safety_factor": 2.0,
+    "reasoning_allowance": 1024,
+    "max_file_tokens": 196,
+    "min_file_tokens": 78,
+    "tasks_considered": 7,
+    "applied_to_every_strategy": true,
+    "rationale": "The limit is derived from the largest file the baseline strategy must re-emit, plus an allowance for provider-side reasoning, so a truncation reflects the task, not the strategy. It is identical for all three strategies and is recorded per attempt.",
+    "limit_source": "justified_from_task_set"
+  },
+  "request_timeout_seconds": 60.0,
+  "max_retries": 0,
+  "retry_policy": "bounded; transient HTTP 429 only; HTTP 402 and daily/per-minute quota caps are never retried",
+  "evaluation_timeout_seconds": 10.0,
+  "evaluation_isolation": {
+    "requested": "(unset)",
+    "level": "scrubbed_environment_subprocess",
+    "seatbelt_available": true,
+    "enforced": [
+      "environment scrubbed to PATH/TMPDIR/LANG/PYTHON* (no provider credential)",
+      "PYTHONPATH restricted to the evaluation directory, user site-packages disabled",
+      "interpreter-level socket guard (sitecustomize)",
+      "wall-clock timeout with process termination"
+    ],
+    "not_enforced": [
+      "no container/VM boundary",
+      "no file-system confinement beyond the rules above"
+    ]
+  },
+  "budget": {
+    "max_attempts": 35,
+    "max_spend_usd": null,
+    "require_free_model": true,
+    "model_id": "qwen/qwen3-coder:free",
+    "requests_issued": 0,
+    "cumulative_reported_spend_usd": 0.0,
+    "unreported_cost_attempts": 0,
+    "cost_reporting_available": false,
+    "spend_cap_effective": false,
+    "limit_reached_reason": null,
+    "not_executed_cells": []
+  },
+  "run_order_seed": null,
+  "request_seed_base": null,
+  "seed_policy": "no request-level seed was sent (repetitions are unseeded samples)",
+  "seed_honour_verified": false,
+  "bootstrap_seed": 20260101,
+  "reps": 5,
+  "tasks": [
+    "HE-EDIT-001",
+    "HE-EDIT-002",
+    "HE-EDIT-003",
+    "HE-EDIT-004",
+    "HE-EDIT-005",
+    "HE-EDIT-006",
+    "HE-EDIT-007"
+  ],
+  "task_count": 7,
+  "methods": [
+    "itms_ast_splice"
+  ],
+  "planned_attempts": 35,
+  "schedule": {
+    "kind": "full_cross_product",
+    "planned_attempts": 35,
+    "scheduled_cells_by_method": {
+      "itms_ast_splice": 35
+    }
+  },
+  "task_manifest_digest": "92077bdca33b75b3ca3c7c15a55b237b6c1f5c79d1da20ebb0f9efb4d23d08f1",
+  "python_version": "3.14.4 (main, Apr  7 2026, 13:13:20) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "software_versions": {
+    "python": "3.14.4",
+    "httpx": "0.28.1",
+    "pytest": "9.1.1",
+    "tiktoken": "0.14.0",
+    "dotenv": "unknown"
+  },
+  "artifact_files": {
+    "attempts_jsonl": "attempts.jsonl",
+    "attempts_csv": "attempts.csv",
+    "summary_json": "summary.json",
+    "run_metadata_json": "run_metadata.json"
+  },
+  "artifacts_dir": "artifacts",
+  "notes": [
+    "This benchmark evaluates three editing strategies of this project on synthetic HumanEval-derived repair tasks. It is not the HumanEval benchmark and produces no HumanEval pass rate.",
+    "Mock-mode runs are pipeline tests only and are not measurements.",
+    "The evaluation sandbox is best-effort isolation, not a security boundary: filesystem and subprocess containment are absent and the socket guard can be bypassed by a child process."
+  ]
+}

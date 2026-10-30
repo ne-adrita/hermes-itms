@@ -1,0 +1,157 @@
+{
+  "schema_version": "1.0",
+  "attempts_recorded": 35,
+  "attempts_with_local_token_estimates": 0,
+  "attempts_truncated_by_provider": 0,
+  "observed_served_model_ids": [],
+  "methods": [
+    "itms_ast_splice"
+  ],
+  "contains_mock_results": false,
+  "is_measurement": true,
+  "mock_warning": null,
+  "status_counts": {
+    "provider_error": 35
+  },
+  "failure_categories": {
+    "provider_error": 35
+  },
+  "attempts_with_provider_reported_usage": 0,
+  "attempts_with_provider_reported_cost": 0,
+  "run_id": "34d7ca170301",
+  "mode": "live",
+  "elapsed_wall_clock_ms": 6149.632,
+  "planned_attempts": 35,
+  "recorded_attempts": 35,
+  "method_metrics": {
+    "itms_ast_splice": {
+      "method": "itms_ast_splice",
+      "denominators": {
+        "scheduled_attempts": 35,
+        "recorded_attempts": 35,
+        "attempted_attempts": 0,
+        "candidate_produced_attempts": 0,
+        "tasks": 7,
+        "reps_per_task": 5
+      },
+      "repair_success": {
+        "count": 0,
+        "rate_over_scheduled": 0.0,
+        "rate_over_attempted": null,
+        "note": "A repair counts as successful only for a completed repair attempt; attempts demoted for an artefact-persistence failure are never counted as successes."
+      },
+      "task_level": {
+        "tasks_with_at_least_one_success": 0,
+        "tasks_total": 7,
+        "task_success_rate": 0.0,
+        "mean_task_pass_rate": 0.0,
+        "per_task_pass_rate": {
+          "HE-EDIT-001": 0.0,
+          "HE-EDIT-002": 0.0,
+          "HE-EDIT-003": 0.0,
+          "HE-EDIT-004": 0.0,
+          "HE-EDIT-005": 0.0,
+          "HE-EDIT-006": 0.0,
+          "HE-EDIT-007": 0.0
+        }
+      },
+      "syntax_valid": {
+        "count": 0,
+        "rate_over_candidates": null
+      },
+      "test_pass": {
+        "count": 0,
+        "rate_over_candidates": null
+      },
+      "malformed_output": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "provider_failures": {
+        "count": 35,
+        "rate_over_scheduled": 1.0
+      },
+      "timeouts": {
+        "count": 0,
+        "rate_over_scheduled": 0.0
+      },
+      "failure_categories": {
+        "provider_error": 35
+      },
+      "status_counts": {
+        "provider_error": 35
+      },
+      "latency_ms": {
+        "mean": 167.8541594559127,
+        "median": 120.38266702438705,
+        "min": 73.73249999363907,
+        "max": 1058.4661249886267,
+        "measured_attempts": 35
+      },
+      "provider_latency_ms": {
+        "mean": null,
+        "median": null,
+        "measured_attempts": 0
+      },
+      "token_usage": {
+        "provider_reported_attempts": 0,
+        "provider_partial_attempts": 0,
+        "local_estimate_only_attempts": 0,
+        "missing_attempts": 35,
+        "prompt_tokens_total": null,
+        "completion_tokens_total": null,
+        "total_tokens_total": null,
+        "mean_total_tokens": null,
+        "median_total_tokens": null,
+        "median_prompt_tokens": null,
+        "median_completion_tokens": null,
+        "note": "Totals include provider-reported values only. Local token estimates are stored per attempt in estimated_prompt_tokens / estimated_completion_tokens and are never added to a provider-reported total."
+      },
+      "cost": {
+        "provider_reported_attempts": 0,
+        "missing_attempts": 35,
+        "total_cost_usd": null,
+        "source": null
+      },
+      "mock_attempts": 0
+    }
+  },
+  "scheduled_cells_by_method": {
+    "itms_ast_splice": 35
+  },
+  "paired_task_comparisons": [],
+  "artifact_files": {
+    "attempts_jsonl": "attempts.jsonl",
+    "attempts_csv": "attempts.csv",
+    "summary_json": "summary.json",
+    "run_metadata_json": "run_metadata.json"
+  },
+  "artifacts_dir": "artifacts",
+  "artifacts_persisted": 35,
+  "artifacts_failed": 0,
+  "candidates_persisted": 0,
+  "truncated_outputs": 0,
+  "truncated_outputs_by_method": {
+    "itms_ast_splice": 0
+  },
+  "max_output_tokens_values": [
+    2048
+  ],
+  "output_cap_consistent_across_strategies": true,
+  "seeded_attempts": 0,
+  "seed_honour_verified": false,
+  "budget": {
+    "max_attempts": 35,
+    "max_spend_usd": null,
+    "require_free_model": true,
+    "model_id": "qwen/qwen3-coder:free",
+    "requests_issued": 35,
+    "cumulative_reported_spend_usd": 0.0,
+    "unreported_cost_attempts": 35,
+    "cost_reporting_available": false,
+    "spend_cap_effective": false,
+    "limit_reached_reason": null,
+    "not_executed_cells": [],
+    "not_executed_count": 0
+  }
+}

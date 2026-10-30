@@ -1,0 +1,17 @@
+{
+  "attempt_id": "d89528ea65fc463c9bf13009eaf23f7b",
+  "run_id": "34d7ca170301",
+  "task_id": "HE-EDIT-006",
+  "humaneval_task_id": "HumanEval/3",
+  "method": "itms_ast_splice",
+  "rep": 3,
+  "mode": "live",
+  "provider": "openrouter",
+  "requested_model_id": "qwen/qwen3-coder:free",
+  "seed_requested": null,
+  "max_output_tokens": 2048,
+  "prompt_original_sha256": "4e51494c9aaefd305264c6f47490320c2aa266510c44af365b9d11a15666b375",
+  "prompt_bytes": 2107,
+  "prompt_token_estimate": 469,
+  "redaction_applied": false
+}
